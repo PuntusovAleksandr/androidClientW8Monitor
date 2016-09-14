@@ -24,23 +24,44 @@ public class SettingsApp {
     private static final boolean DEF_NOT_EMPTY_BOOLEAN = true;
 
 
-
+    /**
+     * check theme
+     *
+     * @param preferences
+     * @return
+     */
     public static boolean isThemeDark(SharedPreferences preferences) {
         return preferences.getBoolean(KEY_SELECT_THEME, DEF_NOT_EMPTY_BOOLEAN);
     }
 
-
+    /**
+     * set Theme
+     *
+     * @param ip
+     * @param preferences
+     */
     public static void setThemeDark(boolean ip, SharedPreferences preferences) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(KEY_SELECT_THEME, ip);
         editor.commit();
     }
 
+    /**
+     * check auto login
+     *
+     * @param preferences
+     * @return
+     */
     public static boolean getAutoLogin(SharedPreferences preferences) {
         return preferences.getBoolean(KEY_AUTO_LOGIN, DEF_EMPTY_BOOLEAN);
     }
 
-
+    /**
+     * set Auto login
+     *
+     * @param ip
+     * @param preferences
+     */
     public static void setAutoLogin(boolean ip, SharedPreferences preferences) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(KEY_AUTO_LOGIN, ip);
