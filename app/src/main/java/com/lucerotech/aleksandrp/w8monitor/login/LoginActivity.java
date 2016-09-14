@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.presenter.LoginPresenterImpl;
+import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 import com.squareup.picasso.Picasso;
 
@@ -51,12 +56,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private SharedPreferences mSharedPreferences;
     private boolean autoLogin;
+    private RegisterFacebook mRegisterFacebook;
+
+    public static final int REG_LOGIN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
         presenter = new LoginPresenterImpl(LoginActivity.this, this);
 
@@ -77,6 +88,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
     }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == STATICS_PARAMS.FB_CODE) {
+                presenter.onActivityResultFB(requestCode, resultCode, data, mRegisterFacebook);
+            }
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
 //    ==========================================================
 //    on Clicks
@@ -112,6 +137,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.ib_facebook)
     public void registerFacebook() {
         Toast.makeText(this, "Скоро будет регистрация файсбука", Toast.LENGTH_SHORT).show();
+        mRegisterFacebook= new RegisterFacebook(LoginActivity.this, REG_LOGIN);
+        mRegisterFacebook.register();
     }
 
     @OnClick(R.id.ib_login)

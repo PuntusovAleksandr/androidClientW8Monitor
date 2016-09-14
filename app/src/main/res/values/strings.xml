@@ -1,4 +1,7 @@
 <resources>
+    <string name="facebook_app_id">943050552507202</string>
+
+
     <string name="app_name">W8Monitor</string>
     <string name="your_email">your email</string>
     <string name="wrong_email_or_password">WRONG EMAIL OR PASSWORD</string>

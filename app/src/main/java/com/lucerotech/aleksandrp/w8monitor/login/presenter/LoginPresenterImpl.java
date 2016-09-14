@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
@@ -58,5 +59,11 @@ public class LoginPresenterImpl implements LoginPresenter {
     public void goToRegistering() {
         Intent intent = new Intent(mContext, RegisterActivity.class);
         mContext.startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResultFB(
+            int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook) {
+        mRegisterFacebook.onActivityResultFB(mRequestCode,  mResultCode, mData);
     }
 }

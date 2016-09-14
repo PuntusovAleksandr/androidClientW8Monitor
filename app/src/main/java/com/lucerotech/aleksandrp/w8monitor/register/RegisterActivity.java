@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.register;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.register.presenter.RegisterPresenterImpl;
+import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,7 +22,7 @@ import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView {
 
-    private RegisterPresenter mPresenter;
+    private RegisterPresenter presenter;
 
     @Bind(R.id.et_email_register)
     EditText et_email_register;
@@ -39,6 +42,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Bind(R.id.iv_logo_register)
     ImageView iv_logo_register;
 
+    public static final int REG_REG = 2;
+
+    private RegisterFacebook mRegisterFacebook;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
 
-        mPresenter = new RegisterPresenterImpl(RegisterActivity.this, this);
+        presenter = new RegisterPresenterImpl(RegisterActivity.this, this);
 
         setTouchLogin();
         setTouchPassword();
@@ -64,6 +71,20 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
     }
 
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == STATICS_PARAMS.FB_CODE) {
+                presenter.onActivityResultFB(requestCode, resultCode, data, mRegisterFacebook);
+            }
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
 //    ==========================================================
 //       on Clicks
 //    ==========================================================
@@ -77,6 +98,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @OnClick(R.id.ib_facebook_register)
     public void clickRegisterFacebook() {
         Toast.makeText(this, "Скоро будет регистрация файсбука", Toast.LENGTH_SHORT).show();
+        mRegisterFacebook= new RegisterFacebook(RegisterActivity.this, REG_REG);
+        mRegisterFacebook.register();
     }
 
     @OnClick(R.id.iv_register_ok)
@@ -84,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         String passwordText = et_password_register.getText().toString();
         String repeatPasswordText = et_repeat_password.getText().toString();
         String emailText = et_email_register.getText().toString();
-        mPresenter.checkPassword(passwordText, emailText, repeatPasswordText);
+        presenter.checkPassword(passwordText, emailText, repeatPasswordText);
     }
 
 //    ==========================================================
@@ -97,9 +120,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
             @Override
             public void onFocusChange(View mView, boolean mB) {
                 if (mB) {
-                    mPresenter.showDeleteRepeatPassword();
+                    presenter.showDeleteRepeatPassword();
                 } else {
-                    mPresenter.hideAllDelete();
+                    presenter.hideAllDelete();
                 }
             }
         });
@@ -110,9 +133,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
             @Override
             public void onFocusChange(View mView, boolean mB) {
                 if (mB) {
-                    mPresenter.showDeletePassword();
+                    presenter.showDeletePassword();
                 } else {
-                    mPresenter.hideAllDelete();
+                    presenter.hideAllDelete();
                 }
             }
         });
@@ -123,9 +146,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
             @Override
             public void onFocusChange(View mView, boolean mB) {
                 if (mB) {
-                    mPresenter.showDeleteLogin();
+                    presenter.showDeleteLogin();
                 } else {
-                    mPresenter.hideAllDelete();
+                    presenter.hideAllDelete();
                 }
             }
         });
@@ -159,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     public void isValidData(boolean isValid) {
         if (isValid) {
 // TODO: 14.09.2016 надо сделать запись в базе и покидаем активность
-            mPresenter.goToProfile();
+            presenter.goToProfile();
             finish();
         } else {
             Snackbar.make(
