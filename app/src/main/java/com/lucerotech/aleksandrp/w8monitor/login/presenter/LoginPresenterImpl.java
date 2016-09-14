@@ -1,9 +1,12 @@
 package com.lucerotech.aleksandrp.w8monitor.login.presenter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
+import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
 
 /**
@@ -31,5 +34,31 @@ public class LoginPresenterImpl implements LoginPresenter {
                 mLoginView.showWrong();
             }
         }
+    }
+
+    @Override
+    public void showDeletePassword() {
+        mLoginView.showDeleteImages(false, true);
+    }
+
+    @Override
+    public void showDeleteLogin() {
+        mLoginView.showDeleteImages(true, false);
+    }
+
+    @Override
+    public void hideAllDelete() {
+        mLoginView.showDeleteImages(false, false);
+    }
+
+    @Override
+    public void goToProfile() {
+        Toast.makeText(mContext, "К профилю", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void goToRegistering() {
+        Intent intent = new Intent(mContext, RegisterActivity.class);
+        mContext.startActivity(intent);
     }
 }

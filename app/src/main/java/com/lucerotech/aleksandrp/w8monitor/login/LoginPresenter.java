@@ -8,4 +8,14 @@ public interface LoginPresenter {
 
 
     void checkPassword(String mPasswordText, String mEmailText);
+
+    void showDeletePassword();
+
+    void showDeleteLogin();
+
+    void hideAllDelete();
+
+    void goToProfile();
+
+    void goToRegistering();
 }

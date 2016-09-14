@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.login;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -10,16 +11,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.login.presenter.LoginPresenterImpl;
+import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity  implements LoginView{
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private LoginPresenter presenter;
 
@@ -31,6 +34,8 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
     @Bind(R.id.et_password)
     EditText et_password;
 
+    @Bind(R.id.iv_delete_login)
+    ImageView iv_delete_login;
     @Bind(R.id.iv_delete_password)
     ImageView iv_delete_password;
     @Bind(R.id.iv_forgot)
@@ -44,6 +49,9 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
     @Bind(R.id.ib_login)
     ImageView ib_login;
 
+    private SharedPreferences mSharedPreferences;
+    private boolean autoLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +60,14 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
 
         presenter = new LoginPresenterImpl(LoginActivity.this, this);
 
+        mSharedPreferences = getSharedPreferences(SettingsApp.FILE_NAME, Context.MODE_PRIVATE);
+        setIconAutoLogin();
+
         setTouchLogin();
-        setTouchPasword();
+        setTouchPassword();
 
     }
+
 
     @Override
     protected void onStart() {
@@ -63,7 +75,21 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
         et_login.setFocusable(true);
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+    }
+
+//    ==========================================================
+//    on Clicks
+//    ==========================================================
+
+    @OnClick(R.id.iv_delete_login)
+    public void deleteLoginText() {
+        et_login.setText("");
+    }
+
+    @OnClick(R.id.iv_delete_password)
+    public void deletePasswordText() {
+        et_password.setText("");
     }
 
     @OnClick(R.id.iv_forgot)
@@ -71,14 +97,60 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
 
     }
 
-    @OnClick(R.id.iv_delete_password)
-    public void deletePassword() {
-
+    @OnClick(R.id.iv_keep_me)
+    public void autoLogin() {
+        if (autoLogin) {
+            showIconOk(R.drawable.b_confirm_nonactive_dark);
+            autoLogin = false;
+        } else {
+            showIconOk(R.drawable.b_confirm_active_dark);
+            autoLogin = true;
+        }
+        SettingsApp.setAutoLogin(autoLogin, mSharedPreferences);
     }
 
+    @OnClick(R.id.ib_facebook)
+    public void registerFacebook() {
+        Toast.makeText(this, "Скоро будет регистрация файсбука", Toast.LENGTH_SHORT).show();
+    }
 
+    @OnClick(R.id.ib_login)
+    public void login() {
+        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
+            // TODO: 14.09.2016 надо сделать проверку в базе
+            presenter.goToProfile();
+        }
+    }
 
-    private void setTouchPasword() {
+    @OnClick(R.id.ib_register)
+    public void registration() {
+        presenter.goToRegistering();
+    }
+
+//    ==========================================================
+//   END  on Clicks
+//    ==========================================================
+
+    private void setIconAutoLogin() {
+        autoLogin = SettingsApp.getAutoLogin(mSharedPreferences);
+        if (autoLogin) {
+            showIconOk(R.drawable.b_confirm_active_dark);
+        } else {
+            showIconOk(R.drawable.b_confirm_nonactive_dark);
+        }
+    }
+
+    private void setTouchPassword() {
+        et_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View mView, boolean mB) {
+                if (mB) {
+                    presenter.showDeletePassword();
+                } else {
+                    presenter.hideAllDelete();
+                }
+            }
+        });
         et_password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
@@ -90,6 +162,7 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
                 String passwordText = et_password.getText().toString();
                 String emailText = et_login.getText().toString();
                 presenter.checkPassword(passwordText, emailText);
+                presenter.showDeletePassword();
             }
 
             @Override
@@ -100,6 +173,16 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
     }
 
     private void setTouchLogin() {
+        et_login.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View mView, boolean mB) {
+                if (mB) {
+                    presenter.showDeleteLogin();
+                } else {
+                    presenter.hideAllDelete();
+                }
+            }
+        });
         et_login.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
@@ -111,6 +194,7 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
                 String passwordText = et_password.getText().toString();
                 String emailText = et_login.getText().toString();
                 presenter.checkPassword(passwordText, emailText);
+                presenter.showDeleteLogin();
             }
 
             @Override
@@ -121,20 +205,31 @@ public class LoginActivity extends AppCompatActivity  implements LoginView{
     }
 
 
-
-//    =================================================
+    //    =================================================
 //            answer from LoginView
 //    =================================================
     @Override
     public void showWrong() {
         tv_wrong_email.setVisibility(View.VISIBLE);
-        showIconOk(R.drawable.b_confirm_nonactive_dark);
     }
 
     @Override
     public void hideWrong() {
         tv_wrong_email.setVisibility(View.INVISIBLE);
-        showIconOk(R.drawable.b_confirm_active_dark);
+    }
+
+    @Override
+    public void showDeleteImages(boolean deleteLogin, boolean deletePassword) {
+        if (deleteLogin) {
+            iv_delete_login.setVisibility(View.VISIBLE);
+            iv_delete_password.setVisibility(View.INVISIBLE);
+        } else if (deletePassword) {
+            iv_delete_login.setVisibility(View.INVISIBLE);
+            iv_delete_password.setVisibility(View.VISIBLE);
+        } else {
+            iv_delete_login.setVisibility(View.INVISIBLE);
+            iv_delete_password.setVisibility(View.INVISIBLE);
+        }
     }
 //    =================================================
 //    END        answer from LoginView

@@ -15,20 +15,22 @@ public class SettingsApp {
     public static final String FILE_NAME = "settings";
 
     // Keys for opening settings from xml file
-    private static final String KEY_USER = "key_user";
+    private static final String KEY_AUTO_LOGIN = "key_auto_login";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
+    private static final boolean DEF_EMPTY_BOOLEAN = false;
 
 
-    public static String getParam(SharedPreferences preferences) {
-        return preferences.getString(KEY_USER, DEF_EMPTY_STRING);
+
+    public static boolean getAutoLogin(SharedPreferences preferences) {
+        return preferences.getBoolean(KEY_AUTO_LOGIN, DEF_EMPTY_BOOLEAN);
     }
 
 
-    public static void setParam(String ip, SharedPreferences preferences) {
+    public static void setAutoLogin(boolean ip, SharedPreferences preferences) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(KEY_USER, ip);
+        editor.putBoolean(KEY_AUTO_LOGIN, ip);
         editor.commit();
     }
 

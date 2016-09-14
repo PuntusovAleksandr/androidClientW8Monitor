@@ -8,4 +8,6 @@ public interface LoginView {
     void showWrong();
 
     void hideWrong();
+
+    void showDeleteImages(boolean deleteLogin, boolean deletePassword);
 }
