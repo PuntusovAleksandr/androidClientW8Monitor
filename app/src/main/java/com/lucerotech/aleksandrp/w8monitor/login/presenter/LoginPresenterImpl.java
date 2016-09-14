@@ -26,13 +26,11 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void checkPassword(String mPasswordText, String mEmailText) {
-        if (mLoginView != null) {
-            if (ValidationText.checkLenghtPassword(mPasswordText) &&
-                    ValidationText.checkValidEmail(mEmailText)) {
-                mLoginView.hideWrong();
-            } else {
-                mLoginView.showWrong();
-            }
+        if (ValidationText.checkLenghtPassword(mPasswordText) &&
+                ValidationText.checkValidEmail(mEmailText)) {
+            mLoginView.hideWrong();
+        } else {
+            mLoginView.showWrong();
         }
     }
 

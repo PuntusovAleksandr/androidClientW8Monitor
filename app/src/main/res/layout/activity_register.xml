@@ -100,7 +100,7 @@
                     android:src="@drawable/icon_password_dark"/>
 
                 <EditText
-                    android:id="@+id/et_password"
+                    android:id="@+id/et_password_register"
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_centerVertical="true"
