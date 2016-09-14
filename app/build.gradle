@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+// for Realm
+apply plugin: 'realm-android'
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
