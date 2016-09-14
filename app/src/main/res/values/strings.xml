@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">W8Monitor</string>
+    <string name="your_email">your email</string>
+    <string name="wrong_email_or_password">WRONG EMAIL OR PASSWORD</string>
+    <string name="password">password</string>
+    <string name="keep_me_logged_in">KEEP ME LOGGED IN</string>
+</resources>
