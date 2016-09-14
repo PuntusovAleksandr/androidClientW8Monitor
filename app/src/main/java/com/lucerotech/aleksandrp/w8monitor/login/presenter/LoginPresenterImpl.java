@@ -2,11 +2,11 @@ package com.lucerotech.aleksandrp.w8monitor.login.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
+import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
 
@@ -52,7 +52,8 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void goToProfile() {
-        Toast.makeText(mContext, "К профилю", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(mContext, ProfileActivity.class);
+        mContext.startActivity(intent);
     }
 
     @Override

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
@@ -97,8 +96,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     @OnClick(R.id.ib_facebook_register)
     public void clickRegisterFacebook() {
-        Toast.makeText(this, "Скоро будет регистрация файсбука", Toast.LENGTH_SHORT).show();
-        mRegisterFacebook= new RegisterFacebook(RegisterActivity.this, REG_REG);
+        mRegisterFacebook = new RegisterFacebook(RegisterActivity.this, REG_REG);
         mRegisterFacebook.register();
     }
 
@@ -108,6 +106,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         String repeatPasswordText = et_repeat_password.getText().toString();
         String emailText = et_email_register.getText().toString();
         presenter.checkPassword(passwordText, emailText, repeatPasswordText);
+    }
+
+    @OnClick(R.id.iv_delete_email)
+    public void clickDeleteEmail() {
+        et_email_register.setText("");
+    }
+
+    @OnClick(R.id.iv_delete_password_register)
+    public void clickDeletePass() {
+        et_password_register.setText("");
+    }
+
+    @OnClick(R.id.iv_delete_repeat_password_register)
+    public void clickDeleteReraetePass() {
+        et_repeat_password.setText("");
     }
 
 //    ==========================================================

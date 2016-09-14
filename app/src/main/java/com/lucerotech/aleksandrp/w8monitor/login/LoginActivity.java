@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -136,17 +135,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnClick(R.id.ib_facebook)
     public void registerFacebook() {
-        Toast.makeText(this, "Скоро будет регистрация файсбука", Toast.LENGTH_SHORT).show();
-        mRegisterFacebook= new RegisterFacebook(LoginActivity.this, REG_LOGIN);
+        mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN);
         mRegisterFacebook.register();
     }
 
     @OnClick(R.id.ib_login)
     public void login() {
-        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
-            // TODO: 14.09.2016 надо сделать проверку в базе
-            presenter.goToProfile();
-        }
+//        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
+        presenter.goToProfile();
+//        }
     }
 
     @OnClick(R.id.ib_register)

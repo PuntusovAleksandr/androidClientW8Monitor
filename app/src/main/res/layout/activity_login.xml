@@ -174,16 +174,27 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/iv_logo_login"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/logo_dark"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
     <LinearLayout
         android:id="@+id/rl_bottom_login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_75"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_25"
+        android:layout_marginBottom="25dp"
         android:background="@color/color_dark_register"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/ib_facebook"
@@ -211,14 +222,5 @@
 
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_logo_login"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/logo_dark"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

@@ -2,9 +2,9 @@ package com.lucerotech.aleksandrp.w8monitor.register.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
+import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterPresenter;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterView;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
@@ -58,13 +58,14 @@ public class RegisterPresenterImpl implements RegisterPresenter {
 
     @Override
     public void goToProfile() {
-        Toast.makeText(mContext, "К профилю", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(mContext, ProfileActivity.class);
+        mContext.startActivity(intent);
     }
 
     @Override
     public void onActivityResultFB(
             int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook) {
-        mRegisterFacebook.onActivityResultFB(mRequestCode,  mResultCode, mData);
+        mRegisterFacebook.onActivityResultFB(mRequestCode, mResultCode, mData);
         goToProfile();
     }
 }
