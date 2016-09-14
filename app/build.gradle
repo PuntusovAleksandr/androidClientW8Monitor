@@ -32,4 +32,7 @@ dependencies {
 
     //  http://jakewharton.github.io/butterknife/
     compile 'com.jakewharton:butterknife:7.0.1'
+
+    //  Picasso http://square.github.io/picasso/
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
