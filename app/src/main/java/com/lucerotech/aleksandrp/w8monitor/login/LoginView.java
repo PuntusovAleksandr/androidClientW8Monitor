@@ -12,4 +12,6 @@ public interface LoginView {
     void showDeleteImages(boolean deleteLogin, boolean deletePassword);
 
     void finishActivity();
+
+    void userExist(boolean mUserExist);
 }

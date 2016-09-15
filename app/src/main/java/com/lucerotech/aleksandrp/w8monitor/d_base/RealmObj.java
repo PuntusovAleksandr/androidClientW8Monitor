@@ -5,12 +5,15 @@ import android.util.Log;
 
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
+import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+
+import static com.lucerotech.aleksandrp.w8monitor.R.string.email;
 
 /**
  * Created by AleksandrP on 14.09.2016.
@@ -26,8 +29,16 @@ public class RealmObj {
     private int allNameTypeCalendarsByUser;
 
     private RealmListener mListener;
+    private LoginView mListenerLoginView;
 
     public static RealmObj getInstance(Context context, RealmListener mListener) {
+        if (sRealmObj == null) {
+            sRealmObj = new RealmObj(context, mListener);
+        }
+        return sRealmObj;
+    }
+
+    public static RealmObj getInstance(Context context, LoginView mListener) {
         if (sRealmObj == null) {
             sRealmObj = new RealmObj(context, mListener);
         }
@@ -61,6 +72,14 @@ public class RealmObj {
         }
     }
 
+    private RealmObj(Context context, LoginView mListener) {
+        this.context = context;
+        this. mListenerLoginView = mListener;
+        if (realm == null) {
+            setRealmData(context);
+        }
+    }
+
     private void setRealmData(Context context) {
         String nameDB = RealmObj.class.getName();
         realm = Realm.getInstance(
@@ -79,6 +98,14 @@ public class RealmObj {
         return realm.where(UserLibr.class)
                 .equalTo("mail", email)
                 .findFirst();
+    }
+
+    public void getUserByMailAndPass(String mLogin, String mPass) {
+        long count = realm.where(UserLibr.class)
+                .equalTo("mail", mLogin)
+                .equalTo("password", mPass)
+                .count();
+        mListenerLoginView.userExist(count > 0);
     }
 
 //    ===============================================================

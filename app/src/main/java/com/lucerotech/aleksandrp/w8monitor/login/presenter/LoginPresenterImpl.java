@@ -3,6 +3,7 @@ package com.lucerotech.aleksandrp.w8monitor.login.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
@@ -68,5 +69,10 @@ public class LoginPresenterImpl implements LoginPresenter {
     public void onActivityResultFB(
             int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook) {
         mRegisterFacebook.onActivityResultFB(mRequestCode,  mResultCode, mData, mContext);
+    }
+
+    @Override
+    public void checkUserInDb(String mLogin, String mPass) {
+        RealmObj.getInstance(mContext, mLoginView).getUserByMailAndPass(mLogin, mPass);
     }
 }

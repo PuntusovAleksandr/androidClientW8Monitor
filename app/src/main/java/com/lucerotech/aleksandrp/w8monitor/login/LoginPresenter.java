@@ -24,4 +24,6 @@ public interface LoginPresenter {
     void goToRegistering();
 
     void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook);
+
+    void checkUserInDb(String mLogin, String mPass);
 }

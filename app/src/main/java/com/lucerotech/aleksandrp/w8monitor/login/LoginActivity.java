@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -72,7 +73,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         presenter = new LoginPresenterImpl(LoginActivity.this, this);
 
         mSharedPreferences = getSharedPreferences(SettingsApp.FILE_NAME, Context.MODE_PRIVATE);
-        setIconAutoLogin();
 
         setTouchLogin();
         setTouchPassword();
@@ -122,14 +122,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.iv_keep_me)
     public void autoLogin() {
-        if (autoLogin) {
-            showIconOk(R.drawable.b_confirm_nonactive_dark);
-            autoLogin = false;
-        } else {
-            showIconOk(R.drawable.b_confirm_active_dark);
-            autoLogin = true;
+        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
+            presenter.checkUserInDb(et_login.getText().toString(),
+                    et_password.getText().toString());
         }
-        SettingsApp.setAutoLogin(autoLogin, mSharedPreferences);
+//        if (autoLogin) {
+//            showIconOk(R.drawable.b_confirm_nonactive_dark);
+//            autoLogin = false;
+//        } else {
+//            showIconOk(R.drawable.b_confirm_active_dark);
+//            autoLogin = true;
+//        }
+//        SettingsApp.setAutoLogin(autoLogin, mSharedPreferences);
     }
 
     @OnClick(R.id.ib_facebook)
@@ -234,11 +238,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void showWrong() {
         tv_wrong_email.setVisibility(View.VISIBLE);
+        showIconOk(R.drawable.b_confirm_nonactive_dark);
+        iv_keep_me.setClickable(false);
     }
 
     @Override
     public void hideWrong() {
         tv_wrong_email.setVisibility(View.INVISIBLE);
+        showIconOk(R.drawable.b_confirm_active_dark);
+        iv_keep_me.setClickable(true);
     }
 
     @Override
@@ -258,6 +266,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void finishActivity() {
         finish();
+    }
+
+    @Override
+    public void userExist(boolean mUserExist) {
+        if (mUserExist) {
+            presenter.goToProfile();
+        } else {
+            Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
+        }
     }
 //    =================================================
 //    END        answer from LoginView
