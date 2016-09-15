@@ -96,7 +96,7 @@ public class RealmObj {
                 .findFirst();
     }
 
-    public void getUserByMailAndPass(String mLogin, String mPass) {
+    public void getUserByMailAndPass(String mLogin, String mPass, LoginView mListenerLoginView) {
         long count = realm.where(UserLibr.class)
                 .equalTo("mail", mLogin)
                 .equalTo("password", mPass)

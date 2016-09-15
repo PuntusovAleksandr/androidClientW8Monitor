@@ -5,11 +5,14 @@ import android.content.Intent;
 
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
+import com.lucerotech.aleksandrp.w8monitor.login.LoginActivity;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
+
+import static android.R.attr.y;
 
 /**
  * Created by AleksandrP on 14.09.2016.
@@ -72,7 +75,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void checkUserInDb(String mLogin, String mPass) {
-        RealmObj.getInstance(mContext, mLoginView).getUserByMailAndPass(mLogin, mPass);
+    public void checkUserInDb(String mLogin, String mPass, LoginView mListenerLoginView) {
+        RealmObj.getInstance(mContext, mListenerLoginView).getUserByMailAndPass(mLogin, mPass, mListenerLoginView);
     }
 }

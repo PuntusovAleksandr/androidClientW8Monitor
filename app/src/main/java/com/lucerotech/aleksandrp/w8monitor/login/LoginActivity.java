@@ -131,7 +131,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void autoLogin() {
         if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
             presenter.checkUserInDb(et_login.getText().toString(),
-                    et_password.getText().toString());
+                    et_password.getText().toString(),
+                    this );
         }
     }
 
