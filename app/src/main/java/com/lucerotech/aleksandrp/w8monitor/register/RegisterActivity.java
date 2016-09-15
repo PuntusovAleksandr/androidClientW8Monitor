@@ -21,7 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView,
-        RegisterFacebook.ListenerFacebookRegistr {
+        RegisterFacebook.ListenerFacebookRegistr,
+        RealmObj.RealmListener {
 
     private RegisterPresenter presenter;
 
@@ -85,6 +86,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onBackPressed() {
+        presenter.getBackLoginActivity();
+    }
 
 //    ==========================================================
 //       on Clicks
@@ -92,8 +97,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBack() {
-        onBackPressed();
-        finish();
+        presenter.getBackLoginActivity();
     }
 
     @OnClick(R.id.ib_facebook_register)
@@ -197,18 +201,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     public void isValidData(boolean isValid) {
         if (isValid) {
 // TODO: 14.09.2016 надо сделать запись в базе и покидаем активность
-            RealmObj.getInstance(this, new RealmObj.RealmListener() {
-                @Override
-                public void isUserSaveLogin(boolean isSave, int mRegKey) {
-                    if (isSave) {
-                        presenter.goToProfile();
-                        finish();
-                    } else {
-                        Snackbar.make(
-                                et_email_register, R.string.not_save, Snackbar.LENGTH_SHORT).show();
-                    }
-                }
-            }).putUser(
+            RealmObj.getInstance(this, this).putUser(
                     et_email_register.getText().toString(),
                     et_password_register.getText().toString());
 
@@ -230,4 +223,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         presenter.goToProfile();
     }
 
+    //    =================================================
+//        END    answer from RegFacebook
+    //    =================================================
+//    answer from RealmListener
+//    =================================================
+    @Override
+    public void isUserSaveLogin(boolean isSave, int mRegKey) {
+        if (isSave) {
+            presenter.goToProfile();
+        } else {
+            Snackbar.make(
+                    et_email_register, R.string.not_save, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+    //    =================================================
+//    END from RealmListener
+//    =================================================
 }

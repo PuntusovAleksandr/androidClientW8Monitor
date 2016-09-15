@@ -23,4 +23,6 @@ public interface RegisterPresenter {
     void goToProfile();
 
     void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook);
+
+    void getBackLoginActivity();
 }

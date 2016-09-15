@@ -9,4 +9,6 @@ public interface RegisterView {
     void showDeleteImages(boolean email, boolean pass, boolean repeatPass);
 
     void isValidData(boolean isValid);
+
+    void finish();
 }

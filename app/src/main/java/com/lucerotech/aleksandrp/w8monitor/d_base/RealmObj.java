@@ -8,12 +8,8 @@ import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 
-import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-
-import static com.lucerotech.aleksandrp.w8monitor.R.string.email;
 
 /**
  * Created by AleksandrP on 14.09.2016.
@@ -66,7 +62,7 @@ public class RealmObj {
 
     private RealmObj(Context context, RealmListener mListener) {
         this.context = context;
-        this. mListener = mListener;
+        this.mListener = mListener;
         if (realm == null) {
             setRealmData(context);
         }
@@ -74,7 +70,7 @@ public class RealmObj {
 
     private RealmObj(Context context, LoginView mListener) {
         this.context = context;
-        this. mListenerLoginView = mListener;
+        this.mListenerLoginView = mListener;
         if (realm == null) {
             setRealmData(context);
         }
@@ -114,15 +110,18 @@ public class RealmObj {
 //    START PUT
 //    ===============================================================
 
-    public boolean putUser(String email, String password) {
-        List<UserLibr> userAnswer;
+    public void putUser(String email, String password) {
         UserLibr userLibr = new UserLibr();
+        UserLibr userLibr1 = null;
         userLibr.mail = email;
         userLibr.password = password;
         realm.beginTransaction();
-        userAnswer = (List<UserLibr>) realm.copyToRealmOrUpdate(userLibr);
+        userLibr1 = realm.copyToRealmOrUpdate(userLibr);
         realm.commitTransaction();
-        return userAnswer.size() > 0;
+        String mail = userLibr1.getMail();
+        if (mListener != null && mail != null) {
+            mListener.isUserSaveLogin(true, 2);
+        }
     }
 
     public void addUserFromFacebook(final RegisterFacebook.UserFacebook mUser, final int mRegKey) {
@@ -155,7 +154,7 @@ public class RealmObj {
     }
 
     private void sendAnswer(int mRegKey, boolean mIsSave) {
-            mListener.isUserSaveLogin(mIsSave, mRegKey);
+        mListener.isUserSaveLogin(mIsSave, mRegKey);
     }
 
 //    ===============================================================
