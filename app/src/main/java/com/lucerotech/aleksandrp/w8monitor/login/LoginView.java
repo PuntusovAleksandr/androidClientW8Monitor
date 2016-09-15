@@ -10,4 +10,6 @@ public interface LoginView {
     void hideWrong();
 
     void showDeleteImages(boolean deleteLogin, boolean deletePassword);
+
+    void finishActivity();
 }

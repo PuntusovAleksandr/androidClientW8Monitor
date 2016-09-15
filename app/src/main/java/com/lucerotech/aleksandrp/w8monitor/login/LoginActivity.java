@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -229,7 +228,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     }
 
 
-    //    =================================================
+//    =================================================
 //            answer from LoginView
 //    =================================================
     @Override
@@ -255,6 +254,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
             iv_delete_password.setVisibility(View.INVISIBLE);
         }
     }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
 //    =================================================
 //    END        answer from LoginView
 //    =================================================
@@ -266,14 +270,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                 .into(iv_keep_me);
     }
 
-    //    =================================================
+//    =================================================
 //    answer from RegFacebook
 //    =================================================
 
     @Override
     public void onSaveUserLogin(boolean mIsSave) {
         if (mIsSave) {
-            Toast.makeText(this, "All Ok", Toast.LENGTH_SHORT).show();
+           presenter.goToProfile();
         }
     }
 }

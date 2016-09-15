@@ -54,12 +54,14 @@ public class LoginPresenterImpl implements LoginPresenter {
     public void goToProfile() {
         Intent intent = new Intent(mContext, ProfileActivity.class);
         mContext.startActivity(intent);
+        mLoginView.finishActivity();
     }
 
     @Override
     public void goToRegistering() {
         Intent intent = new Intent(mContext, RegisterActivity.class);
         mContext.startActivity(intent);
+        mLoginView.finishActivity();
     }
 
     @Override

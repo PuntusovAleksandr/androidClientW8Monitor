@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.register.presenter.RegisterPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
@@ -196,8 +197,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     public void isValidData(boolean isValid) {
         if (isValid) {
 // TODO: 14.09.2016 надо сделать запись в базе и покидаем активность
-            presenter.goToProfile();
-            finish();
+            RealmObj.getInstance(this, new RealmObj.RealmListener() {
+                @Override
+                public void isUserSaveLogin(boolean isSave, int mRegKey) {
+                    if (isSave) {
+                        presenter.goToProfile();
+                        finish();
+                    } else {
+                        Snackbar.make(
+                                et_email_register, R.string.not_save, Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            }).putUser(
+                    et_email_register.getText().toString(),
+                    et_password_register.getText().toString());
+
         } else {
             Snackbar.make(
                     et_email_register, R.string.wrong_email_or_password, Snackbar.LENGTH_SHORT).show();
