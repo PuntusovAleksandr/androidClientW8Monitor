@@ -19,7 +19,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterView {
+public class RegisterActivity extends AppCompatActivity implements RegisterView,
+        RegisterFacebook.ListenerFacebookRegistr {
 
     private RegisterPresenter presenter;
 
@@ -96,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     @OnClick(R.id.ib_facebook_register)
     public void clickRegisterFacebook() {
-        mRegisterFacebook = new RegisterFacebook(RegisterActivity.this, REG_REG);
+        mRegisterFacebook = new RegisterFacebook(RegisterActivity.this, REG_REG, this);
         mRegisterFacebook.register();
     }
 
@@ -206,6 +207,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     //    =================================================
 //        END    answer from RegisterView
+    //    =================================================
+//    answer from RegFacebook
 //    =================================================
+
+    @Override
+    public void onSaveUserLogin(boolean mIsSave) {
+        presenter.goToProfile();
+    }
 
 }

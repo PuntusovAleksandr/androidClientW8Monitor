@@ -65,6 +65,6 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void onActivityResultFB(
             int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook) {
-        mRegisterFacebook.onActivityResultFB(mRequestCode,  mResultCode, mData);
+        mRegisterFacebook.onActivityResultFB(mRequestCode,  mResultCode, mData, mContext);
     }
 }

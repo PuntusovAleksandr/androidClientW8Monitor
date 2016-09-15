@@ -65,7 +65,6 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     @Override
     public void onActivityResultFB(
             int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook) {
-        mRegisterFacebook.onActivityResultFB(mRequestCode, mResultCode, mData);
-        goToProfile();
+        mRegisterFacebook.onActivityResultFB(mRequestCode, mResultCode, mData, mContext);
     }
 }

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -26,7 +27,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginView {
+public class LoginActivity extends AppCompatActivity implements LoginView,
+        RegisterFacebook.ListenerFacebookLogin {
 
     private LoginPresenter presenter;
 
@@ -90,13 +92,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-
         if (resultCode == RESULT_OK) {
             if (requestCode == STATICS_PARAMS.FB_CODE) {
                 presenter.onActivityResultFB(requestCode, resultCode, data, mRegisterFacebook);
             }
         }
-
 
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnClick(R.id.iv_forgot)
     public void showForgot() {
-
+// TODO: 15.09.2016 make toast
     }
 
     @OnClick(R.id.iv_keep_me)
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnClick(R.id.ib_facebook)
     public void registerFacebook() {
-        mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN);
+        mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN, this);
         mRegisterFacebook.register();
     }
 
@@ -266,4 +266,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 .into(iv_keep_me);
     }
 
+    //    =================================================
+//    answer from RegFacebook
+//    =================================================
+
+    @Override
+    public void onSaveUserLogin(boolean mIsSave) {
+        if (mIsSave) {
+            Toast.makeText(this, "All Ok", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

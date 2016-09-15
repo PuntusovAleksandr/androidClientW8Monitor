@@ -14,6 +14,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginActivity;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
 
@@ -26,7 +27,7 @@ import java.util.Arrays;
  * Created by AleksandrP on 14.09.2016.
  */
 
-public class RegisterFacebook {
+public class RegisterFacebook implements RealmObj.RealmListener {
 
 
     private CallbackManager mCallbackManager;
@@ -35,10 +36,24 @@ public class RegisterFacebook {
     private Activity mActivity;
     private UserFacebook mUser;
 
+    private ListenerFacebookLogin mListenerFacebook;
+    private ListenerFacebookRegistr mListenerFacebookRegistr;
 
-    public RegisterFacebook(Context mContext, int mRegKey) {
+    public RegisterFacebook(Context mContext, int mRegKey, ListenerFacebookLogin mListenerFacebook) {
         this.mContext = mContext;
         this.regKey = mRegKey;
+        this.mListenerFacebook = mListenerFacebook;
+        mCallbackManager = CallbackManager.Factory.create();
+        if (mRegKey == LoginActivity.REG_LOGIN) {
+            mActivity =(LoginActivity) mContext;
+        } else {
+            mActivity =(RegisterActivity) mContext;
+        }
+    }
+    public RegisterFacebook(Context mContext, int mRegKey, ListenerFacebookRegistr mListenerFacebook) {
+        this.mContext = mContext;
+        this.regKey = mRegKey;
+        this.mListenerFacebookRegistr = mListenerFacebook;
         mCallbackManager = CallbackManager.Factory.create();
         if (mRegKey == LoginActivity.REG_LOGIN) {
             mActivity =(LoginActivity) mContext;
@@ -81,8 +96,7 @@ public class RegisterFacebook {
                                                     mE.printStackTrace();
                                                 }
                                                 if (mUser != null) {
-                                                    // TODO: 14.09.2016 нужно сохранить в базе
-//                                                    saveInDb();
+                                                    saveInDb(mUser);
                                                 } else errorUser();
                                             }
                                         });
@@ -105,7 +119,12 @@ public class RegisterFacebook {
                         });
     }
 
-    public void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData) {
+    private void saveInDb(UserFacebook mUser) {
+        RealmObj.getInstance(mContext, this).addUserFromFacebook(mUser, regKey);
+    }
+
+    public void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, Context mContext) {
+        this.mContext = mContext;
         mCallbackManager.onActivityResult(mRequestCode, mResultCode, mData);
     }
 
@@ -113,7 +132,30 @@ public class RegisterFacebook {
         Toast.makeText(mContext, "User error", Toast.LENGTH_SHORT).show();
     }
 
-    private class UserFacebook {
+//    ===================================================
+//        answer from db
+//===================================================
+    @Override
+    public void isUserSaveLogin(boolean isSave, int mRegKey) {
+        if (mRegKey == LoginActivity.REG_LOGIN) {
+            mListenerFacebook.onSaveUserLogin(isSave);
+        } else {
+            mListenerFacebookRegistr.onSaveUserLogin(isSave);
+        }
+    }
+//    ===================================================
+//    END answer from db
+//    ===================================================
+
+    public interface ListenerFacebookLogin {
+        void onSaveUserLogin(boolean mIsSave);
+    }
+
+    public interface ListenerFacebookRegistr {
+        void onSaveUserLogin(boolean mIsSave);
+    }
+
+    public class UserFacebook {
         private String id;
         private String name;
         private String e_mail;
