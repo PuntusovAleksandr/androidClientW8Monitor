@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @Bind(R.id.tv_wrong_email)
     TextView tv_wrong_email;
+    @Bind(R.id.tv_keep_me)
+    TextView tv_keep_me;
+
+    @Bind(R.id.ll_keep_me)
+    RelativeLayout ll_kepp_me;
 
     @Bind(R.id.et_login)
     EditText et_login;
@@ -46,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     ImageView iv_delete_password;
     @Bind(R.id.iv_forgot)
     ImageView iv_forgot;
-    @Bind(R.id.iv_keep_me)
+    @Bind(R.id.iv_login_me)
     ImageView iv_keep_me;
     @Bind(R.id.ib_facebook)
     ImageView ib_facebook;
@@ -56,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     ImageView ib_login;
 
     private SharedPreferences mSharedPreferences;
-    private boolean autoLogin;
+    private boolean autoLogin = true;
     private RegisterFacebook mRegisterFacebook;
 
     public static final int REG_LOGIN = 1;
@@ -74,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
         mSharedPreferences = getSharedPreferences(SettingsApp.FILE_NAME, Context.MODE_PRIVATE);
 
+        setIconAutoLogin();
         setTouchLogin();
         setTouchPassword();
 
@@ -120,21 +127,27 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 // TODO: 15.09.2016 make toast
     }
 
-    @OnClick(R.id.iv_keep_me)
+    @OnClick(R.id.iv_login_me)
     public void autoLogin() {
         if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
             presenter.checkUserInDb(et_login.getText().toString(),
                     et_password.getText().toString());
         }
-//        if (autoLogin) {
-//            showIconOk(R.drawable.b_confirm_nonactive_dark);
-//            autoLogin = false;
-//        } else {
-//            showIconOk(R.drawable.b_confirm_active_dark);
-//            autoLogin = true;
-//        }
-//        SettingsApp.setAutoLogin(autoLogin, mSharedPreferences);
     }
+
+    @OnClick(R.id.ll_keep_me)
+    public void setAutoSave() {
+
+        if (autoLogin) {
+            autoLogin = false;
+            showIKeep(autoLogin);
+        } else {
+            autoLogin = true;
+            showIKeep(autoLogin);
+        }
+        SettingsApp.setAutoLogin(autoLogin, mSharedPreferences);
+    }
+
 
     @OnClick(R.id.ib_facebook)
     public void registerFacebook() {
@@ -146,6 +159,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void login() {
 //        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
         presenter.goToProfile();
+        SettingsApp.setUserName("", mSharedPreferences);
+        SettingsApp.setUserPassword("", mSharedPreferences);
+        SettingsApp.setAutoLogin(false, mSharedPreferences);
 //        }
     }
 
@@ -160,11 +176,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     private void setIconAutoLogin() {
         autoLogin = SettingsApp.getAutoLogin(mSharedPreferences);
-        if (autoLogin) {
-            showIconOk(R.drawable.b_confirm_active_dark);
-        } else {
-            showIconOk(R.drawable.b_confirm_nonactive_dark);
-        }
+        showIKeep(autoLogin);
     }
 
     private void setTouchPassword() {
@@ -232,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     }
 
 
-//    =================================================
+    //    =================================================
 //            answer from LoginView
 //    =================================================
     @Override
@@ -271,6 +283,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void userExist(boolean mUserExist) {
         if (mUserExist) {
+            SettingsApp.setUserName(et_login.getText().toString(), mSharedPreferences);
+            SettingsApp.setUserPassword(et_password.getText().toString(), mSharedPreferences);
             presenter.goToProfile();
         } else {
             Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
@@ -279,6 +293,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 //    =================================================
 //    END        answer from LoginView
 //    =================================================
+
+
+    private void showIKeep(boolean mAutoLogin) {
+        if (mAutoLogin) {
+            tv_keep_me.setAlpha(1f);
+        } else {
+            tv_keep_me.setAlpha(0.3f);
+        }
+    }
 
 
     private void showIconOk(int resource) {
@@ -294,7 +317,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void onSaveUserLogin(boolean mIsSave) {
         if (mIsSave) {
-           presenter.goToProfile();
+            presenter.goToProfile();
         }
     }
 }

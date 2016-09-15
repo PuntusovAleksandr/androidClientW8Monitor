@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 /**
@@ -19,6 +20,8 @@ import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 public class SplashActivity extends AppCompatActivity {
 
     private Handler mHandlerStart;
+    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,19 @@ public class SplashActivity extends AppCompatActivity {
             modeNightNo = AppCompatDelegate.MODE_NIGHT_YES;
         }
         AppCompatDelegate.setDefaultNightMode(modeNightNo);
+        boolean autoLogin = SettingsApp.getAutoLogin(sharedPreferences);
+        if (autoLogin) {
+            String userName = SettingsApp.getUserName(sharedPreferences);
+            String userPassword = SettingsApp.getUserPassword(sharedPreferences);
+            if (!userName.isEmpty() && !userPassword.isEmpty()) {
+                intent = new Intent(SplashActivity.this, ProfileActivity.class);
+            } else {
+                SettingsApp.setAutoLogin(false, sharedPreferences);
+                intent = new Intent(SplashActivity.this, LoginActivity.class);
+            }
+        } else {
+            intent = new Intent(SplashActivity.this, LoginActivity.class);
+        }
 
         // init handler
         mHandlerStart = new Handler();
@@ -52,7 +68,6 @@ public class SplashActivity extends AppCompatActivity {
         return new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 SplashActivity.this.finish();
             }
