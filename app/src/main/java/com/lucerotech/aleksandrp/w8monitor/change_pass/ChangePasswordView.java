@@ -5,4 +5,13 @@ package com.lucerotech.aleksandrp.w8monitor.change_pass;
  */
 
 public interface ChangePasswordView {
+    void showDeleteIcons(boolean login, boolean pass, boolean newPass);
+
+    void isShowButton(boolean isValid);
+
+    void showMessage();
+
+    void showMessageNotFoundUser();
+
+    void showMessageOkChangePass();
 }

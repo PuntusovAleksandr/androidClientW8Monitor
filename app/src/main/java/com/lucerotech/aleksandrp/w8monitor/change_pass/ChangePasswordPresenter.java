@@ -5,4 +5,17 @@ package com.lucerotech.aleksandrp.w8monitor.change_pass;
  */
 
 public interface ChangePasswordPresenter {
+    void showDeleteRepeatPassword();
+
+    void showDeletePassword();
+
+    void showDeleteLogin();
+
+    void hideAllDelete();
+
+    void checkShowButton(String mPasswordText, String passwordTextOld, String mRepearPasswordText,
+                         ChangePasswordView mPasswordView);
+
+    void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText, String mRepearPasswordText,
+                            ChangePasswordView mPasswordView);
 }

@@ -2,7 +2,11 @@ package com.lucerotech.aleksandrp.w8monitor.change_pass;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,6 +14,7 @@ import android.widget.ImageView;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.change_pass.presenter.ChangePasswordPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,7 +43,7 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
     private String mailUser = "";
 
-    private ChangePasswordPresenter mPresenter;
+    private ChangePasswordPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +52,11 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
         ButterKnife.bind(this);
 
         mailUser = getIntent().getStringExtra(STATICS_PARAMS.MAIL);
+        presenter = new ChangePasswordPresenterImpl(this, this);
 
-        mPresenter = new ChangePasswordPresenterImpl(this, this);
+        setTouchLogin();
+        setTouchPassword();
+        setTouchRepeatPassword();
 
     }
 
@@ -68,21 +76,25 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
     @OnClick(R.id.iv_change_password)
     void changePassword() {
+        String passwordTextOld = et_password_old.getText().toString();
+        String passwordText = et_password_new.getText().toString();
+        String repearPasswordText = et_password_new_confirm.getText().toString();
+        presenter.changePasswordInDb(mailUser, passwordTextOld, passwordText, repearPasswordText, this);
     }
 
     @OnClick(R.id.iv_delete_password_change)
     void deletePassword() {
-
+        et_password_old.setText("");
     }
 
     @OnClick(R.id.iv_delete_password_change_new)
     void deleteNewPassword() {
-
+        et_password_new.setText("");
     }
 
     @OnClick(R.id.iv_delete_password_change_new_2)
     void deleteNewPasswordRepeat() {
-
+        et_password_new_confirm.setText("");
     }
 
     @OnClick(R.id.iv_toolbar_back_press)
@@ -94,5 +106,169 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
 //    ==========================================================
 //      END   on Clicks
+//    ==========================================================
+
+    private void setTouchRepeatPassword() {
+        et_password_old.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View mView, boolean mB) {
+                if (mB) {
+                    presenter.showDeleteRepeatPassword();
+                } else {
+                    presenter.hideAllDelete();
+                }
+            }
+        });
+
+        et_password_old.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+                checkDataRegister();
+            }
+
+            @Override
+            public void afterTextChanged(Editable mEditable) {
+
+            }
+        });
+    }
+
+    private void setTouchPassword() {
+        et_password_new.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View mView, boolean mB) {
+                if (mB) {
+                    presenter.showDeletePassword();
+                } else {
+                    presenter.hideAllDelete();
+                }
+            }
+        });
+
+        et_password_new.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+                checkDataRegister();
+            }
+
+            @Override
+            public void afterTextChanged(Editable mEditable) {
+
+            }
+        });
+
+    }
+
+
+    private void setTouchLogin() {
+        et_password_new_confirm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View mView, boolean mB) {
+                if (mB) {
+                    presenter.showDeleteLogin();
+                } else {
+                    presenter.hideAllDelete();
+                }
+            }
+        });
+
+        et_password_new_confirm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+                checkDataRegister();
+            }
+
+            @Override
+            public void afterTextChanged(Editable mEditable) {
+
+            }
+        });
+    }
+
+
+    private void checkDataRegister() {
+        String passwordTextOld = et_password_old.getText().toString();
+        String passwordText = et_password_new.getText().toString();
+        String repearPasswordText = et_password_new_confirm.getText().toString();
+        presenter.checkShowButton(passwordText, passwordTextOld, repearPasswordText, this);
+    }
+
+
+
+//    ==========================================================
+//      START from ChangePasswordView
+//    ==========================================================
+
+
+    @Override
+    public void showDeleteIcons(boolean login, boolean pass, boolean newPass) {
+        if (newPass) {
+            iv_delete_password_change.setVisibility(View.VISIBLE);
+            iv_delete_password_change_new.setVisibility(View.INVISIBLE);
+            iv_delete_password_change_new_2.setVisibility(View.INVISIBLE);
+        } else if (pass) {
+            iv_delete_password_change.setVisibility(View.INVISIBLE);
+            iv_delete_password_change_new.setVisibility(View.VISIBLE);
+            iv_delete_password_change_new_2.setVisibility(View.INVISIBLE);
+        } else if (login) {
+            iv_delete_password_change.setVisibility(View.INVISIBLE);
+            iv_delete_password_change_new.setVisibility(View.INVISIBLE);
+            iv_delete_password_change_new_2.setVisibility(View.VISIBLE);
+        } else {
+            iv_delete_password_change.setVisibility(View.INVISIBLE);
+            iv_delete_password_change_new.setVisibility(View.INVISIBLE);
+            iv_delete_password_change_new_2.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void isShowButton(boolean isValid) {
+        int resource = R.drawable.b_confirm_active_dark;
+        if (!isValid) {
+            resource = R.drawable.b_confirm_nonactive_dark;
+        }
+        Picasso.with(this)
+                .load(resource)
+                .into(iv_change_password);
+    }
+
+    @Override
+    public void showMessage() {
+        Snackbar.make(
+                et_password_old, R.string.enter_correct_password, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessageNotFoundUser() {
+        Snackbar.make(
+                et_password_old, R.string.user_not_found, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessageOkChangePass() {
+        et_password_old.setText("");
+        et_password_new.setText("");
+        et_password_new_confirm.setText("");
+        Snackbar.make(
+                et_password_old, R.string.ppass_change, Snackbar.LENGTH_SHORT).show();
+    }
+
+//    ==========================================================
+//      END from ChangePasswordView
 //    ==========================================================
 }

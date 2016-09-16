@@ -3,6 +3,7 @@ package com.lucerotech.aleksandrp.w8monitor.d_base;
 import android.content.Context;
 import android.util.Log;
 
+import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordView;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
@@ -28,6 +29,13 @@ public class RealmObj {
     private RegisterView mRegisterView;
     private RealmListener mListener;
     private LoginView mListenerLoginView;
+
+    public static RealmObj getInstance(Context context) {
+        if (sRealmObj == null) {
+            sRealmObj = new RealmObj(context);
+        }
+        return sRealmObj;
+    }
 
     public static RealmObj getInstance(Context context, RegisterView mListener) {
         if (sRealmObj == null) {
@@ -68,6 +76,13 @@ public class RealmObj {
         }
     }
 
+
+    private RealmObj(Context contex) {
+        this.context = context;
+        if (realm == null) {
+            setRealmData(context);
+        }
+    }
 
     private RealmObj(Context context, RegisterView mListener) {
         this.context = context;
@@ -185,6 +200,31 @@ public class RealmObj {
 
 //    ===============================================================
 //    END PUT
+//    ===============================================================
+//    update
+//    ===============================================================
+
+
+    public void checkAndChangePassword(String mMailUser, String mPasswordTextOld,
+                                       String mPasswordText, ChangePasswordView mPasswordView) {
+        UserLibr userLibr = realm.where(UserLibr.class)
+                .equalTo("mail", mMailUser)
+                .equalTo("password", mPasswordTextOld)
+                .findFirst();
+        if (userLibr != null) {
+            realm.beginTransaction();
+            userLibr.setPassword(mPasswordText);
+            realm.copyToRealmOrUpdate(userLibr);
+            realm.commitTransaction();
+            mPasswordView.showMessageOkChangePass();
+        } else {
+            mPasswordView.showMessageNotFoundUser();
+        }
+    }
+
+
+//    ===============================================================
+//    END update
 //    ===============================================================
 //    LISTENER
 //    ===============================================================

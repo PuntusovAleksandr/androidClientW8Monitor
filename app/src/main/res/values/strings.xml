@@ -17,4 +17,6 @@
     <string name="current_password">current password</string>
     <string name="new_password">new password</string>
     <string name="repeat_new_password">repeat new password</string>
+    <string name="enter_correct_password">Please enter correct password</string>
+    <string name="ppass_change">Password change</string>
 </resources>
