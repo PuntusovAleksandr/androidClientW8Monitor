@@ -3,7 +3,7 @@ package com.lucerotech.aleksandrp.w8monitor.login.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.lucerotech.aleksandrp.w8monitor.chnge_pass.ChangePasswordActivity;
+import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordActivity;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;

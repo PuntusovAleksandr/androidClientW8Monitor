@@ -35,7 +35,7 @@
             android:name=".profile.ProfileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"/>
         <activity
-            android:name=".chnge_pass.ChangePasswordActivity"
+            android:name=".change_pass.ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:parentActivityName=".login.LoginActivity"/>
     </application>

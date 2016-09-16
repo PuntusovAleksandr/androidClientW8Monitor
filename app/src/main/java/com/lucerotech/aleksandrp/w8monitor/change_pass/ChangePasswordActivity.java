@@ -1,4 +1,4 @@
-package com.lucerotech.aleksandrp.w8monitor.chnge_pass;
+package com.lucerotech.aleksandrp.w8monitor.change_pass;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
-import com.lucerotech.aleksandrp.w8monitor.chnge_pass.presenter.ChangePasswordPresenterImpl;
+import com.lucerotech.aleksandrp.w8monitor.change_pass.presenter.ChangePasswordPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 
 import butterknife.Bind;

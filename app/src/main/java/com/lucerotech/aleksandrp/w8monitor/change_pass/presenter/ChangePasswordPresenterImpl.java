@@ -1,9 +1,9 @@
-package com.lucerotech.aleksandrp.w8monitor.chnge_pass.presenter;
+package com.lucerotech.aleksandrp.w8monitor.change_pass.presenter;
 
 import android.content.Context;
 
-import com.lucerotech.aleksandrp.w8monitor.chnge_pass.ChangePasswordPresenter;
-import com.lucerotech.aleksandrp.w8monitor.chnge_pass.ChangePasswordView;
+import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordPresenter;
+import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordView;
 
 /**
  * Created by AleksandrP on 16.09.2016.
