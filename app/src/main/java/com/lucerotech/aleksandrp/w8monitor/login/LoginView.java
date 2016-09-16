@@ -14,4 +14,6 @@ public interface LoginView {
     void finishActivity();
 
     void userExist(boolean mUserExist);
+
+    void changePassUserExist(boolean mExist, String mEmail);
 }

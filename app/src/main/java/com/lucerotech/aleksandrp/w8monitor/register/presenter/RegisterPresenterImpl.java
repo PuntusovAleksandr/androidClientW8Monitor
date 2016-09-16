@@ -26,7 +26,8 @@ public class RegisterPresenterImpl implements RegisterPresenter {
 
 
     @Override
-    public void checkPassword(String mPasswordText, String mEmailText, String mRepeatPasswordText) {
+    public void checkPassword(String mPasswordText, String mEmailText, String mRepeatPasswordText,
+                              RegisterView mRegisterView) {
         if (ValidationText.checkLenghtPassword(mPasswordText) &&
                 ValidationText.checkValidEmail(mEmailText) &&
                 ValidationText.checkLenghtPassword(mRepeatPasswordText) &&

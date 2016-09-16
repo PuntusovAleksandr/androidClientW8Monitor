@@ -10,5 +10,7 @@ public interface RegisterView {
 
     void isValidData(boolean isValid);
 
+    void isUserSaveLogin(boolean isValid, int mI);
+
     void finish();
 }

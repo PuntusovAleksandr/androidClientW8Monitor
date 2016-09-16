@@ -6,6 +6,7 @@ import android.util.Log;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
+import com.lucerotech.aleksandrp.w8monitor.register.RegisterView;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 
 import io.realm.Realm;
@@ -24,8 +25,16 @@ public class RealmObj {
     private Realm realm;
     private int allNameTypeCalendarsByUser;
 
+    private RegisterView mRegisterView;
     private RealmListener mListener;
     private LoginView mListenerLoginView;
+
+    public static RealmObj getInstance(Context context, RegisterView mListener) {
+        if (sRealmObj == null) {
+            sRealmObj = new RealmObj(context, mListener);
+        }
+        return sRealmObj;
+    }
 
     public static RealmObj getInstance(Context context, RealmListener mListener) {
         if (sRealmObj == null) {
@@ -59,6 +68,14 @@ public class RealmObj {
         }
     }
 
+
+    private RealmObj(Context context, RegisterView mListener) {
+        this.context = context;
+        this.mRegisterView = mListener;
+        if (realm == null) {
+            setRealmData(context);
+        }
+    }
 
     private RealmObj(Context context, RealmListener mListener) {
         this.context = context;
@@ -104,13 +121,22 @@ public class RealmObj {
         mListenerLoginView.userExist(count > 0);
     }
 
+
+    public void checkEmail(String mEmail, LoginView mListenerLoginView) {
+        long count = realm.where(UserLibr.class)
+                .equalTo("mail", mEmail)
+                .count();
+        mListenerLoginView.changePassUserExist((count > 0), mEmail);
+    }
+
+
 //    ===============================================================
 //    END GET
 //    ===============================================================
 //    START PUT
 //    ===============================================================
 
-    public void putUser(String email, String password) {
+    public void putUser(String email, String password, RegisterView mListener) {
         UserLibr userLibr = new UserLibr();
         UserLibr userLibr1 = null;
         userLibr.mail = email;

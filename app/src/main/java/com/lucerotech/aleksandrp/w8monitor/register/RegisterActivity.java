@@ -21,8 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView,
-        RegisterFacebook.ListenerFacebookRegistr,
-        RealmObj.RealmListener {
+        RegisterFacebook.ListenerFacebookRegistr{
+//        RealmObj.RealmListener {
 
     private RegisterPresenter presenter;
 
@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         String passwordText = et_password_register.getText().toString();
         String repeatPasswordText = et_repeat_password.getText().toString();
         String emailText = et_email_register.getText().toString();
-        presenter.checkPassword(passwordText, emailText, repeatPasswordText);
+        presenter.checkPassword(passwordText, emailText, repeatPasswordText, this);
     }
 
     @OnClick(R.id.iv_delete_email)
@@ -200,10 +200,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     @Override
     public void isValidData(boolean isValid) {
         if (isValid) {
-// TODO: 14.09.2016 надо сделать запись в базе и покидаем активность
             RealmObj.getInstance(this, this).putUser(
                     et_email_register.getText().toString(),
-                    et_password_register.getText().toString());
+                    et_password_register.getText().toString(),
+                    this);
 
         } else {
             Snackbar.make(

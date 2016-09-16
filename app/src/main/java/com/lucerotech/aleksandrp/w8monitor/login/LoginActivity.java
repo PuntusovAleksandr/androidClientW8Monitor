@@ -124,7 +124,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.iv_forgot)
     public void showForgot() {
-// TODO: 15.09.2016 make toast
+        if (et_login.getText().toString().isEmpty()) {
+            Toast.makeText(this, R.string.fill_email, Toast.LENGTH_SHORT).show();
+        } else {
+            presenter.goToChangePassword(et_login.getText().toString(), this);
+        }
     }
 
     @OnClick(R.id.iv_login_me)
@@ -132,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
             presenter.checkUserInDb(et_login.getText().toString(),
                     et_password.getText().toString(),
-                    this );
+                    this);
         }
     }
 
@@ -289,6 +293,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
             presenter.goToProfile();
         } else {
             Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void changePassUserExist(boolean mExist, String mEmail) {
+        if (mExist) {
+            presenter.goToChangePasswordActivity(mEmail);
+        } else {
+            Toast.makeText(this, R.string.email_not_registered, Toast.LENGTH_SHORT).show();
         }
     }
 //    =================================================

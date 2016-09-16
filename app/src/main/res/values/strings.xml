@@ -12,4 +12,6 @@
     <string name="enter_password">enter password</string>
     <string name="not_save">USER NOT SAVING IN DB</string>
     <string name="user_not_found">User not found</string>
+    <string name="fill_email">Please fill place \"Your email\"</string>
+    <string name="email_not_registered">This email not registered</string>
 </resources>

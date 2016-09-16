@@ -3,16 +3,15 @@ package com.lucerotech.aleksandrp.w8monitor.login.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.lucerotech.aleksandrp.w8monitor.chnge_pass.ChangePasswordActivity;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
-import com.lucerotech.aleksandrp.w8monitor.login.LoginActivity;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
+import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
-
-import static android.R.attr.y;
 
 /**
  * Created by AleksandrP on 14.09.2016.
@@ -71,11 +70,23 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void onActivityResultFB(
             int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook) {
-        mRegisterFacebook.onActivityResultFB(mRequestCode,  mResultCode, mData, mContext);
+        mRegisterFacebook.onActivityResultFB(mRequestCode, mResultCode, mData, mContext);
     }
 
     @Override
     public void checkUserInDb(String mLogin, String mPass, LoginView mListenerLoginView) {
         RealmObj.getInstance(mContext, mListenerLoginView).getUserByMailAndPass(mLogin, mPass, mListenerLoginView);
+    }
+
+    @Override
+    public void goToChangePassword(String mEmail, LoginView mListenerLoginView) {
+        RealmObj.getInstance(mContext, mListenerLoginView).checkEmail(mEmail, mListenerLoginView);
+    }
+
+    @Override
+    public void goToChangePasswordActivity(String mEmail) {
+        Intent intent = new Intent(mContext, ChangePasswordActivity.class);
+        intent.putExtra(STATICS_PARAMS.MAIL, mEmail);
+        mContext.startActivity(intent);
     }
 }
