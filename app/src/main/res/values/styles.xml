@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CustomCirclePageIndicator">
+        <!--<item name="fillColor">#234d82</item>-->
+        <!--<item name="strokeColor">#1d2f6a</item>-->
+        <!--<item name="strokeWidth">1dp</item>-->
+        <!--<item name="radius">5dp</item>-->
+        <!--<item name="centered">true</item>-->
+    </style>
+
 </resources>
