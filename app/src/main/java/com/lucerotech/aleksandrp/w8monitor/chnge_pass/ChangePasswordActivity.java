@@ -68,8 +68,6 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
     @OnClick(R.id.iv_change_password)
     void changePassword() {
-        onBackPressed();
-        finish();
     }
 
     @OnClick(R.id.iv_delete_password_change)
@@ -89,7 +87,8 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
     @OnClick(R.id.iv_toolbar_back_press)
     void presOnBack() {
-
+        onBackPressed();
+        finish();
     }
 
 
