@@ -10,7 +10,11 @@ import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 
 public interface RegisterPresenter {
 
-    void checkPassword(String mPasswordText, String mEmailText, String mRepeatPasswordText, RegisterView mRegisterView);
+    void checkPassword(String mPasswordText, String mEmailText, String mRepeatPasswordText,
+                       RegisterView mRegisterView);
+
+    void checkShowButton(String mPasswordText, String mEmailText, String mRepearPasswordText,
+                         RegisterView mRegisterView);
 
     void showDeleteLogin();
 

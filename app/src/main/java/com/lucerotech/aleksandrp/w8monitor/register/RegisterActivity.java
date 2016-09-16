@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.register.presenter.RegisterPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -145,6 +148,23 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
                 }
             }
         });
+
+        et_repeat_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+                checkDataRegister();
+            }
+
+            @Override
+            public void afterTextChanged(Editable mEditable) {
+
+            }
+        });
     }
 
     private void setTouchPassword() {
@@ -158,7 +178,26 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
                 }
             }
         });
+
+        et_password_register.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+                checkDataRegister();
+            }
+
+            @Override
+            public void afterTextChanged(Editable mEditable) {
+
+            }
+        });
+
     }
+
 
     private void setTouchLogin() {
         et_email_register.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -171,7 +210,33 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
                 }
             }
         });
+
+        et_email_register.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+                checkDataRegister();
+            }
+
+            @Override
+            public void afterTextChanged(Editable mEditable) {
+
+            }
+        });
     }
+
+
+    private void checkDataRegister() {
+        String emailText = et_email_register.getText().toString();
+        String passwordText = et_password_register.getText().toString();
+        String repearPasswordText = et_repeat_password.getText().toString();
+        presenter.checkShowButton(passwordText, emailText, repearPasswordText, this);
+    }
+
 
     //    =================================================
 //            answer from RegisterView
@@ -209,6 +274,17 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
             Snackbar.make(
                     et_email_register, R.string.wrong_email_or_password, Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void isShowButton(boolean mIsShow) {
+        int resource = R.drawable.b_confirm_active_dark;
+        if (!mIsShow) {
+            resource = R.drawable.b_confirm_nonactive_dark;
+        }
+        Picasso.with(this)
+                .load(resource)
+                .into(iv_register_ok);
     }
 
 

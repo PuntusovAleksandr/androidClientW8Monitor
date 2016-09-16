@@ -212,7 +212,7 @@
             android:layout_height="64dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/b_confirm_nonactive_dark"/>
+            android:src="@drawable/b_signup_dark"/>
 
         <ImageView
             android:id="@+id/ib_login"

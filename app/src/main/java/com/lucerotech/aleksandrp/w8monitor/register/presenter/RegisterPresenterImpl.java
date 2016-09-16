@@ -39,6 +39,18 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     }
 
     @Override
+    public void checkShowButton(String mPasswordText, String mEmailText, String mRepearPasswordText, RegisterView mRegisterView) {
+        if (ValidationText.checkLenghtPassword(mPasswordText) &&
+                ValidationText.checkValidEmail(mEmailText) &&
+                ValidationText.checkLenghtPassword(mRepearPasswordText) &&
+                mPasswordText.equals(mRepearPasswordText)) {
+            mRegisterView.isShowButton(true);
+        } else {
+            mRegisterView.isShowButton(false);
+        }
+    }
+
+    @Override
     public void showDeleteLogin() {
         mRegisterView.showDeleteImages(true, false, false);
     }
