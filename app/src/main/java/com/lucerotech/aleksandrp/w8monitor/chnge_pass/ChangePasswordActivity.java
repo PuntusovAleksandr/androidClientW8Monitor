@@ -1,18 +1,21 @@
 package com.lucerotech.aleksandrp.w8monitor.chnge_pass;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.chnge_pass.presenter.ChangePasswordPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChangePasswordActivity extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity  implements ChangePasswordView{
 
 
     @Bind(R.id.iv_toolbar_back_press)
@@ -35,6 +38,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private String mailUser = "";
 
+    private ChangePasswordPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +48,52 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         mailUser = getIntent().getStringExtra(STATICS_PARAMS.MAIL);
 
+        mPresenter = new ChangePasswordPresenterImpl(this, this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        et_password_old.setFocusable(true);
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+    }
+
+
+//    ==========================================================
+//       on Clicks
+//    ==========================================================
+
+    @OnClick(R.id.iv_change_password)
+    void changePassword() {
+        onBackPressed();
+        finish();
+    }
+
+    @OnClick(R.id.iv_delete_password_change)
+    void deletePassword() {
+
+    }
+
+    @OnClick(R.id.iv_delete_password_change_new)
+    void deleteNewPassword() {
+
+    }
+
+    @OnClick(R.id.iv_delete_password_change_new_2)
+    void deleteNewPasswordRepeat() {
 
     }
 
     @OnClick(R.id.iv_toolbar_back_press)
     void presOnBack() {
-        onBackPressed();
-        finish();
+
     }
+
+
+//    ==========================================================
+//      END   on Clicks
+//    ==========================================================
 }
