@@ -19,11 +19,15 @@ public class SettingsApp {
     private static final String KEY_SELECT_THEME = "KEY_SELECT_THEME";
     private static final String KEY_USER_NAME = "KEY_USER_NAME";
     private static final String KEY_USER_PASSWORD = "KEY_USER_PASSWORD";
+    private static final String KEY_SET_SETTINGS_PROFILE = "KEY_SET_SETTINGS_PROFILE";
+    private static final String KEY_LAST_SETTINGS_PROFILE = "KEY_LAST_SETTINGS_PROFILE";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
     private static final boolean DEF_EMPTY_BOOLEAN = false;
     private static final boolean DEF_NOT_EMPTY_BOOLEAN = true;
+    private static final int DEF_INT_EMPTY = 1;
+
 
 
     /**
@@ -112,6 +116,46 @@ public class SettingsApp {
      */
     public static String getUserPassword(SharedPreferences preferences) {
         return preferences.getString(KEY_USER_PASSWORD, DEF_EMPTY_STRING);
+    }
+
+    /**
+     * set flag then user set all his data in profile
+     * @param mS
+     * @param mSharedPreferences
+     */
+    public static void setSettingsStatus(boolean mS, SharedPreferences mSharedPreferences) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(KEY_SET_SETTINGS_PROFILE, mS);
+        editor.commit();
+    }
+
+    /**
+     * get status flag settings profile
+     * @param preferences
+     * @return
+     */
+    public static boolean getLastProfile(SharedPreferences preferences) {
+        return preferences.getBoolean(KEY_SET_SETTINGS_PROFILE, DEF_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * set flag then user set all his data in profile
+     * @param mS
+     * @param mSharedPreferences
+     */
+    public static void setSettingsProfile(int mS, SharedPreferences mSharedPreferences) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(KEY_LAST_SETTINGS_PROFILE, mS);
+        editor.commit();
+    }
+
+    /**
+     * get status flag settings profile
+     * @param preferences
+     * @return
+     */
+    public static int getSettingsProfile(SharedPreferences preferences) {
+        return preferences.getInt(KEY_LAST_SETTINGS_PROFILE, DEF_INT_EMPTY);
     }
 
 }
