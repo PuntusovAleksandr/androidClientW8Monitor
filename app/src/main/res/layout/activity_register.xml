@@ -194,8 +194,8 @@
 
         <ImageView
             android:id="@+id/iv_register_ok"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/_25"
             android:layout_marginTop="@dimen/_8"
@@ -216,8 +216,8 @@
 
         <ImageView
             android:id="@+id/ib_facebook_register"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/b_facebook_dark"/>

@@ -168,8 +168,8 @@
 
         <ImageView
             android:id="@+id/iv_login_me"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:clickable="false"
             android:src="@drawable/b_confirm_nonactive_dark"/>
@@ -178,8 +178,8 @@
 
     <ImageView
         android:id="@+id/iv_logo_login"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:src="@drawable/logo_dark"
         android:layout_alignParentTop="true"
@@ -200,24 +200,24 @@
 
         <ImageView
             android:id="@+id/ib_facebook"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/b_facebook_dark"/>
 
         <ImageView
             android:id="@+id/ib_register"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/b_signup_dark"/>
 
         <ImageView
             android:id="@+id/ib_login"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/b_skip_dark"/>
