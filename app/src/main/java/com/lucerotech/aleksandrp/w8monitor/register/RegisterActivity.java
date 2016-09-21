@@ -265,7 +265,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     @Override
     public void isValidData(boolean isValid) {
         if (isValid) {
-            RealmObj.getInstance(this, this).putUser(
+            RealmObj.getInstance().putUser(
                     et_email_register.getText().toString(),
                     et_password_register.getText().toString(),
                     this);

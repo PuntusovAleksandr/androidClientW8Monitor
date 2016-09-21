@@ -120,7 +120,7 @@ public class RegisterFacebook implements RealmObj.RealmListener {
     }
 
     private void saveInDb(UserFacebook mUser) {
-        RealmObj.getInstance(mContext, this).addUserFromFacebook(mUser, regKey);
+        RealmObj.getInstance().addUserFromFacebook(mUser, regKey , this);
     }
 
     public void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, Context mContext) {

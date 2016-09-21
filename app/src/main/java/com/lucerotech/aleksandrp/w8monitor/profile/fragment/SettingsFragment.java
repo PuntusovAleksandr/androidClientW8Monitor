@@ -85,7 +85,7 @@ public class SettingsFragment extends Fragment {
 
     @OnClick(R.id.iv_b_male_dark)
     public void clickMale() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.STATE_USER);
+        mActivity.setEnterProfileDataFragment(FragmentMapker.SELECT_STATE);
     }
 
     @OnClick(R.id.iv_b_dob_dark)

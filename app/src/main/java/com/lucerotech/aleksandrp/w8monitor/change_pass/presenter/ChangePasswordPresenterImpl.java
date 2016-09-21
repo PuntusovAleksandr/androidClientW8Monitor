@@ -62,7 +62,7 @@ public class ChangePasswordPresenterImpl implements ChangePasswordPresenter {
                 ValidationText.checkLenghtPassword(mRepearPasswordText) &&
                 mPasswordText.equals(mRepearPasswordText)) {
 
-            RealmObj.getInstance(mContext).checkAndChangePassword(
+            RealmObj.getInstance().checkAndChangePassword(
                     mMailUser, mPasswordTextOld, mPasswordText, mPasswordView);
         } else {
             mPasswordView.showMessage();

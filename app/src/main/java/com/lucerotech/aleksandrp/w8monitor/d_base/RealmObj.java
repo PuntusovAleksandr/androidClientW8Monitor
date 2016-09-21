@@ -3,12 +3,14 @@ package com.lucerotech.aleksandrp.w8monitor.d_base;
 import android.content.Context;
 import android.util.Log;
 
+import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordView;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterView;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
+import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -26,45 +28,45 @@ public class RealmObj {
     private Realm realm;
     private int allNameTypeCalendarsByUser;
 
-    private RegisterView mRegisterView;
-    private RealmListener mListener;
-    private LoginView mListenerLoginView;
+//    private RegisterView mRegisterView;
+//    private RealmListener mListener;
+//    private LoginView mListenerLoginView;
 
-    public static RealmObj getInstance(Context context) {
+    public static RealmObj getInstance() {
         if (sRealmObj == null) {
-            sRealmObj = new RealmObj(context);
+            sRealmObj = new RealmObj();
         }
         return sRealmObj;
     }
 
-    public static RealmObj getInstance(Context context, RegisterView mListener) {
-        if (sRealmObj == null) {
-            sRealmObj = new RealmObj(context, mListener);
-        }
-        return sRealmObj;
-    }
-
-    public static RealmObj getInstance(Context context, RealmListener mListener) {
-        if (sRealmObj == null) {
-            sRealmObj = new RealmObj(context, mListener);
-        }
-        return sRealmObj;
-    }
-
-    public static RealmObj getInstance(Context context, LoginView mListener) {
-        if (sRealmObj == null) {
-            sRealmObj = new RealmObj(context, mListener);
-        }
-        return sRealmObj;
-    }
+//    public static RealmObj getInstance(RegisterView mListener) {
+//        if (sRealmObj == null) {
+//            sRealmObj = new RealmObj( mListener);
+//        }
+//        return sRealmObj;
+//    }
+//
+//    public static RealmObj getInstance( RealmListener mListener) {
+//        if (sRealmObj == null) {
+//            sRealmObj = new RealmObj( mListener);
+//        }
+//        return sRealmObj;
+//    }
+//
+//    public static RealmObj getInstance(LoginView mListener) {
+//        if (sRealmObj == null) {
+//            sRealmObj = new RealmObj( mListener);
+//        }
+//        return sRealmObj;
+//    }
 
     /**
      * for creating (or change) data base, need reopen Realm
      * This method need calling after save data in Shared preference
      */
-    public static void stopRealm(Context context) {
+    public static void stopRealm() {
         if (sRealmObj != null) {
-            sRealmObj.closeRealm(context);
+            sRealmObj.closeRealm(App.getContext());
         }
     }
 
@@ -77,36 +79,36 @@ public class RealmObj {
     }
 
 
-    private RealmObj(Context contex) {
-        this.context = context;
+    private RealmObj() {
+        this.context = App.getContext();
         if (realm == null) {
             setRealmData(context);
         }
     }
-
-    private RealmObj(Context context, RegisterView mListener) {
-        this.context = context;
-        this.mRegisterView = mListener;
-        if (realm == null) {
-            setRealmData(context);
-        }
-    }
-
-    private RealmObj(Context context, RealmListener mListener) {
-        this.context = context;
-        this.mListener = mListener;
-        if (realm == null) {
-            setRealmData(context);
-        }
-    }
-
-    private RealmObj(Context context, LoginView mListener) {
-        this.context = context;
-        this.mListenerLoginView = mListener;
-        if (realm == null) {
-            setRealmData(context);
-        }
-    }
+//
+//    private RealmObj(RegisterView mListener) {
+//        this.context = App.getContext();
+//        this.mRegisterView = mListener;
+//        if (realm == null) {
+//            setRealmData(context);
+//        }
+//    }
+//
+//    private RealmObj( RealmListener mListener) {
+//        this.context = App.getContext();
+//        this.mListener = mListener;
+//        if (realm == null) {
+//            setRealmData(context);
+//        }
+//    }
+//
+//    private RealmObj(LoginView mListener) {
+//        this.context = App.getContext();
+//        this.mListenerLoginView = mListener;
+//        if (realm == null) {
+//            setRealmData(context);
+//        }
+//    }
 
     private void setRealmData(Context context) {
         String nameDB = RealmObj.class.getName();
@@ -145,6 +147,15 @@ public class RealmObj {
     }
 
 
+    public void getStateUser(StateListener mProfileViewt) {
+        String userName = SettingsApp.getInstance().getUserName();
+        UserLibr userLibr = realm.where(UserLibr.class)
+                .equalTo("mail", userName)
+                .findFirst();
+        mProfileViewt.isSave(userLibr.getState());
+    }
+
+
 //    ===============================================================
 //    END GET
 //    ===============================================================
@@ -165,7 +176,8 @@ public class RealmObj {
         }
     }
 
-    public void addUserFromFacebook(final RegisterFacebook.UserFacebook mUser, final int mRegKey) {
+    public void addUserFromFacebook(final RegisterFacebook.UserFacebook mUser, final int mRegKey,
+                                    final RealmListener mListener) {
 
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -181,20 +193,20 @@ public class RealmObj {
             @Override
             public void onSuccess() {
                 // Transaction was a success.
-                sendAnswer(mRegKey, true);
+                sendAnswer(mRegKey, true, mListener);
 
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
                 // Transaction failed and was automatically canceled.
-                sendAnswer(mRegKey, false);
+                sendAnswer(mRegKey, false, mListener);
                 Log.i(LOG_REALM, error.getMessage());
             }
         });
     }
 
-    private void sendAnswer(int mRegKey, boolean mIsSave) {
+    private void sendAnswer(int mRegKey, boolean mIsSave, RealmListener mListener) {
         mListener.isUserSaveLogin(mIsSave, mRegKey);
     }
 
@@ -222,6 +234,21 @@ public class RealmObj {
         }
     }
 
+    public void setStateUser(String mUserName, int mState, StateListener mListener) {
+        UserLibr userLibr = realm.where(UserLibr.class)
+                .equalTo("mail", mUserName)
+                .findFirst();
+        if (userLibr != null) {
+            realm.beginTransaction();
+            userLibr.setState(mState);
+            realm.copyToRealmOrUpdate(userLibr);
+            realm.commitTransaction();
+            mListener.isSave(mState);
+        } else {
+            mListener.isSave(-1);
+        }
+    }
+
 
 //    ===============================================================
 //    END update
@@ -232,5 +259,10 @@ public class RealmObj {
     public interface RealmListener {
         void isUserSaveLogin(boolean isSave, int mRegKey);
     }
+
+    public interface StateListener {
+        void isSave(int state);
+    }
+
 
 }

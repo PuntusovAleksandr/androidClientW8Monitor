@@ -75,12 +75,12 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void checkUserInDb(String mLogin, String mPass, LoginView mListenerLoginView) {
-        RealmObj.getInstance(mContext, mListenerLoginView).getUserByMailAndPass(mLogin, mPass, mListenerLoginView);
+        RealmObj.getInstance().getUserByMailAndPass(mLogin, mPass, mListenerLoginView);
     }
 
     @Override
     public void goToChangePassword(String mEmail, LoginView mListenerLoginView) {
-        RealmObj.getInstance(mContext, mListenerLoginView).checkEmail(mEmail, mListenerLoginView);
+        RealmObj.getInstance().checkEmail(mEmail, mListenerLoginView);
     }
 
     @Override
