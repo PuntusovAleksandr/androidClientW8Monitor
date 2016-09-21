@@ -38,6 +38,10 @@
             android:name=".change_pass.ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:parentActivityName=".login.LoginActivity"/>
+        <activity
+            android:name=".general.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard">
+        </activity>
     </application>
 
 </manifest>
