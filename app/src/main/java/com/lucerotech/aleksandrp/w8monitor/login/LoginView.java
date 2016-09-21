@@ -5,6 +5,7 @@ package com.lucerotech.aleksandrp.w8monitor.login;
  */
 
 public interface LoginView {
+
     void showWrong();
 
     void hideWrong();
@@ -16,4 +17,7 @@ public interface LoginView {
     void userExist(boolean mUserExist);
 
     void changePassUserExist(boolean mExist, String mEmail);
+
+    void goToProfile();
+
 }

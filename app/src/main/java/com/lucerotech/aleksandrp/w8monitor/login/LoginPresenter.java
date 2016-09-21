@@ -30,4 +30,6 @@ public interface LoginPresenter {
     void goToChangePassword(String mEmail, LoginView mListenerLoginView);
 
     void goToChangePasswordActivity(String mEmail);
+
+    void inputEmptyUser(String mMail, String mPass, LoginView mLoginView);
 }

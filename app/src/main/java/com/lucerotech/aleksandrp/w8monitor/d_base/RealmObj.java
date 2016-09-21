@@ -152,7 +152,11 @@ public class RealmObj {
         UserLibr userLibr = realm.where(UserLibr.class)
                 .equalTo("mail", userName)
                 .findFirst();
-        mProfileViewt.isSave(userLibr.getState());
+        int state = 1;
+        if (userLibr != null) {
+            state = userLibr.getState();
+        }
+        mProfileViewt.isSave(state);
     }
 
 
@@ -173,6 +177,21 @@ public class RealmObj {
         String mail = userLibr1.getMail();
         if (mListener != null && mail != null) {
             mListener.isUserSaveLogin(true, 2);
+        }
+    }
+
+    public void putUser(String email, String password, LoginView mListener) {
+        UserLibr userLibr = new UserLibr();
+        UserLibr userLibr1 = null;
+        userLibr.mail = email;
+        userLibr.password = password;
+        userLibr.state = 1;
+        realm.beginTransaction();
+        userLibr1 = realm.copyToRealmOrUpdate(userLibr);
+        realm.commitTransaction();
+        String mail = userLibr1.getMail();
+        if (mListener != null && mail != null) {
+            mListener.goToProfile();
         }
     }
 

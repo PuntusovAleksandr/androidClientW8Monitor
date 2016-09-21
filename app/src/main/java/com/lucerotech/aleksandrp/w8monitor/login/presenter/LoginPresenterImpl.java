@@ -89,4 +89,9 @@ public class LoginPresenterImpl implements LoginPresenter {
         intent.putExtra(STATICS_PARAMS.MAIL, mEmail);
         mContext.startActivity(intent);
     }
+
+    @Override
+    public void inputEmptyUser(String mMail, String mPass, LoginView mLoginView) {
+        RealmObj.getInstance().putUser(mMail, mPass, mLoginView);
+    }
 }

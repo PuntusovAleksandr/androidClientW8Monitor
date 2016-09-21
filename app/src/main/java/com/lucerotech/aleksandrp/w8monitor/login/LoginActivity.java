@@ -158,10 +158,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.ib_login)
     public void login() {
-//        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
-        presenter.goToProfile();
-        SettingsApp.getInstance().setUserName("");
-        SettingsApp.getInstance().setUserPassword("");
+
+        String testName = "test@test.test";
+        presenter.inputEmptyUser(testName, testName, this);
+        SettingsApp.getInstance().setUserName(testName);
+        SettingsApp.getInstance().setUserPassword(testName);
         SettingsApp.getInstance().setAutoLogin(false);
 //        }
     }
@@ -299,6 +300,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         } else {
             Toast.makeText(this, R.string.email_not_registered, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void goToProfile() {
+        presenter.goToProfile();
     }
 //    =================================================
 //    END        answer from LoginView
