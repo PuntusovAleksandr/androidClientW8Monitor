@@ -18,17 +18,13 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @Override
     public void onCreate() {
         super.onCreate();
-
         App.context = this.getApplicationContext();
-
         registerActivityLifecycleCallbacks(this);
     }
-
 
     public static Context getContext() {
         return context;
     }
-
 
     @Override
     public void onActivityCreated(Activity mActivity, Bundle mBundle) {
