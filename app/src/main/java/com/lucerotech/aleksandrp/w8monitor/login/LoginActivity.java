@@ -2,7 +2,6 @@ package com.lucerotech.aleksandrp.w8monitor.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -61,7 +60,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Bind(R.id.ib_login)
     ImageView ib_login;
 
-    private SharedPreferences mSharedPreferences;
     private boolean autoLogin = true;
     private RegisterFacebook mRegisterFacebook;
 
@@ -77,8 +75,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         AppEventsLogger.activateApp(this);
 
         presenter = new LoginPresenterImpl(LoginActivity.this, this);
-
-        mSharedPreferences = getSharedPreferences(SettingsApp.FILE_NAME, Context.MODE_PRIVATE);
 
         setIconAutoLogin();
         setTouchLogin();
@@ -150,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
             autoLogin = true;
             showIKeep(autoLogin);
         }
-        SettingsApp.setAutoLogin(autoLogin, mSharedPreferences);
+        SettingsApp.getInstance().setAutoLogin(autoLogin);
     }
 
 
@@ -164,9 +160,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void login() {
 //        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
         presenter.goToProfile();
-        SettingsApp.setUserName("", mSharedPreferences);
-        SettingsApp.setUserPassword("", mSharedPreferences);
-        SettingsApp.setAutoLogin(false, mSharedPreferences);
+        SettingsApp.getInstance().setUserName("");
+        SettingsApp.getInstance().setUserPassword("");
+        SettingsApp.getInstance().setAutoLogin(false);
 //        }
     }
 
@@ -180,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 //    ==========================================================
 
     private void setIconAutoLogin() {
-        autoLogin = SettingsApp.getAutoLogin(mSharedPreferences);
+        autoLogin = SettingsApp.getInstance().getAutoLogin();
         showIKeep(autoLogin);
     }
 
@@ -288,8 +284,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void userExist(boolean mUserExist) {
         if (mUserExist) {
-            SettingsApp.setUserName(et_login.getText().toString(), mSharedPreferences);
-            SettingsApp.setUserPassword(et_password.getText().toString(), mSharedPreferences);
+            SettingsApp.getInstance().setUserName(et_login.getText().toString());
+            SettingsApp.getInstance().setUserPassword(et_password.getText().toString());
             presenter.goToProfile();
         } else {
             Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_SHORT).show();

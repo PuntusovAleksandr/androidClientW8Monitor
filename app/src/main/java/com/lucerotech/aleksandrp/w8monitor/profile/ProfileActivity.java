@@ -2,9 +2,7 @@ package com.lucerotech.aleksandrp.w8monitor.profile;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -41,7 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
     private BLEFragment mBLEFragment;
 
     private FragmentManager mFragmentManager;
-    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -49,10 +46,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-        sharedPreferences = getSharedPreferences(SettingsApp.FILE_NAME, Context.MODE_PRIVATE);
 
-        int lastSettingsFragment = SettingsApp.getSettingsProfile(sharedPreferences);
-        boolean lastProfile = SettingsApp.getLastProfile(sharedPreferences);
+        int lastSettingsFragment = SettingsApp.getInstance().getSettingsProfile();
+        boolean lastProfile = SettingsApp.getInstance().getLastProfile();
 
         mFragmentManager = getFragmentManager();
 
@@ -138,7 +134,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void logout() {
-        SettingsApp.setAutoLogin(false, sharedPreferences);
+        SettingsApp.getInstance().setAutoLogin(false);
         final Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);

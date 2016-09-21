@@ -1,6 +1,10 @@
 package com.lucerotech.aleksandrp.w8monitor.utils;
 
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.lucerotech.aleksandrp.w8monitor.App;
 
 /**
  * Created by AleksandrP on 14.09.2016.
@@ -8,11 +12,43 @@ import android.content.SharedPreferences;
 
 public class SettingsApp {
 
+    private static final String TAG = SettingsApp.class.getSimpleName();
+
+    /**
+     * Instance of SharedPreferences object
+     */
+    private SharedPreferences sPref;
+    /**
+     * Editor of SharedPreferences object
+     */
+    private SharedPreferences.Editor editor;
+
+    private static SettingsApp ourInstance = new SettingsApp();
+
     /**
      * The constant FILE_NAME.
      */
 // Settings xml file name
     public static final String FILE_NAME = "settings";
+
+    /**
+     * get instance settingsApp
+     *
+     * @return
+     */
+    public static SettingsApp getInstance() {
+        return ourInstance;
+    }
+
+
+    /**
+     * Construct the instance of the object
+     */
+    public SettingsApp() {
+        sPref = PreferenceManager.getDefaultSharedPreferences(App.getContext());
+        editor = sPref.edit();
+    }
+
 
     // Keys for opening settings from xml file
     private static final String KEY_AUTO_LOGIN = "key_auto_login";
@@ -29,133 +65,124 @@ public class SettingsApp {
     private static final int DEF_INT_EMPTY = 1;
 
 
-
     /**
      * check theme
      *
-     * @param preferences
      * @return
      */
-    public static boolean isThemeDark(SharedPreferences preferences) {
-        return preferences.getBoolean(KEY_SELECT_THEME, DEF_NOT_EMPTY_BOOLEAN);
+    public boolean isThemeDark() {
+        Log.d(TAG, "isThemeDark");
+        return sPref.getBoolean(KEY_SELECT_THEME, DEF_NOT_EMPTY_BOOLEAN);
     }
 
     /**
      * set Theme
      *
      * @param ip
-     * @param preferences
      */
-    public static void setThemeDark(boolean ip, SharedPreferences preferences) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(KEY_SELECT_THEME, ip);
-        editor.commit();
+    public void setThemeDark(boolean ip) {
+        Log.d(TAG, "setThemeDark " + ip);
+        editor.putBoolean(KEY_SELECT_THEME, ip).commit();
     }
 
     /**
      * check auto login
      *
-     * @param preferences
      * @return
      */
-    public static boolean getAutoLogin(SharedPreferences preferences) {
-        return preferences.getBoolean(KEY_AUTO_LOGIN, DEF_EMPTY_BOOLEAN);
+    public boolean getAutoLogin() {
+        Log.d(TAG, "getAutoLogin");
+        return sPref.getBoolean(KEY_AUTO_LOGIN, DEF_EMPTY_BOOLEAN);
     }
 
     /**
      * set Auto login
      *
      * @param ip
-     * @param preferences
      */
-    public static void setAutoLogin(boolean ip, SharedPreferences preferences) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(KEY_AUTO_LOGIN, ip);
-        editor.commit();
+    public void setAutoLogin(boolean ip) {
+        Log.d(TAG, "setAutoLogin");
+        editor.putBoolean(KEY_AUTO_LOGIN, ip).commit();
     }
 
     /**
      * set loginName user  for auto login
      *
      * @param mS
-     * @param mSharedPreferences
      */
-    public static void setUserName(String mS, SharedPreferences mSharedPreferences) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(KEY_USER_NAME, mS);
-        editor.commit();
+    public void setUserName(String mS) {
+        Log.d(TAG, "setUserName " + mS);
+        editor.putString(KEY_USER_NAME, mS).commit();
     }
 
     /**
      * get loginName user  for auto login
      *
-     * @param preferences
      * @return
      */
-    public static String getUserName(SharedPreferences preferences) {
-        return preferences.getString(KEY_USER_NAME, DEF_EMPTY_STRING);
+    public String getUserName() {
+        Log.d(TAG, "getUserName");
+        return sPref.getString(KEY_USER_NAME, DEF_EMPTY_STRING);
     }
 
     /**
      * set lPassword(Name user  for auto login
      *
      * @param mS
-     * @param mSharedPreferences
      */
-    public static void setUserPassword(String mS, SharedPreferences mSharedPreferences) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(KEY_USER_PASSWORD, mS);
-        editor.commit();
+    public void setUserPassword(String mS) {
+        Log.d(TAG, "setUserPassword " + mS);
+        editor.putString(KEY_USER_PASSWORD, mS).commit();
     }
 
     /**
      * get lPassword(Name user  for auto login
      *
-     * @param preferences
      * @return
      */
-    public static String getUserPassword(SharedPreferences preferences) {
-        return preferences.getString(KEY_USER_PASSWORD, DEF_EMPTY_STRING);
+    public String getUserPassword() {
+        Log.d(TAG, "getUserPassword");
+        return sPref.getString(KEY_USER_PASSWORD, DEF_EMPTY_STRING);
     }
 
     /**
      * set flag then user set all his data in profile
+     *
      * @param mS
-     * @param mSharedPreferences
      */
-    public static void setSettingsStatus(boolean mS, SharedPreferences mSharedPreferences) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putBoolean(KEY_SET_SETTINGS_PROFILE, mS);
-        editor.commit();
+    public void setSettingsStatus(boolean mS) {
+        Log.d(TAG, "setSettingsStatus " + mS);
+        editor.putBoolean(KEY_SET_SETTINGS_PROFILE, mS).commit();
     }
 
     /**
      * get status flag settings profile
-     * @param preferences
+     *
      * @return
      */
-    public static boolean getLastProfile(SharedPreferences preferences) {
-        return preferences.getBoolean(KEY_SET_SETTINGS_PROFILE, DEF_EMPTY_BOOLEAN);
+    public boolean getLastProfile() {
+        Log.d(TAG, "getLastProfile");
+        return sPref.getBoolean(KEY_SET_SETTINGS_PROFILE, DEF_EMPTY_BOOLEAN);
     }
 
     /**
      * set flag then user set all his data in profile
+     *
      * @param mS
-     * @param mSharedPreferences
      */
-    public static void setSettingsProfile(int mS, SharedPreferences mSharedPreferences) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putInt(KEY_LAST_SETTINGS_PROFILE, mS);
-        editor.commit();
+    public void setSettingsProfile(int mS) {
+        Log.d(TAG, "setSettingsProfile " + mS);
+        editor.putInt(KEY_LAST_SETTINGS_PROFILE, mS).commit();
     }
 
     /**
      * get status flag settings profile
-     * @param preferences
+     *
      * @return
      */
-    public static int getSettingsProfile(SharedPreferences preferences) {
-        return preferences.getInt(KEY_LAST_SETTINGS_PROFILE, DEF_INT_EMPTY);
+    public int getSettingsProfile() {
+        Log.d(TAG, "getSettingsProfile");
+        return sPref.getInt(KEY_LAST_SETTINGS_PROFILE, DEF_INT_EMPTY);
     }
 
 }

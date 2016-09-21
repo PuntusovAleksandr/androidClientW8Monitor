@@ -1,8 +1,6 @@
 package com.lucerotech.aleksandrp.w8monitor.login;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -28,8 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingsApp.FILE_NAME, Context.MODE_PRIVATE);
-        boolean themeDark = SettingsApp.isThemeDark(sharedPreferences);
+        boolean themeDark = SettingsApp.getInstance().isThemeDark();
         int modeNightNo = 0;
         if (themeDark) {
             modeNightNo = AppCompatDelegate.MODE_NIGHT_NO;
@@ -37,14 +34,14 @@ public class SplashActivity extends AppCompatActivity {
             modeNightNo = AppCompatDelegate.MODE_NIGHT_YES;
         }
         AppCompatDelegate.setDefaultNightMode(modeNightNo);
-        boolean autoLogin = SettingsApp.getAutoLogin(sharedPreferences);
+        boolean autoLogin = SettingsApp.getInstance().getAutoLogin();
         if (autoLogin) {
-            String userName = SettingsApp.getUserName(sharedPreferences);
-            String userPassword = SettingsApp.getUserPassword(sharedPreferences);
+            String userName = SettingsApp.getInstance().getUserName();
+            String userPassword = SettingsApp.getInstance().getUserPassword();
             if (!userName.isEmpty() && !userPassword.isEmpty()) {
                 intent = new Intent(SplashActivity.this, ProfileActivity.class);
             } else {
-                SettingsApp.setAutoLogin(false, sharedPreferences);
+                SettingsApp.getInstance().setAutoLogin(false);
                 intent = new Intent(SplashActivity.this, LoginActivity.class);
             }
         } else {
