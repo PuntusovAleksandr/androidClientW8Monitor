@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.profile.FragmentMapker;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
+import com.lucerotech.aleksandrp.w8monitor.profile.ProfilePresenter;
+import com.lucerotech.aleksandrp.w8monitor.profile.ProfileView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,16 +25,18 @@ public class BirthdayFragment extends Fragment {
 
     private ProfileActivity mActivity;
 
+    private ProfileView mProfileView;
+    private ProfilePresenter mPresenter;
+
     @Bind(R.id.iv_toolbar_back_press)
     ImageView iv_toolbar_back_press;
     @Bind(R.id.iv_toolbar_next_press)
     ImageView iv_toolbar_next_press;
 
-
-    public BirthdayFragment() {
-        // Required empty public constructor
+    public BirthdayFragment(ProfileView mProfileView, ProfilePresenter mPresenter) {
+        this.mProfileView = mProfileView;
+        this.mPresenter = mPresenter;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

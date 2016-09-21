@@ -14,6 +14,7 @@ import com.lucerotech.aleksandrp.w8monitor.profile.fragment.BodyFragment;
 import com.lucerotech.aleksandrp.w8monitor.profile.fragment.GrowthFragment;
 import com.lucerotech.aleksandrp.w8monitor.profile.fragment.SettingsFragment;
 import com.lucerotech.aleksandrp.w8monitor.profile.fragment.StateFragment;
+import com.lucerotech.aleksandrp.w8monitor.profile.presenter.ProfilePresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import butterknife.ButterKnife;
@@ -29,7 +30,7 @@ import static com.lucerotech.aleksandrp.w8monitor.profile.FragmentMapker.STATE_F
 import static com.lucerotech.aleksandrp.w8monitor.profile.FragmentMapker.TYPE_BODY;
 import static com.lucerotech.aleksandrp.w8monitor.profile.FragmentMapker.USER_GROWTH;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     private SettingsFragment mSettingsFragment;
     private StateFragment mStateFragment;
@@ -40,12 +41,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
 
+    private ProfilePresenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+
+        mPresenter = new ProfilePresenterImpl(this, this);
 
         int lastSettingsFragment = SettingsApp.getInstance().getSettingsProfile();
         boolean lastProfile = SettingsApp.getInstance().getLastProfile();
@@ -64,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
         mSettingsFragment = (SettingsFragment) getFragmentManager()
                 .findFragmentByTag(mStringExtra);
         if (mSettingsFragment == null) {
-            mSettingsFragment = new SettingsFragment();
+            mSettingsFragment = new SettingsFragment(this, mPresenter);
         }
         setFragment(mSettingsFragment, mStringExtra);
     }
@@ -78,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mStateFragment = (StateFragment) getFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mStateFragment == null) {
-                    mStateFragment = new StateFragment();
+                    mStateFragment = new StateFragment(this, mPresenter);
                 }
                 fragment = mStateFragment;
                 break;
@@ -88,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mBodyFragment = (BodyFragment) getFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mBodyFragment == null) {
-                    mBodyFragment = new BodyFragment();
+                    mBodyFragment = new BodyFragment(this, mPresenter);
                 }
                 fragment = mBodyFragment;
                 break;
@@ -98,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mBirthdayFragment = (BirthdayFragment) getFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mBirthdayFragment == null) {
-                    mBirthdayFragment = new BirthdayFragment();
+                    mBirthdayFragment = new BirthdayFragment(this, mPresenter);
                 }
                 fragment = mBirthdayFragment;
                 break;
@@ -108,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mGrowthFragment = (GrowthFragment) getFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mGrowthFragment == null) {
-                    mGrowthFragment = new GrowthFragment();
+                    mGrowthFragment = new GrowthFragment(this, mPresenter);
                 }
                 fragment = mGrowthFragment;
                 break;
@@ -118,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mBLEFragment = (BLEFragment) getFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mBLEFragment == null) {
-                    mBLEFragment = new BLEFragment();
+                    mBLEFragment = new BLEFragment(this, mPresenter);
                 }
                 fragment = mBLEFragment;
                 break;

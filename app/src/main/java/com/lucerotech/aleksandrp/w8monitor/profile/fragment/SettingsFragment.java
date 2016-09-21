@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.profile.FragmentMapker;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
+import com.lucerotech.aleksandrp.w8monitor.profile.ProfilePresenter;
+import com.lucerotech.aleksandrp.w8monitor.profile.ProfileView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +24,8 @@ import butterknife.OnClick;
 public class SettingsFragment extends Fragment {
 
     private ProfileActivity mActivity;
+    private ProfileView mProfileView;
+    private ProfilePresenter mPresenter;
 
     @Bind(R.id.iv_toolbar_back_press)
     ImageView iv_toolbar_back_press;
@@ -48,10 +52,10 @@ public class SettingsFragment extends Fragment {
     @Bind(R.id.iv_b_logout_dark)
     ImageView iv_b_logout_dark;
 
-    public SettingsFragment() {
-        // Required empty public constructor
+    public SettingsFragment(ProfileView mProfileView, ProfilePresenter mPresenter) {
+        this.mProfileView = mProfileView;
+        this.mPresenter = mPresenter;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
