@@ -31,4 +31,14 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     public void getStateUser(RealmObj.StateListener mProfileViewt) {
         RealmObj.getInstance().getStateUser(mProfileViewt);
     }
+
+    @Override
+    public void getBodyUser(RealmObj.BodyListener mListener) {
+        RealmObj.getInstance().getBodyUser(mListener);
+    }
+
+    @Override
+    public void setBody(int mBodyType, RealmObj.BodyListener mBodyListener) {
+        RealmObj.getInstance().setBodyUser(mBodyType, mBodyListener);
+    }
 }

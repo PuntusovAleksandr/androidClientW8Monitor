@@ -152,12 +152,26 @@ public class RealmObj {
         UserLibr userLibr = realm.where(UserLibr.class)
                 .equalTo("mail", userName)
                 .findFirst();
-        int state = 1;
+        int state = -1;
         if (userLibr != null) {
             state = userLibr.getState();
         }
         mProfileViewt.isSave(state);
     }
+
+
+    public void getBodyUser(BodyListener mListener) {
+        String userName = SettingsApp.getInstance().getUserName();
+        UserLibr userLibr = realm.where(UserLibr.class)
+                .equalTo("mail", userName)
+                .findFirst();
+        int body = -12;
+        if (userLibr != null) {
+            body = userLibr.getTypeBody();
+        }
+        mListener.isBody(body);
+    }
+
 
 
 //    ===============================================================
@@ -268,6 +282,22 @@ public class RealmObj {
         }
     }
 
+    public void setBodyUser(int mBodyType, BodyListener mBodyListener) {
+        String userName = SettingsApp.getInstance().getUserName();
+        UserLibr userLibr = realm.where(UserLibr.class)
+                .equalTo("mail", userName)
+                .findFirst();
+        if (userLibr != null) {
+            realm.beginTransaction();
+            userLibr.setTypeBody(mBodyType);
+            realm.copyToRealmOrUpdate(userLibr);
+            realm.commitTransaction();
+            mBodyListener.isBody(mBodyType);
+        } else {
+            mBodyListener.isBody(-1);
+        }
+    }
+
 
 //    ===============================================================
 //    END update
@@ -281,6 +311,10 @@ public class RealmObj {
 
     public interface StateListener {
         void isSave(int state);
+    }
+
+    public interface BodyListener {
+        void isBody(int body);
     }
 
 

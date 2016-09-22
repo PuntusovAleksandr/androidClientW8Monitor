@@ -14,6 +14,7 @@ import com.lucerotech.aleksandrp.w8monitor.profile.FragmentMapker;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfilePresenter;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileView;
+import com.lucerotech.aleksandrp.w8monitor.utils.ShowImages;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -111,13 +112,8 @@ public class StateFragment extends Fragment implements RealmObj.StateListener {
 
 
     private void showPicture(int mSrcMan, int mSrcWoman) {
-        Picasso.with(getActivity())
-                .load(mSrcMan)
-                .into(iv_man);
-
-        Picasso.with(getActivity())
-                .load(mSrcWoman)
-                .into(iv_woman);
+        ShowImages.showImage(getActivity(), iv_man, mSrcMan);
+        ShowImages.showImage(getActivity(), iv_woman, mSrcWoman);
     }
 
 }

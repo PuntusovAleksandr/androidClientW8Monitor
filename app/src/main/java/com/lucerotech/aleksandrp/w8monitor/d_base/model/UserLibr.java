@@ -16,11 +16,11 @@ public class UserLibr extends RealmObject {
     public String birthday;
     public String height;
 
-    //    1 - men, 2 - woman, 3 - children
+    //    1 - men, 2 - woman
     public int state;
     //    1 - dark, 2 - light
     public int themeApp;
-
+    //  1 - woman 2 - man, 3 - children
     public int typeBody;
 
     public UserLibr() {
