@@ -342,25 +342,25 @@ public class MainActivity extends AppCompatActivity implements MainView,
             weightRec *= -1;
         }
         String formatweightRec = dfc.format(weightRec).replaceAll(",", ".");
-        weightRec =  Float.parseFloat(formatweightRec);
+        weightRec = Float.parseFloat(formatweightRec);
 
         // жир
         int zhifang = (data[6] << 8) | (data[7] & 0xff);
         float zhifangRate = (float) (zhifang * 0.1);
         String formatzhifangRate = dfc.format(zhifangRate).replaceAll(",", ".");
-        zhifangRate =  Float.parseFloat(formatzhifangRate);
+        zhifangRate = Float.parseFloat(formatzhifangRate);
 
         // скелет
         int guge = data[8] & 0xff;
         float gugeRate = (float) ((guge * 0.1) / weightRec) * 100;
         String format = dfc.format(gugeRate).replaceAll(",", ".");
-        gugeRate =  Float.parseFloat(format);
+        gugeRate = Float.parseFloat(format);
 
         // содержание мышц
         int jirou = (data[9] << 8) | (data[10] & 0xff);
         float jirouRate = (float) (jirou * 0.1);
         String formatjirouRate = dfc.format(jirouRate).replaceAll(",", ".");
-        jirouRate =  Float.parseFloat(formatjirouRate);
+        jirouRate = Float.parseFloat(formatjirouRate);
 
         // Висцеральный жир рейтинг
         int neizang = data[11] & 0xff;
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         int water = data[12] << 8 | data[13];
         float waterRate = (float) (water * 0.1);
         String formatwaterRate = dfc.format(waterRate).replaceAll(",", ".");
-        waterRate =  Float.parseFloat(formatwaterRate);
+        waterRate = Float.parseFloat(formatwaterRate);
 
         // Калорийность
         int hot = data[14] << 8 | (data[15] & 0xff);
@@ -408,13 +408,13 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
         // save in DB
         mPresenter.addParamsBody(
-                weightRec,
-                gugeRate,
-                zhifangRate,
-                jirouRate,
-                waterRate,
-                neizanglevel,
-                hot,
+                weightRec < 0 ? -weightRec : weightRec,
+                gugeRate < 0 ? -gugeRate : gugeRate,
+                zhifangRate < 0 ? -zhifangRate : zhifangRate,
+                jirouRate < 0 ? -jirouRate : jirouRate,
+                waterRate < 0 ? -waterRate : waterRate,
+                neizanglevel < 0 ? -neizanglevel : neizanglevel,
+                hot < 0 ? -hot : hot,
                 physicalAge < 0 ? 0 : physicalAge,
                 mCircleGraphView
         );
