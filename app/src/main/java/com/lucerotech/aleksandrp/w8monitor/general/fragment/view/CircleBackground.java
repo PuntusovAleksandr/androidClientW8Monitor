@@ -107,9 +107,9 @@ public final class CircleBackground extends View {
     private Bitmap background; // holds the cached static part
 
     // scale configuration
-    private static final int countWicks = 5;        // количество штрихов в разделители
-    private static  int totalNicks ;       // общее количество разделителей
-    private static  int nicksShowing ;  // сколько будет показано
+    private int countWicks = 5;        // количество штрихов в разделители
+    private static int totalNicks;       // общее количество разделителей
+    private static int nicksShowing;  // сколько будет показано
     private static float degreesPerNick;        // градусов на 1 шьрих
     private static final int centerDegree = (0); // the one in the top center (12 o'clock)
     private int minDegrees;
@@ -626,7 +626,7 @@ public final class CircleBackground extends View {
 
         int preMax = 0, preMin = 0;
         float arcRainbow = 0;
-
+        countWicks = 5;
         totalNicks = 140;       // общее количество разделителей
 
         switch (mI) {
@@ -634,19 +634,21 @@ public final class CircleBackground extends View {
                 preMin = 0;
                 preMax = 100;
                 arcRainbow = 30.0f;
+                totalNicks = 140;       // общее количество разделителей
                 break;
 
             case PICKER_CALORIES:
                 preMin = 0;
                 preMax = 7000;
                 arcRainbow = -10.0f;
-                totalNicks = 210;       // общее количество разделителей
+                totalNicks = 140;       // общее количество разделителей
                 break;
 
             case PICKER_WEIGHT:
                 if (SettingsApp.getInstance().getMetric()) {
                     preMin = 0;
-                    preMax = 180;
+                    preMax = 184;
+                    countWicks = 7;        // количество штрихов в разделители
                     totalNicks = 210;       // общее количество разделителей
                 } else {
                     preMin = 0;
@@ -665,7 +667,8 @@ public final class CircleBackground extends View {
             case PICKER_MUSCLE_MASS:
                 if (SettingsApp.getInstance().getMetric()) {
                     preMin = 0;
-                    preMax = 180;
+                    preMax = 184;
+                    countWicks = 7;        // количество штрихов в разделители
                     totalNicks = 210;       // общее количество разделителей
                 } else {
                     preMin = 0;
@@ -677,7 +680,8 @@ public final class CircleBackground extends View {
             case PICKER_BONE_MASS:
                 if (SettingsApp.getInstance().getMetric()) {
                     preMin = 0;
-                    preMax = 180;
+                    preMax = 184;
+                    countWicks = 7;        // количество штрихов в разделители
                     totalNicks = 210;       // общее количество разделителей
                 } else {
                     preMin = 0;
@@ -693,7 +697,6 @@ public final class CircleBackground extends View {
                 totalNicks = 180;       // общее количество разделителей
                 break;
         }
-
 
 
         nicksShowing = (totalNicks / 7) * 4;  // сколько будет показано
