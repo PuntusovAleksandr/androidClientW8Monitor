@@ -12,19 +12,24 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.register.presenter.RegisterPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
-import com.squareup.picasso.Picasso;
+import com.lucerotech.aleksandrp.w8monitor.utils.SetThemeDark;
+import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
+
+import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView,
-        RegisterFacebook.ListenerFacebookRegistr{
+        RegisterFacebook.ListenerFacebookRegistr {
 //        RealmObj.RealmListener {
 
     private RegisterPresenter presenter;
@@ -54,16 +59,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SetThemeDark.getInstance().setTheme(this);
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
 
         presenter = new RegisterPresenterImpl(RegisterActivity.this, this);
 
+        et_email_register.setTypeface(getFontRobotoLight());
+        et_password_register.setTypeface(getFontRobotoLight());
+        et_repeat_password.setTypeface(getFontRobotoLight());
+
         setTouchLogin();
         setTouchPassword();
         setTouchRepeatPassword();
-
 
     }
 
@@ -74,6 +84,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(et_email_register.getWindowToken(), 0);
     }
 
     @Override
@@ -100,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBack() {
-        presenter.getBackLoginActivity();
+        onBackPressed();
     }
 
     @OnClick(R.id.ib_facebook_register)
@@ -278,13 +296,22 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 
     @Override
     public void isShowButton(boolean mIsShow) {
-        int resource = R.drawable.b_confirm_active_dark;
-        if (!mIsShow) {
-            resource = R.drawable.b_confirm_nonactive_dark;
+        int resource = 0;
+        if (SettingsApp.getInstance().isThemeDark()) {
+            resource = R.drawable.b_confirm_active_dark;
+            if (!mIsShow) {
+                resource = R.drawable.b_confirm_nonactive_dark;
+            }
+        } else {
+            resource = R.drawable.b_confirm_active_light;
+            if (!mIsShow) {
+                resource = R.drawable.b_confirm_nonactive_light;
+            }
         }
-        Picasso.with(this)
-                .load(resource)
-                .into(iv_register_ok);
+//        Picasso.with(this)
+//                .load(resource)
+//                .into(iv_register_ok);
+        iv_register_ok.setImageResource(resource);
     }
 
 
@@ -308,6 +335,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     public void isUserSaveLogin(boolean isSave, int mRegKey) {
         if (isSave) {
             presenter.goToProfile();
+//            Intent intent = getIntent();
+//            String userName = SettingsApp.getInstance().getUserName();
+//            intent.putExtra("name", userName);
+//            setResult(RESULT_OK, intent);
+//            finish();
         } else {
             Snackbar.make(
                     et_email_register, R.string.not_save, Snackbar.LENGTH_SHORT).show();

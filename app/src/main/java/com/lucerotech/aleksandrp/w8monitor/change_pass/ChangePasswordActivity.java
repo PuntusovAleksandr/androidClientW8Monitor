@@ -10,17 +10,21 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.change_pass.presenter.ChangePasswordPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
-import com.squareup.picasso.Picasso;
+import com.lucerotech.aleksandrp.w8monitor.utils.SetThemeDark;
+import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
 
-public class ChangePasswordActivity extends AppCompatActivity  implements ChangePasswordView{
+public class ChangePasswordActivity extends AppCompatActivity implements ChangePasswordView {
 
 
     @Bind(R.id.iv_toolbar_back_press)
@@ -47,7 +51,9 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SetThemeDark.getInstance().setTheme(this);
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_change_password);
         ButterKnife.bind(this);
 
@@ -69,13 +75,32 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        closeKeyboard();
+    }
 
-//    ==========================================================
+    private void closeKeyboard() {
+        final InputMethodManager im =
+                (InputMethodManager) this.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),
+                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            }
+        });
+    }
+
+    //    ==========================================================
 //       on Clicks
 //    ==========================================================
 
     @OnClick(R.id.iv_change_password)
     void changePassword() {
+        closeKeyboard();
         String passwordTextOld = et_password_old.getText().toString();
         String passwordText = et_password_new.getText().toString();
         String repearPasswordText = et_password_new_confirm.getText().toString();
@@ -99,6 +124,7 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
     @OnClick(R.id.iv_toolbar_back_press)
     void presOnBack() {
+        closeKeyboard();
         onBackPressed();
         finish();
     }
@@ -209,7 +235,6 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
     }
 
 
-
 //    ==========================================================
 //      START from ChangePasswordView
 //    ==========================================================
@@ -238,13 +263,19 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
 
     @Override
     public void isShowButton(boolean isValid) {
-        int resource = R.drawable.b_confirm_active_dark;
-        if (!isValid) {
-            resource = R.drawable.b_confirm_nonactive_dark;
+        int resource = 0;
+        if (SettingsApp.getInstance().isThemeDark()) {
+            resource = R.drawable.b_confirm_active_dark;
+            if (!isValid) {
+                resource = R.drawable.b_confirm_nonactive_dark;
+            }
+        } else {
+            resource = R.drawable.b_confirm_active_light;
+            if (!isValid) {
+                resource = R.drawable.b_confirm_nonactive_light;
+            }
         }
-        Picasso.with(this)
-                .load(resource)
-                .into(iv_change_password);
+        iv_change_password.setImageResource(resource);
     }
 
     @Override
@@ -264,8 +295,9 @@ public class ChangePasswordActivity extends AppCompatActivity  implements Change
         et_password_old.setText("");
         et_password_new.setText("");
         et_password_new_confirm.setText("");
-        Snackbar.make(
-                et_password_old, R.string.ppass_change, Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.ppass_change, Toast.LENGTH_SHORT).show();
+        onBackPressed();
+        finish();
     }
 
 //    ==========================================================

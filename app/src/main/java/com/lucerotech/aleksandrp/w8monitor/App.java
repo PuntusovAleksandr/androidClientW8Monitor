@@ -5,6 +5,14 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+import io.fabric.sdk.android.Fabric;
+
 /**
  * Created by AleksandrP on 21.09.2016.
  */
@@ -18,9 +26,19 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
+        Answers.getInstance().logContentView(new ContentViewEvent());
 
         App.context = this.getApplicationContext();
         registerActivityLifecycleCallbacks(this);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("Answers setup process super easy!")
+                .putContentType("Technical documentation")
+                .putContentId("article-350"));
     }
 
     public static Context getContext() {

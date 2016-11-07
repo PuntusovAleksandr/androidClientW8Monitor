@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_alignParentTop="true"
-    android:orientation="vertical">
+    android:layout_marginLeft="@dimen/_8"
+    android:layout_marginTop="@dimen/_8"
+    android:orientation="vertical"
+    tools:background="?attr/background_app">
 
     <ImageView
         android:id="@+id/iv_toolbar_back_press"
-        android:layout_width="?attr/actionBarSize"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/_4"
-        android:src="@drawable/b_back_dark"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="?attr/b_back_app"/>
 
 
 </RelativeLayout>

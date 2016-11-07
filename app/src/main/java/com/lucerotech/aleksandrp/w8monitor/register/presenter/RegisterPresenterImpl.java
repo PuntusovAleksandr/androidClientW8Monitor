@@ -8,6 +8,7 @@ import com.lucerotech.aleksandrp.w8monitor.login.LoginActivity;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterPresenter;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterView;
+import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
 
 /**
@@ -73,6 +74,7 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     @Override
     public void goToProfile() {
         Intent intent = new Intent(mContext, ProfileActivity.class);
+        intent.putExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, ProfileActivity.MARKER_REGISTER);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mContext.startActivity(intent);

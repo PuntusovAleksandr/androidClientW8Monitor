@@ -1,64 +1,80 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.lucerotech.aleksandrp.w8monitor.profile.fragment.BLEFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="?attr/background_app"
+    tools:context="com.lucerotech.aleksandrp.w8monitor.profile.fragment.BLEFragment">
 
-    <include layout="@layout/custom_toolbar"/>
+    <include
+        android:id="@+id/tool_bar_profile"
+        layout="@layout/custom_toolbar"/>
+
+    <TextView
+        android:id="@+id/tv_title_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tool_bar_profile"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="?attr/actionBarSize"
+        android:layout_marginRight="?attr/actionBarSize"
+        android:gravity="center"
+        android:textColor="?attr/color_light_text_description"
+        android:textSize="@dimen/_20sp"/>
 
     <include
         android:id="@+id/bottom_tab"
         layout="@layout/custom_toolbar_button"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_tab"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1.2"
-            android:gravity="center"
-            android:text="@string/turn_on_bluetooth"
-            android:textColor="@color/color_light_text"/>
+    <TextView
+        android:id="@+id/tv_turn_ble"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25"
+        android:layout_above="@+id/iv_ble_connect"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:gravity="center"
+        android:text="@string/turn_on_bluetooth"
+        android:textColor="?attr/color_light_text_app"/>
+
+    <ImageView
+        android:id="@+id/iv_ble_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:src="?attr/scale_nonactive_app"/>
+
+    <LinearLayout
+        android:id="@+id/ll_buttons_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_ble_connect"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_25"
+        android:layout_marginTop="@dimen/_36"
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <ImageView
-            android:id="@+id/iv_ble_connect"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="0.9"
-            android:src="@drawable/scale_nonactive_dark"/>
+            android:id="@+id/profile_ble1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_25"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/select_profile1"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/_25"
-            android:layout_weight="0.8"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_25"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:src="@drawable/select_profile1"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_25"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:src="@drawable/select_profile1"/>
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/profile_ble2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_25"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/select_profile1"/>
 
     </LinearLayout>
 

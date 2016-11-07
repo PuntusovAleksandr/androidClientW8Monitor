@@ -1,28 +1,28 @@
 package com.lucerotech.aleksandrp.w8monitor.profile.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
-import com.lucerotech.aleksandrp.w8monitor.profile.FragmentMapker;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfilePresenter;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileView;
+import com.lucerotech.aleksandrp.w8monitor.utils.FragmentMapker;
+import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 import com.lucerotech.aleksandrp.w8monitor.utils.ShowImages;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.lucerotech.aleksandrp.w8monitor.R.id.iv_man;
-import static com.lucerotech.aleksandrp.w8monitor.R.id.iv_toolbar_back_press;
-import static com.lucerotech.aleksandrp.w8monitor.R.id.iv_woman;
+import static com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity.MARKER_MAIN;
+import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 
 public class BodyFragment extends Fragment implements RealmObj.BodyListener {
 
@@ -34,6 +34,10 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
     public static final int BODY_TYPE_1 = 1;
     public static final int BODY_TYPE_2 = 2;
     public static final int BODY_TYPE_3 = 3;
+
+    private int body;
+    private int markerFrom;
+    private boolean mFromSettings;
 
     @Bind(R.id.iv_toolbar_back_press)
     ImageView iv_toolbar_back_press;
@@ -47,9 +51,18 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
     @Bind(R.id.iv_type3)
     ImageView iv_type3;
 
-    public BodyFragment(ProfileView mProfileView, ProfilePresenter mPresenter) {
+    @Bind(R.id.tv_title_fragment)
+    TextView tv_title_fragment;
+
+    public BodyFragment() {
+    }
+
+    public BodyFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom,
+                        boolean mFromSettings) {
         this.mProfileView = mProfileView;
         this.mPresenter = mPresenter;
+        this.markerFrom = markerFrom;
+        this.mFromSettings = mFromSettings;
     }
 
     @Override
@@ -62,18 +75,33 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
 
         mPresenter.getBodyUser(this);
 
+        tv_title_fragment.setText(R.string.activity_level);
+        tv_title_fragment.setTypeface(getFontRobotoLight());
+
+        // hide button back
+        if (markerFrom == MARKER_MAIN) {
+            iv_toolbar_back_press.setVisibility(View.INVISIBLE);
+        }
         return view;
     }
 
     @OnClick(R.id.iv_toolbar_next_press)
     public void clickNextFragment() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY);
+        saveLastBody();
+        if (mFromSettings) {
+            mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
+        } else
+            mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, false);
     }
 
 
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBackFragment() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.SELECT_STATE);
+        saveLastBody();
+        if (mFromSettings) {
+            mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
+        } else
+            mActivity.setEnterProfileDataFragment(FragmentMapker.SELECT_STATE, false);
     }
 
     @OnClick(R.id.iv_type1)
@@ -96,26 +124,50 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
     private void setBody(int mBodyType) {
         mPresenter.setBody(mBodyType, this);
     }
+
     //    ==================================================
 //            answer from BodyListener
 //    ==================================================
     @Override
     public void isBody(int body) {
-        int resIcon1 = R.drawable.type_1_nonactive_dark;
-        int resIcon2 = R.drawable.type_2_nonactive_dark;
-        int resIcon3 = R.drawable.type_3_nonactive_dark;
-        switch (body) {
-            case -1:
-                break;
-            case BODY_TYPE_1:
-                resIcon1 = R.drawable.type_1_active_dark;
-                break;
-            case BODY_TYPE_2:
-                resIcon2 = R.drawable.type_2_active_dark;
-                break;
-            case BODY_TYPE_3:
-                resIcon3 = R.drawable.type_3_active_dark;
-                break;
+        this.body = body;
+        int resIcon1 = 0;
+        int resIcon2 = 0;
+        int resIcon3 = 0;
+        if (SettingsApp.getInstance().isThemeDark()) {
+            resIcon1 = R.drawable.type_1_nonactive_dark;
+            resIcon2 = R.drawable.type_2_nonactive_dark;
+            resIcon3 = R.drawable.type_3_nonactive_dark;
+            switch (body) {
+                case -1:
+                    break;
+                case BODY_TYPE_1:
+                    resIcon1 = R.drawable.type_1_active_dark;
+                    break;
+                case BODY_TYPE_2:
+                    resIcon2 = R.drawable.type_2_active_dark;
+                    break;
+                case BODY_TYPE_3:
+                    resIcon3 = R.drawable.type_3_active_dark;
+                    break;
+            }
+        } else {
+            resIcon1 = R.drawable.type_1_nonactive_light;
+            resIcon2 = R.drawable.type_2_nonactive_light;
+            resIcon3 = R.drawable.type_3_nonactive_light;
+            switch (body) {
+                case -1:
+                    break;
+                case BODY_TYPE_1:
+                    resIcon1 = R.drawable.type_1_active_light;
+                    break;
+                case BODY_TYPE_2:
+                    resIcon2 = R.drawable.type_2_active_light;
+                    break;
+                case BODY_TYPE_3:
+                    resIcon3 = R.drawable.type_3_active_light;
+                    break;
+            }
         }
 
         showPicture(resIcon1, resIcon2, resIcon3);
@@ -126,6 +178,12 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
 //       END     from StateListener
 //    ==========================================================
 
+    private void saveLastBody() {
+        if (body == -1) {
+            body = 2;
+        }
+        setBody(body);
+    }
 
     private void showPicture(int mResIcon1, int mResIcon2, int mResIcon3) {
         ShowImages.showImage(getActivity(), iv_type1, mResIcon1);

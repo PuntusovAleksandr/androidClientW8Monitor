@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_alignParentBottom="true"
-    android:layout_marginBottom="?attr/actionBarSize"
-    android:orientation="vertical">
+    android:layout_marginBottom="@dimen/_25"
+    android:layout_marginRight="@dimen/_8"
+    android:orientation="vertical"
+    tools:background="?attr/background_app">
 
     <ImageView
         android:id="@+id/iv_toolbar_next_press"
-        android:layout_width="?attr/actionBarSize"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/b_skip_dark"/>
-
-
+        android:layout_marginRight="@dimen/_4"
+        android:layout_marginBottom="@dimen/_4"
+        android:src="?attr/b_skip_app"/>
 
 
 </RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragments_help"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background_app"
+    tools:context="com.lucerotech.aleksandrp.w8monitor.help.HelpActivity">
+
+    <RelativeLayout
+        android:id="@+id/container_fragments_help"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

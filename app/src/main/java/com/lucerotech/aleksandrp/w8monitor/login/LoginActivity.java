@@ -1,31 +1,33 @@
 package com.lucerotech.aleksandrp.w8monitor.login;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.crashlytics.android.Crashlytics;
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.presenter.LoginPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
+import com.lucerotech.aleksandrp.w8monitor.utils.SetThemeDark;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
+
+import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 
 public class LoginActivity extends AppCompatActivity implements LoginView,
         RegisterFacebook.ListenerFacebookLogin {
@@ -64,15 +66,27 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     private RegisterFacebook mRegisterFacebook;
 
     public static final int REG_LOGIN = 1;
+    public static final int REQUEST_REGISTER = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SetThemeDark.getInstance().setTheme(this);
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+        et_login.clearFocus();
+        et_password.clearFocus();
+
+        tv_keep_me.setText(Html.fromHtml(getString(R.string.keep_me_logged_in)));
+        tv_keep_me.setTypeface(getFontRobotoLight());
+        tv_wrong_email.setTypeface(getFontRobotoLight());
+        et_login.setTypeface(getFontRobotoLight());
+        et_password.setTypeface(getFontRobotoLight());
+//
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
 
         presenter = new LoginPresenterImpl(LoginActivity.this, this);
 
@@ -86,10 +100,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     protected void onStart() {
         super.onStart();
-        et_login.setFocusable(true);
-        InputMethodManager imm = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+
+//        InputMethodManager imm = (InputMethodManager)
+//                getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
     }
 
     @Override
@@ -97,6 +111,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         if (resultCode == RESULT_OK) {
             if (requestCode == STATICS_PARAMS.FB_CODE) {
                 presenter.onActivityResultFB(requestCode, resultCode, data, mRegisterFacebook);
+            } else if (requestCode == REQUEST_REGISTER) {
+                String name = data.getStringExtra("name");
+                et_login.setText(name);
+                et_login.setSelection(name.length());
             }
         }
 
@@ -129,11 +147,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.iv_login_me)
     public void autoLogin() {
-        if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
-            presenter.checkUserInDb(et_login.getText().toString(),
-                    et_password.getText().toString(),
-                    this);
-        }
+
+        presenter.checkPassword(et_password.getText().toString(),
+                et_login.getText().toString(),
+                true);
     }
 
     @OnClick(R.id.ll_keep_me)
@@ -159,17 +176,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @OnClick(R.id.ib_login)
     public void login() {
 
-        String testName = "test@test.test";
+        String testName = STATICS_PARAMS.TEST_USER;
         presenter.inputEmptyUser(testName, testName, this);
         SettingsApp.getInstance().setUserName(testName);
         SettingsApp.getInstance().setUserPassword(testName);
-        SettingsApp.getInstance().setAutoLogin(false);
+        SettingsApp.getInstance().setProfileBLE(1);
 //        }
     }
 
     @OnClick(R.id.ib_register)
     public void registration() {
-        presenter.goToRegistering();
+        presenter.goToRegistering(this);
     }
 
 //    ==========================================================
@@ -202,7 +219,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
             public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
                 String passwordText = et_password.getText().toString();
                 String emailText = et_login.getText().toString();
-                presenter.checkPassword(passwordText, emailText);
+                presenter.checkPassword(passwordText, emailText, false);
                 presenter.showDeletePassword();
             }
 
@@ -234,7 +251,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
             public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
                 String passwordText = et_password.getText().toString();
                 String emailText = et_login.getText().toString();
-                presenter.checkPassword(passwordText, emailText);
+                presenter.checkPassword(passwordText, emailText, false);
                 presenter.showDeleteLogin();
             }
 
@@ -252,15 +269,30 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void showWrong() {
         tv_wrong_email.setVisibility(View.VISIBLE);
-        showIconOk(R.drawable.b_confirm_nonactive_dark);
+        if (SettingsApp.getInstance().isThemeDark()) {
+            showIconOk(R.drawable.b_confirm_nonactive_dark);
+        } else {
+            showIconOk(R.drawable.b_confirm_nonactive_light);
+        }
         iv_keep_me.setClickable(false);
     }
 
     @Override
-    public void hideWrong() {
+    public void hideWrong(boolean mLogin) {
         tv_wrong_email.setVisibility(View.INVISIBLE);
-        showIconOk(R.drawable.b_confirm_active_dark);
+        if (SettingsApp.getInstance().isThemeDark()) {
+            showIconOk(R.drawable.b_confirm_active_dark);
+        } else {
+            showIconOk(R.drawable.b_confirm_active_light);
+        }
         iv_keep_me.setClickable(true);
+        if (mLogin) {
+            if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
+                presenter.checkUserInDb(et_login.getText().toString(),
+                        et_password.getText().toString(),
+                        this);
+            }
+        }
     }
 
     @Override
@@ -283,11 +315,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     }
 
     @Override
-    public void userExist(boolean mUserExist) {
+    public void userExist(boolean mUserExist, UserLibr mUser) {
         if (mUserExist) {
             SettingsApp.getInstance().setUserName(et_login.getText().toString());
             SettingsApp.getInstance().setUserPassword(et_password.getText().toString());
-            presenter.goToProfile();
+            SettingsApp.getInstance().setProfileBLE(mUser.getProfileBLE());
+            if (mUser != null && mUser.isFullProfile()) {
+                SettingsApp.getInstance().setSettingsStatus(true);
+                presenter.goToMainActivity();
+            } else {
+                SettingsApp.getInstance().setSettingsStatus(false);
+                presenter.goToProfile();
+            }
         } else {
             Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
         }
@@ -321,9 +360,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
 
     private void showIconOk(int resource) {
-        Picasso.with(LoginActivity.this)
-                .load(resource)
-                .into(iv_keep_me);
+//        Picasso.with(LoginActivity.this)
+//                .load(resource)
+//                .into(iv_keep_me);
+        iv_keep_me.setImageResource(resource);
     }
 
 //    =================================================

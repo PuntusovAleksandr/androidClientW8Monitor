@@ -5,9 +5,13 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_dark"
+    android:background="?attr/background_app"
     tools:context="com.lucerotech.aleksandrp.w8monitor.general.MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/rl_container_for_graph"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 </RelativeLayout>

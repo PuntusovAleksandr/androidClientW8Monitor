@@ -1,21 +1,141 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="com.lucerotech.aleksandrp.w8monitor.profile.fragment.GrowthFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="?attr/background_app"
+    tools:context="com.lucerotech.aleksandrp.w8monitor.profile.fragment.GrowthFragment">
 
 
-    <include layout="@layout/custom_toolbar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_weight="1"
+            android:background="?attr/dob_placeholder_app"
+            android:orientation="horizontal"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_weight="1"
+            android:background="?attr/dob_placeholder_app"
+            android:orientation="horizontal"/>
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/tool_bar_profile"
+        layout="@layout/custom_toolbar"/>
+
+    <TextView
+        android:id="@+id/tv_title_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tool_bar_profile"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="?attr/actionBarSize"
+        android:layout_marginRight="?attr/actionBarSize"
+        android:gravity="center"
+        android:textColor="?attr/color_light_text_description"
+        android:textSize="@dimen/_20sp"/>
 
     <include
         android:id="@+id/bottom_tab"
         layout="@layout/custom_toolbar_button"/>
 
 
-    <NumberPicker
+    <ImageView
+        android:id="@+id/iv_metric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="?attr/divider_metric_app"/>
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/np_height_foot"
+        android:layout_width="@dimen/com_facebook_profilepictureview_preset_size_normal"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/view_center"
+        app:np_dividerColor="@android:color/transparent"
+        app:np_formatter="@string/foot_format"
+        app:np_height="240dp"
+        app:np_max="10"
+        app:np_min="1"
+        app:np_textColor="?attr/color_light_text_app"
+        app:np_textSize="36sp"
+        app:np_typeface="54sp"
+        app:np_width="64dp"/>
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/np_height_inch"
+        android:layout_width="@dimen/com_facebook_profilepictureview_preset_size_normal"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@+id/view_center"
+        app:np_dividerColor="@android:color/transparent"
+        app:np_formatter="@string/inch_format"
+        app:np_height="240dp"
+        app:np_max="11"
+        app:np_min="1"
+        app:np_textColor="?attr/color_light_text_app"
+        app:np_textSize="36sp"
+        app:np_typeface="54sp"
+        app:np_width="64dp"/>
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/np_height_metric"
+        android:layout_width="@dimen/max_size_picker"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        app:np_dividerColor="@android:color/transparent"
+        app:np_height="240dp"
+        app:np_max="250"
+        app:np_min="50"
+        app:np_textColor="?attr/color_light_text_app"
+        app:np_textSize="36sp"
+        app:np_typeface="54sp"
+        app:np_width="64dp"/>
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:orientation="vertical"-->
+    <!--android:background="@android:color/transparent"-->
+    <!--android:descendantFocusability="blocksDescendants"/>-->
+
+    <View
+        android:id="@+id/view_center"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/tv_text_cm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/_45"
+        android:layout_toRightOf="@+id/view_center"
+        android:text="cm"
+        android:textColor="?attr/color_light_text_app"
+        android:textSize="@dimen/_22sp"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

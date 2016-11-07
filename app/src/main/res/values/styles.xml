@@ -1,19 +1,305 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="CustomCirclePageIndicator_app">@style/CustomCirclePageIndicator</item>
+
+        <item name="android:timePickerStyle" tools:targetApi="lollipop">
+            @style/Theme.MyTheme.TimePickerDark
+        </item>
+
+
+        <item name="rainbow_app">@mipmap/rainbow_dark</item>
+        <item name="background_app">@mipmap/background_dark</item>
+        <item name="alarm_placeholder_app">@drawable/alarm_placeholder_dark</item>
+        <item name="b_alarm_app">@drawable/b_alarm_dark</item>
+        <item name="b_back_app">@drawable/b_back_dark</item>
+        <item name="b_bodytype_1_app">@drawable/b_bodytype_1_dark</item>
+        <item name="b_bodytype_2_app">@drawable/b_bodytype_2_dark</item>
+        <item name="b_bodytype_3_app">@drawable/b_bodytype_3_dark</item>
+        <item name="b_confirm_active_app">@drawable/b_confirm_active_dark</item>
+        <item name="b_confirm_nonactive_app">@drawable/b_confirm_nonactive_dark</item>
+        <item name="b_dob_app">@drawable/b_dob_dark</item>
+        <item name="b_facebook_app">@drawable/b_facebook_dark</item>
+        <item name="b_female_app">@drawable/b_female_dark</item>
+        <item name="b_heigh_app">@drawable/b_heigh_dark</item>
+        <item name="b_help_app">@drawable/b_help_dark</item>
+        <item name="b_language_en_app">@drawable/b_language_en_dark</item>
+        <item name="b_language_es_app">@drawable/b_language_es_dark</item>
+        <item name="b_logout_app">@drawable/b_logout_dark</item>
+        <item name="b_male_app">@drawable/b_male_dark</item>
+        <item name="b_metric_app">@drawable/b_metric_dark</item>
+        <item name="b_metric2_app">@drawable/b_metric2_dark</item>
+        <item name="b_mode1_app">@drawable/b_mode1_dark</item>
+        <item name="b_mode2_app">@drawable/b_mode2_dark</item>
+        <item name="b_next_app">@drawable/b_next_dark</item>
+        <item name="b_profile_app">@drawable/b_profile_dark</item>
+        <item name="b_reset_app">@drawable/b_reset_dark</item>
+        <item name="b_scale_app">@drawable/b_scale_dark</item>
+        <item name="b_signup_app">@drawable/b_signup_dark</item>
+        <item name="b_skip_app">@drawable/b_skip_dark</item>
+        <item name="bubble_app">@drawable/bubble_dark</item>
+        <item name="clock_app">@drawable/clock_dark</item>
+        <item name="divider_imper_app">@drawable/divider_imper_dark</item>
+        <item name="divider_metric_app">@drawable/divider_metric_dark</item>
+        <item name="dot_hours_app">@drawable/dot_hours_dark</item>
+        <item name="dot_minutes_app">@drawable/dot_minutes_dark</item>
+        <item name="icon_dob_app">@drawable/icon_dob_dark</item>
+        <item name="icon_email_app">@drawable/icon_email_dark</item>
+        <item name="icon_female_active_app">@drawable/icon_female_active_dark</item>
+        <item name="icon_female_nonactive_app">@drawable/icon_female_nonactive_dark</item>
+        <item name="icon_forgot_app">@drawable/icon_forgot_dark</item>
+        <item name="icon_login_app">@drawable/icon_login_dark</item>
+        <item name="icon_male_active_app">@drawable/icon_male_active_dark</item>
+        <item name="icon_male_nonactive_app">@drawable/icon_male_nonactive_dark</item>
+        <item name="icon_password_app">@drawable/icon_password_dark</item>
+        <item name="icon_reset_app">@drawable/icon_reset_dark</item>
+        <item name="logo_app">@drawable/logo_dark</item>
+        <item name="profile_active_app">@drawable/profile_active_dark</item>
+        <item name="profile_nonactive_app">@drawable/profile_nonactive_dark</item>
+        <item name="scale_active_app">@drawable/scale_active_dark</item>
+        <item name="scale_nonactive_app">@drawable/scale_nonactive_dark</item>
+        <item name="type_1_active_app">@drawable/type_1_active_dark</item>
+        <item name="type_1_nonactive_app">@drawable/type_1_nonactive_dark</item>
+        <item name="type_2_active_app">@drawable/type_2_active_dark</item>
+        <item name="type_2_nonactive_app">@drawable/type_2_nonactive_dark</item>
+        <item name="type_3_active_app">@drawable/type_3_active_dark</item>
+        <item name="type_3_nonactive_app">@drawable/type_3_nonactive_dark</item>
+        <item name="footer_app">@drawable/footer_dark</item>
+        <item name="dob_placeholder_app">@drawable/dob_placeholder_dark</item>
+        <item name="cancel_device_ble_app">@drawable/ic_cancel_dark</item>
+        <item name="circle_result_app">@drawable/circle_result_dark</item>
+        <item name="b_line_chart_app">@drawable/b_chart_dark</item>
+        <item name="ic_marker_liner_chart">@drawable/bubble_dark</item>
+
+
+        <item name="color_keep">@color/color_light_text</item>
+        <item name="color_dark_register_app">@color/color_dark_register</item>
+        <item name="color_light_grey_app">@color/color_light_grey</item>
+        <item name="colorHint_app">@color/colorHint</item>
+        <item name="colorBackgroundView_app">@color/colorBackgroundView</item>
+        <item name="color_light_text_app">@color/color_light_text</item>
+        <item name="color_alarm_text_app">@color/color_light_text</item>
+        <item name="color_text_title_app">@android:color/white</item>
+        <item name="color_bacground_diallog_app">@color/color_dark_register</item>
+        <item name="color_text_result_app">@color/color_dark_register</item>
+        <item name="color_text_values_libr">@color/colorBackgroundView</item>
+        <item name="color_light_text_description">@color/color_text_description_chart_dark</item>
+
     </style>
 
     <style name="CustomCirclePageIndicator">
-        <!--<item name="fillColor">#234d82</item>-->
-        <!--<item name="strokeColor">#1d2f6a</item>-->
-        <!--<item name="strokeWidth">1dp</item>-->
-        <!--<item name="radius">5dp</item>-->
-        <!--<item name="centered">true</item>-->
+        <item name="fillColor">@color/color_select_tab</item>
+        <item name="strokeColor">@color/color_default_tab</item>
+        <item name="pageColor">@color/color_default_tab</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="radius">5dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="centered">true</item>
     </style>
+
+    <style name="CustomCirclePageIndicatorLight">
+        <item name="fillColor">@color/color_select_tab_light</item>
+        <!--<item name="strokeColor">@color/color_default_tab_light</item>-->
+        <item name="pageColor">@color/pageColor_light</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="radius">5dp</item>
+        <item name="centered">true</item>
+    </style>
+
+    <style name="Theme.MyTheme.TimePicker" parent="android:Widget.Material.TimePicker" tools:targetApi="lollipop">
+        <item name="android:timePickerMode">clock</item>
+        <item name="android:numbersSelectorColor">?attr/color_bacground_diallog_app</item>
+        <item name="android:numbersBackgroundColor">?attr/color_alarm_text_app</item>
+        <item name="android:amPmTextColor">?attr/color_alarm_text_app</item>
+
+    </style>
+
+    <style name="Theme.MyTheme.TimePickerDark" parent="android:Widget.Material.TimePicker" tools:targetApi="lollipop">
+        <item name="android:timePickerMode">clock</item>
+        <item name="android:numbersSelectorColor">@color/color_default_tab_light</item>
+        <item name="android:numbersBackgroundColor">@color/color_light_register</item>
+        <item name="android:numbersTextColor">@color/color_light_text_light</item>
+    </style>
+
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="CustomCirclePageIndicator_app">@style/CustomCirclePageIndicatorLight</item>
+
+        <item name="android:timePickerStyle" tools:targetApi="lollipop">
+            @style/Theme.MyTheme.TimePicker
+        </item>
+
+        <item name="rainbow_app">@mipmap/rainbow_light</item>
+        <item name="background_app">@mipmap/background_light</item>
+        <item name="alarm_placeholder_app">@drawable/alarm_placeholder_light</item>
+        <item name="b_alarm_app">@drawable/b_alarm_light</item>
+        <item name="b_back_app">@drawable/b_back_light</item>
+        <item name="b_bodytype_1_app">@drawable/b_bodytype_1_light</item>
+        <item name="b_bodytype_2_app">@drawable/b_bodytype_2_light</item>
+        <item name="b_bodytype_3_app">@drawable/b_bodytype_3_light</item>
+        <item name="b_confirm_active_app">@drawable/b_confirm_active_light</item>
+        <item name="b_confirm_nonactive_app">@drawable/b_confirm_nonactive_light</item>
+        <item name="b_dob_app">@drawable/b_dob_light</item>
+        <item name="b_facebook_app">@drawable/b_facebook_light</item>
+        <item name="b_female_app">@drawable/b_female_light</item>
+        <item name="b_heigh_app">@drawable/b_heigh_light</item>
+        <item name="b_help_app">@drawable/b_help_light</item>
+        <item name="b_language_en_app">@drawable/b_language_en_light</item>
+        <item name="b_language_es_app">@drawable/b_language_es_light</item>
+        <item name="b_logout_app">@drawable/b_logout_light</item>
+        <item name="b_male_app">@drawable/b_male_light</item>
+        <item name="b_metric_app">@drawable/b_metric_light</item>
+        <item name="b_metric2_app">@drawable/b_metric2_light</item>
+        <item name="b_mode1_app">@drawable/b_mode1_light</item>
+        <item name="b_mode2_app">@drawable/b_mode2_light</item>
+        <item name="b_next_app">@drawable/b_next_light</item>
+        <item name="b_profile_app">@drawable/b_profile_light</item>
+        <item name="b_reset_app">@drawable/b_reset_light</item>
+        <item name="b_scale_app">@drawable/b_scale_light</item>
+        <item name="b_signup_app">@drawable/b_signup_light</item>
+        <item name="b_skip_app">@drawable/b_skip_light</item>
+        <item name="bubble_app">@drawable/bubble_light</item>
+        <item name="clock_app">@drawable/clock_light</item>
+        <item name="divider_imper_app">@drawable/divider_imper_light</item>
+        <item name="divider_metric_app">@drawable/divider_metric_light</item>
+        <item name="dot_hours_app">@drawable/dot_hours_light</item>
+        <item name="dot_minutes_app">@drawable/dot_minutes_light</item>
+        <item name="icon_dob_app">@drawable/icon_dob_light</item>
+        <item name="icon_email_app">@drawable/icon_email_light</item>
+        <item name="icon_female_active_app">@drawable/icon_female_active_lght</item>
+        <item name="icon_female_nonactive_app">@drawable/icon_female_nonactive_light</item>
+        <item name="icon_forgot_app">@drawable/icon_forgot_light</item>
+        <item name="icon_login_app">@drawable/icon_login_light</item>
+        <item name="icon_male_active_app">@drawable/icon_male_active_light</item>
+        <item name="icon_male_nonactive_app">@drawable/icon_male_nonactive_light</item>
+        <item name="icon_password_app">@drawable/icon_password_light</item>
+        <item name="icon_reset_app">@drawable/icon_reset_light</item>
+        <item name="logo_app">@drawable/logo_light</item>
+        <item name="profile_active_app">@drawable/profile_active_light</item>
+        <item name="profile_nonactive_app">@drawable/profile_nonactive_light</item>
+        <item name="scale_active_app">@drawable/scale_active_light</item>
+        <item name="scale_nonactive_app">@drawable/scale_nonactive_light</item>
+        <item name="type_1_active_app">@drawable/type_1_active_light</item>
+        <item name="type_1_nonactive_app">@drawable/type_1_nonactive_light</item>
+        <item name="type_2_active_app">@drawable/type_2_active_light</item>
+        <item name="type_2_nonactive_app">@drawable/type_2_nonactive_light</item>
+        <item name="type_3_active_app">@drawable/type_3_active_light</item>
+        <item name="type_3_nonactive_app">@drawable/type_3_nonactive_light</item>
+        <item name="footer_app">@drawable/footer_light</item>
+        <item name="dob_placeholder_app">@drawable/dob_placeholder_light</item>
+        <item name="cancel_device_ble_app">@drawable/ic_cancel_light</item>
+        <item name="circle_result_app">@drawable/circle_result_light</item>
+        <item name="b_line_chart_app">@drawable/b_chart_light</item>
+        <item name="ic_marker_liner_chart">@drawable/bubble_light</item>
+
+
+        <item name="color_keep">@color/color_light_text_light</item>
+        <item name="color_dark_register_app">@color/color_light_register</item>
+        <item name="color_light_grey_app">@color/color_light_grey</item>
+        <item name="colorHint_app">@color/colorHint_light</item>
+        <item name="colorBackgroundView_app">@color/colorBackgroundView_light</item>
+        <item name="color_light_text_app">@color/color_light_text_light</item>
+        <item name="color_alarm_text_app">@color/color_light_register</item>
+        <item name="color_text_title_app">@android:color/black</item>
+        <item name="color_bacground_diallog_app">@color/color_light_grey</item>
+        <item name="color_text_result_app">@color/color_light_register</item>
+        <item name="color_text_values_libr">@color/color_light_text_light</item>
+        <item name="color_light_text_description">@color/color_text_description_chart_light</item>
+
+    </style>
+
+    <!--=======================================================-->
+    <!--ADD ATTRIBUTES-->
+    <!--=======================================================-->
+    <attr name="CustomCirclePageIndicator_app" format="reference"/>
+
+
+    <attr name="rainbow_app" format="reference"/>
+    <attr name="background_app" format="reference"/>
+    <attr name="alarm_placeholder_app" format="reference"/>
+    <attr name="b_alarm_app" format="reference"/>
+    <attr name="b_back_app" format="reference"/>
+    <attr name="b_bodytype_1_app" format="reference"/>
+    <attr name="b_bodytype_2_app" format="reference"/>
+    <attr name="b_bodytype_3_app" format="reference"/>
+    <attr name="b_confirm_active_app" format="reference"/>
+    <attr name="b_confirm_nonactive_app" format="reference"/>
+    <attr name="b_dob_app" format="reference"/>
+    <attr name="b_facebook_app" format="reference"/>
+    <attr name="b_female_app" format="reference"/>
+    <attr name="b_heigh_app" format="reference"/>
+    <attr name="b_help_app" format="reference"/>
+    <attr name="b_language_en_app" format="reference"/>
+    <attr name="b_language_es_app" format="reference"/>
+    <attr name="b_logout_app" format="reference"/>
+    <attr name="b_male_app" format="reference"/>
+    <attr name="b_metric_app" format="reference"/>
+    <attr name="b_metric2_app" format="reference"/>
+    <attr name="b_mode1_app" format="reference"/>
+    <attr name="b_mode2_app" format="reference"/>
+    <attr name="b_next_app" format="reference"/>
+    <attr name="b_profile_app" format="reference"/>
+    <attr name="b_reset_app" format="reference"/>
+    <attr name="b_scale_app" format="reference"/>
+    <attr name="b_signup_app" format="reference"/>
+    <attr name="b_skip_app" format="reference"/>
+    <attr name="bubble_app" format="reference"/>
+    <attr name="clock_app" format="reference"/>
+    <attr name="divider_imper_app" format="reference"/>
+    <attr name="divider_metric_app" format="reference"/>
+    <attr name="dot_hours_app" format="reference"/>
+    <attr name="dot_minutes_app" format="reference"/>
+    <attr name="icon_dob_app" format="reference"/>
+    <attr name="icon_email_app" format="reference"/>
+    <attr name="icon_female_active_app" format="reference"/>
+    <attr name="icon_female_nonactive_app" format="reference"/>
+    <attr name="icon_forgot_app" format="reference"/>
+    <attr name="icon_login_app" format="reference"/>
+    <attr name="icon_male_active_app" format="reference"/>
+    <attr name="icon_male_nonactive_app" format="reference"/>
+    <attr name="icon_password_app" format="reference"/>
+    <attr name="icon_reset_app" format="reference"/>
+    <attr name="logo_app" format="reference"/>
+    <attr name="profile_active_app" format="reference"/>
+    <attr name="profile_nonactive_app" format="reference"/>
+    <attr name="scale_active_app" format="reference"/>
+    <attr name="scale_nonactive_app" format="reference"/>
+    <attr name="type_1_active_app" format="reference"/>
+    <attr name="type_1_nonactive_app" format="reference"/>
+    <attr name="type_2_active_app" format="reference"/>
+    <attr name="type_2_nonactive_app" format="reference"/>
+    <attr name="type_3_active_app" format="reference"/>
+    <attr name="type_3_nonactive_app" format="reference"/>
+    <attr name="footer_app" format="reference"/>
+    <attr name="dob_placeholder_dark" format="reference"/>
+    <attr name="dob_placeholder_app" format="reference"/>
+    <attr name="cancel_device_ble_app" format="reference"/>
+    <attr name="circle_result_app" format="reference"/>
+    <attr name="b_line_chart_app" format="reference"/>
+    <attr name="ic_marker_liner_chart" format="reference"/>
+
+
+    <attr name="color_keep" format="reference"/>
+    <attr name="color_dark_register_app" format="reference"/>
+    <attr name="color_light_grey_app" format="reference"/>
+    <attr name="colorHint_app" format="reference"/>
+    <attr name="colorBackgroundView_app" format="reference"/>
+    <attr name="color_light_text_app" format="reference"/>
+    <attr name="color_alarm_text_app" format="reference"/>
+    <attr name="color_text_title_app" format="reference"/>
+    <attr name="color_bacground_diallog_app" format="reference"/>
+    <attr name="color_text_result_app" format="reference"/>
+    <attr name="color_text_values_libr" format="reference"/>
+    <attr name="color_light_text_description" format="reference"/>
+
 
 </resources>

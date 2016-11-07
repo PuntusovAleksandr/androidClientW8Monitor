@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="?attr/background_app">
+
+    <include layout="@layout/view_pager_layout_button"/>
+
+    <include layout="@layout/custom_toolbar"/>
+
+    <RelativeLayout
+        android:id="@+id/ll_top_main"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
+
+        <com.lucerotech.aleksandrp.w8monitor.general.fragment.view.ViewPagerCustomDuration
+            android:id="@+id/walk_through_view_pager_main_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/circle_pager_indicator_main"
+            android:clickable="false"/>
+
+
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/circle_pager_indicator_main_top"
+            style="?attr/CustomCirclePageIndicator_app"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:paddingBottom="@dimen/_8"
+            android:paddingTop="@dimen/_75"/>
+
+
+        <!--<com.shawnlin.numberpicker.NumberPicker-->
+        <!--android:id="@+id/tab_layout_top"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--app:np_dividerColor="@android:color/transparent"-->
+        <!--app:np_dividerDistance="100dp"-->
+        <!--app:np_height="?attr/actionBarSize"-->
+        <!--app:np_max="4"-->
+        <!--app:np_min="1"-->
+        <!--app:np_orientation="horizontal"-->
+        <!--app:np_textColor="?attr/color_light_text_app"-->
+        <!--app:np_textSize="@dimen/_22sp"-->
+        <!--app:np_typeface="@dimen/_22sp"-->
+        <!--app:np_width="200dp"/>-->
+
+        <RelativeLayout
+            android:id="@+id/rl_view_liner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"/>
+
+    </RelativeLayout>
+
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginLeft="@dimen/_16"-->
+    <!--android:layout_marginRight="@dimen/_16"-->
+    <!--android:layout_marginBottom="?attr/actionBarSize"-->
+    <!--android:layout_above="@+id/ll_bottom_main"-->
+    <!--android:layout_below="@+id/ll_top_main">-->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lc_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bottom_main"
+        android:layout_below="@+id/ll_top_main"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:layout_marginLeft="@dimen/_16"
+        android:layout_marginRight="@dimen/_16"/>
+
+
+    <TextView
+        android:id="@+id/tv_context_param"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_bottom_main"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/_8"
+        android:layout_marginRight="@dimen/_8"
+        android:layout_marginTop="@dimen/_25"
+        android:fontFamily=""
+        android:gravity="center"
+        android:textColor="?attr/color_light_text_description"
+        android:textSize="@dimen/_14sp"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_under_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

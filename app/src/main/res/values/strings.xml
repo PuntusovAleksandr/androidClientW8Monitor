@@ -1,13 +1,14 @@
 <resources>
-    <string name="facebook_app_id">943050552507202</string>
+    <!--<string name="facebook_app_id" translatable="false">943050552507202</string>-->
+    <string name="facebook_app_id" translatable="false">683972945092568</string>
 
 
-    <string name="app_name">W8Monitor</string>
+    <string name="app_name" translatable="false">W8Monitor</string>
     <string name="your_email">your email</string>
     <string name="wrong_email_or_password">WRONG EMAIL OR PASSWORD</string>
     <string name="password">password</string>
-    <string name="keep_me_logged_in">KEEP ME LOGGED IN</string>
-    <string name="email">email</string>
+    <string name="keep_me_logged_in"><![CDATA[<b> KEEP ME LOGGED IN</b>]]></string>
+    <string name="email" translatable="false">email</string>
     <string name="repeat_password">repeat password</string>
     <string name="enter_password">enter password</string>
     <string name="not_save">USER NOT SAVING IN DB</string>
@@ -18,9 +19,151 @@
     <string name="new_password">new password</string>
     <string name="repeat_new_password">repeat new password</string>
     <string name="enter_correct_password">Please enter correct password</string>
-    <string name="ppass_change">Password change</string>
+    <string name="ppass_change">Password changed</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="turn_on_bluetooth">TURN ON BLUETOOTH</string>
+    <string name="am" translatable="false">AM</string>
+    <string name="pm" translatable="false">PM</string>
+    <string name="connection_successful">Connection successful</string>
+    <string name="device_not_support">Your device not support BLE!</string>
+    <string name="yuo_did_not_enable_ble">You not enable BLE</string>
+    <string name="set_gender">Set gender</string>
+    <string name="user_profile_scale">Select user profile to share scale with someone else</string>
+    <string name="set_height">Set height</string>
+    <string name="set_ago">Set age</string>
+    <string name="update">Update</string>
+    <string name="select_device">Select device</string>
+    <string name="do_you_want_delete_this_signal">Do you want delete this signal</string>
+    <string name="ok" translatable="false">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="you_need_weigh">You need to weigh in</string>
+    <string name="lb">LB</string>
+    <string name="kg">KG</string>
+    <string name="set_system_measument">Set system of measurement</string>
+    <string name="activity_level">Activity Level</string>
+    <string name="persent">%</string>
+
+    <!--// HELP Activity-->
+    <!--<string name="introduction"><![CDATA[-->
+    <!--<p>This is a html-formatted string with <b>Introduction</b> and <i>italic</i> text</p>-->
+    <!--<p>This is another paragraph of the same string.</p>-->
+    <!--]]></string>-->
+    <string name="introduction1"><![CDATA[
+    <b>How to use</b>
+    ]]></string>
+    <string name="introduction2"><![CDATA[
+    <b>Warning</b>
+    ]]></string>
+
+    <string name="description_screen1"><![CDATA[
+    <b>Place the W8 scale on a hard, flat surface</b> to make sure that your results are as accurate as possible.
+    <p><b>Turn on Bluetooth</b> on your smartphone to connect with W8 scale </p>
+    <p><b>Setup W8 Monitor app</b> by specifying your gender, height, age and lifestyle so you would be able to get correct analysis of your weight results. </p>
+    <p><b>Remove any footwear</b> including socks from your feet, if you want to get other than weight metrics. </p>
+    <p><b>Step on W8 scale and wait</b> until result appear in application. It takes few seconds to get results other than weight from W8 scale. If you have any problems, turn off and turn on bluetooth on your smartphone. </p>
+    <p><b>Weigh yourself hourly, daily or weekly</b> and get as many measurements as you want. </p>
+    <p><b>Use charts to track your progress</b> and to see any unwanted weight gains or losses and be able to change your lifestyle as needed. </p>
+    <p><b>Switch user profile in settings</b> if you want to share W8 scale with someone else, but don’t want to have a mess in your weight results history. </p>
+    ]]></string>
+
+    <string name="description_screen2"><![CDATA[
+    <p><b><font color="#fd0001">Pregnant women</font> and persons with <font color="#fd0001">medical implants</font> such as heart pacemakers, respiration apparatus or electrocardiographs should <font color="#fd0001">not use</font> this product.</b></p>
+    <p><b>Do not place scale on wet, severely hot or extremely cold surfaces.</b></p>
+    <p><b>To avoid falling off scale, do not stand on the edge of scale.</b></p>
+    <p><b>Never submerge the unit in water. Use alcohol to clean the electrodes and glass cleaner to keep them shiny, applied to a cloth first, avoid soaps.</b></p>
+    <p><b>For home use only. Not for professional use, the correlative parameter is reference only. You should consult a doctor when you undertake any diet or exercise program.</b></p>
+    <p><b>Check battery if scale malfunction. If necessary, install a new battery.</b></p>
+    ]]></string>
+
+    <string name="description_screen3"><![CDATA[
+    ]]></string>
+
+    <string name="description_screen4"><![CDATA[
+    ]]></string>
+
+    <string name="description_screen5"><![CDATA[
+    ]]></string>
+
+    <string name="description_screen6"><![CDATA[
+    ]]></string>
+
+    <string name="description_screen7"><![CDATA[
+    ]]></string>
+
+    <string name="description_screen8"><![CDATA[
+    W8 Weight scale adopts advanced BIA (Bioelectrical Impedance Analysis) technology. BIA measures body hydration and body fat percentage by sending a safe, low-level electrical signal through the body. This signal is analyzed by a W8 Weight application to determine the weight, body water, body fat, bone weight, visceral fat, basal metabolic rate. It is more precise than traditional calculations.
+    <p><b>Body Fat Percentage</b>
+    <br>The body fat percentage (BFP) is the total mass of fat divided by total body mass; body fat includes essential body fat and storage body fat. Essential body fat is necessary to maintain life and reproductive functions.</p>
+    <p><b>Body Water</b>
+    <br>Total body water percentage is an important measure of good health. Although your age, gender and body composition all affect your body water percentage, you should aim for a body water percentage slightly over 50 percent. In addition to drinking more water, a great way to ensure that you stay within this healthy range is to eat more fruits and vegetables, which naturally contain large amounts of water.</p>
+    <p><b>Muscle Mass</b>
+    <br>Muscle mass percentage is also known as your lean body mass. Your lean body mass is actually composed of your muscle and bone tissue as well as the water in your body and your organs – everything except the fat beneath the surface of your skin. Calculating your muscle mass percentage allows you to determine how much of your total body weight is lean mass versus how much is body fat. The percentage equation also allows you determine your actual lean body weight.</p>
+    <p><b>Bone Weight</b>
+    <br>Your bone density is a good indicator for your weight and body mass. This indicates that the mass of your bones is proportional to your weight. Heavier or obese individuals will have denser bones, and their skeletons will make up a similar percentage of their overall mass.</p>
+    <p><b>Visceral Fat</b>
+    <br>This is body fat that is stored within the abdominal cavity and is therefore stored around a number of important internal organs such as the liver, pancreas and intestines.</p>
+    <p><b>Basal metabolic rate</b>
+    <br>Basal metabolic rate (BMR) is the amount of energy expended while at rest in a neutrally temperate environment, in the post-absorptive state (meaning that the digestive system is inactive, which requires about twelve hours of fasting).
+    <br>The release of energy in this state is sufficient only for the functioning of the vital organs, such as the heart, lungs, brain and the rest of the nervous system, liver, kidneys, sex organs, muscles and skin.</p>
+    ]]></string>
+
+    <string name="ordinary">Ordinary</string>
+    <string name="exercise_less_than_2_times_a_week">Exercise less than 2 times a week</string>
+    <string name="amateur">Amateur</string>
+    <string name="pro">Pro</string>
+
+    <!--// formatter number picker-->
+    <string name="foot_format">%d\'</string>
+    <string name="inch_format">%d\"</string>
+    <string name="swipe_up_to_remove_alarm">Swipe up to remove alarm</string>
+
+    <!--// CircleFragment-->
+    <string name="please_stay_still">PLEASE STAY STILL ON THE SCALE</string>
+    <string name="please_stale_firm_surface">PLEASE WEIGHT SCALE ON A FIRM SURFACE</string>
+
+
+    <!--<string-array name="select_weight_params">-->
+    <!--<item>Water</item>-->
+    <!--<item>Calories</item>-->
+    <!--<item>Weight</item>-->
+    <!--<item>Fat level</item>-->
+    <!--<item>Muscle mass</item>-->
+    <!--<item>Bone mass</item>-->
+    <!--<item>Fat</item>-->
+
+    <!--</string-array>-->
+    <string-array name="select_weight_params">
+        <item>WATER</item>
+        <item>CALORIES</item>
+        <item>WEIGHT</item>
+        <item>FAT LEVEL</item>
+        <item>MUSCLE MASS</item>
+        <item>BONE MASS</item>
+        <item>FAT</item>
+    </string-array>
+
+    <string-array name="select_weight_params_context">
+        <item>Body Water is the total amount of fluid in the body expressed as a percentage of total weight.</item>
+        <item>The daily minimum level of energy or calories your body requires when at rest (including sleeping) in order to function effectively.</item>
+        <!--<item>The predicted weight of bone mineral in your body.</item>-->
+        <item>Whole weight of your body.</item>
+        <item>Visceral fat is located deep in the core abdominal area, surrounding and protecting the vital organs.</item>
+        <item>The predicted weight of muscle in your body.</item>
+        <item>The predicted weight of bone mineral in your body.</item>
+        <item>Body Fat Percentage is the proportion of fat to the total body weight. Body Fat Mass is the actual weight of fat in your body.</item>
+    </string-array>
+
+    <string-array name="select_weight_params_top">
+        <item>DAY</item>
+        <item>WEEK</item>
+        <item>MONTH</item>
+        <item>YEAR</item>
+        <item>DAY</item>
+        <item>WEEK</item>
+        <item>MONTH</item>
+        <item>YEAR</item>
+    </string-array>
+
 </resources>

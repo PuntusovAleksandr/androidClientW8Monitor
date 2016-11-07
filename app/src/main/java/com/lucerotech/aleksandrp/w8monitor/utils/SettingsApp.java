@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
 
+import java.util.Locale;
+
 /**
  * Created by AleksandrP on 14.09.2016.
  */
@@ -51,15 +53,20 @@ public class SettingsApp {
 
 
     // Keys for opening settings from xml file
+    private static final String KEY_FIRST_START = "KEY_FIRST_START";
     private static final String KEY_AUTO_LOGIN = "key_auto_login";
     private static final String KEY_SELECT_THEME = "KEY_SELECT_THEME";
     private static final String KEY_USER_NAME = "KEY_USER_NAME";
     private static final String KEY_USER_PASSWORD = "KEY_USER_PASSWORD";
     private static final String KEY_SET_SETTINGS_PROFILE = "KEY_SET_SETTINGS_PROFILE";
     private static final String KEY_LAST_SETTINGS_PROFILE = "KEY_LAST_SETTINGS_PROFILE";
+    private static final String KEY_LANGUAGE = "KEY_LANGUAGE";
+    private static final String KEY_METRIC = "KEY_METRIC";
+    private static final String KEY_PROFILE_BLE_ID = "KEY_PROFILE_BLE_ID";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
+    private static final String DEF_LANGUAGE = Locale.ENGLISH.getLanguage();
     private static final boolean DEF_EMPTY_BOOLEAN = false;
     private static final boolean DEF_NOT_EMPTY_BOOLEAN = true;
     private static final int DEF_INT_EMPTY = 1;
@@ -72,7 +79,7 @@ public class SettingsApp {
      */
     public boolean isThemeDark() {
         Log.d(TAG, "isThemeDark");
-        return sPref.getBoolean(KEY_SELECT_THEME, DEF_NOT_EMPTY_BOOLEAN);
+        return sPref.getBoolean(KEY_SELECT_THEME, DEF_EMPTY_BOOLEAN);
     }
 
     /**
@@ -86,13 +93,33 @@ public class SettingsApp {
     }
 
     /**
+     * CHECK IS FIRST START
+     *
+     * @return
+     */
+    public boolean isFirstStart() {
+        Log.d(TAG, "isFirstStart");
+        return sPref.getBoolean(KEY_FIRST_START, DEF_NOT_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * SET FOR CHECK IS FIRST START
+     *
+     * @param ip
+     */
+    public void setFirstStart(boolean ip) {
+        Log.d(TAG, "setFirstStart");
+        editor.putBoolean(KEY_FIRST_START, ip).commit();
+    }
+
+    /**
      * check auto login
      *
      * @return
      */
     public boolean getAutoLogin() {
         Log.d(TAG, "getAutoLogin");
-        return sPref.getBoolean(KEY_AUTO_LOGIN, DEF_EMPTY_BOOLEAN);
+        return sPref.getBoolean(KEY_AUTO_LOGIN, DEF_NOT_EMPTY_BOOLEAN);
     }
 
     /**
@@ -160,8 +187,8 @@ public class SettingsApp {
      *
      * @return
      */
-    public boolean getLastProfile() {
-        Log.d(TAG, "getLastProfile");
+    public boolean getSettingsStatus() {
+        Log.d(TAG, "getSettingsStatus");
         return sPref.getBoolean(KEY_SET_SETTINGS_PROFILE, DEF_EMPTY_BOOLEAN);
     }
 
@@ -185,4 +212,54 @@ public class SettingsApp {
         return sPref.getInt(KEY_LAST_SETTINGS_PROFILE, DEF_INT_EMPTY);
     }
 
+    /**
+     * set languages app
+     *
+     * @param mS
+     */
+    public void setLanguages(String mS) {
+        Log.d(TAG, "setLanguages " + mS);
+        editor.putString(KEY_LANGUAGE, mS).commit();
+    }
+
+    /**
+     * get language app
+     * 1
+     *
+     * @return
+     */
+    public String getLanguages() {
+        Log.d(TAG, "getLanguages");
+        return sPref.getString(KEY_LANGUAGE, DEF_LANGUAGE);
+    }
+
+    /**
+     * set metric system
+     *
+     * @param mS
+     */
+    public void setMetric(boolean mS) {
+        Log.d(TAG, "setMetrick " + mS);
+        editor.putBoolean(KEY_METRIC, mS).commit();
+    }
+
+    /**
+     * get metric sysem
+     *
+     * @return
+     */
+    public boolean getMetric() {
+        Log.d(TAG, "getMetrick");
+        return sPref.getBoolean(KEY_METRIC, DEF_EMPTY_BOOLEAN);
+    }
+
+    public void setProfileBLE(int mS) {
+        Log.d(TAG, "setProfileBLE " + mS);
+        editor.putInt(KEY_PROFILE_BLE_ID, mS).commit();
+    }
+
+    public int getProfileBLE() {
+        Log.d(TAG, "getProfileBLE");
+        return sPref.getInt(KEY_PROFILE_BLE_ID, DEF_INT_EMPTY);
+    }
 }

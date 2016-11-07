@@ -11,7 +11,7 @@ import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 public interface LoginPresenter {
 
 
-    void checkPassword(String mPasswordText, String mEmailText);
+    void checkPassword(String mPasswordText, String mEmailText, boolean mLogin);
 
     void showDeletePassword();
 
@@ -21,7 +21,7 @@ public interface LoginPresenter {
 
     void goToProfile();
 
-    void goToRegistering();
+    void goToRegistering(LoginActivity mLoginActivity);
 
     void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook);
 
@@ -32,4 +32,6 @@ public interface LoginPresenter {
     void goToChangePasswordActivity(String mEmail);
 
     void inputEmptyUser(String mMail, String mPass, LoginView mLoginView);
+
+    void goToMainActivity();
 }

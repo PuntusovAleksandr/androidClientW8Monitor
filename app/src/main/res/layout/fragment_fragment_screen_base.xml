@@ -1,0 +1,56 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="?attr/background_app"
+    tools:context="com.lucerotech.aleksandrp.w8monitor.help.fragments.FragmentScreenBase">
+
+    <include
+        android:id="@+id/tool_bar_profile"
+        layout="@layout/custom_toolbar"/>
+
+    <include
+        android:id="@+id/bottom_tab"
+        layout="@layout/custom_toolbar_button"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_tab"
+        android:layout_below="@+id/tool_bar_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/hello_blank_fragment"
+            android:textColor="?attr/color_light_text_description"
+            android:textSize="@dimen/_24sp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_tab"
+            android:layout_below="@+id/tv_title_help"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/tv_description_screen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:text="@string/hello_blank_fragment"
+                android:textColor="?attr/color_light_text_description"
+                android:textSize="@dimen/_14sp"/>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -4,9 +4,39 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="red">#fd0001</color>
+
+    <color name="colorWrongEmail">#9b208e</color>
+    <color name="colorWrongEmail_light">#9b208e</color>
+
+    <color name="colorHint">#47537f</color>
+    <color name="colorHint_light">#b9b9ba</color>
+
+    <color name="colorBackgroundView">#1c5293</color>
+    <color name="colorBackgroundView_light">#adadae</color>
 
     <color name="color_light_grey">#949496</color>
+    <color name="color_light_grey_light">#3c3c3c</color>
+
     <color name="color_dark_register">#0b1348</color>
+    <color name="color_light_register">#f2f6fb</color>
 
     <color name="color_light_text">#4bf7f9</color>
+    <color name="color_light_text_light">#020202</color>
+
+    <color name="color_light_text_transparent">#16376f</color>
+    <color name="color_light_text_transparent_light">#16376f</color>
+
+    <color name="color_select_tab">#224a80</color>
+    <color name="color_select_tab_light">#cacaca</color>
+
+    <color name="color_default_tab">#1a2f6c</color>
+    <color name="color_default_tab_light">#7d7e7e</color>
+
+    <color name="color_text_description_chart_dark">#C1FEFF</color>
+    <color name="color_text_description_chart_light">#000000</color>
+
+    <color name="pageColor_light">#d6dae0</color>
+    <color name="pageColor_dark">#ddf2fa</color>
+
 </resources>

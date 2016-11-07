@@ -23,7 +23,27 @@ public class UserLibr extends RealmObject {
     //  1 - woman 2 - man, 3 - children
     public int typeBody;
 
+    public int profileBLE;
+
+    private boolean fullProfile;
+
     public UserLibr() {
+    }
+
+    public boolean isFullProfile() {
+        return fullProfile;
+    }
+
+    public void setFullProfile(boolean mFullProfile) {
+        fullProfile = mFullProfile;
+    }
+
+    public int getProfileBLE() {
+        return profileBLE;
+    }
+
+    public void setProfileBLE(int mProfileBLE) {
+        profileBLE = mProfileBLE;
     }
 
     public String getMail() {

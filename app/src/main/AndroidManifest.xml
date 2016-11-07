@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.lucerotech.aleksandrp.w8monitor">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true"/>
 
     <application
         android:name=".App"
@@ -10,10 +20,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <activity
             android:name=".login.SplashActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|keyboard">
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,10 +34,12 @@
         </activity>
         <activity
             android:name=".login.LoginActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"/>
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".register.RegisterActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"/>
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:screenOrientation="portrait"/>
 
         <!-- //  NETA_DATA -->
         <meta-data
@@ -34,14 +48,36 @@
 
         <activity
             android:name=".profile.ProfileActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"/>
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:parentActivityName=".general.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".change_pass.ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
-            android:parentActivityName=".login.LoginActivity"/>
+            android:parentActivityName=".login.LoginActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".general.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|keyboard">
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".alarm.AlarmActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:parentActivityName=".general.MainActivity"
+            android:screenOrientation="portrait"/>
+
+        <receiver android:name=".alarm.manager.AlarmManager"/>
+
+        <service
+            android:name=".ble.BluetoothLeService"
+            android:enabled="true"/>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="081a45e1f0cbebf2755eba040c6ad6f0255aa0ee"/>
+
+        <activity android:name=".help.HelpActivity">
         </activity>
     </application>
 

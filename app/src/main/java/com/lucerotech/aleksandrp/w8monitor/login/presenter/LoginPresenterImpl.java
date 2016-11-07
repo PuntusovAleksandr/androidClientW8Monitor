@@ -6,6 +6,8 @@ import android.content.Intent;
 import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordActivity;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
+import com.lucerotech.aleksandrp.w8monitor.general.MainActivity;
+import com.lucerotech.aleksandrp.w8monitor.login.LoginActivity;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginPresenter;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
@@ -29,12 +31,13 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void checkPassword(String mPasswordText, String mEmailText) {
+    public void checkPassword(String mPasswordText, String mEmailText, boolean mLogin) {
         if (ValidationText.checkLenghtPassword(mPasswordText) &&
                 ValidationText.checkValidEmail(mEmailText)) {
-            mLoginView.hideWrong();
+            mLoginView.hideWrong(mLogin);
         } else {
-            mLoginView.showWrong();
+            if (mLogin)
+                mLoginView.showWrong();
         }
     }
 
@@ -56,14 +59,16 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void goToProfile() {
         Intent intent = new Intent(mContext, ProfileActivity.class);
+        intent.putExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, ProfileActivity.MARKER_LOGIN);
         mContext.startActivity(intent);
         mLoginView.finishActivity();
     }
 
     @Override
-    public void goToRegistering() {
+    public void goToRegistering(LoginActivity mLoginActivity) {
         Intent intent = new Intent(mContext, RegisterActivity.class);
-        mContext.startActivity(intent);
+//        mLoginActivity.startActivityForResult(intent, LoginActivity.REQUEST_REGISTER);
+        mLoginActivity.startActivity(intent);
         mLoginView.finishActivity();
     }
 
@@ -93,5 +98,12 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void inputEmptyUser(String mMail, String mPass, LoginView mLoginView) {
         RealmObj.getInstance().putUser(mMail, mPass, mLoginView);
+    }
+
+    @Override
+    public void goToMainActivity() {
+        Intent intent = new Intent(mContext, MainActivity.class);
+        mContext.startActivity(intent);
+        mLoginView.finishActivity();
     }
 }

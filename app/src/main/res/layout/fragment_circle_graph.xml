@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="?attr/background_app">
+
+    <include
+        android:id="@+id/l_picker_bottom"
+        layout="@layout/view_pager_layout_button"/>
+
+    <LinearLayout
+        android:id="@+id/rl_bottom_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_75"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:id="@+id/ib_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="?attr/b_alarm_app"/>
+
+        <ImageView
+            android:id="@+id/ib_line_chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="?attr/b_line_chart_app"/>
+
+        <ImageView
+            android:id="@+id/ib_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="?attr/b_profile_app"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_turn_on_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25"
+        android:layout_below="@+id/rl_bottom_login"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_16"
+        android:gravity="center"
+        android:text="@string/turn_on_bluetooth"
+        android:textColor="?attr/color_light_text_app"/>
+
+    <TextView
+        android:id="@+id/tv_firm_surface"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25"
+        android:layout_above="@+id/l_picker_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/_4"
+        android:gravity="center"
+        android:text="@string/please_stale_firm_surface"
+        android:textColor="?attr/color_light_text_app"
+        android:visibility="invisible"/>
+
+    <!--<Button-->
+    <!--android:id="@+id/bt_go_line"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:text="Go"-->
+    <!--android:visibility="invisible"/>-->
+
+    <!--<com.lucerotech.aleksandrp.w8monitor.general.fragment.view.TouchView-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:layout_centerInParent="true"/>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <com.lucerotech.aleksandrp.w8monitor.general.fragment.view.CircleBackground
+            android:id="@+id/bt_go_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <RelativeLayout
+                android:id="@+id/rl_center_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:id="@+id/tv_main_value_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="82"
+                    android:textColor="?attr/color_text_title_app"
+                    android:textSize="@dimen/_48sp"/>
+
+                <TextView
+                    android:id="@+id/tv_main_value_height_to_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_main_value_height"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_toEndOf="@+id/tv_main_value_height"
+                    android:layout_toRightOf="@+id/tv_main_value_height"
+                    android:text="@string/lb"
+                    android:textColor="?attr/color_text_title_app"
+                    android:textSize="@dimen/_24sp"/>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_center_value"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/tv_main_value_height_to_below"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8"
+                    android:text="84"
+                    android:textColor="?attr/color_text_values_libr"
+                    android:textSize="@dimen/_24sp"/>
+
+                <TextView
+                    android:id="@+id/tv_main_value_height_to_below_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_main_value_height_to_below"
+                    android:layout_alignBottom="@+id/tv_main_value_height_to_below"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/_4"
+                    android:layout_toEndOf="@+id/tv_main_value_height_to_below"
+                    android:layout_toRightOf="@+id/tv_main_value_height_to_below"
+                    android:text="@string/lb"
+                    android:textColor="?attr/color_text_values_libr"
+                    android:textSize="@dimen/_14sp"/>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <View
+            android:id="@+id/view_center"
+            android:layout_width="@dimen/_35dp"
+            android:layout_height="@dimen/_45dp"
+            android:layout_centerInParent="true"/>
+
+        <RelativeLayout
+            android:layout_width="@dimen/_40"
+            android:layout_height="@dimen/_40"
+            android:layout_above="@+id/view_center"
+            android:layout_toRightOf="@+id/view_center"
+            android:background="?attr/circle_result_app"
+            android:padding="@dimen/_2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_result_mass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:textColor="?attr/color_text_result_app"
+                    android:textSize="@dimen/_18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_result_param"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:text="@string/lb"
+                    android:textColor="?attr/color_text_result_app"
+                    android:textSize="@dimen/_12_sp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
