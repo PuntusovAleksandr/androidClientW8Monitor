@@ -505,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
             public void run() {
                 onActivityResult(REQUEST_ENABLE_BT, RESULT_OK, null);
             }
-        }, 500);
+        }, 250);
     }
 
     private void showMessage(String str) {
