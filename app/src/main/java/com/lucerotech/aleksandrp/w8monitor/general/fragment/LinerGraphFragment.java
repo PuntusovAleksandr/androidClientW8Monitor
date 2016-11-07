@@ -145,6 +145,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         if (SettingsApp.getInstance().isThemeDark()) {
             clorCircle = "#FF071653";
         }
+        this.yVals1 = new ArrayList<>();
     }
 
     @Override
@@ -239,12 +240,17 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         public String getFormattedValue(float value, AxisBase axis) {
             String textReturn = "";
             if (value > 0) {
-                int index = ((int) value) - 1;
-                if (index < yVals1.size()) {
-                    textReturn = yVals1.get(index);
-                }
+
+                try {
+                    int index = ((int) value) - 1;
+                    if (index < yVals1.size()) {
+                        textReturn = yVals1.get(index);
+                    }
 //                long timeValueLong = (long) value;
 //                Date date = new Date(timeValueLong);
+                } catch (ArrayIndexOutOfBoundsException mE) {
+                    mE.printStackTrace();
+                }
             }
             logger("getFormattedValue; value::: " + value);
             return textReturn;
@@ -604,7 +610,9 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         float val = 0;
 
         int count = 1;
-        yVals1 = new ArrayList<>();
+        if (yVals1 != null) {
+            yVals1.clear();
+        }
 
         nameLabes = getString(R.string.kg);
         if (!SettingsApp.getInstance().getMetric()) {
