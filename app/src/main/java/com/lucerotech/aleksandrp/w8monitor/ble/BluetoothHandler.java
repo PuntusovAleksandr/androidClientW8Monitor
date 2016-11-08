@@ -151,6 +151,9 @@ public class BluetoothHandler {
     private byte[] makeDataPacage() {
         UserLibr userLibr = RealmObj.getInstance().getUserForConnectBLE();
 
+        if (userLibr == null) {
+            return null;
+        }
         byte data[] = new byte[8];
         data[0] = (byte) 0xfe;
         data[1] = (byte) userLibr.getProfileBLE(); // номер группы (это профиль BLE
@@ -290,7 +293,9 @@ public class BluetoothHandler {
                 ((MainActivity) context).finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.connect(mDeviceAddress, makeDataPacage());
+            byte[] userLibr = makeDataPacage();
+            if (userLibr != null)
+                mBluetoothLeService.connect(mDeviceAddress, userLibr);
         }
 
         @Override

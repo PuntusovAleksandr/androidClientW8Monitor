@@ -475,7 +475,7 @@ public final class CircleBackground extends View {
         float unitPosition = 0.07f;
 
         // set a magnification factor
-        final float magnifier = 50f;
+        final float magnifier = 80f;
 
         // Scale the canvas
         canvas.save();

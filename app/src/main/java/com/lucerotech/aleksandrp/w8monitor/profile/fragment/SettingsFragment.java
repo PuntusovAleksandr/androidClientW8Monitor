@@ -391,6 +391,10 @@ public class SettingsFragment extends Fragment implements
 //    =================================================
     @Override
     public void getUserForSettings(UserLibr mUserLibr) {
+        if (mUserLibr == null) {
+            return;
+        }
+
         state = mUserLibr.getState();
         typeBody = mUserLibr.getTypeBody();
 
