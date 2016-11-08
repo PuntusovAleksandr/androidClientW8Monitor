@@ -131,7 +131,7 @@
     <!--<item>Visceral Fat</item>-->
     <!--<item>Muscle mass</item>-->
     <!--<item>Bone mass</item>-->
-    <!--<item>Fat</item>-->
+    <!--<item>Body Fat</item>-->
 
     <!--</string-array>-->
     <string-array name="select_weight_params">
@@ -141,7 +141,7 @@
         <item>VISCERAL FAT</item>
         <item>MUSCLE MASS</item>
         <item>BONE MASS</item>
-        <item>FAT</item>
+        <item>BODY FAT</item>
     </string-array>
 
     <string-array name="select_weight_params_context">
