@@ -396,6 +396,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
             }).start();
         }
 
+        float v1 = (float) height / 100;
+        float bmi = weightRec / (v1 * v1);
+        String formatbmi = dfc.format(bmi).replaceAll(",", ".");
+        bmi = Float.parseFloat(formatbmi);
+
         String answerFromBLE = "Answer From BLE___ " +
                 "\nТип устройства " + typeRec +
                 "\ngroup " + group +
@@ -410,13 +415,13 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 "\nwater " + waterRate +
                 "\nlevel fat " + neizanglevel +
                 "\nEMR " + hot +
+                "\nBMI " + bmi +
                 "\nphysical_age " + (physicalAge < 0 ? 0 : physicalAge);
         logger(answerFromBLE);
 
 //        for (int i = 0; i < 3; i++) {
 //            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
 //        }
-
 
         // save in DB
         mPresenter.addParamsBody(
@@ -428,6 +433,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 neizanglevel < 0 ? -neizanglevel : neizanglevel,
                 hot < 0 ? -hot : hot,
                 physicalAge < 0 ? 0 : physicalAge,
+//                BMI
+                bmi,
                 mCircleGraphView
         );
     }

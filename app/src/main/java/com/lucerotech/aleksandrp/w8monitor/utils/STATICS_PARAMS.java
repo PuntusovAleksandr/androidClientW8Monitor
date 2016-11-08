@@ -42,7 +42,7 @@ public class STATICS_PARAMS {
     public static final int TIME_CHECK_BLE = 3000;
 
     // set MAX and MIN value parametrs in picker
-    public static final int MAX_VALUE_PICKER = 7;
+    public static final int MAX_VALUE_PICKER = 8;
     public static final int MIN_VALUE_PICKER = 1;
 
 
@@ -54,6 +54,7 @@ public class STATICS_PARAMS {
     public static final int PICKER_MUSCLE_MASS = 5;
     public static final int PICKER_BONE_MASS = 6;
     public static final int PICKER_FAT = 7;
+    public static final int PICKER_BMI = 8;
 
     // for check params value number picker time
     public static final int PICKER_DAY = 1;

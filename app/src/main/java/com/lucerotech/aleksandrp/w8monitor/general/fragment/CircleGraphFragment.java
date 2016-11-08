@@ -36,6 +36,7 @@ import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRob
 import static com.lucerotech.aleksandrp.w8monitor.utils.GetSizeWindow.getSizeWindow;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MAX_VALUE_PICKER;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BMI;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BONE_MASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_CALORIES;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_FAT;
@@ -293,6 +294,15 @@ public class CircleGraphFragment extends Fragment implements
                     valueMin = mMassParams[5];
                     System.out.println("NAME PICKER  PICKER_FAT = " + mI + " __ " + stringArray[mI - 1]);
                     break;
+
+                case PICKER_BMI:
+                    valueWeight = mLast.getBmi();
+                    valuePreWeight = mPreLast.getBmi();
+                    paramValue = "";
+                    valueMax = mMassParams[14];
+                    valueMin = mMassParams[15];
+                    System.out.println("NAME PICKER  PICKER_BMI = " + mI + " __ " + stringArray[mI - 1]);
+                    break;
             }
         } else {
 
@@ -304,6 +314,7 @@ public class CircleGraphFragment extends Fragment implements
 
                 case PICKER_CALORIES:
                 case PICKER_FAT_LEVEL:
+                case PICKER_BMI:
                     paramValue = "";
                     break;
             }
@@ -433,7 +444,7 @@ public class CircleGraphFragment extends Fragment implements
             if (oldValue + 1 > PICKER_WATER) {
                 mViewPager.setCurrentItem(oldValue - 1);
             }
-        } else if (oldValue + 1 < PICKER_FAT) {
+        } else if (oldValue + 1 < PICKER_BMI) {
             mViewPager.setCurrentItem(oldValue + 1);
         } else return;
 
@@ -560,7 +571,7 @@ public class CircleGraphFragment extends Fragment implements
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE &&
                         Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 
-                    if (value < PICKER_FAT) {
+                    if (value < PICKER_BMI) {
                         mViewPager.setCurrentItem(value);
                     } else {
                         return false;

@@ -38,10 +38,10 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
 
     @Override
     public void addParamsBody(float mWeightBody, float mBody, float mFat, float mMuscul,
-                              float mWaterBody, float mFatVis, float mEmr, float mAgeBody,
+                              float mWaterBody, float mFatVis, float mEmr, float mAgeBody, float bmi,
                               CircleGraphView mCircleGraphView) {
         RealmObj.getInstance().addParamsBody(mWeightBody, mBody, mFat, mMuscul,
-                mWaterBody, mFatVis, mEmr, mAgeBody, mCircleGraphView);
+                mWaterBody, mFatVis, mEmr, mAgeBody, bmi, mCircleGraphView);
     }
 
     @Override

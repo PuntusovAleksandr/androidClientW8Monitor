@@ -14,7 +14,7 @@ public interface MainActivityPresenter {
     void setLineGraph(int mValue);
 
     void addParamsBody(float mWeightBody, float mBody, float mFat, float mMuscul,
-                       float mWaterBody, float mFatVis, float mEmr, float mAgeBody,
+                       float mWaterBody, float mFatVis, float mEmr, float mAgeBody, float bmi,
                        CircleGraphView mCircleGraphView);
 
     void getDataForCircle(int mI, CircleGraphView mCircleGraphView);

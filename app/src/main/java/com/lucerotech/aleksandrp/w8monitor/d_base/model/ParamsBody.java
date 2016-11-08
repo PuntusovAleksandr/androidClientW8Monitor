@@ -33,6 +33,8 @@ public class ParamsBody extends RealmObject {
 
     public int profileBLE;
 
+    private float bmi;
+
     public ParamsBody() {
     }
 
@@ -130,5 +132,13 @@ public class ParamsBody extends RealmObject {
 
     public void setDate_time(long mDate_time) {
         date_time = mDate_time;
+    }
+
+    public float getBmi() {
+        return bmi;
+    }
+
+    public void setBmi(float mBmi) {
+        bmi = mBmi;
     }
 }

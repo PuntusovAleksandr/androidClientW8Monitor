@@ -23,6 +23,7 @@ import android.view.View;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BMI;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BONE_MASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_CALORIES;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_FAT;
@@ -691,6 +692,13 @@ public final class CircleBackground extends View {
                 break;
 
             case PICKER_FAT:
+                preMin = 0;
+                preMax = 100;
+                arcRainbow = -30.0f;
+                totalNicks = 180;       // общее количество разделителей
+                break;
+
+            case PICKER_BMI:
                 preMin = 0;
                 preMax = 100;
                 arcRainbow = -30.0f;

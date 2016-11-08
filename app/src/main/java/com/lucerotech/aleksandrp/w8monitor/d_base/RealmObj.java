@@ -212,7 +212,8 @@ public class RealmObj {
                 muscle_max = 0, muscle_min = Float.MAX_VALUE,
                 water_max = 0, water_min = Float.MAX_VALUE,
                 visceralFat_max = 0, visceralFat_min = Float.MAX_VALUE,
-                emr_max = 0, emr_min = Float.MAX_VALUE;
+                emr_max = 0, emr_min = Float.MAX_VALUE,
+                bmi_max = 0, bmi_min = Float.MAX_VALUE;
 
         RealmResults<ParamsBody> allSorted =
                 realm.where(ParamsBody.class)
@@ -233,6 +234,7 @@ public class RealmObj {
                 preLast.setEmr(0f);
                 preLast.setBodyAge(0f);
                 preLast.setDate_time(last.getDate_time());
+                preLast.setBmi(0f);
                 preLast.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
             } else {
                 preLast = allSorted.get(2);
@@ -287,6 +289,13 @@ public class RealmObj {
                 if (body.getEmr() < emr_min) {
                     emr_min = body.getEmr();
                 }
+
+                if (body.getBmi() > bmi_max) {
+                    bmi_max = body.getBmi();
+                }
+                if (body.getBmi() < bmi_min) {
+                    bmi_min = body.getBmi();
+                }
             }
         } else {
             last = null;
@@ -299,7 +308,8 @@ public class RealmObj {
                 muscle_max, muscle_min,
                 water_max, water_min,
                 visceralFat_max, visceralFat_min,
-                emr_max, emr_min};
+                emr_max, emr_min,
+                bmi_max, bmi_min};
         mCircleGraphView.showDataCircle(mI, last, preLast, massParams);
     }
 
@@ -476,7 +486,7 @@ public class RealmObj {
 
     public void addParamsBody(final float mWeightBody, final float mBody, final float mFat,
                               final float mMuscul, final float mWaterBody, final float mFatVis,
-                              final float mEmr, final float mAgeBody,
+                              final float mEmr, final float mAgeBody, final float bmi,
                               final CircleGraphView mCircleGraphView) {
         final String userName = SettingsApp.getInstance().getUserName();
         final long time = new Date().getTime();
@@ -495,6 +505,7 @@ public class RealmObj {
                 paramsBody.setVisceralFat(mFatVis);
                 paramsBody.setEmr(mEmr);
                 paramsBody.setBodyAge(mAgeBody);
+                paramsBody.setBmi(bmi);
                 paramsBody.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
 
                 bgRealm.copyToRealm(paramsBody);
@@ -503,7 +514,7 @@ public class RealmObj {
             @Override
             public void onSuccess() {
                 // TODO: 15.10.2016 нужно отвтетить через интерфейс в соответствующие фрагменты
-                float[] mMassParams = new float[8];
+                float[] mMassParams = new float[9];
                 mMassParams[0] = mWeightBody;
                 mMassParams[1] = mBody;
                 mMassParams[2] = mFat;
@@ -512,6 +523,7 @@ public class RealmObj {
                 mMassParams[5] = mFatVis;
                 mMassParams[6] = mEmr;
                 mMassParams[7] = mAgeBody;
+                mMassParams[8] = bmi;
                 mCircleGraphView.showParams(mMassParams);
                 saveAllLogs("addParamsBody onSuccess");
             }

@@ -55,6 +55,7 @@ import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRob
 import static com.lucerotech.aleksandrp.w8monitor.utils.GetSizeWindow.getSizeWindow;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MAX_VALUE_PICKER;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BMI;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BONE_MASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_CALORIES;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_DAY;
@@ -385,9 +386,9 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         set1.setDrawFilled(false);
 
 //        if (yVals.size() == 1) {
-            set1.setDrawCircles(true);
+        set1.setDrawCircles(true);
 //            set1.setDrawFilled(true);
-            set1.setDrawCircleHole(false);      // чтобы круг был без отверстия
+        set1.setDrawCircleHole(false);      // чтобы круг был без отверстия
 //        } else {
 //            set1.setDrawCircles(false);
 //        }
@@ -525,7 +526,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
             if (oldValue + 1 > PICKER_WATER) {
                 mViewPager.setCurrentItem(oldValue - 1);
             }
-        } else if (oldValue + 1 < PICKER_FAT) {
+        } else if (oldValue + 1 < PICKER_BMI) {
             mViewPager.setCurrentItem(oldValue + 1);
         } else return;
 
@@ -650,6 +651,10 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                     nameLabes = getString(R.string.persent);
                     val = body.getFat();
                     break;
+                case PICKER_BMI:
+                    nameLabes = "";
+                    val = body.getBmi();
+                    break;
             }
 
             float add = 0;
@@ -660,7 +665,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
 
             if (val < 15) {
                 add = val * 0.06f;
-            }else if (val < 80) {
+            } else if (val < 80) {
                 add = val * 0.04f;
             } else if (val < 150) {
                 add = val * 0.02f;
@@ -813,7 +818,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE &&
                         Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 
-                    if (value < PICKER_FAT) {
+                    if (value < PICKER_BMI) {
                         mViewPager.setCurrentItem(value);
                     } else {
                         return false;
