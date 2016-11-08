@@ -3,6 +3,7 @@ package com.lucerotech.aleksandrp.w8monitor.profile.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -53,8 +54,12 @@ public class SettingsFragment extends Fragment implements
 
     private boolean isDarkThene = true;
 
-    @Bind(R.id.tv_title_top_settings)
+    private Handler mHandler;
+
+    @Bind(R.id.tv_title_fragment)
     TextView tv_swipe;
+    @Bind(R.id.tv_title_buttom_top_settings)
+    TextView tv_title_buttom_top_settings;
 
     @Bind(R.id.iv_toolbar_back_press)
     ImageView iv_toolbar_back_press;
@@ -191,24 +196,37 @@ public class SettingsFragment extends Fragment implements
     public void clickBody() {
 //        mActivity.setEnterProfileDataFragment(FragmentMapker.TYPE_BODY, true);
         int res = 1;
+        String textButtom = "";
         if (typeBody == 2) {
             res = 3;
+            textButtom = getString(R.string.pro);
         } else if (typeBody == 3) {
             res = 1;
+            textButtom = getString(R.string.ordinary);
         } else {
             res = 2;
+            textButtom = getString(R.string.amateur);
         }
         mPresenter.setTypeProfile(res, this);
+
+        showCustomMessages(getString(R.string.ordinary_amauter_pro), textButtom);
     }
 
     @OnClick(R.id.iv_b_male_dark)
     public void clickMale() {
 //        mActivity.setEnterProfileDataFragment(FragmentMapker.SELECT_STATE, true);
         int res = 0;
+        String textButtom = "";
         if (state == 1) {
             res = 2;
-        } else res = 1;
+            textButtom = getString(R.string.female);
+        } else {
+            res = 1;
+            textButtom = getString(R.string.male);
+        }
         mPresenter.setStateUser(res, this);
+
+        showCustomMessages(getString(R.string.wale_female), textButtom);
     }
 
     @OnClick(R.id.iv_b_dob_dark)
@@ -220,14 +238,42 @@ public class SettingsFragment extends Fragment implements
     public void clickMetric() {
 //        no do
         boolean metric = SettingsApp.getInstance().getMetric();
+        String textButtom = "";
         if (metric) {
             metric = false;
+            textButtom = getString(R.string.imperial);
         } else {
             metric = true;
-
+            textButtom = getString(R.string.metric_);
         }
         SettingsApp.getInstance().setMetric(metric);
         setIconMetricDef();
+        showCustomMessages(getString(R.string.metric), textButtom);
+    }
+
+
+
+    private void showCustomMessages(String mString, String mTextButtom) {
+
+        tv_swipe.setText(mString);
+        tv_title_buttom_top_settings.setText(mTextButtom);
+
+        tv_swipe.setVisibility(View.VISIBLE);
+        tv_title_buttom_top_settings.setVisibility(View.VISIBLE);
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
+        mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tv_swipe.setVisibility(View.INVISIBLE);
+                tv_title_buttom_top_settings.setVisibility(View.INVISIBLE);
+                tv_swipe.setText("");
+                tv_title_buttom_top_settings.setText("");
+            }
+        }, 2000);
     }
 
     @OnClick(R.id.iv_b_reset_dark)
@@ -356,10 +402,11 @@ public class SettingsFragment extends Fragment implements
 //    =================================================
     @Override
     public void isConnectedBluetooth(boolean isConnect) {
-        if (isConnect) {
-            tv_swipe.setVisibility(View.INVISIBLE);
-        } else {
-            tv_swipe.setVisibility(View.VISIBLE);
-        }
+        // no do
+//        if (isConnect) {
+//            tv_swipe.setVisibility(View.INVISIBLE);
+//        } else {
+//            tv_swipe.setVisibility(View.VISIBLE);
+//        }
     }
 }

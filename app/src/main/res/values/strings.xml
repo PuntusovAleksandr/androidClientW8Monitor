@@ -127,6 +127,15 @@
     <string name="please_stale_firm_surface">PLEASE WEIGHT SCALE ON A FIRM SURFACE</string>
     <string name="change_password">Change password</string>
 
+    <!--// Settings Fragment-->
+    <string name="ordinary_amauter_pro">Ordinary / Amauter / Pro Activity Level</string>
+    <string name="wale_female">Male / Female</string>
+    <string name="metric">Scale imperial / Scale metric</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="imperial">Imperial</string>
+    <string name="metric_">Metric</string>
+
 
     <!--<string-array name="select_weight_params">-->
     <!--<item>Body Water</item>-->

@@ -7,8 +7,9 @@
     tools:background="?attr/background_app"
     tools:context="com.lucerotech.aleksandrp.w8monitor.profile.fragment.SettingsFragment">
 
-    <include layout="@layout/custom_toolbar"
-             android:id="@+id/tool_bar_profile"/>
+    <include
+        android:id="@+id/tool_bar_profile"
+        layout="@layout/custom_toolbar"/>
 
     <TextView
         android:id="@+id/tv_title_fragment"
@@ -31,9 +32,22 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/_16"
         android:layout_marginTop="@dimen/_8"
-        android:text="@string/turn_on_bluetooth"
         android:textColor="?attr/color_light_text_app"
-        android:textSize="@dimen/_18sp"/>
+        android:textSize="@dimen/_14sp"
+        android:visibility="invisible"/>
+
+
+    <TextView
+        android:id="@+id/tv_title_buttom_top_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title_top_settings"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/_16"
+        android:textColor="?attr/color_light_text_app"
+        android:textSize="@dimen/_14sp"
+        android:visibility="invisible"/>
 
 
     <LinearLayout
