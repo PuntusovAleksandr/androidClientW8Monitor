@@ -125,7 +125,7 @@
 
 
     <!--<string-array name="select_weight_params">-->
-    <!--<item>Water</item>-->
+    <!--<item>Body Water</item>-->
     <!--<item>Calories</item>-->
     <!--<item>Weight</item>-->
     <!--<item>Visceral Fat</item>-->
@@ -135,7 +135,7 @@
 
     <!--</string-array>-->
     <string-array name="select_weight_params">
-        <item>WATER</item>
+        <item>BODY WATER</item>
         <item>CALORIES</item>
         <item>WEIGHT</item>
         <item>VISCERAL FAT</item>
