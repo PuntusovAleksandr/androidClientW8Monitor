@@ -455,9 +455,6 @@ public final class CircleBackground extends View {
                 if (i % countWicks == 0) {
                     float value = nickToDegree(i);
                     if (value >= minDegrees && value <= maxDegrees) {
-                        if (maxDegrees > 1000 && i % 2 != 0) {
-                            continue;
-                        }
                         int v = (int) (value / 5);      // округление числа до кратного 5
                         value = v * 5;
                         String valueString = Integer.toString((int) value);
@@ -627,53 +624,53 @@ public final class CircleBackground extends View {
 
         int preMax = 0, preMin = 0;
         float arcRainbow = 0;
-        countWicks = 5;
-        totalNicks = 140;       // общее количество разделителей
+
+        int contWicks = 10;
 
         switch (mI) {
             case PICKER_WATER:
                 preMin = 0;
                 preMax = 100;
                 arcRainbow = 30.0f;
-                totalNicks = 140;       // общее количество разделителей
+                contWicks = 10;
                 break;
 
             case PICKER_CALORIES:
                 preMin = 0;
-                preMax = 7000;
+                preMax = 8000;
                 arcRainbow = -10.0f;
-                totalNicks = 140;       // общее количество разделителей
+                contWicks = 500;
                 break;
 
             case PICKER_WEIGHT:
                 if (SettingsApp.getInstance().getMetric()) {
                     preMin = 0;
-                    preMax = 184;
-                    countWicks = 7;        // количество штрихов в разделители
-                    totalNicks = 210;       // общее количество разделителей
+                    preMax = 180;
+                    contWicks = 10;
                 } else {
                     preMin = 0;
                     preMax = 400;
+                    contWicks = 50;
                 }
                 arcRainbow = 5.0f;
                 break;
 
             case PICKER_FAT_LEVEL:
                 preMin = 0;
-                preMax = 100;
+                preMax = 40;
                 arcRainbow = -30.0f;
-                totalNicks = 180;       // общее количество разделителей
+                contWicks = 5;
                 break;
 
             case PICKER_MUSCLE_MASS:
                 if (SettingsApp.getInstance().getMetric()) {
                     preMin = 0;
-                    preMax = 184;
-                    countWicks = 7;        // количество штрихов в разделители
-                    totalNicks = 210;       // общее количество разделителей
+                    preMax = 180;
+                    contWicks = 10;
                 } else {
                     preMin = 0;
                     preMax = 400;
+                    contWicks = 50;
                 }
                 arcRainbow = 0.0f;
                 break;
@@ -681,12 +678,12 @@ public final class CircleBackground extends View {
             case PICKER_BONE_MASS:
                 if (SettingsApp.getInstance().getMetric()) {
                     preMin = 0;
-                    preMax = 184;
-                    countWicks = 7;        // количество штрихов в разделители
-                    totalNicks = 210;       // общее количество разделителей
+                    preMax = 20;
+                    contWicks = 5;
                 } else {
                     preMin = 0;
-                    preMax = 400;
+                    preMax = 40;
+                    contWicks = 10;
                 }
                 arcRainbow = -5.0f;
                 break;
@@ -695,19 +692,20 @@ public final class CircleBackground extends View {
                 preMin = 0;
                 preMax = 100;
                 arcRainbow = -30.0f;
-                totalNicks = 180;       // общее количество разделителей
+                contWicks = 10;
                 break;
 
             case PICKER_BMI:
                 preMin = 0;
-                preMax = 100;
+                preMax = 60;
                 arcRainbow = -30.0f;
-                totalNicks = 180;       // общее количество разделителей
+                contWicks = 5;
                 break;
         }
 
+        nicksShowing = (preMax / contWicks) * countWicks;  // сколько будет показано
+        totalNicks = (nicksShowing / 2) * 3;       // общее количество разделителей
 
-        nicksShowing = (totalNicks / 7) * 4;  // сколько будет показано
         degreesPerNick = 360.0f / totalNicks;        // градусов на 1 шьрих
 
         this.maxDegrees = preMax;
