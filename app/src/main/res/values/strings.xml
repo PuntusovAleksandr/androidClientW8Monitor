@@ -128,7 +128,7 @@
     <!--<item>Water</item>-->
     <!--<item>Calories</item>-->
     <!--<item>Weight</item>-->
-    <!--<item>Fat level</item>-->
+    <!--<item>Visceral Fat</item>-->
     <!--<item>Muscle mass</item>-->
     <!--<item>Bone mass</item>-->
     <!--<item>Fat</item>-->
@@ -138,7 +138,7 @@
         <item>WATER</item>
         <item>CALORIES</item>
         <item>WEIGHT</item>
-        <item>FAT LEVEL</item>
+        <item>VISCERAL FAT</item>
         <item>MUSCLE MASS</item>
         <item>BONE MASS</item>
         <item>FAT</item>

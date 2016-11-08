@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 @Override
                 public void onRecievedData(byte[] bytes) {
                     parseAndUpdateDB(bytes);
-                    logger("OnRecievedDataListener bytes = " + bytes.toString());
+                    logger("OnRecievedDataListener bytes = \n" + bytes.toString());
 //                Toast.makeText(MainActivity.this, bytes, Toast.LENGTH_SHORT).show();
                     System.out.println("Answer  " + bytes.toString() + "<-");
                 }
@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         int neizanglevel = neizang * 1;
 
         // влагосодержание
-        int water = data[12] << 8 | data[13];
+        int water = data[12] << 8 /*| data[13]*/;
         float waterRate = (float) (water * 0.1);
         String formatwaterRate = dfc.format(waterRate).replaceAll(",", ".");
         waterRate = Float.parseFloat(formatwaterRate);
@@ -396,15 +396,27 @@ public class MainActivity extends AppCompatActivity implements MainView,
             }).start();
         }
 
-        logger("an_weightBody = weightRec___ " +
-                "\n" + weightRec +
-                "\n" + gugeRate +
-                "\n" + zhifangRate +
-                "\n" + jirouRate +
-                "\n" + waterRate +
-                "\n" + neizanglevel +
-                "\n" + hot +
-                "\n" + (physicalAge < 0 ? 0 : physicalAge));
+        String answerFromBLE = "Answer From BLE___ " +
+                "\nТип устройства " + typeRec +
+                "\ngroup " + group +
+                "\nlevelRec " + levelRec +
+                "\nweight " + weightRec +
+                "\nsex " + secRec +
+                "\nвозраст " + age +
+                "\nрост " + height +
+                "\ngugeBody " + gugeRate +
+                "\nfat " + zhifangRate +
+                "\nmuscle Mass " + jirouRate +
+                "\nwater " + waterRate +
+                "\nlevel fat " + neizanglevel +
+                "\nEMR " + hot +
+                "\nphysical_age " + (physicalAge < 0 ? 0 : physicalAge);
+        logger(answerFromBLE);
+
+//        for (int i = 0; i < 3; i++) {
+//            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
+//        }
+
 
         // save in DB
         mPresenter.addParamsBody(
@@ -560,3 +572,36 @@ public class MainActivity extends AppCompatActivity implements MainView,
         public Date date;
     }
 }
+//unsigned int tempShuiFen0 = (unsigned char)bytes[12];
+//        unsigned int tempShuiFen1 = (unsigned char)bytes[13];
+//        int tempShuiFen = (tempShuiFen0 « 8) | tempShuiFen1;
+//        NSNumber *shuiFen = [NSNumber numberWithInt:tempShuiFen];
+//        NSLog(@"BODY WATER: %@",shuiFen);
+//
+//        unsigned int tempReLiang0 = (unsigned char)bytes[14];
+//        unsigned int tempReLiang1 = (unsigned char)bytes[15];
+//        int tempReLiang = (tempReLiang0 « 8) | tempReLiang1;
+//        NSNumber *reLiang = [NSNumber numberWithInt:tempReLiang];
+//        NSLog(@"CALORIES: %@",reLiang);
+//
+//        NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//        [dic setObject:device   forKey:@"device"];
+//        [dic setObject:level    forKey:@"level"];
+//        [dic setObject:userTypt forKey:@"userTypt"];
+//        [dic setObject:sex      forKey:@"sex"];
+//        [dic setObject:age      forKey:@"age"];
+//        [dic setObject:height   forKey:@"height"];
+//        [dic setObject:weigt    forKey:@"weight"];
+//        [dic setObject:fat      forKey:@"fat"];
+//        [dic setObject:goGe     forKey:@"bone"];
+//        [dic setObject:jiRou    forKey:@"muscleMass"];
+//        [dic setObject:neiZang  forKey:@"visceralFat"];
+//        [dic setObject:shuiFen  forKey:@"bodyWater"];
+//        [dic setObject:reLiang  forKey:@"BMR"];
+//
+//        if(data.length==17){
+//        [dic setObject:@(bytes[16])  forKey:@"HealthAge"];
+//        }
+//        else{
+//        [dic setObject:@(0)  forKey:@"HealthAge"];
+//        }
