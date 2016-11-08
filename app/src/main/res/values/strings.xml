@@ -117,7 +117,10 @@
     <!--// formatter number picker-->
     <string name="foot_format">%d\'</string>
     <string name="inch_format">%d\"</string>
+
+    <!--// Alarm Activiry-->
     <string name="swipe_up_to_remove_alarm">Swipe up to remove alarm</string>
+    <string name="set_notification">Set Notification Time</string>
 
     <!--// CircleFragment-->
     <string name="please_stay_still">PLEASE STAY STILL ON THE SCALE</string>

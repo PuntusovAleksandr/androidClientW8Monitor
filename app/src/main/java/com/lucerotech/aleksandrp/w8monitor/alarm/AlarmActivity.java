@@ -195,9 +195,9 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
         this.countAlarms = mAlarmItems.size();
         this.mAlarmItems = mAlarmItems;
         if (countAlarms < 1) {
-            tv_swipe.setVisibility(View.INVISIBLE);
+            tv_swipe.setText(R.string.swipe_up_to_remove_alarm);
         } else {
-            tv_swipe.setVisibility(View.VISIBLE);
+            tv_swipe.setText(R.string.set_notification);
         }
         if (countAlarms == 3) {
             iv_alarm_set.setAlpha(0.1F);
