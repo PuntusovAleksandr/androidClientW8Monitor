@@ -342,9 +342,19 @@ public class CircleGraphFragment extends Fragment implements
 
                 mButton.setDataInChart(finalValueNow, finalValueMax, finalValueMin, mI);
 
-                tv_main_value_height.setText(String.valueOf(finalValueWeight));
-                tv_main_value_height_to_below.setText(String.valueOf(finalValuePreWeight));
-                tv_result_mass.setText(String.format("%.1f", finalValueResult));
+                String main = String.valueOf(finalValueWeight);
+                String second = String.valueOf(finalValuePreWeight);
+                String count = String.format("%.1f", finalValueResult);
+
+                if (mI == PICKER_FAT_LEVEL || mI == PICKER_CALORIES) {
+                    main = main.substring(0, main.length() - 2);
+                    second = second.substring(0, second.length() - 2);
+                    count = count.substring(0, count.length() - 2);
+                }
+
+                tv_main_value_height.setText(main);
+                tv_main_value_height_to_below.setText(second);
+                tv_result_mass.setText(count);
 
                 tv_main_value_height_to_right.setText(finalParamValue);
                 tv_main_value_height_to_below_right.setText(finalParamValue);
