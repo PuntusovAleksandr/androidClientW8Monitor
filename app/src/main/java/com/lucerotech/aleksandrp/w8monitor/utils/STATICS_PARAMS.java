@@ -50,11 +50,11 @@ public class STATICS_PARAMS {
     public static final int PICKER_WATER = 1;
     public static final int PICKER_CALORIES = 2;
     public static final int PICKER_WEIGHT = 3;
-    public static final int PICKER_FAT_LEVEL = 4;
-    public static final int PICKER_MUSCLE_MASS = 5;
-    public static final int PICKER_BONE_MASS = 6;
-    public static final int PICKER_FAT = 7;
-    public static final int PICKER_BMI = 8;
+    public static final int PICKER_BMI = 4;
+    public static final int PICKER_FAT_LEVEL = 5;
+    public static final int PICKER_MUSCLE_MASS = 6;
+    public static final int PICKER_BONE_MASS = 7;
+    public static final int PICKER_FAT = 8;
 
     // for check params value number picker time
     public static final int PICKER_DAY = 1;

@@ -526,7 +526,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
             if (oldValue + 1 > PICKER_WATER) {
                 mViewPager.setCurrentItem(oldValue - 1);
             }
-        } else if (oldValue + 1 < PICKER_BMI) {
+        } else if (oldValue + 1 < PICKER_FAT) {
             mViewPager.setCurrentItem(oldValue + 1);
         } else return;
 
@@ -818,7 +818,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE &&
                         Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 
-                    if (value < PICKER_BMI) {
+                    if (value < PICKER_FAT) {
                         mViewPager.setCurrentItem(value);
                     } else {
                         return false;

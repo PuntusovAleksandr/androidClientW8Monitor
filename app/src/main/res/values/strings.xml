@@ -151,11 +151,11 @@
         <item>BODY WATER</item>
         <item>CALORIES</item>
         <item>WEIGHT</item>
+        <item>BMI</item>
         <item>VISCERAL FAT</item>
         <item>MUSCLE MASS</item>
         <item>BONE MASS</item>
         <item>BODY FAT</item>
-        <item>BMI</item>
     </string-array>
 
     <string-array name="select_weight_params_context">
@@ -163,11 +163,11 @@
         <item>The daily minimum level of energy or calories your body requires when at rest (including sleeping) in order to function effectively.</item>
         <!--<item>The predicted weight of bone mineral in your body.</item>-->
         <item>Whole weight of your body.</item>
+        <item>If you want or have to lose weight, the first thing to do is weigh yourself. Are you too heavy? By how much? Today, the Body Mass Index is used to determine this. The controversy with this statistic is import for every diet. Everyone wants to measure their success later.</item>
         <item>Visceral fat is located deep in the core abdominal area, surrounding and protecting the vital organs.</item>
         <item>The predicted weight of muscle in your body.</item>
         <item>The predicted weight of bone mineral in your body.</item>
         <item>Body Fat Percentage is the proportion of fat to the total body weight. Body Fat Mass is the actual weight of fat in your body.</item>
-        <item>If you want or have to lose weight, the first thing to do is weigh yourself. Are you too heavy? By how much? Today, the Body Mass Index is used to determine this. The controversy with this statistic is import for every diet. Everyone wants to measure their success later.</item>
     </string-array>
 
     <string-array name="select_weight_params_top">
