@@ -207,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|bottom"
                     android:textColor="?attr/color_text_result_app"
-                    android:textSize="@dimen/_18sp"/>
+                    android:textSize="@dimen/_16sp"/>
 
                 <TextView
                     android:id="@+id/tv_result_param"
@@ -216,7 +216,7 @@
                     android:layout_gravity="center_horizontal|bottom"
                     android:text="@string/lb"
                     android:textColor="?attr/color_text_result_app"
-                    android:textSize="@dimen/_12_sp"/>
+                    android:textSize="@dimen/_11sp"/>
 
             </LinearLayout>
 

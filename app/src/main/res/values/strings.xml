@@ -125,6 +125,7 @@
     <!--// CircleFragment-->
     <string name="please_stay_still">PLEASE STAY STILL ON THE SCALE</string>
     <string name="please_stale_firm_surface">PLEASE WEIGHT SCALE ON A FIRM SURFACE</string>
+    <string name="change_password">Change password</string>
 
 
     <!--<string-array name="select_weight_params">-->
