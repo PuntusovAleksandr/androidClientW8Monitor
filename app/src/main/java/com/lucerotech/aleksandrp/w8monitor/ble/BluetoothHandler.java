@@ -333,7 +333,7 @@ public class BluetoothHandler {
 //                if (onConnectedListener != null) {
 //                    onConnectedListener.onConnected(false);
 //                }
-                    onConnectedListener.disconnectBLEMain();
+                onConnectedListener.disconnectBLEMain();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 System.out.println("BROADCAST ACTION_GATT_SERVICES_DISCOVERED");
                 logger("BROADCAST ACTION_GATT_SERVICES_DISCOVERED");
@@ -442,7 +442,7 @@ public class BluetoothHandler {
         }
     }
 
-    public void onDestroy(boolean isScan ) {
+    public void onDestroy(boolean isScan) {
         if (mConnected) {
 //            mDevListAdapter.clearDevice();
 //            mDevListAdapter.notifyDataSetChanged();
