@@ -221,12 +221,15 @@ public class MainActivity extends AppCompatActivity implements MainView,
             bluetoothHandler.setOnRecievedDataListener(new BluetoothHandler.OnRecievedDataListener() {
                 @Override
                 public void onRecievedData(byte[] bytes) {
-                    parseAndUpdateDB(bytes);
-                    logger("OnRecievedDataListener bytes = \n" + bytes.toString());
+                    if (bytes != null) {
+                        parseAndUpdateDB(bytes);
+                        logger("OnRecievedDataListener bytes = \n" + bytes.toString());
 //                Toast.makeText(MainActivity.this, bytes, Toast.LENGTH_SHORT).show();
-                    System.out.println("Answer  " + bytes.toString() + "<-");
+                        System.out.println("Answer  " + bytes.toString() + "<-");
+                    } else {
+                        Toast.makeText(MainActivity.this, "Failed Test", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
             });
         }
 //        bluetoothHandler.checkSupport();
@@ -367,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         int neizanglevel = neizang * 1;
 
         // влагосодержание
-        int water = data[12] << 8 /*| data[13]*/;
+        int water = data[12] << 8 | data[13];
         float waterRate = (float) (water * 0.1);
         String formatwaterRate = dfc.format(waterRate).replaceAll(",", ".");
         waterRate = Float.parseFloat(formatwaterRate);
