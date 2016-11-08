@@ -255,11 +255,11 @@ public class SettingsFragment extends Fragment implements
 
     private void showCustomMessages(String mString, String mTextButtom) {
 
-        tv_swipe.setText(mString);
-        tv_title_buttom_top_settings.setText(mTextButtom);
+        tv_swipe.setText(mTextButtom);
+//        tv_title_buttom_top_settings.setText(mTextButtom);
 
         tv_swipe.setVisibility(View.VISIBLE);
-        tv_title_buttom_top_settings.setVisibility(View.VISIBLE);
+//        tv_title_buttom_top_settings.setVisibility(View.VISIBLE);
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;

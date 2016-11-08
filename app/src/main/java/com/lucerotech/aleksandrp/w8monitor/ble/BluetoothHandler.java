@@ -151,12 +151,13 @@ public class BluetoothHandler {
     private byte[] makeDataPacage() {
         UserLibr userLibr = RealmObj.getInstance().getUserForConnectBLE();
 
+        int height = Integer.parseInt(userLibr.getHeight());
         byte data[] = new byte[8];
         data[0] = (byte) 0xfe;
         data[1] = (byte) userLibr.getProfileBLE(); // номер группы (это профиль BLE
         data[2] = (byte) userLibr.getState();  // пол
         data[3] = (byte) userLibr.getTypeBody();     // какой то уровень
-        data[4] = (byte) Float.parseFloat(userLibr.getHeight());   // рост
+        data[4] = (byte) height;   // рост
         data[5] = (byte) parseInt(userLibr.getBirthday());  // возраст
         data[6] = (byte) (SettingsApp.getInstance().getMetric() ? 1 : 2); // какойто unit (метрическая система)
 
@@ -333,7 +334,7 @@ public class BluetoothHandler {
 //                if (onConnectedListener != null) {
 //                    onConnectedListener.onConnected(false);
 //                }
-                    onConnectedListener.disconnectBLEMain();
+                onConnectedListener.disconnectBLEMain();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 System.out.println("BROADCAST ACTION_GATT_SERVICES_DISCOVERED");
                 logger("BROADCAST ACTION_GATT_SERVICES_DISCOVERED");
@@ -442,7 +443,7 @@ public class BluetoothHandler {
         }
     }
 
-    public void onDestroy(boolean isScan ) {
+    public void onDestroy(boolean isScan) {
         if (mConnected) {
 //            mDevListAdapter.clearDevice();
 //            mDevListAdapter.notifyDataSetChanged();

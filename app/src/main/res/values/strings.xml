@@ -109,10 +109,10 @@
     <br>The release of energy in this state is sufficient only for the functioning of the vital organs, such as the heart, lungs, brain and the rest of the nervous system, liver, kidneys, sex organs, muscles and skin.</p>
     ]]></string>
 
-    <string name="ordinary">Ordinary</string>
+    <string name="ordinary">Ordinary Activity Level</string>
     <string name="exercise_less_than_2_times_a_week">Exercise less than 2 times a week</string>
-    <string name="amateur">Amateur</string>
-    <string name="pro">Pro</string>
+    <string name="amateur">Amateur Activity Level</string>
+    <string name="pro">Pro Activity Level</string>
 
     <!--// formatter number picker-->
     <string name="foot_format">%d\'</string>
@@ -133,8 +133,8 @@
     <string name="metric">Scale imperial / Scale metric</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
-    <string name="imperial">Imperial</string>
-    <string name="metric_">Metric</string>
+    <string name="imperial">Scale imperial</string>
+    <string name="metric_">Scale metric</string>
 
 
     <!--<string-array name="select_weight_params">-->

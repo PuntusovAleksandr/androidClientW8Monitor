@@ -628,6 +628,7 @@ public final class CircleBackground extends View {
         int contWicks = 10;
 
         switch (mI) {
+            case 0:
             case PICKER_WATER:
                 preMin = 0;
                 preMax = 100;
