@@ -41,7 +41,7 @@
         android:id="@+id/tv_title_buttom_top_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_title_top_settings"
+        android:layout_below="@+id/tv_title_fragment"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/_16"

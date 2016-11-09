@@ -111,6 +111,8 @@
 
     <string name="ordinary">Ordinary Activity Level</string>
     <string name="exercise_less_than_2_times_a_week">Exercise less than 2 times a week</string>
+    <string name="exercise_2_5_times_week">Exercise 2-5 times a week</string>
+    <string name="exercise_every_day">Exercise every day</string>
     <string name="amateur">Amateur Activity Level</string>
     <string name="pro">Pro Activity Level</string>
 

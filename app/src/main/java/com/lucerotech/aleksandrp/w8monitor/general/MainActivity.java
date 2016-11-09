@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         String formatbmi = dfc.format(bmi).replaceAll(",", ".");
         bmi = Float.parseFloat(formatbmi);
 
-        String answerFromBLE = "Answer From BLE___ " +
+        String answerFromBLE = "ПОЛУЧЕННЫЕ ___ " +
                 "\nТип устройства " + typeRec +
                 "\ngroup " + group +
                 "\nlevelRec " + levelRec +
@@ -422,9 +422,9 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 "\nphysical_age " + (physicalAge < 0 ? 0 : physicalAge);
         logger(answerFromBLE);
 
-//        for (int i = 0; i < 3; i++) {
-//            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
-//        }
+        for (int i = 0; i < 3; i++) {
+            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
+        }
 
         // save in DB
         mPresenter.addParamsBody(

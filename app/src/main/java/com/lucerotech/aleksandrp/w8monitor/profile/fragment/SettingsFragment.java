@@ -130,7 +130,7 @@ public class SettingsFragment extends Fragment implements
         boolean dark = SettingsApp.getInstance().isThemeDark();
         if (dark) {
             resState = R.drawable.b_male_small_dark;
-            if (mState == 2) {      // state woman
+            if (mState == 0) {      // state woman
                 resState = R.drawable.b_female_small_dark;
             }
             switch (mTypeBody) {
@@ -146,7 +146,7 @@ public class SettingsFragment extends Fragment implements
 
         } else {
             resState = R.drawable.b_male_small_light;
-            if (mState == 2) {      // state woman
+            if (mState == 0) {      // state woman
                 resState = R.drawable.b_female_small_light;
             }
             switch (mTypeBody) {
@@ -197,19 +197,23 @@ public class SettingsFragment extends Fragment implements
 //        mActivity.setEnterProfileDataFragment(FragmentMapker.TYPE_BODY, true);
         int res = 1;
         String textButtom = "";
+        String textButtom2 = "";
         if (typeBody == 2) {
             res = 3;
             textButtom = getString(R.string.pro);
+            textButtom2 = getString(R.string.exercise_every_day);
         } else if (typeBody == 3) {
             res = 1;
             textButtom = getString(R.string.ordinary);
+            textButtom2 = getString(R.string.exercise_less_than_2_times_a_week);
         } else {
             res = 2;
             textButtom = getString(R.string.amateur);
+            textButtom2 = getString(R.string.exercise_2_5_times_week);
         }
         mPresenter.setTypeProfile(res, this);
 
-        showCustomMessages(getString(R.string.ordinary_amauter_pro), textButtom);
+        showCustomMessages(textButtom, textButtom2);
     }
 
     @OnClick(R.id.iv_b_male_dark)
@@ -218,7 +222,7 @@ public class SettingsFragment extends Fragment implements
         int res = 0;
         String textButtom = "";
         if (state == 1) {
-            res = 2;
+            res = 0;
             textButtom = getString(R.string.female);
         } else {
             res = 1;
@@ -226,7 +230,7 @@ public class SettingsFragment extends Fragment implements
         }
         mPresenter.setStateUser(res, this);
 
-        showCustomMessages(getString(R.string.wale_female), textButtom);
+        showCustomMessages(textButtom, "");
     }
 
     @OnClick(R.id.iv_b_dob_dark)
@@ -248,18 +252,17 @@ public class SettingsFragment extends Fragment implements
         }
         SettingsApp.getInstance().setMetric(metric);
         setIconMetricDef();
-        showCustomMessages(getString(R.string.metric), textButtom);
+        showCustomMessages(textButtom, "");
     }
-
 
 
     private void showCustomMessages(String mString, String mTextButtom) {
 
-        tv_swipe.setText(mTextButtom);
-//        tv_title_buttom_top_settings.setText(mTextButtom);
+        tv_swipe.setText(mString);
+        tv_title_buttom_top_settings.setText(mTextButtom);
 
         tv_swipe.setVisibility(View.VISIBLE);
-//        tv_title_buttom_top_settings.setVisibility(View.VISIBLE);
+        tv_title_buttom_top_settings.setVisibility(View.VISIBLE);
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;

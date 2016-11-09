@@ -37,7 +37,7 @@ public class StateFragment extends Fragment implements RealmObj.StateListener {
     private ProfilePresenter mPresenter;
 
     public static final int MAN = 1;
-    public static final int WOMAN = 2;
+    public static final int WOMAN = 0;
 
     private int state;
     private int markerFrom;

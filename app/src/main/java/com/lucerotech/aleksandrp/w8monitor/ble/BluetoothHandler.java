@@ -28,6 +28,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
@@ -147,43 +148,43 @@ public class BluetoothHandler {
 
             }
 
-                LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-                boolean gps_enabled = false;
-                boolean network_enabled = false;
+            LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            boolean gps_enabled = false;
+            boolean network_enabled = false;
 
-                try {
-                    gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                } catch(Exception ex) {}
+            try {
+                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch (Exception ex) {
+            }
 
-                try {
-                    network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                } catch(Exception ex) {}
+            try {
+                network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            } catch (Exception ex) {
+            }
 
-                if(!gps_enabled && !network_enabled) {
-                    // notify user
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                    dialog.setMessage("You must enable location");
-                    dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                            // TODO Auto-generated method stub
-                            Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            context.startActivity(myIntent);
-                            //get gps
-                        }
-                    });
-                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            if (!gps_enabled && !network_enabled) {
+                // notify user
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setMessage("You must enable location");
+                dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        context.startActivity(myIntent);
+                        //get gps
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                            // TODO Auto-generated method stub
-                            Toast.makeText(context, "The application may not work properly", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    dialog.show();
-                }
-
-
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(context, "The application may not work properly", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.show();
+            }
 
 
         } else {
@@ -214,9 +215,26 @@ public class BluetoothHandler {
 
         data[7] = check;
 
-        String show = "";
+        String showText = "";
         for (int i = 0; i < data.length; i++) {
-            show = show + " _ " + data[i];
+            showText = "\nshow   _ " + data[i];
+            System.out.println(showText);
+        }
+
+
+        String answerFromBLE = "ПЕРЕДАННЫЕ ___ " +
+                "\n0xfe " + 0xfe +
+                "\nProfileBLE " + userLibr.getProfileBLE() +
+                "\nState " + userLibr.getState() +
+                "\nTypeBody " + userLibr.getTypeBody() +
+                "\nHeight " + Float.parseFloat(userLibr.getHeight()) +
+                "\nвозраст " + parseInt(userLibr.getBirthday()) +
+                "\nMetric " + (SettingsApp.getInstance().getMetric() ? 1 : 2) +
+                "\ncheck " + check;
+        logger(answerFromBLE);
+
+        for (int i = 0; i < 3; i++) {
+            Toast.makeText(App.getContext(), answerFromBLE, Toast.LENGTH_LONG).show();
         }
         return data;
     }
