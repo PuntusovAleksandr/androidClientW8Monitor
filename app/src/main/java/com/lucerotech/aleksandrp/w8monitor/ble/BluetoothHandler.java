@@ -28,7 +28,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
@@ -220,7 +219,7 @@ public class BluetoothHandler {
             showText = "\nshow   _ " + data[i];
             System.out.println(showText);
         }
-
+        System.out.println("BYTE " + data.toString());
 
         String answerFromBLE = "ПЕРЕДАННЫЕ ___ " +
                 "\n0xfe " + 0xfe +
@@ -233,9 +232,9 @@ public class BluetoothHandler {
                 "\ncheck " + check;
         logger(answerFromBLE);
 
-        for (int i = 0; i < 3; i++) {
-            Toast.makeText(App.getContext(), answerFromBLE, Toast.LENGTH_LONG).show();
-        }
+//        for (int i = 0; i < 3; i++) {
+//            Toast.makeText(App.getContext(), answerFromBLE, Toast.LENGTH_LONG).show();
+//        }
         return data;
     }
 

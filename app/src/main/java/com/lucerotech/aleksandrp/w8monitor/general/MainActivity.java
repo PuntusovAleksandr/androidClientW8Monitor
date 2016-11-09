@@ -371,7 +371,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
         // влагосодержание
         int water = data[12] << 8 | data[13];
-        float waterRate = (float) (water * 0.1);
+//        float waterRate = (float) (water * 0.1);
+        float waterRate = getWater(weightRec, height, sex);
         String formatwaterRate = dfc.format(waterRate).replaceAll(",", ".");
         waterRate = Float.parseFloat(formatwaterRate);
 
@@ -422,9 +423,9 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 "\nphysical_age " + (physicalAge < 0 ? 0 : physicalAge);
         logger(answerFromBLE);
 
-        for (int i = 0; i < 3; i++) {
-            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
-        }
+//        for (int i = 0; i < 3; i++) {
+//            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
+//        }
 
         // save in DB
         mPresenter.addParamsBody(
@@ -440,6 +441,24 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 bmi,
                 mCircleGraphView
         );
+    }
+
+    private float getWater(float mWeightRec, int mHeight, int mSex) {
+        float answer = 0;
+        if (mSex == 1) {        // мужик
+            if (mHeight > 132) {        // 132.7
+                answer = 0.79f * (-21.993f + 0.406f * mWeightRec + 0.209f * (mHeight));
+            } else {
+                answer = 1.927f + 0.465f * mWeightRec + 0.045f * (mHeight);
+            }
+        } else {
+            if (mHeight > 110) {        // 110,8
+                answer = -10.313f + 0.252f * mWeightRec + 0.154f * (mHeight);
+            } else {
+                answer = 0.076f + 0.507f * mWeightRec + 0.013f * (mHeight);
+            }
+        }
+        return answer;
     }
 
 
