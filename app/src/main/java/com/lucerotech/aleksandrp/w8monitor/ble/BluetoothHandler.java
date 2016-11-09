@@ -11,16 +11,20 @@ import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -140,7 +144,47 @@ public class BluetoothHandler {
                             new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_ACCESS_FINE_LOCATION);
                 }
+
             }
+
+                LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+                boolean gps_enabled = false;
+                boolean network_enabled = false;
+
+                try {
+                    gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                } catch(Exception ex) {}
+
+                try {
+                    network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                } catch(Exception ex) {}
+
+                if(!gps_enabled && !network_enabled) {
+                    // notify user
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setMessage("You must enable location");
+                    dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            // TODO Auto-generated method stub
+                            Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            context.startActivity(myIntent);
+                            //get gps
+                        }
+                    });
+                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            // TODO Auto-generated method stub
+                            Toast.makeText(context, "The application may not work properly", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dialog.show();
+                }
+
+
+
 
         } else {
 

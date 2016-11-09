@@ -352,6 +352,12 @@ public class CircleGraphFragment extends Fragment implements
                     count = count.substring(0, count.length() - 2);
                 }
 
+                if (count.length() > 5) {
+                    tv_result_mass.setTextSize(10);
+                } else {
+                    tv_result_mass.setTextSize(16);
+                }
+
                 tv_main_value_height.setText(main);
                 tv_main_value_height_to_below.setText(second);
                 tv_result_mass.setText(count);
@@ -365,14 +371,14 @@ public class CircleGraphFragment extends Fragment implements
     }
 
 
-// for clear all values before weighting
+    // for clear all values before weighting
     @Override
     public void deleteValuesInTextShows() {
         tv_main_value_height.setText("0.0");
         tv_main_value_height_to_below.setText("0.0");
         tv_result_mass.setText("0.0");
 
-        mButton.setDataInChart(0, 0, 0, mViewPager.getCurrentItem());
+        mButton.setDataInChart(0, 0, 0, mViewPager.getCurrentItem() + 1);
     }
     //    ===========================================
 //      END      from CircleGraphView

@@ -620,12 +620,13 @@ public final class CircleBackground extends View {
 
     }
 
+
+    private float arcRainbow = 0;
+    private int contWicks = 10;
+
     public void setDataInChart(float valueGeneral, float max, float min, int mI) {
 
-        int preMax = 0, preMin = 0;
-        float arcRainbow = 0;
-
-        int contWicks = 10;
+        int preMax = maxDegrees, preMin = minDegrees;
 
         switch (mI) {
             case 0:
@@ -720,7 +721,8 @@ public final class CircleBackground extends View {
         this.endArc = 0;
 
         this.arcForRotationRainbow = arcRainbow;
-// старая версия для трез стрелок
+
+// старая версия для трех стрелок
 //        float add = 120;
 //        this.startArc = add + min;
 //        this.endArc = 0;

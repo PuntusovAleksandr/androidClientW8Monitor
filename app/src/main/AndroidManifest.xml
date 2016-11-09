@@ -78,8 +78,10 @@
             android:name="io.fabric.ApiKey"
             android:value="081a45e1f0cbebf2755eba040c6ad6f0255aa0ee"/>
 
-        <activity android:name=".help.HelpActivity">
-        </activity>
+        <activity
+            android:name=".help.HelpActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
