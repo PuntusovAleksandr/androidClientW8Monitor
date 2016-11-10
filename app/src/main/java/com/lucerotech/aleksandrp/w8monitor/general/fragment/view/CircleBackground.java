@@ -700,7 +700,7 @@ public final class CircleBackground extends View {
             case PICKER_BMI:
                 preMin = 0;
                 preMax = 60;
-                arcRainbow = -30.0f;
+                arcRainbow = -10.0f;
                 contWicks = 5;
                 break;
         }
