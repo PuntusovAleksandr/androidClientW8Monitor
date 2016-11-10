@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -23,6 +24,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
+
+import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 
 public class ChangePasswordActivity extends AppCompatActivity implements ChangePasswordView {
 
@@ -45,6 +48,9 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
     @Bind(R.id.et_password_new_confirm)
     EditText et_password_new_confirm;
 
+    @Bind(R.id.tv_title)
+    TextView tv_title;
+
     private String mailUser = "";
 
     private ChangePasswordPresenter presenter;
@@ -63,6 +69,9 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
         setTouchLogin();
         setTouchPassword();
         setTouchRepeatPassword();
+
+
+        tv_title.setTypeface(getFontRobotoLight());
 
     }
 
