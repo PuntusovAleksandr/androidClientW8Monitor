@@ -240,20 +240,26 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             String textReturn = "";
-            if (value > 0) {
-
+            logger("getFormattedValue; value:__: " + value);
+            if (value >= 0) {
                 try {
-                    int index = ((int) value) - 1;
+                    int index = ((int) value);
                     if (index < yVals1.size()) {
                         textReturn = yVals1.get(index);
+
+                        logger("getFormattedValue; value: 249 :: " + value);
+                        logger("getFormattedValue; index: 250 :: " + index);
+                        logger("getFormattedValue; textReturn: 251 :: " + textReturn);
                     }
 //                long timeValueLong = (long) value;
 //                Date date = new Date(timeValueLong);
                 } catch (ArrayIndexOutOfBoundsException mE) {
                     mE.printStackTrace();
                 }
+                for (String s : yVals1) {
+                    logger("gString s : yVals1) :: " + s);
+                }
             }
-            logger("getFormattedValue; value::: " + value);
             return textReturn;
         }
 
@@ -610,7 +616,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         ArrayList<Entry> yVals2 = new ArrayList<>();
         float val = 0;
 
-        int count = 1;
+        float count = 0.5f;
         if (yVals1 != null) {
             yVals1.clear();
         }
@@ -752,7 +758,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         mChart.getAxisLeft().setAxisMaximum(maxValue);
 
         mChart.getXAxis().setAxisMinimum(0);
-        mChart.getXAxis().setAxisMaximum(mYVals.size() + 1);
+        mChart.getXAxis().setAxisMaximum(mYVals.size());
 
         mChart.getXAxis().setLabelCount(
                 ((mYVals.size()) <= showCountValue) ? (mYVals.size()) : showCountValue,
