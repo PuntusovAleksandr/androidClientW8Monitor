@@ -63,6 +63,7 @@ public class SettingsApp {
     private static final String KEY_LANGUAGE = "KEY_LANGUAGE";
     private static final String KEY_METRIC = "KEY_METRIC";
     private static final String KEY_PROFILE_BLE_ID = "KEY_PROFILE_BLE_ID";
+    private static final String KEY_ICON_IN_HOME = "KEY_ICON_IN_HOME";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
@@ -253,13 +254,43 @@ public class SettingsApp {
         return sPref.getBoolean(KEY_METRIC, DEF_EMPTY_BOOLEAN);
     }
 
+    /**
+     * set profile BLE
+     *
+     * @param mS
+     */
     public void setProfileBLE(int mS) {
         Log.d(TAG, "setProfileBLE " + mS);
         editor.putInt(KEY_PROFILE_BLE_ID, mS).commit();
     }
 
+    /**
+     * get profile BLE
+     *
+     * @return
+     */
     public int getProfileBLE() {
         Log.d(TAG, "getProfileBLE");
         return sPref.getInt(KEY_PROFILE_BLE_ID, DEF_INT_EMPTY);
+    }
+
+    /**
+     * for added icon in main hom window device
+     *
+     * @param mS
+     */
+    public void setIconInHome(boolean mS) {
+        Log.d(TAG, "setIconInHome " + mS);
+        editor.putBoolean(KEY_ICON_IN_HOME, mS).commit();
+    }
+
+    /**
+     * for added icon in main hom window device
+     *
+     * @return
+     */
+    public boolean isIconInHome() {
+        Log.d(TAG, "getProfileBLE");
+        return sPref.getBoolean(KEY_ICON_IN_HOME, DEF_EMPTY_BOOLEAN);
     }
 }

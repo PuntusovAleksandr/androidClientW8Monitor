@@ -44,26 +44,33 @@ public class SplashActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_splash);
         bluetoothHandler = new BluetoothHandler(this, this);
 
-// TODO: 04.10.2016  пока убрана проверка  и поставлен переход на сл. окно
+
+        if (!SettingsApp.getInstance().isIconInHome()) {
+            addIconToHomeScreen();
+            SettingsApp.getInstance().setIconInHome(true);
+        }
+
         if (!bluetoothHandler.checkSupport()) {
             return;
         }
 //        goToNextActivity();
-        addIconToHomeScreen();
+
     }
 
     /**
      * this method for added icon app on home screen
      */
     private void addIconToHomeScreen() {
+
         Intent shortcutIntent = new Intent();
         shortcutIntent.setClassName(getPackageName(), SplashActivity.class.getName());
 //shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        String nameApp = getString(R.string.app_name);
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "shortcut_name");
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, nameApp);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                 Intent.ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher));
 //intent.putExtra("duplicate", false);
