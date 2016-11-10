@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         logger("checkBluetooth");
         if (bluetoothHandler == null) {
             bluetoothHandler = new BluetoothHandler(this, this);
+            bluetoothHandler.checkPermission(this);
             bluetoothHandler.setOnScanListener(new BluetoothHandler.OnScanListener() {
                 @Override
                 public void onScanFinished() {

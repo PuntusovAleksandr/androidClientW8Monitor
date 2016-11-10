@@ -49,6 +49,26 @@ public class SplashActivity extends AppCompatActivity implements
             return;
         }
 //        goToNextActivity();
+        addIconToHomeScreen();
+    }
+
+    /**
+     * this method for added icon app on home screen
+     */
+    private void addIconToHomeScreen() {
+        Intent shortcutIntent = new Intent();
+        shortcutIntent.setClassName(getPackageName(), SplashActivity.class.getName());
+//shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "shortcut_name");
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher));
+//intent.putExtra("duplicate", false);
+        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        sendBroadcast(addIntent);
     }
 
     // start for next activity

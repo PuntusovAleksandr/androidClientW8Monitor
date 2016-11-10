@@ -121,12 +121,12 @@ public class BluetoothHandler {
 //        mCurrentConnectedBLEAddr = null;
 
 //        makeDataPacage();
-        if (mActivity.getClass().getName().equalsIgnoreCase(MainActivity.class.getName())) {
-            checkPermission(mActivity);
-        }
+//        if (mActivity.getClass().getName().equalsIgnoreCase(MainActivity.class.getName())) {
+//            checkPermission(mActivity);
+//        }
     }
 
-    private void checkPermission(Activity mActivity) {
+    public void checkPermission(Activity mActivity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (ContextCompat.checkSelfPermission(mActivity,
@@ -184,10 +184,6 @@ public class BluetoothHandler {
                 });
                 dialog.show();
             }
-
-
-        } else {
-
         }
     }
 

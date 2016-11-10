@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.login.presenter.LoginPresenterImpl;
@@ -30,7 +31,8 @@ import io.fabric.sdk.android.Fabric;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 
 public class LoginActivity extends AppCompatActivity implements LoginView,
-        RegisterFacebook.ListenerFacebookLogin {
+        RegisterFacebook.ListenerFacebookLogin,
+        BluetoothHandler.onResultScanDevice {
 
     private LoginPresenter presenter;
 
@@ -104,6 +106,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 //        InputMethodManager imm = (InputMethodManager)
 //                getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+
+        BluetoothHandler bluetoothHandler = new BluetoothHandler(this, this);
+        bluetoothHandler.checkPermission(this);
     }
 
     @Override
@@ -375,5 +380,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         if (mIsSave) {
             presenter.goToProfile();
         }
+    }
+
+    //    =================================================
+//    from onResultScanDevice
+//    =================================================
+    @Override
+    public void scanOk(boolean mEnabled) {
+
     }
 }
