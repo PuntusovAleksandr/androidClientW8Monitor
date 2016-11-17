@@ -30,7 +30,7 @@ public class ProfileApi {
     @Expose
     private int gender;
 
-    @SerializedName("birthday")
+    @SerializedName("age")
     @Expose
     private int birthday;
 

@@ -71,11 +71,13 @@ public class ServiceGenerator {
                 UserApi body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
+                    String textError = "Error data";
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
+                        textError = responseBody.toString();
                     }
-                    showMessage(call, null, ApiConstants.LOGIN);
+                    showMessage(call, textError, ApiConstants.LOGIN);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
@@ -89,7 +91,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<UserApi> call, Throwable t) {
-                showMessage(call, t, -1);
+                showMessageFailure(call, t, ApiConstants.LOGIN);
             }
         });
     }
@@ -109,11 +111,14 @@ public class ServiceGenerator {
                 UserApi body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
+                    String textError = "Error data";
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        loggerE("error loginSocialToServer " + responseBody.toString());
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = responseBody.toString();
                     }
-                    showMessage(call, null, ApiConstants.LOGIN_SOCIAL);
+                    showMessage(call, textError, ApiConstants.LOGIN_SOCIAL);
+
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
@@ -127,7 +132,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<UserApi> call, Throwable t) {
-                showMessage(call, t, -1);
+                showMessageFailure(call, t, ApiConstants.LOGIN_SOCIAL);
             }
         });
     }
@@ -145,11 +150,14 @@ public class ServiceGenerator {
                 UserApi body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
+                    String textError = "Error data";
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        loggerE("error registerToServer " + responseBody.toString());
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = responseBody.toString();
                     }
-                    showMessage(call, null, ApiConstants.REGISTER);
+                    showMessage(call, textError, ApiConstants.REGISTER);
+
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
@@ -163,7 +171,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<UserApi> call, Throwable t) {
-                showMessage(call, t, -1);
+                showMessageFailure(call, t, ApiConstants.REGISTER);
             }
         });
     }
@@ -189,11 +197,14 @@ public class ServiceGenerator {
                 ProfileApi body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
+                    String textError = "Error data";
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        loggerE("error profileCreateToServer " + responseBody.toString());
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = responseBody.toString();
                     }
-                    showMessage(call, null, ApiConstants.PROFILE);
+                    showMessage(call, textError, ApiConstants.PROFILE);
+
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
@@ -207,7 +218,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<ProfileApi> call, Throwable t) {
-                showMessage(call, t, -1);
+                showMessageFailure(call, t, ApiConstants.PROFILE);
             }
         });
     }
@@ -233,11 +244,13 @@ public class ServiceGenerator {
                 Measurement body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
+                    String textError = "Error data";
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        loggerE("error sendMeasurementsToServer " + responseBody.toString());
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = responseBody.toString();
                     }
-                    showMessage(call, null, ApiConstants.MESSUREMENTS);
+                    showMessage(call, textError, ApiConstants.MESSUREMENTS);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
@@ -251,7 +264,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<Measurement> call, Throwable t) {
-                showMessage(call, t, -1);
+                showMessageFailure(call, t, ApiConstants.MESSUREMENTS);
             }
         });
     }
@@ -273,11 +286,14 @@ public class ServiceGenerator {
                 Object body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
+                    String textError = "Error data";
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        loggerE("error changePassword " + responseBody.toString());
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = responseBody.toString();
                     }
-                    showMessage(call, null, ApiConstants.CHANGE_PASS);
+                    showMessage(call, textError, ApiConstants.CHANGE_PASS);
+
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
@@ -291,7 +307,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                showMessage(call, t, -1);
+                showMessageFailure(call, t, ApiConstants.CHANGE_PASS);
             }
         });
     }
@@ -316,11 +332,13 @@ public class ServiceGenerator {
                 ProfileApi body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
+                    String textError = "Error data";
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        loggerE("error updateProfile " + responseBody.toString());
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = responseBody.toString();
                     }
-                    showMessage(call, null, ApiConstants.UPDATE_PROFILE);
+                    showMessage(call, textError, ApiConstants.UPDATE_PROFILE);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
@@ -334,7 +352,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<ProfileApi> call, Throwable t) {
-                showMessage(call, t, -1);
+                showMessageFailure(call, t, ApiConstants.UPDATE_PROFILE);
             }
         });
     }
@@ -346,22 +364,29 @@ public class ServiceGenerator {
 
 //============================
 
-    private void showMessage(Call mCall, Throwable t, int mAppiConstant) {
+    private void showMessageFailure(Call mCall, Throwable t, int mAppiConstant) {
         event = new NetworkResponseEvent();
         event.setSucess(false);
         event.setId(mAppiConstant);
-        if (t == null) {
-            Toast.makeText(App.getContext(), R.string.error_server, Toast.LENGTH_SHORT).show();
-            event.setData(App.getContext().getString(R.string.error_server));
-        } else if (t != null) {
-            event.setData(t.getMessage());
-        } else if (t instanceof UnknownHostException) {
+        event.setData(t.getMessage());
+        if (t instanceof UnknownHostException) {
             Toast.makeText(App.getContext(), R.string.check_internet, Toast.LENGTH_SHORT).show();
             event.setData(App.getContext().getString(R.string.check_internet));
         }
+        logger("Throwable ::: " + t.getMessage());
+        logger("Call ::: " + mCall.toString());
+
+        mCallBackServiceGenerator.requestFailed(event);
+    }
+
+    private void showMessage(Call mCall, String text, int mApiConstant) {
+        event = new NetworkResponseEvent();
+        event.setSucess(false);
+        event.setId(mApiConstant);
+//            Toast.makeText(App.getContext(), text, Toast.LENGTH_SHORT).show();
+        event.setData(text);
 
         logger("Call ::: " + mCall.toString());
-        logger("Throwable ::: " + t.getMessage());
 
         mCallBackServiceGenerator.requestFailed(event);
     }

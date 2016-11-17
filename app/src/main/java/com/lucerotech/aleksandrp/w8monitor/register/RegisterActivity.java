@@ -29,6 +29,7 @@ import io.fabric.sdk.android.Fabric;
 
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.REGISTER;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
+import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView,
@@ -341,10 +342,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         if (isSave) {
 
             { // send data to server
-//                if (checkInternetConnection()) {
+                if (checkInternetConnection()) {
                     serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, REGISTER);
                     startService(serviceIntent);
-//                }
+                }
             }
 
             presenter.goToProfile();
