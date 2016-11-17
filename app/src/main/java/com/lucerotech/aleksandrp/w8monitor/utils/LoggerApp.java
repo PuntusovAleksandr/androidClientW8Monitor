@@ -16,6 +16,10 @@ public class LoggerApp {
         Log.d(TAG_LOG, textLog);
     }
 
+    public static void loggerE(String textLog) {
+        Log.e(TAG_LOG, textLog);
+    }
+
 
     public static void loggerCrashlytics(String textLog) {
         Crashlytics.log(textLog);

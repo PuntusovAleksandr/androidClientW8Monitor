@@ -137,6 +137,7 @@
     <string name="male">Male</string>
     <string name="imperial">Scale imperial</string>
     <string name="metric_">Scale metric</string>
+    <string name="check_internet">Check internet connection</string>
 
     <!--<string-array name="select_weight_params">-->
     <!--<item>Body Water</item>-->

@@ -10,8 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-    <!--for adde icon in home screen-->
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <!-- for adde icon in home screen -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -85,6 +85,12 @@
             android:name=".help.HelpActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait"/>
+
+        <service
+            android:name=".api.service.ApiService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

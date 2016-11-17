@@ -129,7 +129,7 @@ public class RegisterFacebook implements RealmObj.RealmListener {
     }
 
     private void errorUser() {
-        Toast.makeText(mContext, "User error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "UserApi error", Toast.LENGTH_SHORT).show();
     }
 
 //    ===================================================

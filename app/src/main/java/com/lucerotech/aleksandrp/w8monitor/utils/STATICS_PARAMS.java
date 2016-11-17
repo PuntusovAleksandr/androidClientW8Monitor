@@ -75,4 +75,13 @@ public class STATICS_PARAMS {
     // for update speed pickers
     public static final long SPEED_UPDATE_PICKER = 500;
 
+
+    // for work api with app
+    public static final String SERVICE_JOB_ID_TITLE = "serviceJobId";
+    // key for send extra by api
+    public static final String SOCIAL_ID = "SOCIAL_ID ";
+    public static final String NEW_PASS = "NEW_PASS ";
+    public static final String PROFILE_API = "PROFILE_API ";
+    public static final String MESSUREMENTS = "MESSUREMENTS ";
+
 }
