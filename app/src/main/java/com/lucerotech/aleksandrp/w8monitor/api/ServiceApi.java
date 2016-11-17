@@ -38,7 +38,7 @@ public interface ServiceApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("login")
+    @POST("login/social")
     Call<UserApi> loginSocial(
             @Field("email") String email,
             @Field(("social_user_id")) String social_user_id);
