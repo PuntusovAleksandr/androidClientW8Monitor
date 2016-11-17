@@ -97,6 +97,7 @@ public class SplashActivity extends AppCompatActivity implements
                 intent = new Intent(SplashActivity.this, LoginActivity.class);
             }
         } else {
+            // first start
             intent = new Intent(SplashActivity.this, HelpActivity.class);
             intent.putExtra(KEY_EXTRA_FROM, KEY_FROM_SPLASH);
         }
@@ -106,8 +107,6 @@ public class SplashActivity extends AppCompatActivity implements
         Runnable startRun = initRunableStart();
 
         {
-            // TODO: 14.09.2016 нужно сделать проверку на подключение блютуза и прочих модулей
-            // TODO: 14.09.2016 нужно сделать проверку на нвсе пермишины для андроид6
             mHandlerStart.postDelayed(startRun, 1000);
         }
     }

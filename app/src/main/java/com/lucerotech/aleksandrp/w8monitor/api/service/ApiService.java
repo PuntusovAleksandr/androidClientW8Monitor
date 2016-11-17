@@ -12,6 +12,8 @@ import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MESSUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.NEW_PASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PROFILE_API;
@@ -72,8 +74,8 @@ public class ApiService extends Service implements
             case ApiConstants.MESSUREMENTS_MASS:
                 userInteractor.measurements_mass();
                 break;
-          case ApiConstants.CHANGE_PASS:
-              String newPass = intent.getStringExtra(NEW_PASS);
+            case ApiConstants.CHANGE_PASS:
+                String newPass = intent.getStringExtra(NEW_PASS);
                 userInteractor.changePassword(newPass);
                 break;
             case ApiConstants.UPDATE_PROFILE:
@@ -120,7 +122,7 @@ public class ApiService extends Service implements
                 updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS_MASS);
                 updateUiEvent.setData(event.getData());
                 break;
-             case ApiConstants.CHANGE_PASS:
+            case ApiConstants.CHANGE_PASS:
                 updateUiEvent.setId(UpdateUiEvent.CHANGE_PASS);
                 updateUiEvent.setData(event.getData());
                 break;
@@ -144,7 +146,11 @@ public class ApiService extends Service implements
     public void requestFailed(NetworkResponseEvent event) {
         System.out.println("ERROR 00000000000 " + event.getData() + " :: " + event.getId() + " ЖЖ " + event.toString());
         UpdateUiEvent networkFailEvent = new UpdateUiEvent();
+        networkFailEvent.setSucess(false);
+        networkFailEvent.setId(event.getId());
+        networkFailEvent.setData(event.getData());
         BusProvider.send(networkFailEvent);
+        EventBus.getDefault().post(networkFailEvent);
         stopSelf(startId);
     }
 }

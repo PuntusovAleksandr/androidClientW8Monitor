@@ -1,5 +1,6 @@
 package com.lucerotech.aleksandrp.w8monitor.login;
 
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 
 /**
@@ -22,4 +23,7 @@ public interface LoginView {
 
     void goToProfile();
 
+    void loginServer();
+
+    void updateLogin(UpdateUiEvent mEvent);
 }

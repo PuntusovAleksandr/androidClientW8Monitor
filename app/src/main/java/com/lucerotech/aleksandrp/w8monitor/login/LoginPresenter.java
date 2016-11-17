@@ -34,4 +34,9 @@ public interface LoginPresenter {
     void inputEmptyUser(String mMail, String mPass, LoginView mLoginView);
 
     void goToMainActivity();
+
+    void registerEvenBus();
+
+    void unregisterEvenBus();
+
 }

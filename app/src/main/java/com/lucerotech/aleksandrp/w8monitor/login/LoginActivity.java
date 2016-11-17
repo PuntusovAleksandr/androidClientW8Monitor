@@ -14,7 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
+import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
@@ -28,7 +32,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 
 public class LoginActivity extends AppCompatActivity implements LoginView,
         RegisterFacebook.ListenerFacebookLogin,
@@ -70,6 +76,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public static final int REG_LOGIN = 1;
     public static final int REQUEST_REGISTER = 11;
 
+
+    private Intent serviceIntent;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient mClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SetThemeDark.getInstance().setTheme(this);
@@ -86,9 +100,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         tv_wrong_email.setTypeface(getFontRobotoLight());
         et_login.setTypeface(getFontRobotoLight());
         et_password.setTypeface(getFontRobotoLight());
-//
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        AppEventsLogger.activateApp(this);
 
         presenter = new LoginPresenterImpl(LoginActivity.this, this);
 
@@ -96,19 +107,29 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         setTouchLogin();
         setTouchPassword();
 
+
+        serviceIntent = new Intent(this, ApiService.class);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
     @Override
     protected void onStart() {
-        super.onStart();
-
-//        InputMethodManager imm = (InputMethodManager)
-//                getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
-
+        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        mClient.connect();
         BluetoothHandler bluetoothHandler = new BluetoothHandler(this, this);
         bluetoothHandler.checkPermission(this);
+
+        presenter.registerEvenBus();
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.unregisterEvenBus();
+        super.onStop();
     }
 
     @Override
@@ -152,8 +173,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.iv_login_me)
     public void autoLogin() {
-
-        presenter.checkPassword(et_password.getText().toString(),
+        presenter.checkPassword(
+                et_password.getText().toString(),
                 et_login.getText().toString(),
                 true);
     }
@@ -293,7 +314,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         iv_keep_me.setClickable(true);
         if (mLogin) {
             if (tv_wrong_email.getVisibility() == View.INVISIBLE) {
-                presenter.checkUserInDb(et_login.getText().toString(),
+                presenter.checkUserInDb(
+                        et_login.getText().toString(),
                         et_password.getText().toString(),
                         this);
             }
@@ -350,6 +372,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void goToProfile() {
         presenter.goToProfile();
     }
+
+    @Override
+    public void loginServer() {
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, LOGIN);
+        startService(serviceIntent);
+    }
+
+    @Override
+    public void updateLogin(UpdateUiEvent mEvent) {
+        if (mEvent.isSucess()) {
+            if (mEvent.getId() == LOGIN) {
+
+            }
+        } else {
+            Toast.makeText(this, ((String) mEvent.getData()), Toast.LENGTH_SHORT).show();
+        }
+    }
 //    =================================================
 //    END        answer from LoginView
 //    =================================================
@@ -389,4 +428,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void scanOk(boolean mEnabled) {
 
     }
+
+
+
+    //    =================================================
+//    =================================================
+
 }

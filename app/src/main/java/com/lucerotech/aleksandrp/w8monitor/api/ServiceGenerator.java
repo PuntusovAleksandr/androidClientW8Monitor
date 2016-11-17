@@ -11,6 +11,7 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 
 import okhttp3.OkHttpClient;
@@ -75,7 +76,7 @@ public class ServiceGenerator {
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
-                        textError = responseBody.toString();
+                        textError = getTextMessage(responseBody);
                     }
                     showMessage(call, textError, ApiConstants.LOGIN);
                 } else {
@@ -96,6 +97,7 @@ public class ServiceGenerator {
         });
     }
 
+
     /**
      * login witch social network
      *
@@ -115,7 +117,7 @@ public class ServiceGenerator {
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
-                        textError = responseBody.toString();
+                        textError = getTextMessage(responseBody);
                     }
                     showMessage(call, textError, ApiConstants.LOGIN_SOCIAL);
 
@@ -154,7 +156,7 @@ public class ServiceGenerator {
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
-                        textError = responseBody.toString();
+                        textError = getTextMessage(responseBody);
                     }
                     showMessage(call, textError, ApiConstants.REGISTER);
 
@@ -201,7 +203,7 @@ public class ServiceGenerator {
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
-                        textError = responseBody.toString();
+                        textError = getTextMessage(responseBody);
                     }
                     showMessage(call, textError, ApiConstants.PROFILE);
 
@@ -248,7 +250,7 @@ public class ServiceGenerator {
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
-                        textError = responseBody.toString();
+                        textError = getTextMessage(responseBody);
                     }
                     showMessage(call, textError, ApiConstants.MESSUREMENTS);
                 } else {
@@ -290,7 +292,7 @@ public class ServiceGenerator {
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
-                        textError = responseBody.toString();
+                        textError = getTextMessage(responseBody);
                     }
                     showMessage(call, textError, ApiConstants.CHANGE_PASS);
 
@@ -336,7 +338,7 @@ public class ServiceGenerator {
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
-                        textError = responseBody.toString();
+                        textError = getTextMessage(responseBody);
                     }
                     showMessage(call, textError, ApiConstants.UPDATE_PROFILE);
                 } else {
@@ -391,6 +393,21 @@ public class ServiceGenerator {
         mCallBackServiceGenerator.requestFailed(event);
     }
 
+
+    private String getTextMessage(ResponseBody mResponseBody) {
+        String textError = mResponseBody.toString();
+        try {
+            textError = mResponseBody.string();
+        } catch (IOException mE) {
+            mE.printStackTrace();
+        }
+        if (textError.contains("message")) {
+            textError = textError.substring(textError.lastIndexOf(":") + 1);
+            int last = textError.length() - 1;
+            textError = textError.substring(0, last);
+        }
+        return textError;
+    }
 //============================
 
     public interface CallBackServiceGenerator {
