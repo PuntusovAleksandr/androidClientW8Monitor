@@ -1,5 +1,6 @@
 package com.lucerotech.aleksandrp.w8monitor.d_base.model;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -10,18 +11,21 @@ import io.realm.annotations.PrimaryKey;
 public class UserLibr extends RealmObject {
 
     @PrimaryKey
-    public String mail;
+    private String email;
     public String password;
-    public String faceboolId;
-    public String birthday;
-    public String height;
 
-    //    1 - men, 2 - woman
-    public int state;
-    //    1 - dark, 2 - light
-    public int themeApp;
-    //  1 - woman 2 - man, 3 - children
-    public int typeBody;
+    private String token;
+    private int id_server;
+    private String created_at;
+    private String updated_at;
+    private int is_imperial;
+    private int keep_login;
+    //    2 - dark, 1 - light
+    private int theme;
+    private String language;
+
+
+    private RealmList<Profile> mProfiles;
 
     public int profileBLE;
 
@@ -38,22 +42,6 @@ public class UserLibr extends RealmObject {
         fullProfile = mFullProfile;
     }
 
-    public int getProfileBLE() {
-        return profileBLE;
-    }
-
-    public void setProfileBLE(int mProfileBLE) {
-        profileBLE = mProfileBLE;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mMail) {
-        mail = mMail;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -62,51 +50,91 @@ public class UserLibr extends RealmObject {
         password = mPassword;
     }
 
-    public String getFaceboolId() {
-        return faceboolId;
+    public String getToken() {
+        return token;
     }
 
-    public void setFaceboolId(String mFaceboolId) {
-        faceboolId = mFaceboolId;
+    public void setToken(String mToken) {
+        token = mToken;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public int getId_server() {
+        return id_server;
     }
 
-    public void setBirthday(String mBirthday) {
-        birthday = mBirthday;
+    public void setId_server(int mId_server) {
+        id_server = mId_server;
     }
 
-    public String getHeight() {
-        return height;
+    public String getEmail() {
+        return email;
     }
 
-    public void setHeight(String mHeight) {
-        height = mHeight;
+    public void setEmail(String mEmail) {
+        email = mEmail;
     }
 
-    public int getState() {
-        return state;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setState(int mState) {
-        state = mState;
+    public void setCreated_at(String mCreated_at) {
+        created_at = mCreated_at;
     }
 
-    public int getThemeApp() {
-        return themeApp;
+    public String getUpdated_at() {
+        return updated_at;
     }
 
-    public void setThemeApp(int mThemeApp) {
-        themeApp = mThemeApp;
+    public void setUpdated_at(String mUpdated_at) {
+        updated_at = mUpdated_at;
     }
 
-    public int getTypeBody() {
-        return typeBody;
+    public int getIs_imperial() {
+        return is_imperial;
     }
 
-    public void setTypeBody(int mTypeBody) {
-        typeBody = mTypeBody;
+    public void setIs_imperial(int mIs_imperial) {
+        is_imperial = mIs_imperial;
+    }
+
+    public int getKeep_login() {
+        return keep_login;
+    }
+
+    public void setKeep_login(int mKeep_login) {
+        keep_login = mKeep_login;
+    }
+
+    public int getTheme() {
+        return theme;
+    }
+
+    public void setTheme(int mTheme) {
+        theme = mTheme;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String mLanguage) {
+        language = mLanguage;
+    }
+
+    public int getProfileBLE() {
+        return profileBLE;
+    }
+
+    public void setProfileBLE(int mProfileBLE) {
+        profileBLE = mProfileBLE;
+    }
+
+    public RealmList<Profile> getProfiles() {
+        return mProfiles;
+    }
+
+    public void setProfiles(RealmList<Profile> mProfiles) {
+        this.mProfiles = mProfiles;
     }
 }

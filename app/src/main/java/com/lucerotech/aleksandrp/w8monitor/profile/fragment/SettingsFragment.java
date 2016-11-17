@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordActivity;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.help.HelpActivity;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmList;
 
 import static com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity.MARKER_MAIN;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.KEY_EXTRA_FROM;
@@ -397,9 +399,16 @@ public class SettingsFragment extends Fragment implements
         if (mUserLibr == null) {
             return;
         }
-
-        state = mUserLibr.getState();
-        typeBody = mUserLibr.getTypeBody();
+        state = 1;
+        typeBody = 1;
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
+        RealmList<Profile> profiles = mUserLibr.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            if (profiles.get(i).getNumber() == profileBLE) {
+                state = profiles.get(i).getGender();
+                typeBody = profiles.get(i).getActivity_type();
+            }
+        }
 
         setBodyAndState(state, typeBody);
     }

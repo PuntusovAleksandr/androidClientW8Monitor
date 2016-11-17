@@ -30,17 +30,19 @@ import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.general.MainActivity;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.util.List;
 
+import io.realm.RealmList;
+
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.saveAllLogs;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.TIME_CHECK_BLE;
-import static java.lang.Integer.parseInt;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BluetoothHandler {
@@ -190,17 +192,33 @@ public class BluetoothHandler {
     // get data for connection and send by BLE
     private byte[] makeDataPacage() {
         UserLibr userLibr = RealmObj.getInstance().getUserForConnectBLE();
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
+        int gender = 0;
+        int activityType = 0;
+        int height = 0;
+        int birthday = 0;
+        RealmList<Profile> profiles = userLibr.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.getNumber() == profileBLE) {
+                gender = profile.getGender();
+                activityType = profile.getActivity_type();
+                height = profile.getHeight();
+                birthday = profile.getBirthday();
+                birthday = profile.getBirthday();
+            }
+        }
 
         if (userLibr == null) {
             return null;
         }
         byte data[] = new byte[8];
         data[0] = (byte) 0xfe;
-        data[1] = (byte) userLibr.getProfileBLE(); // номер группы (это профиль BLE
-        data[2] = (byte) userLibr.getState();  // пол
-        data[3] = (byte) userLibr.getTypeBody();     // какой то уровень
-        data[4] = (byte) Float.parseFloat(userLibr.getHeight());   // рост
-        data[5] = (byte) parseInt(userLibr.getBirthday());  // возраст
+        data[1] = (byte) profileBLE; // номер группы (это профиль BLE
+        data[2] = (byte) gender;  // пол
+        data[3] = (byte) activityType;     // какой то уровень
+        data[4] = (byte) height;   // рост
+        data[5] = (byte) birthday;  // возраст
         data[6] = (byte) (SettingsApp.getInstance().getMetric() ? 1 : 2); // какойто unit (метрическая система)
 
         byte check = 0;
@@ -220,10 +238,10 @@ public class BluetoothHandler {
         String answerFromBLE = "ПЕРЕДАННЫЕ ___ " +
                 "\n0xfe " + 0xfe +
                 "\nProfileBLE " + userLibr.getProfileBLE() +
-                "\nState " + userLibr.getState() +
-                "\nTypeBody " + userLibr.getTypeBody() +
-                "\nHeight " + Float.parseFloat(userLibr.getHeight()) +
-                "\nвозраст " + parseInt(userLibr.getBirthday()) +
+                "\nState " + gender +
+                "\nTypeBody " + activityType +
+                "\nHeight " + height +
+                "\nвозраст " + birthday +
                 "\nMetric " + (SettingsApp.getInstance().getMetric() ? 1 : 2) +
                 "\ncheck " + check;
         logger(answerFromBLE);

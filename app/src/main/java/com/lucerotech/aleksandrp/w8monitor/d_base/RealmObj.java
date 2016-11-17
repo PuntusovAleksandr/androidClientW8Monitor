@@ -6,10 +6,13 @@ import android.support.annotation.NonNull;
 import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.alarm.AlarmView;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
+import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
+import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
 import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordView;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.general.fragment.CircleGraphView;
@@ -20,9 +23,11 @@ import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.util.Date;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -91,28 +96,96 @@ public class RealmObj {
 //    ===============================================================
 
     public UserLibr getUserByMail(String email) {
-        return realm.where(UserLibr.class)
-                .equalTo("mail", email)
-                .findFirst();
+        UserLibr userLibr = null;
+        try {
+            userLibr = realm.where(UserLibr.class)
+                    .equalTo("mail", email)
+                    .findFirst();
+        } catch (Exception mE) {
+            mE.printStackTrace();
+            return null;
+        }
+        return userLibr;
     }
 
-    public void getUserByMailAndPass(String mLogin, String mPass,
-                                     LoginView mListenerLoginView,
+    public void getUserByMailAndPass(String mLogin, final String mPass,
+                                     final LoginView mListenerLoginView,
                                      UpdateUiEvent mEvent) {
-        UserApi userApi = (UserApi) mEvent.getData();
-        long count = realm.where(UserLibr.class)
-                .equalTo("mail", mLogin)
-                .equalTo("password", mPass)
-                .count();
-        boolean check = count > 0;
-        UserLibr user = null;
-        if (check) {
-            user = realm.where(UserLibr.class)
-                    .equalTo("mail", mLogin)
-                    .equalTo("password", mPass)
-                    .findFirst();
+        UserLibr userByMail = getUserByMail(mLogin);
+
+        final UserApi userApi = (UserApi) mEvent.getData();
+        final UserApiData userApiData = userApi.getUser();
+        final List<ProfileApi> profileApis = userApiData.getProfileApis();
+
+        final UserLibr userLibr = new UserLibr();
+        userLibr.setEmail(userApiData.getEmail());
+        userLibr.setPassword(mPass);
+        userLibr.setToken(userApi.getToken());
+        userLibr.setId_server(userApiData.getId());
+        userLibr.setCreated_at(userApiData.getCreated_at());
+        userLibr.setUpdated_at(userApiData.getUpdated_at());
+        userLibr.setIs_imperial(userApiData.is_imperial());
+        userLibr.setKeep_login(userApiData.isKeep_login());
+        userLibr.setTheme(userApiData.getTheme());
+        userLibr.setProfileBLE(1);   // TODO: 17.11.2016 Тут нужен параметр от сервера
+        userLibr.setLanguage(userApiData.getLanguage());
+        userLibr.setFullProfile(userByMail == null ? false : userByMail.isFullProfile());
+
+        RealmList<Profile> profiles = userLibr.getProfiles();
+        if (profiles != null) {
+            profiles.clear();
+        } else {
+            userLibr.setProfiles(new RealmList<Profile>());
         }
-        mListenerLoginView.userExist(check, user);
+
+        for (int i = 0; i < profileApis.size(); i++) {
+            ProfileApi profileApi = profileApis.get(i);
+            Profile profile = new Profile();
+            profile.setId(profileApi.getId());
+            profile.setUser_id(profileApi.getUser_id());
+            profile.setActivity_type(profileApi.getActivity_type());
+            profile.setHeight(profileApi.getHeight());
+            profile.setGender(profileApi.getGender());
+            profile.setBirthday(profileApi.getBirthday());
+            profile.setCreated_at(profileApi.getCreated_at());
+            profile.setUpdated_at(profileApi.getUpdated_at());
+            profile.setNumber(profileApi.getNumber());
+
+            userLibr.getProfiles().add(profile);
+        }
+
+        realm.executeTransactionAsync(
+                new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealmOrUpdate(userLibr);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        mListenerLoginView.userExist(true, userLibr);
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        mListenerLoginView.userExist(false, null);
+                    }
+                });
+
+
+//        long count = realm.where(UserLibr.class)
+//                .equalTo("mail", mLogin)
+//                .equalTo("password", mPass)
+//                .count();
+//        boolean check = count > 0;
+//        UserLibr user = null;
+//        if (check) {
+//            user = realm.where(UserLibr.class)
+//                    .equalTo("mail", mLogin)
+//                    .equalTo("password", mPass)
+//                    .findFirst();
+//        }
+//        mListenerLoginView.userExist(check, user);
     }
 
 
@@ -126,12 +199,19 @@ public class RealmObj {
 
     public void getStateUser(StateListener mProfileViewt) {
         String userName = SettingsApp.getInstance().getUserName();
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
+
         int state = -1;
         if (userLibr != null) {
-            state = userLibr.getState();
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    state = profiles.get(i).getGender();
+                }
+            }
         }
         mProfileViewt.isSave(state);
     }
@@ -139,12 +219,18 @@ public class RealmObj {
 
     public void getBodyUser(BodyListener mListener) {
         String userName = SettingsApp.getInstance().getUserName();
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         int body = -1;
         if (userLibr != null) {
-            body = userLibr.getTypeBody();
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    body = profiles.get(i).getActivity_type();
+                }
+            }
         }
         mListener.isBody(body);
     }
@@ -153,7 +239,7 @@ public class RealmObj {
     public void getProfileBle(ProfileBLeListener mListener) {
         String userName = SettingsApp.getInstance().getUserName();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         int prfileBle = -1;
         if (userLibr != null) {
@@ -165,12 +251,18 @@ public class RealmObj {
 
     public void getDayBith(BirthDayListener mListener) {
         String userName = SettingsApp.getInstance().getUserName();
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         String date = "";
         if (userLibr != null) {
-            date = userLibr.getBirthday();
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    date = profiles.get(i).getBirthday() + "";
+                }
+            }
         }
         mListener.isBirthDay(date);
     }
@@ -178,12 +270,18 @@ public class RealmObj {
 
     public void getHeight(HeightListener mListener) {
         String userName = SettingsApp.getInstance().getUserName();
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         String height = "";
         if (userLibr != null) {
-            height = userLibr.getHeight();
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    height = profiles.get(i).getHeight() + "";
+                }
+            }
         }
         mListener.isHeight(height);
     }
@@ -203,7 +301,7 @@ public class RealmObj {
     public UserLibr getUserForConnectBLE() {
         String userName = SettingsApp.getInstance().getUserName();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         return userLibr;
     }
@@ -338,7 +436,7 @@ public class RealmObj {
         String userName = SettingsApp.getInstance().getUserName();
         mGetUserForSettings.getUserForSettings(
                 realm.where(UserLibr.class)
-                        .equalTo("mail", userName)
+                        .equalTo("email", userName)
                         .findFirst());
     }
 
@@ -355,7 +453,7 @@ public class RealmObj {
         realm.beginTransaction();
         userLibr1 = realm.copyToRealmOrUpdate(userLibr);
         realm.commitTransaction();
-        String mail = userLibr1.getMail();
+        String mail = userLibr1.getEmail();
         if (mListener != null && mail != null) {
             SettingsApp.getInstance().setUserName(email);
             SettingsApp.getInstance().setUserPassword(password);
@@ -375,17 +473,40 @@ public class RealmObj {
         UserLibr userByMail = getUserByMail(STATICS_PARAMS.TEST_USER);
         if (!email.equalsIgnoreCase(STATICS_PARAMS.TEST_USER) && userByMail != null) {
             UserLibr user = new UserLibr();
-            user.mail = email;
-            user.password = password;
-            user.state = userByMail.getState();
-            user.typeBody = userByMail.getTypeBody();
-            user.themeApp = userByMail.getThemeApp();
-            user.profileBLE = userByMail.getProfileBLE();
-            user.height = userByMail.getHeight();
-            user.birthday = userByMail.getBirthday();
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setToken(userByMail.getToken());
+            user.setId_server(userByMail.getId_server());
+            user.setCreated_at(userByMail.getCreated_at());
+            user.setUpdated_at(userByMail.getUpdated_at());
+            user.setIs_imperial(userByMail.getIs_imperial());
+            user.setKeep_login(userByMail.getKeep_login());
+            user.setTheme(userByMail.getTheme());
+            user.setProfileBLE(userByMail.getProfileBLE());
+            user.setLanguage(userByMail.getLanguage());
+            user.setFullProfile(userByMail == null ? false : userByMail.isFullProfile());
+
+            user.getProfiles().clear();
+
+            RealmList<Profile> profiles = userByMail.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                Profile profileApi = profiles.get(i);
+                Profile profile = new Profile();
+                profile.setId(profileApi.getId());
+                profile.setUser_id(profileApi.getUser_id());
+                profile.setActivity_type(profileApi.getActivity_type());
+                profile.setHeight(profileApi.getHeight());
+                profile.setGender(profileApi.getGender());
+                profile.setBirthday(profileApi.getBirthday());
+                profile.setCreated_at(profileApi.getCreated_at());
+                profile.setUpdated_at(profileApi.getUpdated_at());
+                profile.setNumber(profileApi.getNumber());
+
+                user.getProfiles().add(profile);
+            }
 
             // получаем все данные тестового юзера
-             final RealmResults<ParamsBody> paramsBodies = getParamsBodyByEmail(STATICS_PARAMS.TEST_USER);
+            final RealmResults<ParamsBody> paramsBodies = getParamsBodyByEmail(STATICS_PARAMS.TEST_USER);
             for (ParamsBody body : paramsBodies) {
                 addParamsBody(email, body.getWeight(), body.getBody(), body.getFat(),
                         body.getMuscle(), body.getWater(), body.getVisceralFat(),
@@ -393,28 +514,51 @@ public class RealmObj {
             }
 
             // удаляем все параметры тестового юзера из базы
-           realm.executeTransaction(new Realm.Transaction() {
-               @Override
-               public void execute(Realm realm) {
-                   RealmResults<ParamsBody> all = realm.where(ParamsBody.class)
-                           .equalTo("userName_id", STATICS_PARAMS.TEST_USER)
-                           .findAll();
-                   all.deleteAllFromRealm();
-               }
-           });
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    RealmResults<ParamsBody> all = realm.where(ParamsBody.class)
+                            .equalTo("userName_id", STATICS_PARAMS.TEST_USER)
+                            .findAll();
+                    all.deleteAllFromRealm();
+                }
+            });
             return user;
         }
-
+        String data = new Date().getTime() + "";
         UserLibr userLibr = new UserLibr();
-        userLibr.mail = email;
-        userLibr.password = password;
-        userLibr.state = 1;             // default
-        userLibr.typeBody = 2;             // default
-        userLibr.themeApp = 1;             // default
-        userLibr.profileBLE = 1;             // default
-        userLibr.height = "170";             // default
-        userLibr.birthday = "25";             // default
-//        userLibr.birthday = "01/01/2000";             // default
+        userLibr.setEmail(email);
+        userLibr.setPassword(password);
+        userLibr.setToken("");            // default
+        userLibr.setId_server(1);            // default
+        userLibr.setCreated_at(data);            // default
+        userLibr.setUpdated_at(data);            // default
+        userLibr.setIs_imperial(1);            // default
+        userLibr.setKeep_login(1);            // default
+        userLibr.setTheme(1);            // default
+        userLibr.setProfileBLE(1);            // default
+        userLibr.setLanguage("en");
+        userLibr.setFullProfile(false);
+
+        userLibr.getProfiles().clear();
+
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < 2; i++) {
+            Profile profile = new Profile();
+            profile.setId(i);            // default
+            profile.setUser_id(1);            // default
+            profile.setActivity_type(1);            // default
+            profile.setHeight(170);            // default
+            profile.setGender(1);             // default
+            profile.setBirthday(25);            // default;
+            profile.setCreated_at(data);
+            profile.setUpdated_at(data);
+            profile.setNumber(i + 1);
+
+            userLibr.getProfiles().add(profile);
+        }
+
+
         return userLibr;
     }
 
@@ -431,7 +575,7 @@ public class RealmObj {
         realm.beginTransaction();
         userLibr1 = realm.copyToRealmOrUpdate(userLibr);
         realm.commitTransaction();
-        String mail = userLibr1.getMail();
+        String mail = userLibr1.getEmail();
         if (mListener != null && mail != null) {
             mListener.goToProfile();
         }
@@ -443,12 +587,12 @@ public class RealmObj {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                UserLibr userLibr = new UserLibr();
-//                UserLibr userLibr = bgRealm.copyToRealmOrUpdate(object);
-                userLibr.setMail(mUser.getE_mail());
-                userLibr.setFaceboolId(mUser.getId());
-                userLibr.setBirthday(mUser.getBirth());
-                bgRealm.copyToRealmOrUpdate(userLibr);
+//                UserLibr userLibr = new UserLibr();
+////                UserLibr userLibr = bgRealm.copyToRealmOrUpdate(object);
+//                userLibr.setMail(mUser.getE_mail());
+//                userLibr.setFaceboolId(mUser.getId());
+//                userLibr.setBirthday(mUser.getBirth());
+//                bgRealm.copyToRealmOrUpdate(userLibr);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -580,7 +724,7 @@ public class RealmObj {
     public void checkAndChangePassword(String mMailUser, String mPasswordTextOld,
                                        String mPasswordText, ChangePasswordView mPasswordView) {
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", mMailUser)
+                .equalTo("email", mMailUser)
                 .equalTo("password", mPasswordTextOld)
                 .findFirst();
         if (userLibr != null) {
@@ -595,12 +739,18 @@ public class RealmObj {
     }
 
     public void setStateUser(String mUserName, int mState, StateListener mListener) {
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", mUserName)
+                .equalTo("email", mUserName)
                 .findFirst();
         if (userLibr != null) {
             realm.beginTransaction();
-            userLibr.setState(mState);
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    profiles.get(i).setGender(mState);
+                }
+            }
             realm.copyToRealmOrUpdate(userLibr);
             realm.commitTransaction();
             mListener.isSave(mState);
@@ -610,13 +760,19 @@ public class RealmObj {
     }
 
     public void setBodyUser(int mBodyType, BodyListener mBodyListener) {
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         String userName = SettingsApp.getInstance().getUserName();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         if (userLibr != null) {
             realm.beginTransaction();
-            userLibr.setTypeBody(mBodyType);
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    profiles.get(i).setActivity_type(mBodyType);
+                }
+            }
             realm.copyToRealmOrUpdate(userLibr);
             realm.commitTransaction();
             mBodyListener.isBody(mBodyType);
@@ -630,7 +786,7 @@ public class RealmObj {
         SettingsApp.getInstance().setProfileBLE(mProfile);
         String userName = SettingsApp.getInstance().getUserName();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         if (userLibr != null) {
             realm.beginTransaction();
@@ -645,13 +801,19 @@ public class RealmObj {
     }
 
     public void setDayBith(String mDate, BirthDayListener mListener) {
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         String userName = SettingsApp.getInstance().getUserName();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         if (userLibr != null) {
             realm.beginTransaction();
-            userLibr.setBirthday(mDate);
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    profiles.get(i).setBirthday(Integer.parseInt(mDate));
+                }
+            }
             realm.copyToRealmOrUpdate(userLibr);
             realm.commitTransaction();
         }
@@ -659,13 +821,19 @@ public class RealmObj {
     }
 
     public void saveHeight(String mHeight, HeightListener mListener) {
+        int profileBLE = SettingsApp.getInstance().getProfileBLE();
         String userName = SettingsApp.getInstance().getUserName();
         UserLibr userLibr = realm.where(UserLibr.class)
-                .equalTo("mail", userName)
+                .equalTo("email", userName)
                 .findFirst();
         if (userLibr != null) {
             realm.beginTransaction();
-            userLibr.setHeight(mHeight);
+            RealmList<Profile> profiles = userLibr.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                if (profiles.get(i).getNumber() == profileBLE) {
+                    profiles.get(i).setHeight(Integer.parseInt(mHeight));
+                }
+            }
             realm.copyToRealmOrUpdate(userLibr);
             realm.commitTransaction();
         }
@@ -700,7 +868,7 @@ public class RealmObj {
             @Override
             public void execute(Realm realm) {
                 UserLibr userLibr = realm.where(UserLibr.class)
-                        .equalTo("mail", userName)
+                        .equalTo("email", userName)
                         .findFirst();
                 userLibr.setFullProfile(true);
                 realm.copyToRealmOrUpdate(userLibr);
@@ -725,7 +893,7 @@ public class RealmObj {
             @Override
             public void execute(Realm realm) {
                 UserLibr userLibr = realm.where(UserLibr.class)
-                        .equalTo("mail", userName)
+                        .equalTo("email", userName)
                         .findFirst();
                 userLibr.setFullProfile(true);
                 realm.copyToRealmOrUpdate(userLibr);
@@ -746,13 +914,19 @@ public class RealmObj {
 
     public void setStateUserFromSettings(final int mRes, final GetUserForSettings mGetUserForSettings) {
         final String userName = SettingsApp.getInstance().getUserName();
+        final int profileBLE = SettingsApp.getInstance().getProfileBLE();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 UserLibr userLibr = realm.where(UserLibr.class)
-                        .equalTo("mail", userName)
+                        .equalTo("email", userName)
                         .findFirst();
-                userLibr.setState(mRes);
+                RealmList<Profile> profiles = userLibr.getProfiles();
+                for (int i = 0; i < profiles.size(); i++) {
+                    if (profiles.get(i).getNumber() == profileBLE) {
+                        profiles.get(i).setGender(mRes);
+                    }
+                }
                 realm.copyToRealmOrUpdate(userLibr);
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -770,13 +944,19 @@ public class RealmObj {
 
     public void setTypeProfile(final int mRes, final GetUserForSettings mGetUserForSettings) {
         final String userName = SettingsApp.getInstance().getUserName();
+        final int profileBLE = SettingsApp.getInstance().getProfileBLE();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 UserLibr userLibr = realm.where(UserLibr.class)
-                        .equalTo("mail", userName)
+                        .equalTo("email", userName)
                         .findFirst();
-                userLibr.setTypeBody(mRes);
+                RealmList<Profile> profiles = userLibr.getProfiles();
+                for (int i = 0; i < profiles.size(); i++) {
+                    if (profiles.get(i).getNumber() == profileBLE) {
+                        profiles.get(i).setActivity_type(mRes);
+                    }
+                }
                 realm.copyToRealmOrUpdate(userLibr);
             }
         }, new Realm.Transaction.OnSuccess() {
