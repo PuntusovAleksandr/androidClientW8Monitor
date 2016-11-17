@@ -28,6 +28,22 @@ public class UserApiData {
     @Expose
     private String updated_at;
 
+    @SerializedName("is_imperial")
+    @Expose
+    private int is_imperial;
+
+    @SerializedName("keep_login")
+    @Expose
+    private int keep_login;
+
+    @SerializedName("theme")
+    @Expose
+    private int theme;
+
+    @SerializedName("language")
+    @Expose
+    private String language;
+
     @SerializedName("profiles")
     @Expose
     private List<ProfileApi> mProfileApis;
@@ -66,6 +82,38 @@ public class UserApiData {
 
     public List<ProfileApi> getProfileApis() {
         return mProfileApis;
+    }
+
+    public int is_imperial() {
+        return is_imperial;
+    }
+
+    public void setIs_imperial(int mIs_imperial) {
+        is_imperial = mIs_imperial;
+    }
+
+    public int isKeep_login() {
+        return keep_login;
+    }
+
+    public void setKeep_login(int mKeep_login) {
+        keep_login = mKeep_login;
+    }
+
+    public int getTheme() {
+        return theme;
+    }
+
+    public void setTheme(int mTheme) {
+        theme = mTheme;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String mLanguage) {
+        language = mLanguage;
     }
 
     public void setProfileApis(List<ProfileApi> mProfileApis) {

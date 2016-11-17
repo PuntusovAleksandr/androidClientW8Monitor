@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.lucerotech.aleksandrp.w8monitor.api.ServiceGenerator;
-import com.lucerotech.aleksandrp.w8monitor.api.bus.BusProvider;
 import com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants;
 import com.lucerotech.aleksandrp.w8monitor.api.event.NetworkResponseEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
@@ -141,7 +140,8 @@ public class ApiService extends Service implements
         }
 
         if (updateUiEvent != null) {
-            BusProvider.send(updateUiEvent);
+//            BusProvider.send(updateUiEvent);
+            EventBus.getDefault().post(updateUiEvent);
         }
         stopSelf(startId);
     }
@@ -153,7 +153,7 @@ public class ApiService extends Service implements
         networkFailEvent.setSucess(false);
         networkFailEvent.setId(event.getId());
         networkFailEvent.setData(event.getData());
-        BusProvider.send(networkFailEvent);
+//        BusProvider.send(networkFailEvent);
         EventBus.getDefault().post(networkFailEvent);
         stopSelf(startId);
     }
