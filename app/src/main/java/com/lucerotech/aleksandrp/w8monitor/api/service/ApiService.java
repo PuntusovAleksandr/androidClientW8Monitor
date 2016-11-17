@@ -127,7 +127,6 @@ public class ApiService extends Service implements
             case ApiConstants.UPDATE_PROFILE:
                 updateUiEvent.setId(UpdateUiEvent.UPDATE_PROFILE);
                 updateUiEvent.setData(event.getData());
-                updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.ALARM_UPDATE:
                 updateUiEvent.setId(UpdateUiEvent.ALARM_UPDATE);

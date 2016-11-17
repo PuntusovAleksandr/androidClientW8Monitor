@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants;
 import com.lucerotech.aleksandrp.w8monitor.api.event.NetworkResponseEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
@@ -30,8 +31,7 @@ import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.loggerE;
 public class ServiceGenerator {
 
 
-    //    public static final String API_BASE_URL = "https://w8.rockettaxi.ru/";
-    public static final String API_BASE_URL = "https://w8.dev/v1/";
+    public static final String API_BASE_URL = "https://w8.rockettaxi.ru/v1/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -45,6 +45,8 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create());
 
     private CallBackServiceGenerator mCallBackServiceGenerator;
+    private
+    NetworkResponseEvent event;
 
     public ServiceGenerator(CallBackServiceGenerator mCallBackServiceGenerator) {
         this.mCallBackServiceGenerator = mCallBackServiceGenerator;
@@ -73,15 +75,21 @@ public class ServiceGenerator {
                     if (responseBody != null) {
                         loggerE("error loginToServer " + responseBody.toString());
                     }
+                    showMessage(call, null, ApiConstants.LOGIN);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.LOGIN);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
             public void onFailure(Call<UserApi> call, Throwable t) {
-                showMessage(call, t);
+                showMessage(call, t, -1);
             }
         });
     }
@@ -105,15 +113,21 @@ public class ServiceGenerator {
                     if (responseBody != null) {
                         loggerE("error loginSocialToServer " + responseBody.toString());
                     }
+                    showMessage(call, null, ApiConstants.LOGIN_SOCIAL);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.LOGIN_SOCIAL);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
             public void onFailure(Call<UserApi> call, Throwable t) {
-                showMessage(call, t);
+                showMessage(call, t, -1);
             }
         });
     }
@@ -135,15 +149,21 @@ public class ServiceGenerator {
                     if (responseBody != null) {
                         loggerE("error registerToServer " + responseBody.toString());
                     }
+                    showMessage(call, null, ApiConstants.REGISTER);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.REGISTER);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
             public void onFailure(Call<UserApi> call, Throwable t) {
-                showMessage(call, t);
+                showMessage(call, t, -1);
             }
         });
     }
@@ -173,15 +193,21 @@ public class ServiceGenerator {
                     if (responseBody != null) {
                         loggerE("error profileCreateToServer " + responseBody.toString());
                     }
+                    showMessage(call, null, ApiConstants.PROFILE);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.PROFILE);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileApi> call, Throwable t) {
-                showMessage(call, t);
+                showMessage(call, t, -1);
             }
         });
     }
@@ -197,7 +223,7 @@ public class ServiceGenerator {
                 mMeasurement.getCalories(),
                 mMeasurement.getFat(),
                 mMeasurement.getFat_level(),
-                mMeasurement.getMuscule_mass(),
+                mMeasurement.getMuscle_mass(),
                 mMeasurement.getFloat_weight(),
                 mMeasurement.getCreated_at()
         );
@@ -211,15 +237,21 @@ public class ServiceGenerator {
                     if (responseBody != null) {
                         loggerE("error sendMeasurementsToServer " + responseBody.toString());
                     }
+                    showMessage(call, null, ApiConstants.MESSUREMENTS);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.MESSUREMENTS);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
             public void onFailure(Call<Measurement> call, Throwable t) {
-                showMessage(call, t);
+                showMessage(call, t, -1);
             }
         });
     }
@@ -245,15 +277,21 @@ public class ServiceGenerator {
                     if (responseBody != null) {
                         loggerE("error changePassword " + responseBody.toString());
                     }
+                    showMessage(call, null, ApiConstants.CHANGE_PASS);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.CHANGE_PASS);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                showMessage(call, t);
+                showMessage(call, t, -1);
             }
         });
     }
@@ -282,15 +320,21 @@ public class ServiceGenerator {
                     if (responseBody != null) {
                         loggerE("error updateProfile " + responseBody.toString());
                     }
+                    showMessage(call, null, ApiConstants.UPDATE_PROFILE);
                 } else {
                     //200
                     // TODO: 17.11.2016 lrkdtv дальше обработку
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.UPDATE_PROFILE);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileApi> call, Throwable t) {
-                showMessage(call, t);
+                showMessage(call, t, -1);
             }
         });
     }
@@ -302,13 +346,20 @@ public class ServiceGenerator {
 
 //============================
 
-    private void showMessage(Call mCall, Throwable t) {
-        NetworkResponseEvent event = new NetworkResponseEvent();
-        event.setData(t.getMessage());
-        if (t instanceof UnknownHostException) {
+    private void showMessage(Call mCall, Throwable t, int mAppiConstant) {
+        event = new NetworkResponseEvent();
+        event.setSucess(false);
+        event.setId(mAppiConstant);
+        if (t == null) {
+            Toast.makeText(App.getContext(), R.string.error_server, Toast.LENGTH_SHORT).show();
+            event.setData(App.getContext().getString(R.string.error_server));
+        } else if (t != null) {
+            event.setData(t.getMessage());
+        } else if (t instanceof UnknownHostException) {
             Toast.makeText(App.getContext(), R.string.check_internet, Toast.LENGTH_SHORT).show();
             event.setData(App.getContext().getString(R.string.check_internet));
         }
+
         logger("Call ::: " + mCall.toString());
         logger("Throwable ::: " + t.getMessage());
 

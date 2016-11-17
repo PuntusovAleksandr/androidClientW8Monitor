@@ -1,20 +1,51 @@
 package com.lucerotech.aleksandrp.w8monitor.api.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by AleksandrP on 16.11.2016.
  */
 
 public class ProfileApi {
 
+
+    @SerializedName("id")
+    @Expose
     private int id;
+
+    @SerializedName("user_id")
+    @Expose
     private int user_id;
+
+    @SerializedName("activity_type")
+    @Expose
     private int activity_type;
+
+    @SerializedName("height")
+    @Expose
     private int height;
+
+    @SerializedName("gender")
+    @Expose
     private int gender;
+
+    @SerializedName("birthday")
+    @Expose
     private int birthday;
 
+
+    @SerializedName("created_at")
+    @Expose
     private String created_at;
+
+    @SerializedName("updated_at")
+    @Expose
     private String updated_at;
+
+    @SerializedName("number")
+    @Expose
+    private int number;
 
 
     public ProfileApi() {
@@ -82,5 +113,13 @@ public class ProfileApi {
 
     public void setUpdated_at(String mUpdated_at) {
         updated_at = mUpdated_at;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int mNumber) {
+        number = mNumber;
     }
 }

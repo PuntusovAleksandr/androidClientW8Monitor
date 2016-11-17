@@ -1,23 +1,61 @@
 package com.lucerotech.aleksandrp.w8monitor.api.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by AleksandrP on 16.11.2016.
  */
 
 public class Measurement {
 
+
+    @SerializedName("bmi")
+    @Expose
     private String bmi;
+
+    @SerializedName("body_water")
+    @Expose
     private String body_water;
+
+    @SerializedName("bone_mass")
+    @Expose
     private String bone_mass;
+
+    @SerializedName("calories")
+    @Expose
     private String calories;
+
+    @SerializedName("fat")
+    @Expose
     private String fat;
+
+    @SerializedName("fat_level")
+    @Expose
     private String fat_level;
-    private String muscule_mass;
+
+    @SerializedName("muscle_mass")
+    @Expose
+    private String muscle_mass;
+
+    @SerializedName("float_weight")
+    @Expose
     private String float_weight;
 
+    @SerializedName("created_at")
+    @Expose
     private String created_at;
+
+    @SerializedName("updated_at")
+    @Expose
     private String updated_at;
+
+    @SerializedName("id")
+    @Expose
     private int id;
+
+    @SerializedName("synced")
+    @Expose
     private boolean synced;
 
     public Measurement() {
@@ -71,12 +109,12 @@ public class Measurement {
         fat_level = mFat_level;
     }
 
-    public String getMuscule_mass() {
-        return muscule_mass;
+    public String getMuscle_mass() {
+        return muscle_mass;
     }
 
-    public void setMuscule_mass(String mMuscule_mass) {
-        muscule_mass = mMuscule_mass;
+    public void setMuscle_mass(String mMuscle_mass) {
+        muscle_mass = mMuscle_mass;
     }
 
     public String getFloat_weight() {

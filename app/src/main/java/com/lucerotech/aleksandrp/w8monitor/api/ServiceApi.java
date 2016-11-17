@@ -123,15 +123,15 @@ public interface ServiceApi {
     @FormUrlEncoded
     @POST("measurements/mass")
     Call<Measurement> measurements_mass(
-            @Field("bmi") String bmi,
-            @Field("body_water") String body_water,
-            @Field("bone_mass") String bone_mass,
-            @Field("calories") String calories,
-            @Field("fat") String fat,
-            @Field("fat_level") String fat_level,
-            @Field("muscule_mass") String muscule_mass,
-            @Field("float_weight") String float_weight,
-            @Field(("gender")) String gender);
+            @Field("bmi") String[] bmi,
+            @Field("body_water") String[] body_water,
+            @Field("bone_mass") String[] bone_mass,
+            @Field("calories") String[] calories,
+            @Field("fat") String[] fat,
+            @Field("fat_level") String[] fat_level,
+            @Field("muscule_mass") String[] muscule_mass,
+            @Field("float_weight") String[] float_weight,
+            @Field(("gender")) String[] gender);
 
     /**
      * change password

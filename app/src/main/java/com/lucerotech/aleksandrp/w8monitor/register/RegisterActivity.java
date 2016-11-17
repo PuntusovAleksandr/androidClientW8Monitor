@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.register.presenter.RegisterPresenterImpl;
@@ -26,7 +27,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.REGISTER;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView,
         RegisterFacebook.ListenerFacebookRegistr {
@@ -56,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 
     private RegisterFacebook mRegisterFacebook;
 
+    private Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         setTouchPassword();
         setTouchRepeatPassword();
 
+        serviceIntent = new Intent(this, ApiService.class);
     }
 
     @Override
@@ -334,6 +339,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     @Override
     public void isUserSaveLogin(boolean isSave, int mRegKey) {
         if (isSave) {
+
+            { // send data to server
+//                if (checkInternetConnection()) {
+                    serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, REGISTER);
+                    startService(serviceIntent);
+//                }
+            }
+
             presenter.goToProfile();
 //            Intent intent = getIntent();
 //            String userName = SettingsApp.getInstance().getUserName();

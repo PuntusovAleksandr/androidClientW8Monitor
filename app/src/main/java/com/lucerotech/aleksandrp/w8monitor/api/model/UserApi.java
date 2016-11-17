@@ -1,16 +1,22 @@
 package com.lucerotech.aleksandrp.w8monitor.api.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by AleksandrP on 16.11.2016.
  */
 
 public class UserApi {
 
+    @SerializedName("token")
+    @Expose
     private String token;
-    private int id;
-    private String email;
-    private String created_at;
-    private String updated_at;
+
+    @SerializedName("user")
+    @Expose
+    private UserApiData user;
+
 
     public UserApi() {
     }
@@ -23,35 +29,11 @@ public class UserApi {
         token = mToken;
     }
 
-    public int getId() {
-        return id;
+    public UserApiData getUser() {
+        return user;
     }
 
-    public void setId(int mId) {
-        id = mId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String mEmail) {
-        email = mEmail;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String mCreated_at) {
-        created_at = mCreated_at;
-    }
-
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(String mUpdated_at) {
-        updated_at = mUpdated_at;
+    public void setUser(UserApiData mUser) {
+        user = mUser;
     }
 }
