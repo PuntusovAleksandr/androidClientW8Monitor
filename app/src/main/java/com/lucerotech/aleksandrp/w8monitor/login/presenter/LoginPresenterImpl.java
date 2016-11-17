@@ -92,7 +92,7 @@ public class LoginPresenterImpl implements LoginPresenter {
         if (checkInternetConnection() && mEvent != null) {
             mListenerLoginView.loginServer(mLogin, mPass);
         } else {
-            RealmObj.getInstance().getUserByMailAndPass(mLogin, mPass, mListenerLoginView);
+            RealmObj.getInstance().getUserByMailAndPass(mLogin, mPass, mListenerLoginView, mEvent);
         }
     }
 

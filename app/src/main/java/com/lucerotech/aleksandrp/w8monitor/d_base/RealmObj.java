@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.alarm.AlarmView;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordView;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
@@ -94,7 +95,9 @@ public class RealmObj {
                 .findFirst();
     }
 
-    public void getUserByMailAndPass(String mLogin, String mPass, LoginView mListenerLoginView) {
+    public void getUserByMailAndPass(String mLogin, String mPass,
+                                     LoginView mListenerLoginView,
+                                     UpdateUiEvent mEvent) {
         long count = realm.where(UserLibr.class)
                 .equalTo("mail", mLogin)
                 .equalTo("password", mPass)
