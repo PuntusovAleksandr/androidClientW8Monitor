@@ -87,9 +87,10 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void checkUserInDb(String mLogin, String mPass, LoginView mListenerLoginView) {
-        if (checkInternetConnection()) {
-            mListenerLoginView.loginServer();
+    public void checkUserInDb(String mLogin, String mPass, LoginView mListenerLoginView,
+                              UpdateUiEvent mEvent) {
+        if (checkInternetConnection() && mEvent != null) {
+            mListenerLoginView.loginServer(mLogin, mPass);
         } else {
             RealmObj.getInstance().getUserByMailAndPass(mLogin, mPass, mListenerLoginView);
         }

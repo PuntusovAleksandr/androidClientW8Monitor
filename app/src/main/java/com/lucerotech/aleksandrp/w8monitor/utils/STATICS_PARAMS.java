@@ -78,6 +78,8 @@ public class STATICS_PARAMS {
 
     // for work api with app
     public static final String SERVICE_JOB_ID_TITLE = "serviceJobId";
+    public static final String SERVICE_MAIL = "SERVICE_MAIL";
+    public static final String SERVICE_PASS = "SERVICE_PASS";
     // key for send extra by api
     public static final String SOCIAL_ID = "SOCIAL_ID ";
     public static final String NEW_PASS = "NEW_PASS ";

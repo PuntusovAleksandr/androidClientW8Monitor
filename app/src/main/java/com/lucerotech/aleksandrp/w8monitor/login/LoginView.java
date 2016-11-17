@@ -23,7 +23,7 @@ public interface LoginView {
 
     void goToProfile();
 
-    void loginServer();
+    void loginServer(String mLogin, String mPass);
 
     void updateLogin(UpdateUiEvent mEvent);
 }

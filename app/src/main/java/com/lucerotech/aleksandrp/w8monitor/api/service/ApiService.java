@@ -18,6 +18,8 @@ import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MESSUREME
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.NEW_PASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PROFILE_API;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SOCIAL_ID;
 
 public class ApiService extends Service implements
@@ -54,7 +56,9 @@ public class ApiService extends Service implements
 
         switch (jobId) {
             case ApiConstants.LOGIN:
-                userInteractor.loginToServer();
+                String mail = intent.getStringExtra(SERVICE_MAIL);
+                String pass = intent.getStringExtra(SERVICE_PASS);
+                userInteractor.loginToServer(mail, pass);
                 break;
             case ApiConstants.LOGIN_SOCIAL:
                 String socialId = intent.getStringExtra(SOCIAL_ID);

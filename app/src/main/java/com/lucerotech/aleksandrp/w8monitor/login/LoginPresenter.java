@@ -2,6 +2,7 @@ package com.lucerotech.aleksandrp.w8monitor.login;
 
 import android.content.Intent;
 
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 
 /**
@@ -25,7 +26,7 @@ public interface LoginPresenter {
 
     void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook);
 
-    void checkUserInDb(String mLogin, String mPass, LoginView mListenerLoginView);
+    void checkUserInDb(String mLogin, String mPass, LoginView mListenerLoginView, UpdateUiEvent mEvent);
 
     void goToChangePassword(String mEmail, LoginView mListenerLoginView);
 

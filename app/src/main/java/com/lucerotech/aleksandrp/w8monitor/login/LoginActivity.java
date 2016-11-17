@@ -35,6 +35,8 @@ import io.fabric.sdk.android.Fabric;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
 
 public class LoginActivity extends AppCompatActivity implements LoginView,
         RegisterFacebook.ListenerFacebookLogin,
@@ -317,7 +319,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                 presenter.checkUserInDb(
                         et_login.getText().toString(),
                         et_password.getText().toString(),
-                        this);
+                        this, null);
             }
         }
     }
@@ -374,7 +376,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     }
 
     @Override
-    public void loginServer() {
+    public void loginServer(String mLogin, String mPass) {
+        serviceIntent.putExtra(SERVICE_MAIL, mLogin);
+        serviceIntent.putExtra(SERVICE_PASS, mPass);
         serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, LOGIN);
         startService(serviceIntent);
     }
@@ -383,7 +387,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void updateLogin(UpdateUiEvent mEvent) {
         if (mEvent.isSucess()) {
             if (mEvent.getId() == LOGIN) {
-
+                presenter.checkUserInDb(
+                        et_login.getText().toString(),
+                        et_password.getText().toString(),
+                        this,
+                        mEvent);
             }
         } else {
             Toast.makeText(this, ((String) mEvent.getData()), Toast.LENGTH_SHORT).show();
@@ -428,7 +436,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void scanOk(boolean mEnabled) {
 
     }
-
 
 
     //    =================================================

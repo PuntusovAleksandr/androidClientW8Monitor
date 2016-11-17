@@ -61,11 +61,13 @@ public class ServiceGenerator {
 
     /**
      * login
+     * @param mMail
+     * @param mPass
      */
-    public void loginToServer() {
+    public void loginToServer(String mMail, String mPass) {
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
-        Call<UserApi> call = downloadService.login(userName, userPassword);
+        Call<UserApi> call = downloadService.login(mMail, mPass);
         call.enqueue(new Callback<UserApi>() {
             @Override
             public void onResponse(Call<UserApi> call, Response<UserApi> response) {
