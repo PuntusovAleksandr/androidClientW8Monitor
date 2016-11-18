@@ -104,12 +104,13 @@ public class ServiceGenerator {
     /**
      * login witch social network
      *
+     * @param mMail
      * @param idSocialNetwork
      */
-    public void loginSocialToServer(String idSocialNetwork) {
+    public void loginSocialToServer(String mMail, String idSocialNetwork) {
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
-        Call<UserApi> call = downloadService.loginSocial(userName, idSocialNetwork);
+        Call<UserApi> call = downloadService.loginSocial(mMail, idSocialNetwork);
         call.enqueue(new Callback<UserApi>() {
             @Override
             public void onResponse(Call<UserApi> call, Response<UserApi> response) {

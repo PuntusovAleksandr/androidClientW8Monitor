@@ -14,7 +14,6 @@ import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
-import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.general.fragment.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.general.fragment.LinerGraphView;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
@@ -631,40 +630,6 @@ public class RealmObj {
         }
     }
 
-    public void addUserFromFacebook(final RegisterFacebook.UserFacebook mUser, final int mRegKey,
-                                    final RealmListener mListener) {
-
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
-//                UserLibr userLibr = new UserLibr();
-////                UserLibr userLibr = bgRealm.copyToRealmOrUpdate(object);
-//                userLibr.setMail(mUser.getE_mail());
-//                userLibr.setFaceboolId(mUser.getId());
-//                userLibr.setBirthday(mUser.getBirth());
-//                bgRealm.copyToRealmOrUpdate(userLibr);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                // Transaction was a success.
-                sendAnswer(mRegKey, true, mListener);
-
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                // Transaction failed and was automatically canceled.
-                sendAnswer(mRegKey, false, mListener);
-                saveAllLogs("ERROR in db addUserFromFacebook =" + error.getMessage());
-            }
-        });
-    }
-
-    private void sendAnswer(int mRegKey, boolean mIsSave, RealmListener mListener) {
-        mListener.isUserSaveLogin(mIsSave, mRegKey);
-    }
-
 
     public void setAlarmInDb(boolean isAmPicker, String mTime, AlarmView mAlarmView) {
         AlarmModel model = new AlarmModel();
@@ -1028,10 +993,6 @@ public class RealmObj {
 //    ===============================================================
 //    LISTENER
 //    ===============================================================
-
-    public interface RealmListener {
-        void isUserSaveLogin(boolean isSave, int mRegKey);
-    }
 
     public interface StateListener {
         void isSave(int state);

@@ -33,13 +33,13 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN_SOCIAL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
 
 public class LoginActivity extends AppCompatActivity implements LoginView,
-        RegisterFacebook.ListenerFacebookLogin,
         BluetoothHandler.onResultScanDevice {
 
     private LoginPresenter presenter;
@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @Bind(R.id.ll_keep_me)
     RelativeLayout ll_kepp_me;
+    @Bind(R.id.rl_login_register)
+    RelativeLayout rl_login_register;
 
     @Bind(R.id.et_login)
     EditText et_login;
@@ -138,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == STATICS_PARAMS.FB_CODE) {
+                rl_login_register.setVisibility(View.VISIBLE);
                 presenter.onActivityResultFB(requestCode, resultCode, data, mRegisterFacebook);
             } else if (requestCode == REQUEST_REGISTER) {
                 String name = data.getStringExtra("name");
@@ -197,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.ib_facebook)
     public void registerFacebook() {
-        mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN, this);
+        mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN);
         mRegisterFacebook.register();
     }
 
@@ -387,7 +390,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void updateLogin(UpdateUiEvent mEvent) {
         if (mEvent.isSucess()) {
-            if (mEvent.getId() == LOGIN) {
+            if (mEvent.getId() == LOGIN ||
+                    mEvent.getId() == LOGIN_SOCIAL) {
                 presenter.checkUserInDb(
                         et_login.getText().toString(),
                         et_password.getText().toString(),
@@ -417,17 +421,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 //                .load(resource)
 //                .into(iv_keep_me);
         iv_keep_me.setImageResource(resource);
-    }
-
-//    =================================================
-//    answer from RegFacebook
-//    =================================================
-
-    @Override
-    public void onSaveUserLogin(boolean mIsSave) {
-        if (mIsSave) {
-            presenter.goToProfile();
-        }
     }
 
     //    =================================================

@@ -14,7 +14,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.App;
+import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.login.LoginActivity;
 import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
 
@@ -23,11 +24,16 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN_SOCIAL;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SOCIAL_ID;
+
 /**
  * Created by AleksandrP on 14.09.2016.
  */
 
-public class RegisterFacebook implements RealmObj.RealmListener {
+public class RegisterFacebook {
 
 
     private CallbackManager mCallbackManager;
@@ -36,29 +42,15 @@ public class RegisterFacebook implements RealmObj.RealmListener {
     private Activity mActivity;
     private UserFacebook mUser;
 
-    private ListenerFacebookLogin mListenerFacebook;
-    private ListenerFacebookRegistr mListenerFacebookRegistr;
 
-    public RegisterFacebook(Context mContext, int mRegKey, ListenerFacebookLogin mListenerFacebook) {
+    public RegisterFacebook(Context mContext, int mRegKey) {
         this.mContext = mContext;
         this.regKey = mRegKey;
-        this.mListenerFacebook = mListenerFacebook;
         mCallbackManager = CallbackManager.Factory.create();
         if (mRegKey == LoginActivity.REG_LOGIN) {
-            mActivity =(LoginActivity) mContext;
+            mActivity = (LoginActivity) mContext;
         } else {
-            mActivity =(RegisterActivity) mContext;
-        }
-    }
-    public RegisterFacebook(Context mContext, int mRegKey, ListenerFacebookRegistr mListenerFacebook) {
-        this.mContext = mContext;
-        this.regKey = mRegKey;
-        this.mListenerFacebookRegistr = mListenerFacebook;
-        mCallbackManager = CallbackManager.Factory.create();
-        if (mRegKey == LoginActivity.REG_LOGIN) {
-            mActivity =(LoginActivity) mContext;
-        } else {
-            mActivity =(RegisterActivity) mContext;
+            mActivity = (RegisterActivity) mContext;
         }
     }
 
@@ -87,10 +79,10 @@ public class RegisterFacebook implements RealmObj.RealmListener {
                                                     mUser = new UserFacebook(
                                                             mId,
                                                             object.getString("name"),
-                                                            object.getString("email"),
-                                                            object.getString("birthday"),
-                                                            "https://graph.facebook.com/" +
-                                                                    mId + "/picture?type=large"
+                                                            object.getString("email")
+//                                                            object.getString("birthday"),
+//                                                            "https://graph.facebook.com/" +
+//                                                                    mId + "/picture?type=large"
                                                     );
                                                 } catch (JSONException mE) {
                                                     mE.printStackTrace();
@@ -120,7 +112,13 @@ public class RegisterFacebook implements RealmObj.RealmListener {
     }
 
     private void saveInDb(UserFacebook mUser) {
-        RealmObj.getInstance().addUserFromFacebook(mUser, regKey , this);
+        Intent serviceIntent = new Intent(App.getContext(), ApiService.class);
+        serviceIntent.putExtra(SERVICE_MAIL, mUser.getE_mail());
+        serviceIntent.putExtra(SOCIAL_ID, mUser.getId());
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, LOGIN_SOCIAL);
+        App.getContext().startService(serviceIntent);
+
+
     }
 
     public void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, Context mContext) {
@@ -133,27 +131,9 @@ public class RegisterFacebook implements RealmObj.RealmListener {
     }
 
 //    ===================================================
-//        answer from db
-//===================================================
-    @Override
-    public void isUserSaveLogin(boolean isSave, int mRegKey) {
-        if (mRegKey == LoginActivity.REG_LOGIN) {
-            mListenerFacebook.onSaveUserLogin(isSave);
-        } else {
-            mListenerFacebookRegistr.onSaveUserLogin(isSave);
-        }
-    }
-//    ===================================================
 //    END answer from db
 //    ===================================================
 
-    public interface ListenerFacebookLogin {
-        void onSaveUserLogin(boolean mIsSave);
-    }
-
-    public interface ListenerFacebookRegistr {
-        void onSaveUserLogin(boolean mIsSave);
-    }
 
     public class UserFacebook {
         private String id;
@@ -163,6 +143,12 @@ public class RegisterFacebook implements RealmObj.RealmListener {
         private String icon;
 
         public UserFacebook() {
+        }
+
+        public UserFacebook(String mId, String mName, String mE_mail) {
+            id = mId;
+            name = mName;
+            e_mail = mE_mail;
         }
 
         public UserFacebook(String mId, String mName, String mE_mail, String mBirth, String mIcon) {

@@ -62,7 +62,7 @@ public class ApiService extends Service implements
                 break;
             case ApiConstants.LOGIN_SOCIAL:
                 String socialId = intent.getStringExtra(SOCIAL_ID);
-                userInteractor.loginSocialToServer(socialId);
+                userInteractor.loginSocialToServer(mail, socialId);
                 break;
             case ApiConstants.REGISTER:
                 userInteractor.registerToServer(mail, pass);

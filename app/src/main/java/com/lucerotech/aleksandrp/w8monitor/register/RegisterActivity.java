@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -29,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN_SOCIAL;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.REGISTER;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
@@ -36,8 +38,7 @@ import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_J
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterView,
-        RegisterFacebook.ListenerFacebookRegistr {
+public class RegisterActivity extends AppCompatActivity implements RegisterView {
 //        RealmObj.RealmListener {
 
     private RegisterPresenter presenter;
@@ -59,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     ImageView iv_register_ok;
     @Bind(R.id.iv_logo_register)
     ImageView iv_logo_register;
+
+    @Bind(R.id.rl_progress_register)
+    RelativeLayout rl_progress_register;
 
     public static final int REG_REG = 2;
 
@@ -85,6 +89,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         setTouchRepeatPassword();
 
         serviceIntent = new Intent(this, ApiService.class);
+
+
     }
 
     @Override
@@ -96,6 +102,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
 
         presenter.registerEvenBus();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -106,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         imm.hideSoftInputFromWindow(et_email_register.getWindowToken(), 0);
 
         presenter.unregisterEvenBus();
+
     }
 
     @Override
@@ -113,6 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 
         if (resultCode == RESULT_OK) {
             if (requestCode == STATICS_PARAMS.FB_CODE) {
+                rl_progress_register.setVisibility(View.VISIBLE);
                 presenter.onActivityResultFB(requestCode, resultCode, data, mRegisterFacebook);
             }
         }
@@ -137,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 
     @OnClick(R.id.ib_facebook_register)
     public void clickRegisterFacebook() {
-        mRegisterFacebook = new RegisterFacebook(RegisterActivity.this, REG_REG, this);
+        mRegisterFacebook = new RegisterFacebook(RegisterActivity.this, REG_REG);
         mRegisterFacebook.register();
     }
 
@@ -342,17 +356,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     //    =================================================
 //        END    answer from RegisterView
     //    =================================================
-//    answer from RegFacebook
-//    =================================================
-
-    @Override
-    public void onSaveUserLogin(boolean mIsSave) {
-        presenter.goToProfile();
-    }
-
-    //    =================================================
-//        END    answer from RegFacebook
-    //    =================================================
 //    answer from RealmListener
 //    =================================================
     @Override
@@ -375,7 +378,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     @Override
     public void updateLogin(UpdateUiEvent mEvent) {
         if (mEvent.isSucess()) {
-            if (mEvent.getId() == REGISTER) {
+            if (mEvent.getId() == REGISTER ||
+                    mEvent.getId() == LOGIN_SOCIAL) {
 
                 presenter.checkUserInDb(
                         et_email_register.getText().toString(),
