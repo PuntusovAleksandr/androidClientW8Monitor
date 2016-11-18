@@ -152,7 +152,7 @@ public class ServiceGenerator {
      * @param mMail
      * @param mPass
      */
-    public void registerToServer(String mMail, String mPass) {
+    public void registerToServer(final String mMail, final String mPass) {
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
         Call<UserApi> call = downloadService.register(mMail, mPass);
@@ -172,6 +172,8 @@ public class ServiceGenerator {
 
                 } else {
                     //200
+                    SettingsApp.getInstance().setUserName(mMail);
+                    SettingsApp.getInstance().setUserPassword(mPass);
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.REGISTER);

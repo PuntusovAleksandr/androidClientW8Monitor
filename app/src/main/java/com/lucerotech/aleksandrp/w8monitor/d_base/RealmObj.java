@@ -107,7 +107,7 @@ public class RealmObj {
         return userLibr;
     }
 
-    public void getUserByMailAndPass(String mLogin, final String mPass,
+    public void getUserByMailAndPass(final String mLogin, final String mPass,
                                      final LoginView mListenerLoginView,
                                      UpdateUiEvent mEvent) {
         UserLibr userByMail = getUserByMail(mLogin);
@@ -162,6 +162,8 @@ public class RealmObj {
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
                     public void onSuccess() {
+                        SettingsApp.getInstance().setUserName(mLogin);
+                        SettingsApp.getInstance().setUserPassword(mPass);
                         mListenerLoginView.userExist(true, userLibr);
                     }
                 }, new Realm.Transaction.OnError() {
@@ -213,6 +215,9 @@ public class RealmObj {
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     body = profiles.get(i).getActivity_type();
+                    if (body == 0) {
+                        body = 2;
+                    }
                 }
             }
         }
@@ -245,6 +250,9 @@ public class RealmObj {
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     date = profiles.get(i).getBirthday() + "";
+                    if (date.equals("0")) {
+                        date = "25";
+                    }
                 }
             }
         }
@@ -264,6 +272,9 @@ public class RealmObj {
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     height = profiles.get(i).getHeight() + "";
+                    if (height.equals("0")) {
+                        height = "170";
+                    }
                 }
             }
         }
@@ -554,7 +565,7 @@ public class RealmObj {
     }
 
     // from login (test) activity
-    public void putUser(String email, String password, final LoginView mListener) {
+    public void putUser(final String email, final String password, final LoginView mListener) {
 
         final UserLibr userLibr = getDefoultUser(email, password);
 
@@ -567,6 +578,9 @@ public class RealmObj {
                 }, new Realm.Transaction.OnSuccess() {
                     @Override
                     public void onSuccess() {
+
+                        SettingsApp.getInstance().setUserName(email);
+                        SettingsApp.getInstance().setUserPassword(password);
                         mListener.userExist(true, userLibr);
                     }
                 }, new Realm.Transaction.OnError() {

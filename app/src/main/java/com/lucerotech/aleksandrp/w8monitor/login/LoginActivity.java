@@ -33,7 +33,6 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN;
-import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN_SOCIAL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
@@ -349,8 +348,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void userExist(boolean mUserExist, UserLibr mUser) {
         if (mUserExist) {
-            SettingsApp.getInstance().setUserName(et_login.getText().toString());
-            SettingsApp.getInstance().setUserPassword(et_password.getText().toString());
             if (mUser.getEmail().equalsIgnoreCase(STATICS_PARAMS.TEST_USER)) {
                 SettingsApp.getInstance().setUserName(mUser.getEmail());
                 SettingsApp.getInstance().setUserPassword(mUser.getEmail());
@@ -398,11 +395,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void updateLogin(UpdateUiEvent mEvent) {
         if (mEvent.isSucess()) {
-            if (mEvent.getId() == LOGIN ||
-                    mEvent.getId() == LOGIN_SOCIAL) {
+            if (mEvent.getId() == UpdateUiEvent.LOGIN ||
+                    mEvent.getId() == UpdateUiEvent.LOGIN_SOCIAL) {
                 presenter.checkUserInDb(
-                        et_login.getText().toString(),
-                        et_password.getText().toString(),
+                        SettingsApp.getInstance().getUserName(),
+                        SettingsApp.getInstance().getUserPassword(),
                         this,
                         mEvent);
             }
