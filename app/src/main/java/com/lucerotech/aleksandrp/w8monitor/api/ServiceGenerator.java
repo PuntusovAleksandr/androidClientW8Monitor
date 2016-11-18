@@ -326,11 +326,11 @@ public class ServiceGenerator {
         getProfile(new Profile());
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
-        Call<Object> call = downloadService.password(newPass, oldPass, newPass_2);
-        call.enqueue(new Callback<Object>() {
+        Call<UserApi> call = downloadService.password(newPass, oldPass, newPass_2);
+        call.enqueue(new Callback<UserApi>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                Object body = response.body();
+            public void onResponse(Call<UserApi> call, Response<UserApi> response) {
+                UserApi body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
                     String textError = "Error data";
@@ -352,7 +352,7 @@ public class ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<UserApi> call, Throwable t) {
                 showMessageFailure(call, t, ApiConstants.CHANGE_PASS);
             }
         });

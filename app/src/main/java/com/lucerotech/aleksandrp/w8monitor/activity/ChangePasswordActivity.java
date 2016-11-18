@@ -124,6 +124,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
                         passwordTextOld,
                         passwordText,
                         repearPasswordText,
+                        mEvent,
                         this);
             }
         } else {

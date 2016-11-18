@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts;
 
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePasswordView;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 
 /**
  * Created by AleksandrP on 16.09.2016.
@@ -23,5 +24,5 @@ public interface ChangePasswordPresenter {
                         String mRepearPasswordText, ChangePasswordView mPasswordView);
 
     void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText,
-                            String mRepearPasswordText, ChangePasswordView mPasswordView);
+                            String mRepearPasswordText, UpdateUiEvent mEvent, ChangePasswordView mPasswordView);
 }

@@ -703,10 +703,13 @@ public class RealmObj {
 
 
     public void checkAndChangePassword(String mMailUser, String mPasswordTextOld,
-                                       String mPasswordText, ChangePasswordView mPasswordView) {
+                                       String mPasswordText, ChangePasswordView mPasswordView,
+                                       UpdateUiEvent mEvent) {
+        UserLibr userLibr_ = transformUpdateEventUserApi(mEvent);
+
         UserLibr userLibr = realm.where(UserLibr.class)
                 .equalTo("email", mMailUser)
-                .equalTo("password", mPasswordTextOld)
+//                .equalTo("password", mPasswordTextOld)
                 .findFirst();
         if (userLibr != null) {
             realm.beginTransaction();
@@ -997,6 +1000,58 @@ public class RealmObj {
         void getUserForSettings(UserLibr mUserLibr);
 
     }
+//==============================================================
+
+
+
+    private UserLibr transformUpdateEventUserApi(UpdateUiEvent mEvent) {
+
+        UserLibr userLibr = new UserLibr();
+        RealmList<Profile> profiles = new RealmList<>();
+
+        UserApi userApi = (UserApi) mEvent.getData();
+        UserApiData userApiData = userApi.getUser();
+        List<ProfileApi> profileApis = userApiData.getProfileApis();
+
+        for (int i = 0; i < profileApis.size(); i++) {
+            ProfileApi profileApi = profileApis.get(i);
+            Profile profile = new Profile();
+            profile.setId(profileApi.getId());
+            profile.setUser_id(profileApi.getUser_id());
+            profile.setActivity_type(profileApi.getActivity_type());
+            profile.setHeight(profileApi.getHeight());
+            profile.setGender(profileApi.getGender());
+            profile.setBirthday(profileApi.getBirthday());
+            profile.setCreated_at(profileApi.getCreated_at());
+            profile.setUpdated_at(profileApi.getUpdated_at());
+            profile.setNumber(profileApi.getNumber());
+
+            profiles.add(profile);
+        }
+        userLibr.setEmail(userApiData.getEmail());
+        userLibr.setPassword(SettingsApp.getInstance().getUserPassword());
+        userLibr.setToken(userApi.getToken());
+        userLibr.setId_server(userApiData.getId());
+        userLibr.setCreated_at(userApiData.getCreated_at());
+        userLibr.setUpdated_at(userApiData.getUpdated_at());
+        userLibr.setIs_imperial(SettingsApp.getInstance().getMetric() ? 1 : 0);
+        userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin() ? 1 : 0);
+        userLibr.setTheme(userApiData.getTheme());
+        userLibr.setLanguage(userApiData.getLanguage());
+        userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
+        userLibr.setProfiles(profiles);
+
+
+        return userLibr;
+    }
+
+
+
+
+
+
+//==============================================================
+
 
 
 }

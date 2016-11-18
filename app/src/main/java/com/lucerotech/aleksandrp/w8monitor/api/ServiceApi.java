@@ -144,7 +144,7 @@ public interface ServiceApi {
      */
     @FormUrlEncoded
     @POST("password")
-    Call<Object> password(
+    Call<UserApi> password(
             @Field("password") String password,
             @Field("current_password") String current_password,
             @Field(("password_confirmation")) String password_confirmation);

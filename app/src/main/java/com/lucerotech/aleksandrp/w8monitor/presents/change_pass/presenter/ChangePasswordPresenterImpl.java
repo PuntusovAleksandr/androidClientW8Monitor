@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.ChangePasswordPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePasswordView;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
 
@@ -76,8 +77,10 @@ public class ChangePasswordPresenterImpl implements ChangePasswordPresenter {
     }
 
     @Override
-    public void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText, String mRepearPasswordText, ChangePasswordView mPasswordView) {
+    public void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText,
+                                   String mRepearPasswordText, UpdateUiEvent mEvent,
+                                   ChangePasswordView mPasswordView) {
         RealmObj.getInstance().checkAndChangePassword(
-                mMailUser, mPasswordTextOld, mPasswordText, mPasswordView);
+                mMailUser, mPasswordTextOld, mPasswordText, mPasswordView, mEvent);
     }
 }
