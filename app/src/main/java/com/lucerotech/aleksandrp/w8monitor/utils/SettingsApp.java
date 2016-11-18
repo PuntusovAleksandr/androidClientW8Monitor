@@ -6,8 +6,6 @@ import android.util.Log;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
 
-import java.util.Locale;
-
 /**
  * Created by AleksandrP on 14.09.2016.
  */
@@ -67,7 +65,7 @@ public class SettingsApp {
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
-    private static final String DEF_LANGUAGE = Locale.ENGLISH.getLanguage();
+    private static final String DEF_LANGUAGE = "en";
     private static final boolean DEF_EMPTY_BOOLEAN = false;
     private static final boolean DEF_NOT_EMPTY_BOOLEAN = true;
     private static final int DEF_INT_EMPTY = 1;

@@ -517,11 +517,11 @@ public class RealmObj {
             userLibr.setId_server(0);            // default
             userLibr.setCreated_at(data);            // default
             userLibr.setUpdated_at(data);            // default
-            userLibr.setIs_imperial(1);            // default
-            userLibr.setKeep_login(1);            // default
-            userLibr.setTheme(1);            // default
-            userLibr.setProfileBLE(1);            // default
-            userLibr.setLanguage("en");
+            userLibr.setIs_imperial(SettingsApp.getInstance().getMetric() ? 1 : 0);            // default
+            userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin() ? 1 : 0);            // default
+            userLibr.setTheme(SettingsApp.getInstance().isThemeDark() ? 0 : 1);            // default
+            userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());            // default
+            userLibr.setLanguage(SettingsApp.getInstance().getLanguages());
             userLibr.setFullProfile(false);
 
 
