@@ -209,9 +209,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
         String testName = STATICS_PARAMS.TEST_USER;
         presenter.inputEmptyUser(testName, testName, this);
-        SettingsApp.getInstance().setUserName(testName);
-        SettingsApp.getInstance().setUserPassword(testName);
-        SettingsApp.getInstance().setProfileBLE(1);
+//        SettingsApp.getInstance().setUserName(testName);
+//        SettingsApp.getInstance().setUserPassword(testName);
+//        SettingsApp.getInstance().setProfileBLE(1);
 //        }
     }
 

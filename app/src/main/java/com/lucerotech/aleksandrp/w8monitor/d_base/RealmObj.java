@@ -170,21 +170,6 @@ public class RealmObj {
                         mListenerLoginView.userExist(false, null);
                     }
                 });
-
-
-//        long count = realm.where(UserLibr.class)
-//                .equalTo("mail", mLogin)
-//                .equalTo("password", mPass)
-//                .count();
-//        boolean check = count > 0;
-//        UserLibr user = null;
-//        if (check) {
-//            user = realm.where(UserLibr.class)
-//                    .equalTo("mail", mLogin)
-//                    .equalTo("password", mPass)
-//                    .findFirst();
-//        }
-//        mListenerLoginView.userExist(check, user);
     }
 
 
@@ -519,95 +504,46 @@ public class RealmObj {
      */
     @NonNull
     private UserLibr getDefoultUser(final String email, String password) {
-        UserLibr userByMail = getUserByMail(STATICS_PARAMS.TEST_USER);
-        if (!email.equalsIgnoreCase(STATICS_PARAMS.TEST_USER) && userByMail != null) {
-            UserLibr user = new UserLibr();
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setToken(userByMail.getToken());
-            user.setId_server(userByMail.getId_server());
-            user.setCreated_at(userByMail.getCreated_at());
-            user.setUpdated_at(userByMail.getUpdated_at());
-            user.setIs_imperial(userByMail.getIs_imperial());
-            user.setKeep_login(userByMail.getKeep_login());
-            user.setTheme(userByMail.getTheme());
-            user.setProfileBLE(userByMail.getProfileBLE());
-            user.setLanguage(userByMail.getLanguage());
-            user.setFullProfile(userByMail == null ? false : userByMail.isFullProfile());
+        UserLibr userLibr = getUserByMail(STATICS_PARAMS.TEST_USER);
 
-            user.getProfiles().clear();
+        if (userLibr != null) {
+            return userLibr;
+        } else {
+            String data = new Date().getTime() + "";
+            userLibr = new UserLibr();
+            userLibr.setEmail(email);
+            userLibr.setPassword(password);
+            userLibr.setToken("");            // default
+            userLibr.setId_server(0);            // default
+            userLibr.setCreated_at(data);            // default
+            userLibr.setUpdated_at(data);            // default
+            userLibr.setIs_imperial(1);            // default
+            userLibr.setKeep_login(1);            // default
+            userLibr.setTheme(1);            // default
+            userLibr.setProfileBLE(1);            // default
+            userLibr.setLanguage("en");
+            userLibr.setFullProfile(false);
 
-            RealmList<Profile> profiles = userByMail.getProfiles();
-            for (int i = 0; i < profiles.size(); i++) {
-                Profile profileApi = profiles.get(i);
+
+            RealmList<Profile> profiles = new RealmList<>();
+            for (int i = 0; i < 2; i++) {
                 Profile profile = new Profile();
-                profile.setId(profileApi.getId());
-                profile.setUser_id(profileApi.getUser_id());
-                profile.setActivity_type(profileApi.getActivity_type());
-                profile.setHeight(profileApi.getHeight());
-                profile.setGender(profileApi.getGender());
-                profile.setBirthday(profileApi.getBirthday());
-                profile.setCreated_at(profileApi.getCreated_at());
-                profile.setUpdated_at(profileApi.getUpdated_at());
-                profile.setNumber(profileApi.getNumber());
+                profile.setId(i);
+                profile.setUser_id(userLibr.getId_server());
+                profile.setActivity_type(2);
+                profile.setHeight(170);
+                profile.setGender(1);
+                profile.setBirthday(25);
+                profile.setCreated_at(data);
+                profile.setUpdated_at(data);
+                profile.setNumber(i + 1);
 
-                user.getProfiles().add(profile);
+                profiles.add(profile);
             }
 
-            // получаем все данные тестового юзера
-            final RealmResults<ParamsBody> paramsBodies = getParamsBodyByEmail(STATICS_PARAMS.TEST_USER);
-            for (ParamsBody body : paramsBodies) {
-                addParamsBody(email, body.getWeight(), body.getBody(), body.getFat(),
-                        body.getMuscle(), body.getWater(), body.getVisceralFat(),
-                        body.getEmr(), body.getBodyAge(), body.getDate_time());
-            }
+            userLibr.setProfiles(profiles);
 
-            // удаляем все параметры тестового юзера из базы
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    RealmResults<ParamsBody> all = realm.where(ParamsBody.class)
-                            .equalTo("userName_id", STATICS_PARAMS.TEST_USER)
-                            .findAll();
-                    all.deleteAllFromRealm();
-                }
-            });
-            return user;
         }
-        String data = new Date().getTime() + "";
-        UserLibr userLibr = new UserLibr();
-        userLibr.setEmail(email);
-        userLibr.setPassword(password);
-        userLibr.setToken("");            // default
-        userLibr.setId_server(1);            // default
-        userLibr.setCreated_at(data);            // default
-        userLibr.setUpdated_at(data);            // default
-        userLibr.setIs_imperial(1);            // default
-        userLibr.setKeep_login(1);            // default
-        userLibr.setTheme(1);            // default
-        userLibr.setProfileBLE(1);            // default
-        userLibr.setLanguage("en");
-        userLibr.setFullProfile(false);
-
-        userLibr.getProfiles().clear();
-
-        RealmList<Profile> profiles = userByMail.getProfiles();
-        for (int i = 0; i < 2; i++) {
-            Profile profile = new Profile();
-            profile.setId(i);            // default
-            profile.setUser_id(1);            // default
-            profile.setActivity_type(1);            // default
-            profile.setHeight(170);            // default
-            profile.setGender(1);             // default
-            profile.setBirthday(25);            // default;
-            profile.setCreated_at(data);
-            profile.setUpdated_at(data);
-            profile.setNumber(i + 1);
-
-            userLibr.getProfiles().add(profile);
-        }
-
-
         return userLibr;
     }
 
@@ -618,16 +554,27 @@ public class RealmObj {
     }
 
     // from login (test) activity
-    public void putUser(String email, String password, LoginView mListener) {
-        UserLibr userLibr1 = null;
-        UserLibr userLibr = getDefoultUser(email, password);
-        realm.beginTransaction();
-        userLibr1 = realm.copyToRealmOrUpdate(userLibr);
-        realm.commitTransaction();
-        String mail = userLibr1.getEmail();
-        if (mListener != null && mail != null) {
-            mListener.goToProfile();
-        }
+    public void putUser(String email, String password, final LoginView mListener) {
+
+        final UserLibr userLibr = getDefoultUser(email, password);
+
+        realm.executeTransactionAsync(
+                new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealmOrUpdate(userLibr);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        mListener.userExist(true, userLibr);
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        mListener.userExist(false, null);
+                    }
+                });
     }
 
 
