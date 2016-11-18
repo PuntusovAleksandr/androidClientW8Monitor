@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.profile.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -9,22 +10,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
+import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfilePresenter;
 import com.lucerotech.aleksandrp.w8monitor.profile.ProfileView;
 import com.lucerotech.aleksandrp.w8monitor.utils.FragmentMapker;
+import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 import com.shawnlin.numberpicker.NumberPicker;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.LOGIN;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.PROFILE;
 import static com.lucerotech.aleksandrp.w8monitor.profile.ProfileActivity.MARKER_MAIN;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
+import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +77,9 @@ public class GrowthFragment extends Fragment implements
     private float FOOT_IN_CM = 30.48f;
     private float INCH_IN_CM = 2.54f;
 
+
+    private Intent serviceIntent;
+
     public GrowthFragment() {
     }
 
@@ -92,6 +109,9 @@ public class GrowthFragment extends Fragment implements
             iv_toolbar_next_press.setVisibility(View.INVISIBLE);
         }
         setDefoultViews();
+
+        serviceIntent = new Intent(getActivity(), ApiService.class);
+
         return view;
     }
 
@@ -116,7 +136,19 @@ public class GrowthFragment extends Fragment implements
 
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void onStop() {
+        saveData();
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    private void saveData() {
         String height = "";
         if (SettingsApp.getInstance().getMetric()) {
             height = String.valueOf(npHeightMetric.getValue());
@@ -126,16 +158,37 @@ public class GrowthFragment extends Fragment implements
             height = String.valueOf(value);
         }
         mPresenter.saveHeight(height, this);
-        super.onStop();
+    }
+
+    @Subscribe
+    public void onEvent(UpdateUiEvent mEvent) {
+        if (mEvent.isSucess()) {
+            if (mEvent.getId() == UpdateUiEvent.PROFILE) {
+                saveData();
+                goToNext();
+            }
+        } else {
+            Toast.makeText(getActivity(), ((String) mEvent.getData()), Toast.LENGTH_SHORT).show();
+        }
+        System.out.println(mEvent.getData().toString());
     }
 
     @OnClick(R.id.iv_toolbar_next_press)
     public void clickNextFragment() {
+        if (checkInternetConnection() &&
+                !SettingsApp.getInstance().getUserName().equalsIgnoreCase(STATICS_PARAMS.TEST_USER)) {
+            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, PROFILE);
+            getActivity().startService(serviceIntent);
+        } else {
+            goToNext();
+        }
+    }
+
+    private void goToNext() {
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else
             mPresenter.setFullSettings(this);
-//            mActivity.setEnterProfileDataFragment(FragmentMapker.CONNECT_BLE, false);
     }
 
     @OnClick(R.id.iv_toolbar_back_press)

@@ -80,10 +80,13 @@ public class STATICS_PARAMS {
     public static final String SERVICE_JOB_ID_TITLE = "serviceJobId";
     public static final String SERVICE_MAIL = "SERVICE_MAIL";
     public static final String SERVICE_PASS = "SERVICE_PASS";
+    public static final String SERVICE_KEY_PROFILE = "SERVICE_KEY_PROFILE";
+    public static final String SERVICE_VALUE_KEY_PROFILE = "SERVICE_VALUE_KEY_PROFILE";
     // key for send extra by api
     public static final String SOCIAL_ID = "SOCIAL_ID ";
     public static final String NEW_PASS = "NEW_PASS ";
     public static final String PROFILE_API = "PROFILE_API ";
     public static final String MESSUREMENTS = "MESSUREMENTS ";
+    public static final String GENDER = "GENDER ";
 
 }

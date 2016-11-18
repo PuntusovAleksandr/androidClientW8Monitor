@@ -9,13 +9,11 @@ import com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants;
 import com.lucerotech.aleksandrp.w8monitor.api.event.NetworkResponseEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
-import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 
 import org.greenrobot.eventbus.EventBus;
 
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MESSUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.NEW_PASS;
-import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PROFILE_API;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
@@ -49,7 +47,6 @@ public class ApiService extends Service implements
         this.startId = startId;
         int jobId = intent.getIntExtra(SERVICE_JOB_ID_TITLE, -1);
 
-        ProfileApi profileApi;
         Measurement measurement;
 
         String mail = intent.getStringExtra(SERVICE_MAIL);
@@ -67,8 +64,7 @@ public class ApiService extends Service implements
                 userInteractor.registerToServer(mail, pass);
                 break;
             case ApiConstants.PROFILE:
-                profileApi = intent.getParcelableExtra(PROFILE_API);
-                userInteractor.profileCreateToServer(profileApi);
+                userInteractor.profileCreateToServer();
                 break;
             case ApiConstants.MESSUREMENTS:
                 measurement = intent.getParcelableExtra(MESSUREMENTS);
@@ -82,8 +78,7 @@ public class ApiService extends Service implements
                 userInteractor.changePassword(newPass);
                 break;
             case ApiConstants.UPDATE_PROFILE:
-                profileApi = intent.getParcelableExtra(PROFILE_API);
-                userInteractor.updateProfile(profileApi);
+                userInteractor.updateProfile();
                 break;
             case ApiConstants.ALARM_UPDATE:
                 userInteractor.updateAlarm();

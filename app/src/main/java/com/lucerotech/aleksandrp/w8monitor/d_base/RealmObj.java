@@ -98,7 +98,7 @@ public class RealmObj {
         UserLibr userLibr = null;
         try {
             userLibr = realm.where(UserLibr.class)
-                    .equalTo("mail", email)
+                    .equalTo("email", email)
                     .findFirst();
         } catch (Exception mE) {
             mE.printStackTrace();
@@ -177,7 +177,7 @@ public class RealmObj {
 
     public void checkEmail(String mEmail, LoginView mListenerLoginView) {
         long count = realm.where(UserLibr.class)
-                .equalTo("mail", mEmail)
+                .equalTo("email", mEmail)
                 .count();
         mListenerLoginView.changePassUserExist((count > 0), mEmail);
     }
@@ -518,6 +518,10 @@ public class RealmObj {
         UserLibr userLibr = getUserByMail(STATICS_PARAMS.TEST_USER);
 
         if (userLibr != null) {
+            realm.beginTransaction();
+            userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin() ? 1 : 0);
+            realm.copyToRealmOrUpdate(userLibr);
+            realm.commitTransaction();
             return userLibr;
         } else {
             String data = new Date().getTime() + "";
@@ -586,7 +590,7 @@ public class RealmObj {
                 }, new Realm.Transaction.OnError() {
                     @Override
                     public void onError(Throwable error) {
-                        mListener.userExist(false, null);
+                        mListener.userExist(true, userLibr);
                     }
                 });
     }

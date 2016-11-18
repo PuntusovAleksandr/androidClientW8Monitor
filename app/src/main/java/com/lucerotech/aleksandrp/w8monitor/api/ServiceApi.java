@@ -75,6 +75,7 @@ public interface ServiceApi {
             @Field("activity_type") int activity_type,
             @Field("height") int height,
             @Field("birthday") int birthday,
+            @Field("age") int age,
             @Field(("gender")) int gender);
 
 

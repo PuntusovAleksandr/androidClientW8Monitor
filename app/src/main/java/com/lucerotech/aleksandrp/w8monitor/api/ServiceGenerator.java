@@ -9,12 +9,19 @@ import com.lucerotech.aleksandrp.w8monitor.api.event.NetworkResponseEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
+import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
+import io.realm.RealmList;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +41,6 @@ public class ServiceGenerator {
 
     public static final String API_BASE_URL = "https://w8.rockettaxi.ru/v1/";
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private String userName = SettingsApp.getInstance().getUserName();
     private String userPassword = SettingsApp.getInstance().getUserPassword();
@@ -46,15 +52,41 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create());
 
     private CallBackServiceGenerator mCallBackServiceGenerator;
-    private
-    NetworkResponseEvent event;
+    private NetworkResponseEvent event;
+
+    private static String authToken;
 
     public ServiceGenerator(CallBackServiceGenerator mCallBackServiceGenerator) {
         this.mCallBackServiceGenerator = mCallBackServiceGenerator;
     }
 
-    private static <S> S createService(Class<S> serviceClass) {
-        Retrofit retrofit = builder.client(httpClient.build()).build();
+    private static <S> S createService(Class<S> serviceClass, final boolean mNeedToken) {
+        OkHttpClient defaultHttpClient = new OkHttpClient.Builder().addInterceptor(
+                new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
+                        Request request;
+                        if (!mNeedToken) {
+                            request = chain.request().newBuilder()
+                                    .addHeader("Content-Type", "application/json")
+                                    .build();
+                        } else {
+                            request = chain.request().newBuilder()
+                                    .addHeader("Content-Type", "application/json")
+                                    .addHeader("Authorization", "Bearer " + authToken)
+                                    .build();
+                        }
+                        return chain.proceed(request);
+                    }
+                })
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofit = builder
+                .client(defaultHttpClient)
+                .build();
+
         return retrofit.create(serviceClass);
     }
 
@@ -67,7 +99,7 @@ public class ServiceGenerator {
      */
     public void loginToServer(final String mMail, final String mPass) {
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
         Call<UserApi> call = downloadService.login(mMail, mPass);
         call.enqueue(new Callback<UserApi>() {
             @Override
@@ -111,7 +143,7 @@ public class ServiceGenerator {
      */
     public void loginSocialToServer(final String mMail, final String idSocialNetwork) {
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
         Call<UserApi> call = downloadService.loginSocial(mMail, idSocialNetwork);
         call.enqueue(new Callback<UserApi>() {
             @Override
@@ -154,7 +186,7 @@ public class ServiceGenerator {
      */
     public void registerToServer(final String mMail, final String mPass) {
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
         Call<UserApi> call = downloadService.register(mMail, mPass);
         call.enqueue(new Callback<UserApi>() {
             @Override
@@ -191,16 +223,18 @@ public class ServiceGenerator {
 
     /**
      * create profile
-     *
-     * @param mProfileApi
      */
-    public void profileCreateToServer(ProfileApi mProfileApi) {
+    public void profileCreateToServer() {
+        Profile mProfileApi = null;
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
+        mProfileApi = getProfile(mProfileApi);
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<ProfileApi> call = downloadService.profileCreate(
-                profileBLE,
+                mProfileApi.getId(),
                 mProfileApi.getActivity_type(),
                 mProfileApi.getHeight(),
+                mProfileApi.getBirthday(),
                 mProfileApi.getBirthday(),
                 mProfileApi.getGender()
         );
@@ -238,7 +272,7 @@ public class ServiceGenerator {
 
     public void sendMeasurementsToServer(Measurement mMeasurement) {
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
         Call<Measurement> call = downloadService.measurements(
                 mMeasurement.getBmi(),
                 mMeasurement.getBody_water(),
@@ -289,7 +323,7 @@ public class ServiceGenerator {
 
     public void changePassword(String newPassword) {
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
         Call<Object> call = downloadService.password(userPassword, newPassword, newPassword);
         call.enqueue(new Callback<Object>() {
             @Override
@@ -323,9 +357,12 @@ public class ServiceGenerator {
     }
 
 
-    public void updateProfile(ProfileApi mProfileApi) {
+    public void updateProfile() {
+        Profile mProfileApi = null;
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
+        mProfileApi = getProfile(mProfileApi);
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<ProfileApi> call = downloadService.updateProfile(
                 mProfileApi.getId(),
                 mProfileApi.getUser_id(),
@@ -417,6 +454,23 @@ public class ServiceGenerator {
     }
 //============================
 
+
+    private Profile getProfile(Profile mMProfileApi) {
+        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
+        authToken = userByMail.getToken();
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
+                mMProfileApi = profile;
+            }
+        }
+        return mMProfileApi;
+    }
+
+
+//============================
+
     public interface CallBackServiceGenerator {
 
         void requestCallBack(NetworkResponseEvent event);
@@ -424,6 +478,6 @@ public class ServiceGenerator {
         void requestFailed(NetworkResponseEvent event);
 
     }
-
+//===============================
 }
 
