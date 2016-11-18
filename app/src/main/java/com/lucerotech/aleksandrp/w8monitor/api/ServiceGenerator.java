@@ -61,6 +61,7 @@ public class ServiceGenerator {
 
     /**
      * login
+     *
      * @param mMail
      * @param mPass
      */
@@ -143,6 +144,7 @@ public class ServiceGenerator {
 
     /**
      * register
+     *
      * @param mMail
      * @param mPass
      */

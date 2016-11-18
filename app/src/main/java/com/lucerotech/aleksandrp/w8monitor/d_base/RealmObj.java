@@ -509,19 +509,6 @@ public class RealmObj {
                         mListener.isUserSaveLogin(true, null);
                     }
                 });
-
-
-//        UserLibr userLibr1 = null;
-//        UserLibr userLibr = getDefoultUser(email, password);
-//        realm.beginTransaction();
-//        userLibr1 = realm.copyToRealmOrUpdate(userLibr);
-//        realm.commitTransaction();
-//        String mail = userLibr1.getEmail();
-//        if (mListener != null && mail != null) {
-//            SettingsApp.getInstance().setUserName(email);
-//            SettingsApp.getInstance().setUserPassword(password);
-//            mListener.isUserSaveLogin(true, 2);
-//        }
     }
 
     /**

@@ -104,10 +104,10 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     @Override
     public void checkUserInDb(String mMail, String mPassword, RegisterView mListener,
                               UpdateUiEvent mEvent) {
-                RealmObj.getInstance().putUser(
-                        mMail,
-                        mPassword,
-                        mListener , mEvent);
+        RealmObj.getInstance().putUser(
+                mMail,
+                mPassword,
+                mListener, mEvent);
     }
 
     @Subscribe
