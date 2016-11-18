@@ -65,7 +65,7 @@ public class ServiceGenerator {
      * @param mMail
      * @param mPass
      */
-    public void loginToServer(String mMail, String mPass) {
+    public void loginToServer(final String mMail, final String mPass) {
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
         Call<UserApi> call = downloadService.login(mMail, mPass);
@@ -84,7 +84,9 @@ public class ServiceGenerator {
                     showMessage(call, textError, ApiConstants.LOGIN);
                 } else {
                     //200
-                    // TODO: 17.11.2016 lrkdtv дальше обработку
+
+                    SettingsApp.getInstance().setUserName(mMail);
+                    SettingsApp.getInstance().setUserPassword(mPass);
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.LOGIN);
@@ -107,7 +109,7 @@ public class ServiceGenerator {
      * @param mMail
      * @param idSocialNetwork
      */
-    public void loginSocialToServer(String mMail, String idSocialNetwork) {
+    public void loginSocialToServer(final String mMail, final String idSocialNetwork) {
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
         Call<UserApi> call = downloadService.loginSocial(mMail, idSocialNetwork);
@@ -127,7 +129,8 @@ public class ServiceGenerator {
 
                 } else {
                     //200
-                    // TODO: 17.11.2016 lrkdtv дальше обработку
+                    SettingsApp.getInstance().setUserName(mMail);
+                    SettingsApp.getInstance().setUserPassword(idSocialNetwork);
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.LOGIN_SOCIAL);
@@ -169,7 +172,6 @@ public class ServiceGenerator {
 
                 } else {
                     //200
-                    // TODO: 17.11.2016 lrkdtv дальше обработку
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.REGISTER);
@@ -216,7 +218,6 @@ public class ServiceGenerator {
 
                 } else {
                     //200
-                    // TODO: 17.11.2016 lrkdtv дальше обработку
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.PROFILE);
@@ -262,7 +263,6 @@ public class ServiceGenerator {
                     showMessage(call, textError, ApiConstants.MESSUREMENTS);
                 } else {
                     //200
-                    // TODO: 17.11.2016 lrkdtv дальше обработку
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.MESSUREMENTS);
@@ -305,7 +305,6 @@ public class ServiceGenerator {
 
                 } else {
                     //200
-                    // TODO: 17.11.2016 lrkdtv дальше обработку
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.CHANGE_PASS);
@@ -350,7 +349,6 @@ public class ServiceGenerator {
                     showMessage(call, textError, ApiConstants.UPDATE_PROFILE);
                 } else {
                     //200
-                    // TODO: 17.11.2016 lrkdtv дальше обработку
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.UPDATE_PROFILE);

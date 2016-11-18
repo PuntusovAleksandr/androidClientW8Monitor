@@ -94,7 +94,6 @@ public class BluetoothLeService extends Service {
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 System.out.println("BLUETOOTH STATE_DISCONNECTED");
-                // TODO: 11.10.2016 тут надо сделать запоминание устройства
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
@@ -329,7 +328,6 @@ public class BluetoothLeService extends Service {
      *
      * @param characteristic The characteristic to read from.
      */
-    // TODO: 31.05.2016 ВОТО ВОТО ВОТО ВОТО ВОТО ВОТО ВОТО ВОТО
     public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized");

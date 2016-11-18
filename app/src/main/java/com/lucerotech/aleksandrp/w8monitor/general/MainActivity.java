@@ -182,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
             bluetoothHandler.setOnScanListener(new BluetoothHandler.OnScanListener() {
                 @Override
                 public void onScanFinished() {
-                    // TODO Auto-generated method stub
                     System.out.println("onScanFinished");
                     logger("OnScanListener isConnected = " + isConnected);
 //                    if (!isConnected) {
@@ -207,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
                 @Override
                 public void onConnected(boolean isConnected) {
-                    // TODO Auto-generated method stub
                     logger("OnConnectedListener isConnected = " + isConnected);
                     setConnectStatus(isConnected);
                 }
@@ -469,7 +467,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        // TODO Auto-generated method stub
                         isShow = false;
                     }
                 }).show();

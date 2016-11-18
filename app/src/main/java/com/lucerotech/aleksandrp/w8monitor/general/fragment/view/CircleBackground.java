@@ -49,7 +49,6 @@ public final class CircleBackground extends View {
     private String colorSegmentBig, colorSegmentSmall, colorLines;
 
 
-    // TODO: 19.10.2016 эти параметры надо сделать общими, для установки в граффике
     private float startArc;
     private float middleArc;
     private float endArc;

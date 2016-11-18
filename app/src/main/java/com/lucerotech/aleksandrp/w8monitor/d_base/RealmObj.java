@@ -126,7 +126,7 @@ public class RealmObj {
         userLibr.setIs_imperial(userApiData.is_imperial());
         userLibr.setKeep_login(userApiData.isKeep_login());
         userLibr.setTheme(userApiData.getTheme());
-        userLibr.setProfileBLE(1);   // TODO: 17.11.2016 Тут нужен параметр от сервера
+        userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
         userLibr.setLanguage(userApiData.getLanguage());
         userLibr.setFullProfile(userByMail == null ? false : userByMail.isFullProfile());
 
@@ -449,7 +449,7 @@ public class RealmObj {
         userLibr.setIs_imperial(userApiData.is_imperial());
         userLibr.setKeep_login(userApiData.isKeep_login());
         userLibr.setTheme(userApiData.getTheme());
-        userLibr.setProfileBLE(1);   // TODO: 17.11.2016 Тут нужен параметр от сервера
+        userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
         userLibr.setLanguage(userApiData.getLanguage());
         userLibr.setFullProfile(userByMail == null ? false : userByMail.isFullProfile());
 
@@ -624,7 +624,6 @@ public class RealmObj {
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                // TODO: 15.10.2016 нужно отвтетить через интерфейс в соответствующие фрагменты
                 float[] mMassParams = new float[9];
                 mMassParams[0] = mWeightBody;
                 mMassParams[1] = mBody;
@@ -641,7 +640,6 @@ public class RealmObj {
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                // TODO: 15.10.2016 нужно отвтетить через интерфейс в соответствующие фрагменты
                 mCircleGraphView.showMessageError();
                 saveAllLogs("ERROR in db addUserFromFacebook =" + error.getMessage());
             }

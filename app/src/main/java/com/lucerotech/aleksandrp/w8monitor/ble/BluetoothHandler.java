@@ -114,7 +114,7 @@ public class BluetoothHandler {
     }
 
     public BluetoothHandler(final Activity mActivity, onResultScanDevice mScanDevice) {
-        // TODO Auto-generated constructor stub
+
         this.mActivity = mActivity;
         this.context = mActivity;
         this.mScanDevice = mScanDevice;
@@ -170,7 +170,6 @@ public class BluetoothHandler {
                 dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        // TODO Auto-generated method stub
                         Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         context.startActivity(myIntent);
                         //get gps
@@ -180,7 +179,6 @@ public class BluetoothHandler {
 
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        // TODO Auto-generated method stub
                         Toast.makeText(context, "The application may not work properly", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -510,7 +508,6 @@ public class BluetoothHandler {
 //    }
 
     public void onPause() {
-        // TODO Auto-generated method stub
         if (isBroadcastRegistered) {
             isBroadcastRegistered = false;
             try {
@@ -563,7 +560,6 @@ public class BluetoothHandler {
 
         @Override
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
             super.handleMessage(msg);
             if (msg.obj != null) {
 

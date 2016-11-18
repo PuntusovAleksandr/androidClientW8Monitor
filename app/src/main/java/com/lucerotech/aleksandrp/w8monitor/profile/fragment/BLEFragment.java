@@ -153,7 +153,6 @@ public class BLEFragment extends Fragment implements
     @Override
     public void showListDevisesDialog() {
         setConnectUI();
-        // TODO: 10.10.2016 надо зделать проверку на коннект к блютузу
     }
 
 
