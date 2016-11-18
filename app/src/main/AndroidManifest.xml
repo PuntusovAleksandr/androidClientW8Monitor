@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".login.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -38,11 +38,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".register.RegisterActivity"
+            android:name=".presents.register.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait"/>
 
@@ -52,27 +52,27 @@
             android:value="@string/facebook_app_id"/>
 
         <activity
-            android:name=".profile.ProfileActivity"
+            android:name=".activity.ProfileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
-            android:parentActivityName=".general.MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".change_pass.ChangePasswordActivity"
+            android:name=".activity.ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
-            android:parentActivityName=".login.LoginActivity"
+            android:parentActivityName=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".general.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".alarm.AlarmActivity"
+            android:name=".activity.AlarmActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
-            android:parentActivityName=".general.MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"/>
 
-        <receiver android:name=".alarm.manager.AlarmManager"/>
+        <receiver android:name=".presents.alarm.manager.AlarmManager"/>
 
         <service
             android:name=".ble.BluetoothLeService"
@@ -83,7 +83,7 @@
             android:value="081a45e1f0cbebf2755eba040c6ad6f0255aa0ee"/>
 
         <activity
-            android:name=".help.HelpActivity"
+            android:name=".activity.HelpActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait"/>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="?attr/background_app"
-    tools:context="com.lucerotech.aleksandrp.w8monitor.profile.fragment.GrowthFragment">
+    tools:context=".fragments.profile.fragment.GrowthFragment">
 
 
     <LinearLayout

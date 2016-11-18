@@ -32,7 +32,7 @@ import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
-import com.lucerotech.aleksandrp.w8monitor.general.MainActivity;
+import com.lucerotech.aleksandrp.w8monitor.activity.MainActivity;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.util.List;

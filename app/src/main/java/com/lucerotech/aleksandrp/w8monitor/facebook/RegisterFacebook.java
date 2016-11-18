@@ -15,9 +15,9 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.lucerotech.aleksandrp.w8monitor.App;
+import com.lucerotech.aleksandrp.w8monitor.activity.LoginActivity;
+import com.lucerotech.aleksandrp.w8monitor.activity.RegisterActivity;
 import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
-import com.lucerotech.aleksandrp.w8monitor.login.LoginActivity;
-import com.lucerotech.aleksandrp.w8monitor.register.RegisterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

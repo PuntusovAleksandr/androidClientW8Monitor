@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
-import com.lucerotech.aleksandrp.w8monitor.general.fragment.MyFragment;
+import com.lucerotech.aleksandrp.w8monitor.fragments.main.MyFragment;
 
 public class CirclePagerAdapterMain  extends FragmentStatePagerAdapter {
 

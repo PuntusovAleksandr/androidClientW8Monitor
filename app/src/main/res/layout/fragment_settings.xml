@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     tools:background="?attr/background_app"
-    tools:context="com.lucerotech.aleksandrp.w8monitor.profile.fragment.SettingsFragment">
+    tools:context=".fragments.profile.fragment.SettingsFragment">
 
     <include
         android:id="@+id/tool_bar_profile"

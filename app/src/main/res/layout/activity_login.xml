@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="?attr/background_app"
     android:focusableInTouchMode="true"
-    tools:context="com.lucerotech.aleksandrp.w8monitor.login.LoginActivity">
+    tools:context="com.lucerotech.aleksandrp.w8monitor.activity.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

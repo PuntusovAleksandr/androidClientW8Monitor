@@ -4,20 +4,20 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
-import com.lucerotech.aleksandrp.w8monitor.alarm.AlarmView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.AlarmView;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
-import com.lucerotech.aleksandrp.w8monitor.change_pass.ChangePasswordView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePasswordView;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
-import com.lucerotech.aleksandrp.w8monitor.general.fragment.CircleGraphView;
-import com.lucerotech.aleksandrp.w8monitor.general.fragment.LinerGraphView;
-import com.lucerotech.aleksandrp.w8monitor.login.LoginView;
-import com.lucerotech.aleksandrp.w8monitor.register.RegisterView;
+import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
+import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.LoginView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.RegisterView;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
