@@ -11,12 +11,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.lucerotech.aleksandrp.w8monitor.R;
-import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
+import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphFragment;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphFragment;
@@ -30,6 +31,10 @@ import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 import java.text.DecimalFormat;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.KEI_CONNECTION;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
@@ -55,6 +60,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
     // for disable double answer from BLE by connection
     private boolean firstConnection = false;
 
+    private Intent serviceIntent;
+
+    @Bind(R.id.rl_main_register)
+    RelativeLayout rl_main_register;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +73,22 @@ public class MainActivity extends AppCompatActivity implements MainView,
         super.onCreate(savedInstanceState);
 //        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+//        serviceIntent = new Intent(this, ApiService.class);
+//        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, LOGIN);
+//        startService(serviceIntent);
 
         mPresenter = new MainActivityPresenterImpl(this, this);
         mFragmentManager = getSupportFragmentManager();
 
+        setUi();
+        if (checkInternetConnection()) {
+//            rl_main_register.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setUi() {
         setCircleFragment();
         isThemeForStarDark = SettingsApp.getInstance().isThemeDark();
         localString = SettingsApp.getInstance().getLanguages();
