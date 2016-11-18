@@ -793,7 +793,7 @@ public class RealmObj {
             RealmList<Profile> profiles = userLibr.getProfiles();
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNumber() == profileBLE) {
-                    profiles.get(i).setHeight(Integer.parseInt(mHeight));
+                    profiles.get(i).setHeight((int) Float.parseFloat(mHeight));
                 }
             }
             realm.copyToRealmOrUpdate(userLibr);
