@@ -7,6 +7,7 @@ import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePassw
  */
 
 public interface ChangePasswordPresenter {
+
     void showDeleteRepeatPassword();
 
     void showDeletePassword();
@@ -18,6 +19,9 @@ public interface ChangePasswordPresenter {
     void checkShowButton(String mPasswordText, String passwordTextOld, String mRepearPasswordText,
                          ChangePasswordView mPasswordView);
 
-    void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText, String mRepearPasswordText,
-                            ChangePasswordView mPasswordView);
+    void changePassword(String mMailUser, String mPasswordTextOld, String mPasswordText,
+                        String mRepearPasswordText, ChangePasswordView mPasswordView);
+
+    void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText,
+                            String mRepearPasswordText, ChangePasswordView mPasswordView);
 }

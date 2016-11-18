@@ -42,7 +42,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".presents.register.RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:screenOrientation="portrait"/>
 

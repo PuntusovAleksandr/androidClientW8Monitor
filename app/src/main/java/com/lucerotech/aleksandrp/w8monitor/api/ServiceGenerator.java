@@ -272,7 +272,7 @@ public class ServiceGenerator {
 
     public void sendMeasurementsToServer(Measurement mMeasurement) {
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<Measurement> call = downloadService.measurements(
                 mMeasurement.getBmi(),
                 mMeasurement.getBody_water(),
@@ -321,10 +321,12 @@ public class ServiceGenerator {
     }
 
 
-    public void changePassword(String newPassword) {
+    public void changePassword(String oldPass, String newPass, String newPass_2) {
+        // for get authToken
+        getProfile(new Profile());
 
-        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
-        Call<Object> call = downloadService.password(userPassword, newPassword, newPassword);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        Call<Object> call = downloadService.password(newPass, oldPass, newPass_2);
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

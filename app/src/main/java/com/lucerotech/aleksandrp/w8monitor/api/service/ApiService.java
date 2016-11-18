@@ -13,10 +13,12 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import org.greenrobot.eventbus.EventBus;
 
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MESSUREMENTS;
-import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.NEW_PASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASSWORD_NEW;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASSWORD_NEW_CONFIRM;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASSWORD_OLS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SOCIAL_ID;
 
 public class ApiService extends Service implements
@@ -74,8 +76,10 @@ public class ApiService extends Service implements
                 userInteractor.measurements_mass();
                 break;
             case ApiConstants.CHANGE_PASS:
-                String newPass = intent.getStringExtra(NEW_PASS);
-                userInteractor.changePassword(newPass);
+                String oldPass = intent.getStringExtra(SERVICE_PASSWORD_OLS);
+                String newPass = intent.getStringExtra(SERVICE_PASSWORD_NEW);
+                String newPass_2 = intent.getStringExtra(SERVICE_PASSWORD_NEW_CONFIRM);
+                userInteractor.changePassword(oldPass, newPass, newPass_2);
                 break;
             case ApiConstants.UPDATE_PROFILE:
                 userInteractor.updateProfile();

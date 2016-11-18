@@ -5,6 +5,7 @@ package com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views;
  */
 
 public interface ChangePasswordView {
+
     void showDeleteIcons(boolean login, boolean pass, boolean newPass);
 
     void isShowButton(boolean isValid);
@@ -14,4 +15,8 @@ public interface ChangePasswordView {
     void showMessageNotFoundUser();
 
     void showMessageOkChangePass();
+
+    void showMessageNoInternet();
+
+    void makeRequest();
 }

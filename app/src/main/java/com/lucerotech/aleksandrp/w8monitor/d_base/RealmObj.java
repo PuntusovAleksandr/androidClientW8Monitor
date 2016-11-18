@@ -196,6 +196,9 @@ public class RealmObj {
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     state = profiles.get(i).getGender();
+                    if (state == 0) {
+                        state = 1;
+                    }
                 }
             }
         }

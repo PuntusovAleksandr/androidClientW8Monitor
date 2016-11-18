@@ -82,6 +82,9 @@ public class STATICS_PARAMS {
     public static final String SERVICE_PASS = "SERVICE_PASS";
     public static final String SERVICE_KEY_PROFILE = "SERVICE_KEY_PROFILE";
     public static final String SERVICE_VALUE_KEY_PROFILE = "SERVICE_VALUE_KEY_PROFILE";
+    public static final String SERVICE_PASSWORD_OLS = "SERVICE_PASSWORD_OLS";
+    public static final String SERVICE_PASSWORD_NEW = "SERVICE_PASSWORD_NEW";
+    public static final String SERVICE_PASSWORD_NEW_CONFIRM = "SERVICE_PASSWORD_NEW_CONFIRM";
     // key for send extra by api
     public static final String SOCIAL_ID = "SOCIAL_ID ";
     public static final String NEW_PASS = "NEW_PASS ";

@@ -7,6 +7,8 @@ import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePassw
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.utils.ValidationText;
 
+import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
+
 /**
  * Created by AleksandrP on 16.09.2016.
  */
@@ -55,17 +57,27 @@ public class ChangePasswordPresenterImpl implements ChangePasswordPresenter {
     }
 
     @Override
-    public void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText,
-                                   String mRepearPasswordText, ChangePasswordView mPasswordView) {
+    public void changePassword(String mMailUser, String mPasswordTextOld, String mPasswordText,
+                               String mRepearPasswordText, ChangePasswordView mPasswordView) {
         if (ValidationText.checkLenghtPassword(mPasswordText) &&
                 ValidationText.checkLenghtPassword(mPasswordTextOld) &&
                 ValidationText.checkLenghtPassword(mRepearPasswordText) &&
                 mPasswordText.equals(mRepearPasswordText)) {
 
-            RealmObj.getInstance().checkAndChangePassword(
-                    mMailUser, mPasswordTextOld, mPasswordText, mPasswordView);
+            if (checkInternetConnection()) {
+                mPasswordView.makeRequest();
+            } else {
+                mPasswordView.showMessageNoInternet();
+            }
+
         } else {
             mPasswordView.showMessage();
         }
+    }
+
+    @Override
+    public void changePasswordInDb(String mMailUser, String mPasswordTextOld, String mPasswordText, String mRepearPasswordText, ChangePasswordView mPasswordView) {
+        RealmObj.getInstance().checkAndChangePassword(
+                mMailUser, mPasswordTextOld, mPasswordText, mPasswordView);
     }
 }

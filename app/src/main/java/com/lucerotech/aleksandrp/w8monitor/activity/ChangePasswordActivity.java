@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,17 +18,27 @@ import com.crashlytics.android.Crashlytics;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.ChangePasswordPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePasswordView;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
+import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.presents.change_pass.presenter.ChangePasswordPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SetThemeDark;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.CHANGE_PASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASSWORD_NEW;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASSWORD_NEW_CONFIRM;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASSWORD_OLS;
 
 public class ChangePasswordActivity extends AppCompatActivity implements ChangePasswordView {
 
@@ -57,6 +68,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
 
     private ChangePasswordPresenter presenter;
 
+    private Intent serviceIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SetThemeDark.getInstance().setTheme(this);
@@ -75,6 +88,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
 
         tv_title.setTypeface(getFontRobotoLight());
 
+        serviceIntent = new Intent(this, ApiService.class);
     }
 
     @Override
@@ -84,12 +98,38 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         closeKeyboard();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe
+    public void onEvent(UpdateUiEvent mEvent) {
+        if (mEvent.isSucess()) {
+            if (mEvent.getId() == UpdateUiEvent.CHANGE_PASS ||
+                    mEvent.getId() == UpdateUiEvent.LOGIN_SOCIAL) {
+                String passwordTextOld = et_password_old.getText().toString();
+                String passwordText = et_password_new.getText().toString();
+                String repearPasswordText = et_password_new_confirm.getText().toString();
+                presenter.changePasswordInDb(
+                        mailUser,
+                        passwordTextOld,
+                        passwordText,
+                        repearPasswordText,
+                        this);
+            }
+        } else {
+            Toast.makeText(this, ((String) mEvent.getData()), Toast.LENGTH_SHORT).show();
+        }
+        System.out.println(mEvent.getData().toString());
     }
 
     private void closeKeyboard() {
@@ -115,7 +155,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
         String passwordTextOld = et_password_old.getText().toString();
         String passwordText = et_password_new.getText().toString();
         String repearPasswordText = et_password_new_confirm.getText().toString();
-        presenter.changePasswordInDb(mailUser, passwordTextOld, passwordText, repearPasswordText, this);
+        presenter.changePassword(mailUser, passwordTextOld, passwordText, repearPasswordText, this);
     }
 
     @OnClick(R.id.iv_delete_password_change)
@@ -309,6 +349,24 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
         Toast.makeText(this, R.string.ppass_change, Toast.LENGTH_SHORT).show();
         onBackPressed();
         finish();
+    }
+
+    @Override
+    public void showMessageNoInternet() {
+        Snackbar.make(
+                et_password_old, R.string.please_check_internet_connection, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeRequest() {
+        String passwordTextOld = et_password_old.getText().toString();
+        String passwordText = et_password_new.getText().toString();
+        String repearPasswordText = et_password_new_confirm.getText().toString();
+        serviceIntent.putExtra(SERVICE_PASSWORD_OLS, passwordTextOld);
+        serviceIntent.putExtra(SERVICE_PASSWORD_NEW, passwordText);
+        serviceIntent.putExtra(SERVICE_PASSWORD_NEW_CONFIRM, repearPasswordText);
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, CHANGE_PASS);
+        startService(serviceIntent);
     }
 
 //    ==========================================================
