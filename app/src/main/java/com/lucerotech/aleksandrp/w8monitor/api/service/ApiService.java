@@ -53,10 +53,11 @@ public class ApiService extends Service implements
         ProfileApi profileApi;
         Measurement measurement;
 
+        String mail = intent.getStringExtra(SERVICE_MAIL);
+        String pass = intent.getStringExtra(SERVICE_PASS);
+
         switch (jobId) {
             case ApiConstants.LOGIN:
-                String mail = intent.getStringExtra(SERVICE_MAIL);
-                String pass = intent.getStringExtra(SERVICE_PASS);
                 userInteractor.loginToServer(mail, pass);
                 break;
             case ApiConstants.LOGIN_SOCIAL:
@@ -64,7 +65,7 @@ public class ApiService extends Service implements
                 userInteractor.loginSocialToServer(socialId);
                 break;
             case ApiConstants.REGISTER:
-                userInteractor.registerToServer();
+                userInteractor.registerToServer(mail, pass);
                 break;
             case ApiConstants.PROFILE:
                 profileApi = intent.getParcelableExtra(PROFILE_API);

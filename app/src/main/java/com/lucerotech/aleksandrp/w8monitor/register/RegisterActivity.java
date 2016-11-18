@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.lucerotech.aleksandrp.w8monitor.R;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
-import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 import com.lucerotech.aleksandrp.w8monitor.register.presenter.RegisterPresenterImpl;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
@@ -31,6 +33,8 @@ import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.REGI
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView,
         RegisterFacebook.ListenerFacebookRegistr {
@@ -90,6 +94,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+
+        presenter.registerEvenBus();
     }
 
     @Override
@@ -98,6 +104,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et_email_register.getWindowToken(), 0);
+
+        presenter.unregisterEvenBus();
     }
 
     @Override
@@ -289,10 +297,23 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     @Override
     public void isValidData(boolean isValid) {
         if (isValid) {
-            RealmObj.getInstance().putUser(
-                    et_email_register.getText().toString(),
-                    et_password_register.getText().toString(),
-                    this);
+            if (checkInternetConnection()) {
+                { // send data to server
+                    if (checkInternetConnection()) {
+                        String emailText = et_email_register.getText().toString();
+                        String passwordText = et_password_register.getText().toString();
+
+                        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, REGISTER);
+                        serviceIntent.putExtra(SERVICE_MAIL, emailText);
+                        serviceIntent.putExtra(SERVICE_PASS, passwordText);
+                        startService(serviceIntent);
+                    }
+                }
+            } else {
+                Snackbar.make(
+                        et_email_register, R.string.please_check_internet_connection,
+                        Snackbar.LENGTH_SHORT).show();
+            }
 
         } else {
             Snackbar.make(
@@ -314,9 +335,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
                 resource = R.drawable.b_confirm_nonactive_light;
             }
         }
-//        Picasso.with(this)
-//                .load(resource)
-//                .into(iv_register_ok);
         iv_register_ok.setImageResource(resource);
     }
 
@@ -338,25 +356,35 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
 //    answer from RealmListener
 //    =================================================
     @Override
-    public void isUserSaveLogin(boolean isSave, int mRegKey) {
+    public void isUserSaveLogin(boolean isSave, UserLibr mRegKey) {
         if (isSave) {
 
-            { // send data to server
-                if (checkInternetConnection()) {
-                    serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, REGISTER);
-                    startService(serviceIntent);
-                }
-            }
-
+            SettingsApp.getInstance().setUserName(mRegKey.getEmail());
+            SettingsApp.getInstance().setUserPassword(mRegKey.getPassword());
+            SettingsApp.getInstance().setProfileBLE(mRegKey.getProfileBLE());
+            SettingsApp.getInstance().setMetric(mRegKey.getIs_imperial() > 0);
+            SettingsApp.getInstance().setSettingsStatus(false);
             presenter.goToProfile();
-//            Intent intent = getIntent();
-//            String userName = SettingsApp.getInstance().getUserName();
-//            intent.putExtra("name", userName);
-//            setResult(RESULT_OK, intent);
-//            finish();
+
         } else {
             Snackbar.make(
                     et_email_register, R.string.not_save, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void updateLogin(UpdateUiEvent mEvent) {
+        if (mEvent.isSucess()) {
+            if (mEvent.getId() == REGISTER) {
+
+                presenter.checkUserInDb(
+                        et_email_register.getText().toString(),
+                        et_password_register.getText().toString(),
+                        this,
+                        mEvent);
+            }
+        } else {
+            Toast.makeText(this, ((String) mEvent.getData()), Toast.LENGTH_SHORT).show();
         }
     }
     //    =================================================

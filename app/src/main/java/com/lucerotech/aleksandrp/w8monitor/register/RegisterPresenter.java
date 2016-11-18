@@ -2,6 +2,7 @@ package com.lucerotech.aleksandrp.w8monitor.register;
 
 import android.content.Intent;
 
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.facebook.RegisterFacebook;
 
 /**
@@ -29,4 +30,10 @@ public interface RegisterPresenter {
     void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, RegisterFacebook mRegisterFacebook);
 
     void getBackLoginActivity();
+
+    void registerEvenBus();
+
+    void unregisterEvenBus();
+
+    void checkUserInDb(String mMail, String mPassword, RegisterView mListener, UpdateUiEvent mEvent);
 }

@@ -447,18 +447,81 @@ public class RealmObj {
 //    ===============================================================
 
     // from register activity
-    public void putUser(String email, String password, RegisterView mListener) {
-        UserLibr userLibr1 = null;
-        UserLibr userLibr = getDefoultUser(email, password);
-        realm.beginTransaction();
-        userLibr1 = realm.copyToRealmOrUpdate(userLibr);
-        realm.commitTransaction();
-        String mail = userLibr1.getEmail();
-        if (mListener != null && mail != null) {
-            SettingsApp.getInstance().setUserName(email);
-            SettingsApp.getInstance().setUserPassword(password);
-            mListener.isUserSaveLogin(true, 2);
+    public void putUser(String mLogin, String mPass, final RegisterView mListener,
+                        UpdateUiEvent mEvent) {
+        UserLibr userByMail = getUserByMail(mLogin);
+
+        final UserApi userApi = (UserApi) mEvent.getData();
+        final UserApiData userApiData = userApi.getUser();
+        final List<ProfileApi> profileApis = userApiData.getProfileApis();
+
+        final UserLibr userLibr = new UserLibr();
+        userLibr.setEmail(userApiData.getEmail());
+        userLibr.setPassword(mPass);
+        userLibr.setToken(userApi.getToken());
+        userLibr.setId_server(userApiData.getId());
+        userLibr.setCreated_at(userApiData.getCreated_at());
+        userLibr.setUpdated_at(userApiData.getUpdated_at());
+        userLibr.setIs_imperial(userApiData.is_imperial());
+        userLibr.setKeep_login(userApiData.isKeep_login());
+        userLibr.setTheme(userApiData.getTheme());
+        userLibr.setProfileBLE(1);   // TODO: 17.11.2016 Тут нужен параметр от сервера
+        userLibr.setLanguage(userApiData.getLanguage());
+        userLibr.setFullProfile(userByMail == null ? false : userByMail.isFullProfile());
+
+        RealmList<Profile> profiles = userLibr.getProfiles();
+        if (profiles != null) {
+            profiles.clear();
+        } else {
+            userLibr.setProfiles(new RealmList<Profile>());
         }
+
+        for (int i = 0; i < profileApis.size(); i++) {
+            ProfileApi profileApi = profileApis.get(i);
+            Profile profile = new Profile();
+            profile.setId(profileApi.getId());
+            profile.setUser_id(profileApi.getUser_id());
+            profile.setActivity_type(profileApi.getActivity_type());
+            profile.setHeight(profileApi.getHeight());
+            profile.setGender(profileApi.getGender());
+            profile.setBirthday(profileApi.getBirthday());
+            profile.setCreated_at(profileApi.getCreated_at());
+            profile.setUpdated_at(profileApi.getUpdated_at());
+            profile.setNumber(profileApi.getNumber());
+
+            userLibr.getProfiles().add(profile);
+        }
+
+        realm.executeTransactionAsync(
+                new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealmOrUpdate(userLibr);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        mListener.isUserSaveLogin(true, userLibr);
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+                        mListener.isUserSaveLogin(true, null);
+                    }
+                });
+
+
+//        UserLibr userLibr1 = null;
+//        UserLibr userLibr = getDefoultUser(email, password);
+//        realm.beginTransaction();
+//        userLibr1 = realm.copyToRealmOrUpdate(userLibr);
+//        realm.commitTransaction();
+//        String mail = userLibr1.getEmail();
+//        if (mListener != null && mail != null) {
+//            SettingsApp.getInstance().setUserName(email);
+//            SettingsApp.getInstance().setUserPassword(password);
+//            mListener.isUserSaveLogin(true, 2);
+//        }
     }
 
     /**

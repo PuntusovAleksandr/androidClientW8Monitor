@@ -143,11 +143,13 @@ public class ServiceGenerator {
 
     /**
      * register
+     * @param mMail
+     * @param mPass
      */
-    public void registerToServer() {
+    public void registerToServer(String mMail, String mPass) {
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class);
-        Call<UserApi> call = downloadService.register(userName, userPassword);
+        Call<UserApi> call = downloadService.register(mMail, mPass);
         call.enqueue(new Callback<UserApi>() {
             @Override
             public void onResponse(Call<UserApi> call, Response<UserApi> response) {
