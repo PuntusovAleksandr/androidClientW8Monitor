@@ -229,10 +229,8 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
             return String.valueOf((int) value + nameLabes);
         }
 
-        @Override
-        public int getDecimalDigits() {
-            return 0;
-        }
+
+
     };
 
     // formatter value in axis X
@@ -263,10 +261,8 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
             return textReturn;
         }
 
-        @Override
-        public int getDecimalDigits() {
-            return 0;
-        }
+
+
     };
 
     private void setChart() {

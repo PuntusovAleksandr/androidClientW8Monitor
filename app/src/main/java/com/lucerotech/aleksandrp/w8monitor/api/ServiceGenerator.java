@@ -10,12 +10,14 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmList;
@@ -234,8 +236,8 @@ public class ServiceGenerator {
                 mProfileApi.getId(),
                 mProfileApi.getActivity_type(),
                 mProfileApi.getHeight(),
-                mProfileApi.getBirthday(),
-                mProfileApi.getBirthday(),
+                mProfileApi.getAge(),
+                mProfileApi.getAge(),
                 mProfileApi.getGender()
         );
         call.enqueue(new Callback<ProfileApi>() {
@@ -317,8 +319,44 @@ public class ServiceGenerator {
 
     public void measurements_mass() {
 
-        // TODO: 17.11.2016 здесь нужно сделать массив
+        ParamsBody[] paramsBodies = getParamsBodies();
+        if (paramsBodies.length > 0) {
+
+            ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+            Call<ArrayList<Measurement>> call = downloadService.measurements_mass(paramsBodies);
+            call.enqueue(new Callback<ArrayList<Measurement>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Measurement>> call, Response<ArrayList<Measurement>> response) {
+                    ArrayList<Measurement> body = response.body();
+                    if (body == null) {
+                        //404 or the response cannot be converted to User.
+                        String textError = "Error data";
+                        ResponseBody responseBody = response.errorBody();
+                        if (responseBody != null) {
+                            loggerE("error loginToServer " + responseBody.toString());
+                            textError = getTextMessage(responseBody);
+                        }
+                        showMessage(call, textError, ApiConstants.MESSUREMENTS_MASS);
+                    } else {
+                        //200
+                        event = new NetworkResponseEvent();
+                        event.setData(body);
+                        event.setId(ApiConstants.MESSUREMENTS_MASS);
+                        event.setSucess(true);
+                        mCallBackServiceGenerator.requestCallBack(event);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
+                    showMessageFailure(call, t, ApiConstants.MESSUREMENTS_MASS);
+                }
+            });
+        } else {
+            showMessage(null, "", ApiConstants.MESSUREMENTS_MASS);
+        }
     }
+
 
 
     public void changePassword(String oldPass, String newPass, String newPass_2) {
@@ -371,7 +409,7 @@ public class ServiceGenerator {
                 mProfileApi.getActivity_type(),
                 mProfileApi.getHeight(),
                 mProfileApi.getGender(),
-                mProfileApi.getBirthday(),
+                mProfileApi.getAge(),
                 mProfileApi.getCreated_at(),
                 mProfileApi.getUpdated_at()
         );
@@ -401,6 +439,54 @@ public class ServiceGenerator {
             @Override
             public void onFailure(Call<ProfileApi> call, Throwable t) {
                 showMessageFailure(call, t, ApiConstants.UPDATE_PROFILE);
+            }
+        });
+    }
+
+
+    public void profileSync() {
+
+        UserLibr userLibr = getUserLibr();
+        Profile[] profiles = new Profile[userLibr.getProfiles().size()];
+        for (int i = 0; i < profiles.length; i++) {
+            profiles[i] = userLibr.getProfiles().get(i);
+        }
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        Call<UserLibr> call = downloadService.profileSync(
+                SettingsApp.getInstance().getMetric(),
+                SettingsApp.getInstance().getAutoLogin(),
+                SettingsApp.getInstance().isThemeDark() ? 1 : 0,
+                SettingsApp.getInstance().getLanguages(),
+                SettingsApp.getInstance().getProfileBLE(),
+                profiles
+        );
+        call.enqueue(new Callback<UserLibr>() {
+            @Override
+            public void onResponse(Call<UserLibr> call, Response<UserLibr> response) {
+                UserLibr body = response.body();
+                if (body == null) {
+                    //404 or the response cannot be converted to User.
+                    String textError = "Error data";
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = getTextMessage(responseBody);
+                    }
+                    showMessage(call, textError, ApiConstants.USER_SUNS);
+                } else {
+                    //200
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.USER_SUNS);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserLibr> call, Throwable t) {
+                showMessageFailure(call, t, ApiConstants.USER_SUNS);
             }
         });
     }
@@ -468,6 +554,19 @@ public class ServiceGenerator {
             }
         }
         return mMProfileApi;
+    }
+
+
+    private UserLibr getUserLibr() {
+        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
+        authToken = userByMail.getToken();
+
+        return userByMail;
+    }
+
+
+    private ParamsBody[] getParamsBodies() {
+        return new ParamsBody[0];
     }
 
 

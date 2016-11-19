@@ -23,4 +23,10 @@ public interface MainActivityPresenter {
                              long timeStart,
                              int mPickerBottomValue,
                              LinerGraphView mLinerGraphView);
+
+    void sendProfileData();
+
+    void registerEvenBus();
+
+    void unregisterEvenBus();
 }

@@ -202,8 +202,8 @@ public class BluetoothHandler {
                 gender = profile.getGender();
                 activityType = profile.getActivity_type();
                 height = profile.getHeight();
-                birthday = profile.getBirthday();
-                birthday = profile.getBirthday();
+                birthday = profile.getAge();
+                birthday = profile.getAge();
             }
         }
 

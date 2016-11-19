@@ -17,11 +17,11 @@ public class Profile extends RealmObject {
     private int height;
     //    1 - men, 2 - woman
     private int gender;
-    private int birthday;
+    private int age;
     private String created_at;
     private String updated_at;
     private int number;
-
+    private boolean is_current;
 
     public Profile() {
     }
@@ -66,12 +66,12 @@ public class Profile extends RealmObject {
         gender = mGender;
     }
 
-    public int getBirthday() {
-        return birthday;
+    public int getAge() {
+        return age;
     }
 
-    public void setBirthday(int mBirthday) {
-        birthday = mBirthday;
+    public void setAge(int mAge) {
+        age = mAge;
     }
 
     public String getCreated_at() {
@@ -96,5 +96,13 @@ public class Profile extends RealmObject {
 
     public void setNumber(int mNumber) {
         number = mNumber;
+    }
+
+    public boolean is_current() {
+        return is_current;
+    }
+
+    public void setIs_current(boolean mIs_current) {
+        is_current = mIs_current;
     }
 }

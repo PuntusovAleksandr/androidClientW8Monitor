@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
+import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphFragment;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphFragment;
@@ -34,10 +36,13 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MESSUREMENTS_MASS;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.KEI_CONNECTION;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.ShowMesages.showMessageToast;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         setUi();
         if (checkInternetConnection()) {
 //            rl_main_register.setVisibility(View.VISIBLE);
+            mPresenter.sendProfileData();
         }
     }
 
@@ -108,8 +114,15 @@ public class MainActivity extends AppCompatActivity implements MainView,
             startActivity(getIntent());
         }
         checkSupportBLE();
+
+        mPresenter.registerEvenBus();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.unregisterEvenBus();
+    }
 
     public void checkSupportBLE() {
         if (!isConnected) {
@@ -591,6 +604,24 @@ public class MainActivity extends AppCompatActivity implements MainView,
     public void setLineGraph(int mValue) {
         setLinerFragment(mValue);
     }
+
+    @Override
+    public void sendProfileToServer() {
+        Intent serviceIntent = new Intent(this, ApiService.class);
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, USER_SUNS);
+        startService(serviceIntent);
+
+    }
+
+    @Override
+    public void makeMessurementsSync(UserLibr mEvent) {
+        Intent serviceIntent = new Intent(this, ApiService.class);
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MESSUREMENTS_MASS);
+        startService(serviceIntent);
+
+    }
+
+
     //    ====================================================================
 //     END        MainView
 //    ====================================================================

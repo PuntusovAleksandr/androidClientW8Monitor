@@ -84,6 +84,9 @@ public class ApiService extends Service implements
             case ApiConstants.UPDATE_PROFILE:
                 userInteractor.updateProfile();
                 break;
+            case ApiConstants.USER_SUNS:
+                userInteractor.profileSync();
+                break;
             case ApiConstants.ALARM_UPDATE:
                 userInteractor.updateAlarm();
                 break;
@@ -134,6 +137,10 @@ public class ApiService extends Service implements
                 break;
             case ApiConstants.ALARM_UPDATE:
                 updateUiEvent.setId(UpdateUiEvent.ALARM_UPDATE);
+                updateUiEvent.setData(event.getData());
+                break;
+            case ApiConstants.USER_SUNS:
+                updateUiEvent.setId(UpdateUiEvent.USER_SUNS);
                 updateUiEvent.setData(event.getData());
                 break;
         }

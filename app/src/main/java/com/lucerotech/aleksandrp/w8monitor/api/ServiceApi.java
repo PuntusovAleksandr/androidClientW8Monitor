@@ -3,6 +3,11 @@ package com.lucerotech.aleksandrp.w8monitor.api;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -110,29 +115,12 @@ public interface ServiceApi {
     /**
      * first send and created in server
      *
-     * @param bmi
-     * @param body_water
-     * @param bone_mass
-     * @param calories
-     * @param fat
-     * @param fat_level
-     * @param muscule_mass
-     * @param float_weight
-     * @param gender
      * @return
      */
     @FormUrlEncoded
     @POST("measurements/mass")
-    Call<Measurement> measurements_mass(
-            @Field("bmi") String[] bmi,
-            @Field("body_water") String[] body_water,
-            @Field("bone_mass") String[] bone_mass,
-            @Field("calories") String[] calories,
-            @Field("fat") String[] fat,
-            @Field("fat_level") String[] fat_level,
-            @Field("muscule_mass") String[] muscule_mass,
-            @Field("float_weight") String[] float_weight,
-            @Field(("gender")) String[] gender);
+    Call<ArrayList<Measurement>> measurements_mass(
+            @Field("data") ParamsBody[] mParamsBodies);
 
     /**
      * change password
@@ -174,6 +162,17 @@ public interface ServiceApi {
             @Field("birthday") int birthday,
             @Field("created_at") String created_at,
             @Field(("updated_at")) String updated_at);
+
+
+    @FormUrlEncoded
+    @POST("profiles/sync")
+    Call<UserLibr> profileSync(
+            @Field("is_imperial") boolean is_imperial,
+            @Field("keep_login") boolean keep_login,
+            @Field("theme") int theme,
+            @Field("language") String language,
+            @Field("profile_number") int profile_number,
+            @Field("data") Profile[] mProfiles);
 
 
 }

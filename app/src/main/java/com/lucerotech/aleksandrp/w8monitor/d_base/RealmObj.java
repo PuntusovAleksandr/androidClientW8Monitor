@@ -145,7 +145,7 @@ public class RealmObj {
             profile.setActivity_type(profileApi.getActivity_type());
             profile.setHeight(profileApi.getHeight());
             profile.setGender(profileApi.getGender());
-            profile.setBirthday(profileApi.getBirthday());
+            profile.setAge(profileApi.getBirthday());
             profile.setCreated_at(profileApi.getCreated_at());
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
@@ -252,7 +252,7 @@ public class RealmObj {
             RealmList<Profile> profiles = userLibr.getProfiles();
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNumber() == profileBLE) {
-                    date = profiles.get(i).getBirthday() + "";
+                    date = profiles.get(i).getAge() + "";
                     if (date.equals("0")) {
                         date = "25";
                     }
@@ -482,7 +482,7 @@ public class RealmObj {
             profile.setActivity_type(profileApi.getActivity_type());
             profile.setHeight(profileApi.getHeight());
             profile.setGender(profileApi.getGender());
-            profile.setBirthday(profileApi.getBirthday());
+            profile.setAge(profileApi.getBirthday());
             profile.setCreated_at(profileApi.getCreated_at());
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
@@ -551,7 +551,7 @@ public class RealmObj {
                 profile.setActivity_type(2);
                 profile.setHeight(170);
                 profile.setGender(1);
-                profile.setBirthday(25);
+                profile.setAge(25);
                 profile.setCreated_at(data);
                 profile.setUpdated_at(data);
                 profile.setNumber(i + 1);
@@ -795,7 +795,7 @@ public class RealmObj {
             RealmList<Profile> profiles = userLibr.getProfiles();
             for (int i = 0; i < profiles.size(); i++) {
                 if (profiles.get(i).getNumber() == profileBLE) {
-                    profiles.get(i).setBirthday(Integer.parseInt(mDate));
+                    profiles.get(i).setAge(Integer.parseInt(mDate));
                 }
             }
             realm.copyToRealmOrUpdate(userLibr);
@@ -1021,7 +1021,7 @@ public class RealmObj {
             profile.setActivity_type(profileApi.getActivity_type());
             profile.setHeight(profileApi.getHeight());
             profile.setGender(profileApi.getGender());
-            profile.setBirthday(profileApi.getBirthday());
+            profile.setAge(profileApi.getBirthday());
             profile.setCreated_at(profileApi.getCreated_at());
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
