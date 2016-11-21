@@ -90,10 +90,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
         mFragmentManager = getSupportFragmentManager();
 
         setUi();
-        if (checkInternetConnection()) {
-//            rl_main_register.setVisibility(View.VISIBLE);
-            mPresenter.sendProfileData();
-        }
     }
 
     private void setUi() {
@@ -107,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     protected void onStart() {
         super.onStart();
+
+
+        if (checkInternetConnection()) {
+            mPresenter.sendProfileData();
+        }
+
         if (isThemeForStarDark != SettingsApp.getInstance().isThemeDark()) {
             finish();
             startActivity(getIntent());
