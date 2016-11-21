@@ -15,6 +15,7 @@ import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePassw
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.StringRealm;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
@@ -289,9 +290,21 @@ public class RealmObj {
     }
 
 
+    public RealmResults<AlarmModel> getAlarmFromDb(String mUserName) {
+        return realm.where(AlarmModel.class)
+                .equalTo("email", SettingsApp.getInstance().getUserName())
+                .findAll();
+    }
+
     public void getAlarmFromDb(AlarmView mAlarmView) {
-        mAlarmView.setAlarmItem(realm.where(AlarmModel.class)
-                .findAll());
+        RealmResults<AlarmModel> alarmItems =
+                realm.where(AlarmModel.class)
+                        .equalTo("email", SettingsApp.getInstance().getUserName())
+                        .findAll();
+
+        mAlarmView.updateAlarms();
+
+        mAlarmView.setAlarmItem(alarmItems);
     }
 
     public void getAlarmFromDb(StringBuilder mMsgStr, AlarmListener mListener) {
@@ -608,6 +621,7 @@ public class RealmObj {
         AlarmModel model = new AlarmModel();
         model.setAm(isAmPicker);
         model.setTime(mTime);
+        model.setEmail(SettingsApp.getInstance().getUserName());
 
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(model);
@@ -961,13 +975,47 @@ public class RealmObj {
         });
     }
 
-    public void updateUserDb(MainView mGraphView, UserLibr mEvent) {
-        UserLibr userByMail = getUserByMail(mEvent.getEmail());
-        if (userByMail.getUpdated_at() == mEvent.getUpdated_at()) {
-            mGraphView.makeRequestUpdateMeasurement();
-        } else {
+    public void updateUserDb(final MainView mGraphView, UserApi mEvent) {
+        final UserApiData userApiData = mEvent.getUser();
 
-        }
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                UserLibr userLibr = realm.where(UserLibr.class)
+                        .equalTo("email", userApiData.getEmail())
+                        .findFirst();
+
+                userLibr.setUpdated_at(userApiData.getUpdated_at());
+                RealmList<StringRealm> userLibrAlarms = userLibr.getAlarms();
+                if (userLibrAlarms != null) {
+                    userLibrAlarms.clear();
+                } else {
+                    userLibrAlarms = new RealmList<StringRealm>();
+                }
+                List<String> alarms = userApiData.getAlarms();
+                if (alarms != null) {
+                    for (String str : alarms) {
+                        StringRealm stringRealm = new StringRealm();
+                        stringRealm.text = str;
+                        userLibrAlarms.add(stringRealm);
+                    }
+
+                    userLibr.setAlarms(userLibrAlarms);
+                }
+                realm.copyToRealmOrUpdate(userLibr);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                mGraphView.makeRequestUpdateMeasurement();
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                saveAllLogs("ERROR in db setTypeProfile =" + error.getMessage());
+            }
+        });
+
     }
 
     public void updateMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData) {

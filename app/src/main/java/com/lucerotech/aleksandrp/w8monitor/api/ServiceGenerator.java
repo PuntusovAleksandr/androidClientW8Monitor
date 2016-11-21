@@ -11,6 +11,7 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmList;
+import io.realm.RealmResults;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -508,7 +510,7 @@ public class ServiceGenerator {
         }
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
-        Call<UserLibr> call = downloadService.profileSync(
+        Call<UserApi> call = downloadService.profileSync(
                 SettingsApp.getInstance().getMetric() ? 0 : 1,
                 SettingsApp.getInstance().getAutoLogin() ? 1 : 0,
                 SettingsApp.getInstance().isThemeDark() ? 1 : 0,
@@ -516,10 +518,10 @@ public class ServiceGenerator {
                 SettingsApp.getInstance().getProfileBLE(),
                 productMap
         );
-        call.enqueue(new Callback<UserLibr>() {
+        call.enqueue(new Callback<UserApi>() {
             @Override
-            public void onResponse(Call<UserLibr> call, Response<UserLibr> response) {
-                UserLibr body = response.body();
+            public void onResponse(Call<UserApi> call, Response<UserApi> response) {
+                UserApi body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
                     String textError = "Error data";
@@ -540,7 +542,7 @@ public class ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<UserLibr> call, Throwable t) {
+            public void onFailure(Call<UserApi> call, Throwable t) {
                 showMessageFailure(call, t, ApiConstants.USER_SUNS);
             }
         });
@@ -548,7 +550,52 @@ public class ServiceGenerator {
 
     public void updateAlarm() {
 
-        // TODO: 17.11.2016 надо сделать обновлегние будильника
+        RealmResults<AlarmModel> alarms = getAlarms();
+
+        String data = "alarms[";
+        Map<String, Object> productMap = new LinkedHashMap<>();
+        for (int j = 0; j < alarms.size(); j++) {
+            AlarmModel model = alarms.get(j);
+            String am = model.isAm() ? "/AM" : "/PM";
+            String time = model.getTime().replaceAll(":", "/") + am;
+            productMap.put(data + Integer.toString(j) + "]", time);
+        }
+        if (alarms.size() < 1) {
+            productMap.put(data + Integer.toString(0) + "]", "*");
+        }
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        Call<UserApi> call = downloadService.updateAlarms(
+                productMap
+        );
+        call.enqueue(new Callback<UserApi>() {
+            @Override
+            public void onResponse(Call<UserApi> call, Response<UserApi> response) {
+                UserApi body = response.body();
+                if (body == null) {
+                    //404 or the response cannot be converted to User.
+                    String textError = "Error data";
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = getTextMessage(responseBody);
+                    }
+                    showMessage(call, textError, ApiConstants.ALARM_UPDATE);
+                } else {
+                    //200
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.ALARM_UPDATE);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserApi> call, Throwable t) {
+                showMessageFailure(call, t, ApiConstants.ALARM_UPDATE);
+            }
+        });
     }
 
 //============================
@@ -617,6 +664,15 @@ public class ServiceGenerator {
         authToken = userByMail.getToken();
 
         return userByMail;
+    }
+
+
+
+    private RealmResults<AlarmModel> getAlarms() {
+        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
+        authToken = userByMail.getToken();
+        RealmResults<AlarmModel> alarmFromDb = RealmObj.getInstance().getAlarmFromDb(SettingsApp.getInstance().getUserName());
+        return alarmFromDb;
     }
 
 

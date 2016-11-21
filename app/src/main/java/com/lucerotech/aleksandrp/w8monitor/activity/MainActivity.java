@@ -18,9 +18,9 @@ import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
+import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphFragment;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphFragment;
@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
     // for disable double answer from BLE by connection
     private boolean firstConnection = false;
-
-    private Intent serviceIntent;
 
     @Bind(R.id.rl_main_register)
     RelativeLayout rl_main_register;
@@ -618,7 +616,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
     }
 
     @Override
-    public void makeUpdateUserSync(UserLibr mEvent) {
+    public void makeUpdateUserSync(UserApi mEvent) {
         mPresenter.makeUpdateUserDb(this, mEvent);
     }
 

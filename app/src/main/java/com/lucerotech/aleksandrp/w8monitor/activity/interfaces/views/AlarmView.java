@@ -1,5 +1,6 @@
 package com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views;
 
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 
 import io.realm.RealmResults;
@@ -13,4 +14,8 @@ public interface AlarmView {
     void setAlarmItem(RealmResults<AlarmModel> mAlarmItems);
 
     void setAlarmInSystem(boolean mIsAmPicker, String mTime);
+
+    void updateAlarm(UpdateUiEvent mEvent);
+
+    void updateAlarms();
 }

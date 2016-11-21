@@ -1,7 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views;
 
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
+import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public interface MainView {
 
     void sendProfileToServer();
 
-    void makeUpdateUserSync(UserLibr mEvent);
+    void makeUpdateUserSync(UserApi mEvent);
 
     void makeUpdateMessurementsSync(ArrayList<Measurement> mData);
 

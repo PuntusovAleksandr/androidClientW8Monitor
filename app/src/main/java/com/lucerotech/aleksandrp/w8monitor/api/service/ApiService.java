@@ -68,7 +68,7 @@ public class ApiService extends Service implements
                 userInteractor.sendMeasurementsToServer();
                 break;
             case ApiConstants.MESSUREMENTS_MASS:
-                userInteractor.measurements_mass();
+//                userInteractor.measurements_mass();
                 break;
             case ApiConstants.CHANGE_PASS:
                 String oldPass = intent.getStringExtra(SERVICE_PASSWORD_OLS);

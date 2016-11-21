@@ -2,7 +2,7 @@ package com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts;
 
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
+import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
 
@@ -35,7 +35,7 @@ public interface MainActivityPresenter {
 
     void unregisterEvenBus();
 
-    void makeUpdateUserDb(MainView mGraphView, UserLibr mEvent);
+    void makeUpdateUserDb(MainView mGraphView, UserApi mEvent);
 
     void makeMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData);
 }

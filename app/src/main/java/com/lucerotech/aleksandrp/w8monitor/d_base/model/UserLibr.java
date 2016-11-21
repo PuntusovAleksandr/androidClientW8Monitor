@@ -31,6 +31,8 @@ public class UserLibr extends RealmObject {
 
     private boolean fullProfile;
 
+    private RealmList<StringRealm> alarms;
+
     public UserLibr() {
     }
 
@@ -136,5 +138,21 @@ public class UserLibr extends RealmObject {
 
     public void setProfiles(RealmList<Profile> mProfiles) {
         this.mProfiles = mProfiles;
+    }
+
+    public boolean is_imperial() {
+        return is_imperial;
+    }
+
+    public boolean isKeep_login() {
+        return keep_login;
+    }
+
+    public RealmList<StringRealm> getAlarms() {
+        return alarms;
+    }
+
+    public void setAlarms(RealmList<StringRealm> mAlarms) {
+        alarms = mAlarms;
     }
 }

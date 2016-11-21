@@ -1,5 +1,6 @@
 package com.lucerotech.aleksandrp.w8monitor.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
@@ -13,6 +14,8 @@ import android.widget.TimePicker;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.AlarmActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.AlarmView;
+import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
+import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.dialog.DeleteAlarmDialog;
 import com.lucerotech.aleksandrp.w8monitor.presents.alarm.impl.AlarmActivityPresenterImpl;
@@ -25,7 +28,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.RealmResults;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.ALARM_UPDATE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRobotoLight;
+import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 
 public class AlarmActivity extends AppCompatActivity implements AlarmView,
         DeleteAlarmDialog.DeleteOk {
@@ -86,7 +92,7 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         ButterKnife.bind(this);
-        mPresenter = new AlarmActivityPresenterImpl(this);
+        mPresenter = new AlarmActivityPresenterImpl(this, this);
 
         setDefaultTime();
 
@@ -114,6 +120,15 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
 
     }
 
+    @Override
+    public void updateAlarms() {
+        if (checkInternetConnection()) {
+            Intent serviceIntent = new Intent(this, ApiService.class);
+            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, ALARM_UPDATE);
+            startService(serviceIntent);
+        }
+    }
+
     // get params from db and set it
     private void getAlarmFromDb() {
         mPresenter.getAlarmFromDb(this);
@@ -126,7 +141,14 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.registerEvenBus();
+    }
+
+    @Override
     protected void onStop() {
+        mPresenter.unregisterEvenBus();
         super.onStop();
         // TODO: 30.09.2016 нужно записать в базу анные будильника
     }
@@ -254,7 +276,17 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
         mPresenter.startRepeatingTimer(time);
     }
 
+    @Override
+    public void updateAlarm(UpdateUiEvent mEvent) {
+        if (mEvent.isSucess()) {
+            if (mEvent.getId() == UpdateUiEvent.ALARM_UPDATE) {
+//              no do
+            }
+        }
+    }
+
     // set UI params
+
     private void initUiAlarmShow(View mViewBlock, View mViewItem, AlarmModel mModel) {
         mViewBlock.setVisibility(View.VISIBLE);
         TextView time = (TextView) mViewItem.findViewById(R.id.tv_text_time);

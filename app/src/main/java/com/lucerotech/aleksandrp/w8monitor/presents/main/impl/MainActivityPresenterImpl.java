@@ -6,8 +6,8 @@ import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainAct
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
+import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
 
@@ -87,7 +87,7 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     }
 
     @Override
-    public void makeUpdateUserDb(MainView mGraphView, UserLibr mEvent) {
+    public void makeUpdateUserDb(MainView mGraphView, UserApi mEvent) {
         RealmObj.getInstance().updateUserDb(mGraphView, mEvent);
     }
 
@@ -102,7 +102,7 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
             if (event.getId() == MESSUREMENTS_SUNS) {
                 mMainView.makeUpdateMessurementsSync((ArrayList<Measurement>) (event.getData()));
             } else if (event.getId() == USER_SUNS) {
-                mMainView.makeUpdateUserSync((UserLibr) (event.getData()));
+                mMainView.makeUpdateUserSync((UserApi) (event.getData()));
             }
         } else logger("Error read server " + (String) event.getData());
         System.out.println(event.getData().toString());

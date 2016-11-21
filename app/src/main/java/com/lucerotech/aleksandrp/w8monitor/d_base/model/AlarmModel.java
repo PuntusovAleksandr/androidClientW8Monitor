@@ -14,6 +14,8 @@ public class AlarmModel extends RealmObject {
     @PrimaryKey
     private String time;
 
+    private String email;
+
     private boolean isAm;
 
     public AlarmModel() {
@@ -41,5 +43,13 @@ public class AlarmModel extends RealmObject {
 
     public void setTime(String mTime) {
         time = mTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String mEmail) {
+        email = mEmail;
     }
 }

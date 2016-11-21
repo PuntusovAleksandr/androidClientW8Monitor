@@ -17,4 +17,8 @@ public interface AlarmActivityPresenter {
     void deleteAlarmFromDb(String mTimeText, AlarmView mAlarmView);
 
     void stopAlarm();
+
+    void registerEvenBus();
+
+    void unregisterEvenBus();
 }

@@ -4,7 +4,6 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -166,13 +165,19 @@ public interface ServiceApi {
 
     @FormUrlEncoded
     @POST("profiles/sync")
-    Call<UserLibr> profileSync(
+    Call<UserApi> profileSync(
             @Field("is_imperial") int is_imperial,
             @Field("keep_login") int keep_login,
             @Field("theme") int theme,
             @Field("language") String language,
             @Field("profile_number") int profile_number,
             @FieldMap Map<String, Object> mProfiles);
+
+
+    @FormUrlEncoded
+    @POST("alarms")
+    Call<UserApi> updateAlarms(
+            @FieldMap Map<String, Object> mAlarms);
 
 
 }

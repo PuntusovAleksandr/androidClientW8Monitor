@@ -48,6 +48,10 @@ public class UserApiData {
     @Expose
     private List<ProfileApi> mProfileApis;
 
+    @SerializedName("alarms")
+    @Expose
+    private List<String> alarms;
+
     public int getId() {
         return id;
     }
@@ -118,5 +122,13 @@ public class UserApiData {
 
     public void setProfileApis(List<ProfileApi> mProfileApis) {
         this.mProfileApis = mProfileApis;
+    }
+
+    public List<String> getAlarms() {
+        return alarms;
+    }
+
+    public void setAlarms(List<String> mAlarms) {
+        alarms = mAlarms;
     }
 }
