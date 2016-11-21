@@ -5,6 +5,7 @@ import android.content.Context;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
+import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
@@ -13,8 +14,11 @@ import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MESSUREMENTS_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.USER_SUNS;
+import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 
 /**
  * Created by AleksandrP on 26.09.2016.
@@ -82,13 +86,25 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void makeUpdateUserDb(MainView mGraphView, UserLibr mEvent) {
+        RealmObj.getInstance().updateUserDb(mGraphView, mEvent);
+    }
+
+    @Override
+    public void makeMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData) {
+        RealmObj.getInstance().updateMessurementsDb(mGraphView, mData);
+    }
+
     @Subscribe
     public void onEvent(UpdateUiEvent event) {
-        if (event.getId() == MESSUREMENTS_SUNS) {
-
-        } else if (event.getId() == USER_SUNS) {
-            mMainView.makeMessurementsSync((UserLibr) (event.getData()));
-        }
+        if (event.isSucess()) {
+            if (event.getId() == MESSUREMENTS_SUNS) {
+                mMainView.makeUpdateMessurementsSync((ArrayList<Measurement>) (event.getData()));
+            } else if (event.getId() == USER_SUNS) {
+                mMainView.makeUpdateUserSync((UserLibr) (event.getData()));
+            }
+        } else logger("Error read server " + (String) event.getData());
         System.out.println(event.getData().toString());
     }
 }

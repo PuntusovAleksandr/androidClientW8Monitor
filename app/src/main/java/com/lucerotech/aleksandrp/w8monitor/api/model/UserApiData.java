@@ -30,11 +30,11 @@ public class UserApiData {
 
     @SerializedName("is_imperial")
     @Expose
-    private int is_imperial;
+    private boolean is_imperial;
 
     @SerializedName("keep_login")
     @Expose
-    private int keep_login;
+    private boolean keep_login;
 
     @SerializedName("theme")
     @Expose
@@ -84,19 +84,19 @@ public class UserApiData {
         return mProfileApis;
     }
 
-    public int is_imperial() {
+    public boolean is_imperial() {
         return is_imperial;
     }
 
-    public void setIs_imperial(int mIs_imperial) {
+    public void setIs_imperial(boolean mIs_imperial) {
         is_imperial = mIs_imperial;
     }
 
-    public int isKeep_login() {
+    public boolean isKeep_login() {
         return keep_login;
     }
 
-    public void setKeep_login(int mKeep_login) {
+    public void setKeep_login(boolean mKeep_login) {
         keep_login = mKeep_login;
     }
 

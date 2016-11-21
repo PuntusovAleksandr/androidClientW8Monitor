@@ -4,13 +4,14 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -69,7 +70,6 @@ public interface ServiceApi {
      * @param profile
      * @param activity_type
      * @param height
-     * @param birthday
      * @param gender
      * @return
      */
@@ -79,7 +79,7 @@ public interface ServiceApi {
             @Path("profile") int profile,
             @Field("activity_type") int activity_type,
             @Field("height") int height,
-            @Field("birthday") int birthday,
+            @Field("is_current") boolean is_current,
             @Field("age") int age,
             @Field(("gender")) int gender);
 
@@ -167,12 +167,12 @@ public interface ServiceApi {
     @FormUrlEncoded
     @POST("profiles/sync")
     Call<UserLibr> profileSync(
-            @Field("is_imperial") boolean is_imperial,
-            @Field("keep_login") boolean keep_login,
+            @Field("is_imperial") int is_imperial,
+            @Field("keep_login") int keep_login,
             @Field("theme") int theme,
             @Field("language") String language,
             @Field("profile_number") int profile_number,
-            @Field("data") Profile[] mProfiles);
+            @FieldMap Map<String, Object> mProfiles);
 
 
 }

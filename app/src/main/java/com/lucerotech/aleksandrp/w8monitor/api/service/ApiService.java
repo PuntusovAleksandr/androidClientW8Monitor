@@ -8,11 +8,9 @@ import com.lucerotech.aleksandrp.w8monitor.api.ServiceGenerator;
 import com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants;
 import com.lucerotech.aleksandrp.w8monitor.api.event.NetworkResponseEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
-import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 
 import org.greenrobot.eventbus.EventBus;
 
-import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MESSUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
@@ -49,8 +47,6 @@ public class ApiService extends Service implements
         this.startId = startId;
         int jobId = intent.getIntExtra(SERVICE_JOB_ID_TITLE, -1);
 
-        Measurement measurement;
-
         String mail = intent.getStringExtra(SERVICE_MAIL);
         String pass = intent.getStringExtra(SERVICE_PASS);
 
@@ -69,8 +65,7 @@ public class ApiService extends Service implements
                 userInteractor.profileCreateToServer();
                 break;
             case ApiConstants.MESSUREMENTS:
-                measurement = intent.getParcelableExtra(MESSUREMENTS);
-                userInteractor.sendMeasurementsToServer(measurement);
+                userInteractor.sendMeasurementsToServer();
                 break;
             case ApiConstants.MESSUREMENTS_MASS:
                 userInteractor.measurements_mass();
@@ -124,7 +119,7 @@ public class ApiService extends Service implements
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.MESSUREMENTS_MASS:
-                updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS_MASS);
+                updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS_SUNS);
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.CHANGE_PASS:

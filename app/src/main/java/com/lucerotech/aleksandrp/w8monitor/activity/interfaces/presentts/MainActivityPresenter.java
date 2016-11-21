@@ -1,7 +1,12 @@
 package com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts;
 
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
+import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
+
+import java.util.ArrayList;
 
 /**
  * Created by AleksandrP on 26.09.2016.
@@ -29,4 +34,8 @@ public interface MainActivityPresenter {
     void registerEvenBus();
 
     void unregisterEvenBus();
+
+    void makeUpdateUserDb(MainView mGraphView, UserLibr mEvent);
+
+    void makeMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData);
 }

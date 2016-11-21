@@ -367,7 +367,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
             SettingsApp.getInstance().setUserName(mRegKey.getEmail());
             SettingsApp.getInstance().setUserPassword(mRegKey.getPassword());
             SettingsApp.getInstance().setProfileBLE(mRegKey.getProfileBLE());
-            SettingsApp.getInstance().setMetric(mRegKey.getIs_imperial() > 0);
+            SettingsApp.getInstance().setMetric(mRegKey.getIs_imperial());
             SettingsApp.getInstance().setSettingsStatus(false);
             presenter.goToProfile();
 

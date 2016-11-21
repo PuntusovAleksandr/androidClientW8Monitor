@@ -357,9 +357,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
             SettingsApp.getInstance().setProfileBLE(mUser.getProfileBLE());
             SettingsApp.getInstance().setLanguages(mUser.getLanguage());
-            SettingsApp.getInstance().setThemeDark(mUser.getTheme() < 1);
-            SettingsApp.getInstance().setAutoLogin(mUser.getKeep_login() > 0);
-            SettingsApp.getInstance().setMetric(mUser.getIs_imperial() > 0);
+            SettingsApp.getInstance().setThemeDark(mUser.getTheme() == 1 ? true : false);
+            SettingsApp.getInstance().setAutoLogin(mUser.getKeep_login());
+            SettingsApp.getInstance().setMetric(mUser.getIs_imperial());
             if (mUser != null && mUser.isFullProfile()) {
                 SettingsApp.getInstance().setSettingsStatus(true);
                 presenter.goToMainActivity();

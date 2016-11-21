@@ -9,6 +9,7 @@ import com.lucerotech.aleksandrp.w8monitor.api.event.NetworkResponseEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
+import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
@@ -18,6 +19,9 @@ import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmList;
@@ -118,6 +122,19 @@ public class ServiceGenerator {
                     showMessage(call, textError, ApiConstants.LOGIN);
                 } else {
                     //200
+                    UserApiData user = body.getUser();
+                    SettingsApp.getInstance().setAutoLogin(user.isKeep_login());
+                    SettingsApp.getInstance().setMetric(!user.is_imperial());
+                    SettingsApp.getInstance().setLanguages(user.getLanguage());
+                    SettingsApp.getInstance().setThemeDark(user.getTheme() == 1 ? true : false);
+
+                    List<ProfileApi> profileApis = user.getProfileApis();
+                    for (int i = 0; i < profileApis.size(); i++) {
+                        ProfileApi profileApi = profileApis.get(i);
+                        if (profileApi.is_current()) {
+                            SettingsApp.getInstance().setProfileBLE(profileApi.getNumber());
+                        }
+                    }
 
                     SettingsApp.getInstance().setUserName(mMail);
                     SettingsApp.getInstance().setUserPassword(mPass);
@@ -163,6 +180,25 @@ public class ServiceGenerator {
 
                 } else {
                     //200
+
+                    UserApiData user = body.getUser();
+
+                    try {
+                        SettingsApp.getInstance().setAutoLogin(user.isKeep_login());
+                        SettingsApp.getInstance().setMetric(!user.is_imperial());
+                        SettingsApp.getInstance().setLanguages(user.getLanguage());
+                        SettingsApp.getInstance().setThemeDark(user.getTheme() == 1 ? true : false);
+                    } catch (Exception mE) {
+                        logger("loginSocialToServer " + mE.getMessage());
+                    }
+
+                    List<ProfileApi> profileApis = user.getProfileApis();
+                    for (int i = 0; i < profileApis.size(); i++) {
+                        ProfileApi profileApi = profileApis.get(i);
+                        if (profileApi.is_current()) {
+                            SettingsApp.getInstance().setProfileBLE(profileApi.getNumber());
+                        }
+                    }
                     SettingsApp.getInstance().setUserName(mMail);
                     SettingsApp.getInstance().setUserPassword(idSocialNetwork);
                     event = new NetworkResponseEvent();
@@ -206,6 +242,12 @@ public class ServiceGenerator {
 
                 } else {
                     //200
+                    UserApiData user = body.getUser();
+                    user.setKeep_login(SettingsApp.getInstance().getAutoLogin());
+                    user.setIs_imperial(!SettingsApp.getInstance().getMetric());
+                    user.setLanguage(SettingsApp.getInstance().getLanguages());
+                    user.setTheme(SettingsApp.getInstance().isThemeDark() ? 1 : 0);
+                    SettingsApp.getInstance().setProfileBLE(1);
                     SettingsApp.getInstance().setUserName(mMail);
                     SettingsApp.getInstance().setUserPassword(mPass);
                     event = new NetworkResponseEvent();
@@ -236,7 +278,7 @@ public class ServiceGenerator {
                 mProfileApi.getId(),
                 mProfileApi.getActivity_type(),
                 mProfileApi.getHeight(),
-                mProfileApi.getAge(),
+                true,
                 mProfileApi.getAge(),
                 mProfileApi.getGender()
         );
@@ -272,7 +314,9 @@ public class ServiceGenerator {
     }
 
 
-    public void sendMeasurementsToServer(Measurement mMeasurement) {
+    public void sendMeasurementsToServer() {
+
+        Measurement mMeasurement = new Measurement();
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<Measurement> call = downloadService.measurements(
@@ -356,7 +400,6 @@ public class ServiceGenerator {
             showMessage(null, "", ApiConstants.MESSUREMENTS_MASS);
         }
     }
-
 
 
     public void changePassword(String oldPass, String newPass, String newPass_2) {
@@ -447,19 +490,31 @@ public class ServiceGenerator {
     public void profileSync() {
 
         UserLibr userLibr = getUserLibr();
-        Profile[] profiles = new Profile[userLibr.getProfiles().size()];
-        for (int i = 0; i < profiles.length; i++) {
-            profiles[i] = userLibr.getProfiles().get(i);
+
+        String data = "data[";
+        Map<String, Object> productMap = new LinkedHashMap<>();
+        for (int j = 0; j < userLibr.getProfiles().size(); j++) {
+            Profile profile = userLibr.getProfiles().get(j);
+            productMap.put(data + Integer.toString(j) + "][id]", profile.getId());
+            productMap.put(data + Integer.toString(j) + "][user_id]", profile.getUser_id());
+            productMap.put(data + Integer.toString(j) + "][activity_type]", profile.getActivity_type() == 0 ? 1 : profile.getActivity_type());
+            productMap.put(data + Integer.toString(j) + "][height]", profile.getHeight() == 0 ? 170 : profile.getHeight());
+            productMap.put(data + Integer.toString(j) + "][gender]", profile.getGender() == 0 ? 1 : profile.getGender());
+            productMap.put(data + Integer.toString(j) + "][age]", profile.getAge() == 0 ? 25 : profile.getAge());
+            productMap.put(data + Integer.toString(j) + "][created_at]", profile.getCreated_at());
+            productMap.put(data + Integer.toString(j) + "][updated_at]", profile.getUpdated_at());
+            productMap.put(data + Integer.toString(j) + "][number]", profile.getNumber());
+            productMap.put(data + Integer.toString(j) + "][is_current]", profile.is_current() ? 1 : 0);
         }
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<UserLibr> call = downloadService.profileSync(
-                SettingsApp.getInstance().getMetric(),
-                SettingsApp.getInstance().getAutoLogin(),
+                SettingsApp.getInstance().getMetric() ? 0 : 1,
+                SettingsApp.getInstance().getAutoLogin() ? 1 : 0,
                 SettingsApp.getInstance().isThemeDark() ? 1 : 0,
                 SettingsApp.getInstance().getLanguages(),
                 SettingsApp.getInstance().getProfileBLE(),
-                profiles
+                productMap
         );
         call.enqueue(new Callback<UserLibr>() {
             @Override
@@ -541,7 +596,7 @@ public class ServiceGenerator {
         return textError;
     }
 //============================
-
+//{"status":"fail","code":422,"message":"The data.0.is_current field must be true or false.","data":{"is_imperial":"false","keep_login":"true","theme":"0","language":"en","profile_number":"1","data":[{"id":"75","user_id":"46","activity_type":"1","height":"231","gender":"1","age":"19","created_at":"1479706076","updated_at":"1479709874","number":"1","is_current":"true"},{"id":"76","user_id":"46","activity_type":"1","height":"170","gender":"1","age":"25","created_at":"1479706076","updated_at":"1479706076","number":"2","is_current":"false"}]}}
 
     private Profile getProfile(Profile mMProfileApi) {
         UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());

@@ -47,6 +47,10 @@ public class ProfileApi {
     @Expose
     private int number;
 
+    @SerializedName("is_current")
+    @Expose
+    private boolean is_current;
+
 
     public ProfileApi() {
     }
@@ -121,5 +125,13 @@ public class ProfileApi {
 
     public void setNumber(int mNumber) {
         number = mNumber;
+    }
+
+    public boolean is_current() {
+        return is_current;
+    }
+
+    public void setIs_current(boolean mIs_current) {
+        is_current = mIs_current;
     }
 }

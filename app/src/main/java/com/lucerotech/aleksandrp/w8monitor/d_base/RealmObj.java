@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.AlarmView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
+import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
@@ -21,6 +23,7 @@ import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.RegisterVie
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -149,6 +152,7 @@ public class RealmObj {
             profile.setCreated_at(profileApi.getCreated_at());
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
+            profile.setIs_current(profileApi.is_current());
 
             userLibr.getProfiles().add(profile);
         }
@@ -486,6 +490,7 @@ public class RealmObj {
             profile.setCreated_at(profileApi.getCreated_at());
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
+            profile.setIs_current(profileApi.is_current());
 
             userLibr.getProfiles().add(profile);
         }
@@ -522,7 +527,7 @@ public class RealmObj {
 
         if (userLibr != null) {
             realm.beginTransaction();
-            userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin() ? 1 : 0);
+            userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin());
             realm.copyToRealmOrUpdate(userLibr);
             realm.commitTransaction();
             return userLibr;
@@ -535,8 +540,8 @@ public class RealmObj {
             userLibr.setId_server(0);            // default
             userLibr.setCreated_at(data);            // default
             userLibr.setUpdated_at(data);            // default
-            userLibr.setIs_imperial(SettingsApp.getInstance().getMetric() ? 1 : 0);            // default
-            userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin() ? 1 : 0);            // default
+            userLibr.setIs_imperial(!SettingsApp.getInstance().getMetric());            // default
+            userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin());            // default
             userLibr.setTheme(SettingsApp.getInstance().isThemeDark() ? 0 : 1);            // default
             userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());            // default
             userLibr.setLanguage(SettingsApp.getInstance().getLanguages());
@@ -956,6 +961,21 @@ public class RealmObj {
         });
     }
 
+    public void updateUserDb(MainView mGraphView, UserLibr mEvent) {
+        UserLibr userByMail = getUserByMail(mEvent.getEmail());
+        if (userByMail.getUpdated_at() == mEvent.getUpdated_at()) {
+            mGraphView.makeRequestUpdateMeasurement();
+        } else {
+
+        }
+    }
+
+    public void updateMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData) {
+        UserLibr userByMail = getUserByMail(SettingsApp.getInstance().getUserName());
+// TODO: 19.11.2016 Сделать проверку  и обновить в бд
+        mGraphView.makeAllUpdateUi();
+    }
+
 
 //    ===============================================================
 //    END update
@@ -1003,7 +1023,6 @@ public class RealmObj {
 //==============================================================
 
 
-
     private UserLibr transformUpdateEventUserApi(UpdateUiEvent mEvent) {
 
         UserLibr userLibr = new UserLibr();
@@ -1034,8 +1053,8 @@ public class RealmObj {
         userLibr.setId_server(userApiData.getId());
         userLibr.setCreated_at(userApiData.getCreated_at());
         userLibr.setUpdated_at(userApiData.getUpdated_at());
-        userLibr.setIs_imperial(SettingsApp.getInstance().getMetric() ? 1 : 0);
-        userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin() ? 1 : 0);
+        userLibr.setIs_imperial(!SettingsApp.getInstance().getMetric());
+        userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin());
         userLibr.setTheme(userApiData.getTheme());
         userLibr.setLanguage(userApiData.getLanguage());
         userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
@@ -1046,12 +1065,7 @@ public class RealmObj {
     }
 
 
-
-
-
-
 //==============================================================
-
 
 
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
+import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
@@ -31,6 +32,7 @@ import com.lucerotech.aleksandrp.w8monitor.utils.SetThemeDark;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.Bind;
@@ -614,11 +616,25 @@ public class MainActivity extends AppCompatActivity implements MainView,
     }
 
     @Override
-    public void makeMessurementsSync(UserLibr mEvent) {
+    public void makeUpdateUserSync(UserLibr mEvent) {
+        mPresenter.makeUpdateUserDb(this, mEvent);
+    }
+
+    @Override
+    public void makeUpdateMessurementsSync(ArrayList<Measurement> mData) {
+        mPresenter.makeMessurementsDb(this, mData);
+    }
+
+    @Override
+    public void makeRequestUpdateMeasurement() {
         Intent serviceIntent = new Intent(this, ApiService.class);
         serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MESSUREMENTS_MASS);
         startService(serviceIntent);
+    }
 
+    @Override
+    public void makeAllUpdateUi() {
+        // TODO: 19.11.2016 нужно сделать обновление всех данных на жкране
     }
 
 

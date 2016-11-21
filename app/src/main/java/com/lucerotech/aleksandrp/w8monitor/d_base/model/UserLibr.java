@@ -18,8 +18,8 @@ public class UserLibr extends RealmObject {
     private int id_server;
     private String created_at;
     private String updated_at;
-    private int is_imperial;
-    private int keep_login;
+    private boolean is_imperial;
+    private boolean keep_login;
     //    2 - dark, 1 - light
     private int theme;
     private String language;
@@ -90,19 +90,19 @@ public class UserLibr extends RealmObject {
         updated_at = mUpdated_at;
     }
 
-    public int getIs_imperial() {
+    public boolean getIs_imperial() {
         return is_imperial;
     }
 
-    public void setIs_imperial(int mIs_imperial) {
+    public void setIs_imperial(boolean mIs_imperial) {
         is_imperial = mIs_imperial;
     }
 
-    public int getKeep_login() {
+    public boolean getKeep_login() {
         return keep_login;
     }
 
-    public void setKeep_login(int mKeep_login) {
+    public void setKeep_login(boolean mKeep_login) {
         keep_login = mKeep_login;
     }
 
