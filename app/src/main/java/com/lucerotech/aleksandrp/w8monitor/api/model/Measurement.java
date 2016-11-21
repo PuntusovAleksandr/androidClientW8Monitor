@@ -10,6 +10,10 @@ import com.google.gson.annotations.SerializedName;
 public class Measurement {
 
 
+    @SerializedName("profile_id")
+    @Expose
+    private int profile_id;
+
     @SerializedName("bmi")
     @Expose
     private String bmi;
@@ -155,5 +159,13 @@ public class Measurement {
 
     public void setSynced(boolean mSynced) {
         synced = mSynced;
+    }
+
+    public int getProfile_id() {
+        return profile_id;
+    }
+
+    public void setProfile_id(int mProfile_id) {
+        profile_id = mProfile_id;
     }
 }

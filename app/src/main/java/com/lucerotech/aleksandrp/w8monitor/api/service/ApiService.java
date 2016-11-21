@@ -72,6 +72,9 @@ public class ApiService extends Service implements
             case ApiConstants.MESSUREMENTS_MASS:
 //                userInteractor.measurements_mass();
                 break;
+            case ApiConstants.ALL_MESSUREMENTS:
+                userInteractor.getAlldMeasurementsfromServer();
+                break;
             case ApiConstants.CHANGE_PASS:
                 String oldPass = intent.getStringExtra(SERVICE_PASSWORD_OLS);
                 String newPass = intent.getStringExtra(SERVICE_PASSWORD_NEW);
@@ -118,6 +121,10 @@ public class ApiService extends Service implements
                 break;
             case ApiConstants.MESSUREMENTS:
                 updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS);
+                updateUiEvent.setData(event.getData());
+                break;
+            case ApiConstants.ALL_MESSUREMENTS:
+                updateUiEvent.setId(UpdateUiEvent.ALL_MESSUREMENTS);
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.MESSUREMENTS_MASS:

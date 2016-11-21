@@ -12,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -98,8 +99,9 @@ public interface ServiceApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("measurements")
+    @POST("profiles/{id_profile}/measurements")
     Call<Measurement> measurements(
+            @Path("id_profile") int id_profile,
             @Field("bmi") String bmi,
             @Field("body_water") String body_water,
             @Field("bone_mass") String bone_mass,
@@ -109,6 +111,11 @@ public interface ServiceApi {
             @Field("muscle_mass") String muscle_mass,
             @Field("float_weight") String float_weight,
             @Field("created_at") String created_at);
+
+
+ @GET("profiles/{id_profile}/measurements")
+    Call<ArrayList<Measurement>> genAllMeasurements(
+            @Path("id_profile") int id_profile);
 
 
     /**

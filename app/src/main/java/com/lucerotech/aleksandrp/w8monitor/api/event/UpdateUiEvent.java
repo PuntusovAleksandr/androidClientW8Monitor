@@ -17,6 +17,7 @@ public class UpdateUiEvent <T> {
     public static final int CHANGE_PASS = 9;
     public static final int USER_SUNS = 10;
     public static final int MESSUREMENTS_SUNS = 11;
+    public static final int ALL_MESSUREMENTS = 12;
 
     private int id;
 

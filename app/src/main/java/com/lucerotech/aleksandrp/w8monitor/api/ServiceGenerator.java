@@ -319,9 +319,11 @@ public class ServiceGenerator {
     public void sendMeasurementsToServer(long mTime) {
 
         ParamsBody lastBodyParam = getLastBodyParam(mTime);
+        int id_profile = getIdProfileNow();
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<Measurement> call = downloadService.measurements(
+                id_profile,
                 Float.toString(lastBodyParam.getBmi()),
                 Float.toString(lastBodyParam.getWater()),
                 Float.toString(lastBodyParam.getBody()),
@@ -358,6 +360,48 @@ public class ServiceGenerator {
             @Override
             public void onFailure(Call<Measurement> call, Throwable t) {
                 showMessageFailure(call, t, ApiConstants.MESSUREMENTS);
+            }
+        });
+    }
+
+
+    /**
+     * for get all Measurements
+     */
+    public void getAlldMeasurementsfromServer() {
+
+        int id_profile = getIdProfileNow();
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        Call<ArrayList<Measurement>> call = downloadService.genAllMeasurements(
+                id_profile
+        );
+        call.enqueue(new Callback<ArrayList<Measurement>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Measurement>> call, Response<ArrayList<Measurement>> response) {
+                ArrayList<Measurement> body = response.body();
+                if (body == null) {
+                    //404 or the response cannot be converted to User.
+                    String textError = "Error data";
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = getTextMessage(responseBody);
+                    }
+                    showMessage(call, textError, ApiConstants.ALL_MESSUREMENTS);
+                } else {
+                    //200
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.ALL_MESSUREMENTS);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
+                showMessageFailure(call, t, ApiConstants.ALL_MESSUREMENTS);
             }
         });
     }
@@ -679,6 +723,22 @@ public class ServiceGenerator {
         authToken = userByMail.getToken();
         ParamsBody bodyParam = RealmObj.getInstance().getLastBodyParam(SettingsApp.getInstance().getUserName(), mTime);
         return bodyParam;
+
+    }
+
+
+    private int getIdProfileNow() {
+        int id = 0;
+        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.is_current() &&
+                    profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
+                return profile.getId();
+            }
+        }
+        return id;
 
     }
 
