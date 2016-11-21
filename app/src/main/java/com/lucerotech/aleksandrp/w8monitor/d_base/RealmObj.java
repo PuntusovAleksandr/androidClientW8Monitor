@@ -170,6 +170,7 @@ public class RealmObj {
                         SettingsApp.getInstance().setUserName(mLogin);
                         SettingsApp.getInstance().setUserPassword(mPass);
                         mListenerLoginView.userExist(true, userLibr);
+                        setAlarmByUserByLogin(mLogin, userApiData.getAlarms());
                     }
                 }, new Realm.Transaction.OnError() {
                     @Override
@@ -714,6 +715,38 @@ public class RealmObj {
 
     }
 
+
+    private void setAlarmByUserByLogin(String mLogin, List<String> mAlarms) {
+        if (mAlarms == null ||
+                (mAlarms != null && mAlarms.size() == 1 && mAlarms.get(0).equalsIgnoreCase("*"))) {
+            return;
+        }
+        RealmResults<AlarmModel> alarmFromDb = getAlarmFromDb(mLogin);
+        alarmFromDb.deleteAllFromRealm();
+        if (alarmFromDb.size() > 0) {
+            alarmFromDb.deleteAllFromRealm();
+        }
+        for (int i = 0; i < mAlarms.size(); i++) {
+            String alarmText = mAlarms.get(i);
+            String[] split = alarmText.split("/");
+            boolean isAmPicker = split[2].equalsIgnoreCase("am");
+            StringBuilder builder = new StringBuilder();
+            builder = builder.append(split[0]);
+            builder = builder.append(":");
+            builder = builder.append(split[1]);
+
+            AlarmModel model = new AlarmModel();
+            model.setAm(isAmPicker);
+            model.setTime(builder.toString());
+            model.setEmail(mLogin);
+
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(model);
+            realm.commitTransaction();
+        }
+
+    }
+
 //    ===============================================================
 //    END PUT
 //    ===============================================================
@@ -849,6 +882,7 @@ public class RealmObj {
             public void execute(Realm realm) {
                 RealmResults<AlarmModel> result = realm.where(AlarmModel.class)
                         .equalTo("time", mTimeText)
+                        .equalTo("email", SettingsApp.getInstance().getUserName())
                         .findAll();
                 result.deleteAllFromRealm();
             }
