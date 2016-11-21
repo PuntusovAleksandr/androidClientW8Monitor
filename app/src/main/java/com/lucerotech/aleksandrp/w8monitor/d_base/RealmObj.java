@@ -5,13 +5,15 @@ import android.support.annotation.NonNull;
 
 import com.lucerotech.aleksandrp.w8monitor.App;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.AlarmView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePasswordView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
+import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.RegisterView;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
-import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.ChangePasswordView;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.AlarmModel;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
@@ -19,8 +21,6 @@ import com.lucerotech.aleksandrp.w8monitor.d_base.model.StringRealm;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
-import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.LoginView;
-import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.RegisterView;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
@@ -456,6 +456,15 @@ public class RealmObj {
                         .findFirst());
     }
 
+
+    public ParamsBody getLastBodyParam(String mUserName, long mTime) {
+        return realm.where(ParamsBody.class)
+                .equalTo("email", mUserName)
+                .equalTo("date_time", mUserName)
+                .findFirst();
+    }
+
+
 //    ===============================================================
 //    END GET
 //    ===============================================================
@@ -675,7 +684,7 @@ public class RealmObj {
                 mMassParams[6] = mEmr;
                 mMassParams[7] = mAgeBody;
                 mMassParams[8] = bmi;
-                mCircleGraphView.showParams(mMassParams);
+                mCircleGraphView.showParams(mMassParams, time);
                 saveAllLogs("addParamsBody onSuccess");
             }
         }, new Realm.Transaction.OnError() {
@@ -1057,7 +1066,6 @@ public class RealmObj {
 // TODO: 19.11.2016 Сделать проверку  и обновить в бд
         mGraphView.makeAllUpdateUi();
     }
-
 
 //    ===============================================================
 //    END update

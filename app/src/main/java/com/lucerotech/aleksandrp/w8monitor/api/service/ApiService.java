@@ -11,6 +11,7 @@ import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIME_CREATE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_PASS;
@@ -65,7 +66,8 @@ public class ApiService extends Service implements
                 userInteractor.profileCreateToServer();
                 break;
             case ApiConstants.MESSUREMENTS:
-                userInteractor.sendMeasurementsToServer();
+                long time = intent.getLongExtra(EXTRA_TIME_CREATE, 0);
+                userInteractor.sendMeasurementsToServer(time);
                 break;
             case ApiConstants.MESSUREMENTS_MASS:
 //                userInteractor.measurements_mass();

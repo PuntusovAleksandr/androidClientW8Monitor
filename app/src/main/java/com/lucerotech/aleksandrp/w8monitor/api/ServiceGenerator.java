@@ -316,21 +316,21 @@ public class ServiceGenerator {
     }
 
 
-    public void sendMeasurementsToServer() {
+    public void sendMeasurementsToServer(long mTime) {
 
-        Measurement mMeasurement = new Measurement();
+        ParamsBody lastBodyParam = getLastBodyParam(mTime);
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<Measurement> call = downloadService.measurements(
-                mMeasurement.getBmi(),
-                mMeasurement.getBody_water(),
-                mMeasurement.getBone_mass(),
-                mMeasurement.getCalories(),
-                mMeasurement.getFat(),
-                mMeasurement.getFat_level(),
-                mMeasurement.getMuscle_mass(),
-                mMeasurement.getFloat_weight(),
-                mMeasurement.getCreated_at()
+                Float.toString(lastBodyParam.getBmi()),
+                Float.toString(lastBodyParam.getWater()),
+                Float.toString(lastBodyParam.getBody()),
+                Float.toString(lastBodyParam.getEmr()),
+                Float.toString(lastBodyParam.getFat()),
+                Float.toString(lastBodyParam.getVisceralFat()),
+                Float.toString(lastBodyParam.getMuscle()),
+                Float.toString(lastBodyParam.getWeight()),
+                Float.toString(mTime)
         );
         call.enqueue(new Callback<Measurement>() {
             @Override
@@ -667,12 +667,19 @@ public class ServiceGenerator {
     }
 
 
-
     private RealmResults<AlarmModel> getAlarms() {
         UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
         authToken = userByMail.getToken();
         RealmResults<AlarmModel> alarmFromDb = RealmObj.getInstance().getAlarmFromDb(SettingsApp.getInstance().getUserName());
         return alarmFromDb;
+    }
+
+    private ParamsBody getLastBodyParam(long mTime) {
+        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
+        authToken = userByMail.getToken();
+        ParamsBody bodyParam = RealmObj.getInstance().getLastBodyParam(SettingsApp.getInstance().getUserName(), mTime);
+        return bodyParam;
+
     }
 
 

@@ -92,4 +92,7 @@ public class STATICS_PARAMS {
     public static final String MESSUREMENTS = "MESSUREMENTS ";
     public static final String GENDER = "GENDER ";
 
+    // extra
+    public static final String EXTRA_TIME_CREATE = "EXTRA_TIME_CREATE ";
+
 }
