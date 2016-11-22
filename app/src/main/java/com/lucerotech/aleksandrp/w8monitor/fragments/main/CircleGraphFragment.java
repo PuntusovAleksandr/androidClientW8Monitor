@@ -22,7 +22,6 @@ import com.lucerotech.aleksandrp.w8monitor.activity.AlarmActivity;
 import com.lucerotech.aleksandrp.w8monitor.activity.MainActivity;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.adapter.CirclePagerAdapterMain;
-import com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants;
 import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.view.CircleBackground;
@@ -34,7 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MESSUREMENTS;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRoboLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.GetSizeWindow.getSizeWindow;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
@@ -202,7 +201,7 @@ public class CircleGraphFragment extends Fragment implements
     public void showParams(float[] mMassParams, long mTime) {
         setShowValues(mViewPager.getCurrentItem());
         Intent serviceIntent = new Intent(getActivity(), ApiService.class);
-        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MESSUREMENTS);
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS);
         serviceIntent.putExtra(EXTRA_TIME_CREATE, mTime);
         getActivity().startService(serviceIntent);
     }

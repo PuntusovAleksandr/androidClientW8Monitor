@@ -38,7 +38,7 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MESSUREMENTS_MASS;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS_MASS;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
@@ -628,7 +628,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     public void makeRequestUpdateMeasurement() {
         Intent serviceIntent = new Intent(this, ApiService.class);
-        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MESSUREMENTS_MASS);
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS_MASS);
         startService(serviceIntent);
     }
 

@@ -89,7 +89,7 @@ public class STATICS_PARAMS {
     public static final String SOCIAL_ID = "SOCIAL_ID ";
     public static final String NEW_PASS = "NEW_PASS ";
     public static final String PROFILE_API = "PROFILE_API ";
-    public static final String MESSUREMENTS = "MESSUREMENTS ";
+    public static final String MESSUREMENTS = "MEASUREMENTS ";
     public static final String GENDER = "GENDER ";
 
     // extra

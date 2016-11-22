@@ -66,17 +66,17 @@ public class ApiService extends Service implements
             case ApiConstants.PROFILE:
                 userInteractor.profileCreateToServer();
                 break;
-            case ApiConstants.MESSUREMENTS:
+            case ApiConstants.MEASUREMENTS:
                 long time = intent.getLongExtra(EXTRA_TIME_CREATE, 0);
                 userInteractor.sendMeasurementsToServer(time);
                 break;
-            case ApiConstants.MESSUREMENTS_MASS:
+            case ApiConstants.MEASUREMENTS_MASS:
 //                userInteractor.measurements_mass();
                 break;
-            case ApiConstants.ALL_MESSUREMENTS:
+            case ApiConstants.ALL_MEASUREMENTS:
                 userInteractor.getAlldMeasurementsFromServer();
                 break;
-           case ApiConstants.ALL_MESSUREMENTS_TIME:
+           case ApiConstants.ALL_MEASUREMENTS_TIME:
                String timestamp = intent.getStringExtra(EXTRA_TIMESTAMP);
                userInteractor.getAlldMeasurementsFromServerTime(timestamp);
                 break;
@@ -124,16 +124,16 @@ public class ApiService extends Service implements
                 updateUiEvent.setId(UpdateUiEvent.PROFILE);
                 updateUiEvent.setData(event.getData());
                 break;
-            case ApiConstants.MESSUREMENTS:
+            case ApiConstants.MEASUREMENTS:
                 updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS);
                 updateUiEvent.setData(event.getData());
                 break;
-            case ApiConstants.ALL_MESSUREMENTS:
-            case ApiConstants.ALL_MESSUREMENTS_TIME:
+            case ApiConstants.ALL_MEASUREMENTS:
+            case ApiConstants.ALL_MEASUREMENTS_TIME:
                 updateUiEvent.setId(UpdateUiEvent.ALL_MESSUREMENTS);
                 updateUiEvent.setData(event.getData());
                 break;
-            case ApiConstants.MESSUREMENTS_MASS:
+            case ApiConstants.MEASUREMENTS_MASS:
                 updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS_SUNS);
                 updateUiEvent.setData(event.getData());
                 break;

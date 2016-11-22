@@ -346,12 +346,12 @@ public class ServiceGenerator {
                         loggerE("error loginToServer " + responseBody.toString());
                         textError = getTextMessage(responseBody);
                     }
-                    showMessage(call, textError, ApiConstants.MESSUREMENTS);
+                    showMessage(call, textError, ApiConstants.MEASUREMENTS);
                 } else {
                     //200
                     event = new NetworkResponseEvent();
                     event.setData(body);
-                    event.setId(ApiConstants.MESSUREMENTS);
+                    event.setId(ApiConstants.MEASUREMENTS);
                     event.setSucess(true);
                     mCallBackServiceGenerator.requestCallBack(event);
                 }
@@ -359,7 +359,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<Measurement> call, Throwable t) {
-                showMessageFailure(call, t, ApiConstants.MESSUREMENTS);
+                showMessageFailure(call, t, ApiConstants.MEASUREMENTS);
             }
         });
     }
@@ -388,12 +388,12 @@ public class ServiceGenerator {
                         loggerE("error loginToServer " + responseBody.toString());
                         textError = getTextMessage(responseBody);
                     }
-                    showMessage(call, textError, ApiConstants.ALL_MESSUREMENTS);
+                    showMessage(call, textError, ApiConstants.ALL_MEASUREMENTS);
                 } else {
                     //200
                     event = new NetworkResponseEvent();
                     event.setData(body);
-                    event.setId(ApiConstants.ALL_MESSUREMENTS);
+                    event.setId(ApiConstants.ALL_MEASUREMENTS);
                     event.setSucess(true);
                     mCallBackServiceGenerator.requestCallBack(event);
                 }
@@ -401,7 +401,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
-                showMessageFailure(call, t, ApiConstants.ALL_MESSUREMENTS);
+                showMessageFailure(call, t, ApiConstants.ALL_MEASUREMENTS);
             }
         });
     }
@@ -431,12 +431,12 @@ public class ServiceGenerator {
                         loggerE("error loginToServer " + responseBody.toString());
                         textError = getTextMessage(responseBody);
                     }
-                    showMessage(call, textError, ApiConstants.ALL_MESSUREMENTS);
+                    showMessage(call, textError, ApiConstants.ALL_MEASUREMENTS);
                 } else {
                     //200
                     event = new NetworkResponseEvent();
                     event.setData(body);
-                    event.setId(ApiConstants.ALL_MESSUREMENTS);
+                    event.setId(ApiConstants.ALL_MEASUREMENTS);
                     event.setSucess(true);
                     mCallBackServiceGenerator.requestCallBack(event);
                 }
@@ -444,7 +444,7 @@ public class ServiceGenerator {
 
             @Override
             public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
-                showMessageFailure(call, t, ApiConstants.ALL_MESSUREMENTS);
+                showMessageFailure(call, t, ApiConstants.ALL_MEASUREMENTS);
             }
         });
     }
@@ -469,12 +469,12 @@ public class ServiceGenerator {
                             loggerE("error loginToServer " + responseBody.toString());
                             textError = getTextMessage(responseBody);
                         }
-                        showMessage(call, textError, ApiConstants.MESSUREMENTS_MASS);
+                        showMessage(call, textError, ApiConstants.MEASUREMENTS_MASS);
                     } else {
                         //200
                         event = new NetworkResponseEvent();
                         event.setData(body);
-                        event.setId(ApiConstants.MESSUREMENTS_MASS);
+                        event.setId(ApiConstants.MEASUREMENTS_MASS);
                         event.setSucess(true);
                         mCallBackServiceGenerator.requestCallBack(event);
                     }
@@ -482,11 +482,11 @@ public class ServiceGenerator {
 
                 @Override
                 public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
-                    showMessageFailure(call, t, ApiConstants.MESSUREMENTS_MASS);
+                    showMessageFailure(call, t, ApiConstants.MEASUREMENTS_MASS);
                 }
             });
         } else {
-            showMessage(null, "", ApiConstants.MESSUREMENTS_MASS);
+            showMessage(null, "", ApiConstants.MEASUREMENTS_MASS);
         }
     }
 
