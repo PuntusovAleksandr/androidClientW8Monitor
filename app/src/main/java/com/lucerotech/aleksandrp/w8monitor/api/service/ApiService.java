@@ -125,16 +125,16 @@ public class ApiService extends Service implements
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.MEASUREMENTS:
-                updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS);
+                updateUiEvent.setId(UpdateUiEvent.MEASUREMENTS);
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.ALL_MEASUREMENTS:
             case ApiConstants.ALL_MEASUREMENTS_TIME:
-                updateUiEvent.setId(UpdateUiEvent.ALL_MESSUREMENTS);
+                updateUiEvent.setId(UpdateUiEvent.ALL_MEASUREMENTS);
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.MEASUREMENTS_MASS:
-                updateUiEvent.setId(UpdateUiEvent.MESSUREMENTS_SUNS);
+                updateUiEvent.setId(UpdateUiEvent.MEASUREMENTS_SUNS);
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.CHANGE_PASS:

@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
-import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MESSUREMENTS_SUNS;
+import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MEASUREMENTS_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 
@@ -99,7 +99,7 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     @Subscribe
     public void onEvent(UpdateUiEvent event) {
         if (event.isSucess()) {
-            if (event.getId() == MESSUREMENTS_SUNS) {
+            if (event.getId() == MEASUREMENTS_SUNS) {
                 mMainView.makeUpdateMessurementsSync((ArrayList<Measurement>) (event.getData()));
             } else if (event.getId() == USER_SUNS) {
                 mMainView.makeUpdateUserSync((UserApi) (event.getData()));
