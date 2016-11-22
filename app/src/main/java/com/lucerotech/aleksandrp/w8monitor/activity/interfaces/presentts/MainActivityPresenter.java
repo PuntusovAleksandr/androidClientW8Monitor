@@ -38,4 +38,6 @@ public interface MainActivityPresenter {
     void makeUpdateUserDb(MainView mGraphView, UserApi mEvent);
 
     void makeMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData);
+
+    void getAllMeasurements(MainView mMainView);
 }

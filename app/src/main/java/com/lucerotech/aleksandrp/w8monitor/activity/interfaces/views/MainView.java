@@ -2,8 +2,11 @@ package com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views;
 
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 
 import java.util.ArrayList;
+
+import io.realm.RealmResults;
 
 /**
  * Created by AleksandrP on 26.09.2016.
@@ -24,4 +27,10 @@ public interface MainView {
     void makeRequestUpdateMeasurement();
 
     void makeAllUpdateUi();
+
+    void getAllMeasurementsFromServer(RealmResults<ParamsBody> mAllSorted);
+
+    void addParamBody(float weight, float fat, float gugeBody,
+                      float muscle, int level_fat, float waterRate,
+                      int emr, int mPhysicalAge, float mBmi,  int profileId);
 }

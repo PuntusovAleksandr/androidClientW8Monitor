@@ -7,6 +7,7 @@ import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants;
 import com.lucerotech.aleksandrp.w8monitor.api.event.NetworkResponseEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
+import com.lucerotech.aleksandrp.w8monitor.api.model.ObjectMeasurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
@@ -415,14 +416,14 @@ public class ServiceGenerator {
         int id_profile = getIdProfileNow();
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
-        Call<ArrayList<Measurement>> call = downloadService.genAllMeasurementsTimestamp(
+        Call<ObjectMeasurement> call = downloadService.genAllMeasurementsTimestamp(
                 id_profile,
                 timestamp
         );
-        call.enqueue(new Callback<ArrayList<Measurement>>() {
+        call.enqueue(new Callback<ObjectMeasurement>() {
             @Override
-            public void onResponse(Call<ArrayList<Measurement>> call, Response<ArrayList<Measurement>> response) {
-                ArrayList<Measurement> body = response.body();
+            public void onResponse(Call<ObjectMeasurement> call, Response<ObjectMeasurement> response) {
+                ObjectMeasurement body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
                     String textError = "Error data";
@@ -431,20 +432,20 @@ public class ServiceGenerator {
                         loggerE("error loginToServer " + responseBody.toString());
                         textError = getTextMessage(responseBody);
                     }
-                    showMessage(call, textError, ApiConstants.ALL_MEASUREMENTS);
+                    showMessage(call, textError, ApiConstants.ALL_MEASUREMENTS_TIME);
                 } else {
                     //200
                     event = new NetworkResponseEvent();
-                    event.setData(body);
-                    event.setId(ApiConstants.ALL_MEASUREMENTS);
+                    event.setData(body.getMeasurements());
+                    event.setId(ApiConstants.ALL_MEASUREMENTS_TIME);
                     event.setSucess(true);
                     mCallBackServiceGenerator.requestCallBack(event);
                 }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
-                showMessageFailure(call, t, ApiConstants.ALL_MEASUREMENTS);
+            public void onFailure(Call<ObjectMeasurement> call, Throwable t) {
+                showMessageFailure(call, t, ApiConstants.ALL_MEASUREMENTS_TIME);
             }
         });
     }
@@ -584,6 +585,10 @@ public class ServiceGenerator {
         Map<String, Object> productMap = new LinkedHashMap<>();
         for (int j = 0; j < userLibr.getProfiles().size(); j++) {
             Profile profile = userLibr.getProfiles().get(j);
+            int is_current = 0;
+            if (SettingsApp.getInstance().getProfileBLE() == profile.getNumber()) {
+                is_current = 1;
+            }
             productMap.put(data + Integer.toString(j) + "][id]", profile.getId());
             productMap.put(data + Integer.toString(j) + "][user_id]", profile.getUser_id());
             productMap.put(data + Integer.toString(j) + "][activity_type]", profile.getActivity_type() == 0 ? 1 : profile.getActivity_type());
@@ -593,7 +598,7 @@ public class ServiceGenerator {
             productMap.put(data + Integer.toString(j) + "][created_at]", profile.getCreated_at());
             productMap.put(data + Integer.toString(j) + "][updated_at]", profile.getUpdated_at());
             productMap.put(data + Integer.toString(j) + "][number]", profile.getNumber());
-            productMap.put(data + Integer.toString(j) + "][is_current]", profile.is_current() ? 1 : 0);
+            productMap.put(data + Integer.toString(j) + "][is_current]", is_current);
         }
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);

@@ -16,43 +16,43 @@ public class Measurement {
 
     @SerializedName("bmi")
     @Expose
-    private String bmi;
+    private float bmi;
 
     @SerializedName("body_water")
     @Expose
-    private String body_water;
+    private float body_water;
 
     @SerializedName("bone_mass")
     @Expose
-    private String bone_mass;
+    private float bone_mass;
 
     @SerializedName("calories")
     @Expose
-    private String calories;
+    private int calories;
 
     @SerializedName("fat")
     @Expose
-    private String fat;
+    private float fat;
 
     @SerializedName("fat_level")
     @Expose
-    private String fat_level;
+    private int fat_level;
 
     @SerializedName("muscle_mass")
     @Expose
-    private String muscle_mass;
+    private float muscle_mass;
 
     @SerializedName("float_weight")
     @Expose
-    private String float_weight;
+    private float float_weight;
 
     @SerializedName("created_at")
     @Expose
-    private String created_at;
+    private long created_at;
 
     @SerializedName("updated_at")
     @Expose
-    private String updated_at;
+    private long updated_at;
 
     @SerializedName("id")
     @Expose
@@ -65,83 +65,92 @@ public class Measurement {
     public Measurement() {
     }
 
-    public String getBmi() {
+
+    public int getProfile_id() {
+        return profile_id;
+    }
+
+    public void setProfile_id(int mProfile_id) {
+        profile_id = mProfile_id;
+    }
+
+    public float getBmi() {
         return bmi;
     }
 
-    public void setBmi(String mBmi) {
+    public void setBmi(float mBmi) {
         bmi = mBmi;
     }
 
-    public String getBody_water() {
+    public float getBody_water() {
         return body_water;
     }
 
-    public void setBody_water(String mBody_water) {
+    public void setBody_water(float mBody_water) {
         body_water = mBody_water;
     }
 
-    public String getBone_mass() {
+    public float getBone_mass() {
         return bone_mass;
     }
 
-    public void setBone_mass(String mBone_mass) {
+    public void setBone_mass(float mBone_mass) {
         bone_mass = mBone_mass;
     }
 
-    public String getCalories() {
+    public int getCalories() {
         return calories;
     }
 
-    public void setCalories(String mCalories) {
+    public void setCalories(int mCalories) {
         calories = mCalories;
     }
 
-    public String getFat() {
+    public float getFat() {
         return fat;
     }
 
-    public void setFat(String mFat) {
+    public void setFat(float mFat) {
         fat = mFat;
     }
 
-    public String getFat_level() {
+    public int getFat_level() {
         return fat_level;
     }
 
-    public void setFat_level(String mFat_level) {
+    public void setFat_level(int mFat_level) {
         fat_level = mFat_level;
     }
 
-    public String getMuscle_mass() {
+    public float getMuscle_mass() {
         return muscle_mass;
     }
 
-    public void setMuscle_mass(String mMuscle_mass) {
+    public void setMuscle_mass(float mMuscle_mass) {
         muscle_mass = mMuscle_mass;
     }
 
-    public String getFloat_weight() {
+    public float getFloat_weight() {
         return float_weight;
     }
 
-    public void setFloat_weight(String mFloat_weight) {
+    public void setFloat_weight(float mFloat_weight) {
         float_weight = mFloat_weight;
     }
 
-    public String getCreated_at() {
+    public long getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String mCreated_at) {
+    public void setCreated_at(long mCreated_at) {
         created_at = mCreated_at;
     }
 
-    public String getUpdated_at() {
+    public long getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(String mUpdated_at) {
+    public void setUpdated_at(long mUpdated_at) {
         updated_at = mUpdated_at;
     }
 
@@ -159,13 +168,5 @@ public class Measurement {
 
     public void setSynced(boolean mSynced) {
         synced = mSynced;
-    }
-
-    public int getProfile_id() {
-        return profile_id;
-    }
-
-    public void setProfile_id(int mProfile_id) {
-        profile_id = mProfile_id;
     }
 }

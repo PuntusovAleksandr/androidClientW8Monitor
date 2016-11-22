@@ -33,7 +33,13 @@ public class ParamsBody extends RealmObject {
 
     public int profileBLE;
 
+    private int profile_id;
+
     private float bmi;
+
+    private int id;
+
+    private boolean synced;
 
     public ParamsBody() {
     }
@@ -140,5 +146,29 @@ public class ParamsBody extends RealmObject {
 
     public void setBmi(float mBmi) {
         bmi = mBmi;
+    }
+
+    public int getProfile_id() {
+        return profile_id;
+    }
+
+    public void setProfile_id(int mProfile_id) {
+        profile_id = mProfile_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int mId) {
+        id = mId;
+    }
+
+    public boolean isSynced() {
+        return synced;
+    }
+
+    public void setSynced(boolean mSynced) {
+        synced = mSynced;
     }
 }

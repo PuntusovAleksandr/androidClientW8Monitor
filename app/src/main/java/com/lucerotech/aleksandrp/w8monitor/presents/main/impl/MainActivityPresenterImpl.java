@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
+import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.ALL_MEASUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MEASUREMENTS_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
@@ -96,6 +97,11 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
         RealmObj.getInstance().updateMessurementsDb(mGraphView, mData);
     }
 
+    @Override
+    public void getAllMeasurements(MainView mMainView) {
+        RealmObj.getInstance().getLastBodyParamsByServer(mMainView);
+    }
+
     @Subscribe
     public void onEvent(UpdateUiEvent event) {
         if (event.isSucess()) {
@@ -103,8 +109,32 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
                 mMainView.makeUpdateMessurementsSync((ArrayList<Measurement>) (event.getData()));
             } else if (event.getId() == USER_SUNS) {
                 mMainView.makeUpdateUserSync((UserApi) (event.getData()));
+            } else if (event.getId() == ALL_MEASUREMENTS) {
+                ArrayList<Measurement> data = (ArrayList<Measurement>) event.getData();
+                if (data != null && data.size() > 0) {
+                    updateParamsBody(data);
+                }
             }
         } else logger("Error read server " + (String) event.getData());
         System.out.println(event.getData().toString());
+    }
+
+    private void updateParamsBody(ArrayList<Measurement> mData) {
+
+        for (int i = 0; i < mData.size(); i++) {
+            Measurement measurement = mData.get(i);
+            mMainView.addParamBody(
+                    measurement.getFloat_weight(),
+                    measurement.getFat(),
+                    measurement.getBone_mass(),
+                    measurement.getMuscle_mass(),
+                    measurement.getFat_level(),
+                    measurement.getBody_water(),
+                    measurement.getCalories(),
+                    0,
+                    measurement.getBmi(),
+                    measurement.getProfile_id()
+            );
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.api;
 
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
+import com.lucerotech.aleksandrp.w8monitor.api.model.ObjectMeasurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
@@ -119,7 +120,7 @@ public interface ServiceApi {
             @Path("id_profile") int id_profile);
 
     @GET("profiles/{id_profile}/measurements")
-    Call<ArrayList<Measurement>> genAllMeasurementsTimestamp(
+    Call<ObjectMeasurement> genAllMeasurementsTimestamp(
             @Path("id_profile") int id_profile,
             @Query("timestamp") String timestamp);
 

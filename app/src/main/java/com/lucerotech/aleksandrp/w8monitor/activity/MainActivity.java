@@ -21,6 +21,10 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
+import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphFragment;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphFragment;
@@ -37,11 +41,14 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
-import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS_MASS;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.ALL_MEASUREMENTS_TIME;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIMESTAMP;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.KEI_CONNECTION;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
@@ -88,6 +95,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
         mFragmentManager = getSupportFragmentManager();
 
         setUi();
+
+    }
+
+    private void getAllMeasurements() {
+        mPresenter.getAllMeasurements(this);
     }
 
     private void setUi() {
@@ -464,21 +476,25 @@ public class MainActivity extends AppCompatActivity implements MainView,
 //            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
 //        }
 
-        // save in DB
-        mPresenter.addParamsBody(
-                weightRec < 0 ? -weightRec : weightRec,
-                gugeRate < 0 ? -gugeRate : gugeRate,
-                zhifangRate < 0 ? -zhifangRate : zhifangRate,
-                jirouRate < 0 ? -jirouRate : jirouRate,
-                waterRate < 0 ? -waterRate : waterRate,
-                neizanglevel < 0 ? -neizanglevel : neizanglevel,
-                hot < 0 ? -hot : hot,
-                physicalAge < 0 ? 0 : physicalAge,
-//                BMI
-                bmi,
-                mCircleGraphView
-        );
+
+        int id = 0;
+        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.is_current() &&
+                    profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
+                id = profile.getId();
+            }
+        }
+        addParamBody(
+                weightRec, zhifangRate, gugeRate,
+                jirouRate, neizanglevel, waterRate,
+                hot, physicalAge, bmi, id);
+
+
     }
+
 
     private float getWater(float mWeightRec, int mHeight, int mSex) {
         float answer = 0;
@@ -618,6 +634,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     public void makeUpdateUserSync(UserApi mEvent) {
         mPresenter.makeUpdateUserDb(this, mEvent);
+
     }
 
     @Override
@@ -627,9 +644,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
     @Override
     public void makeRequestUpdateMeasurement() {
-        Intent serviceIntent = new Intent(this, ApiService.class);
-        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS_MASS);
-        startService(serviceIntent);
+//        Intent serviceIntent = new Intent(this, ApiService.class);
+//        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS_MASS);
+//        startService(serviceIntent);
+
+        getAllMeasurements();
     }
 
     @Override
@@ -637,6 +656,42 @@ public class MainActivity extends AppCompatActivity implements MainView,
         // TODO: 19.11.2016 нужно сделать обновление всех данных на жкране
     }
 
+    @Override
+    public void getAllMeasurementsFromServer(RealmResults<ParamsBody> mAllSorted) {
+        if (checkInternetConnection()) {
+            String time = "";
+            if (mAllSorted != null && mAllSorted.size() > 0) {
+                ParamsBody paramsBody = mAllSorted.get(mAllSorted.size() - 1);
+                time = Long.toString(paramsBody.getDate_time());
+            }
+            Intent serviceIntent = new Intent(this, ApiService.class);
+            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, ALL_MEASUREMENTS_TIME);
+            serviceIntent.putExtra(EXTRA_TIMESTAMP, time);
+            startService(serviceIntent);
+        }
+    }
+
+    @Override
+    public void addParamBody(float weight, float fat, float gugeBody,
+                             float muscle, int level_fat, float waterRate,
+                             int emr, int mPhysicalAge, float mBmi, int profileId) {
+
+
+        // save in DB
+        mPresenter.addParamsBody(
+                weight < 0 ? -weight : weight,
+                gugeBody < 0 ? -gugeBody : gugeBody,
+                fat < 0 ? -fat : fat,
+                muscle < 0 ? -muscle : muscle,
+                waterRate < 0 ? -waterRate : waterRate,
+                level_fat < 0 ? -level_fat : level_fat,
+                emr < 0 ? -emr : emr,
+                mPhysicalAge < 0 ? 0 : mPhysicalAge,
+//                BMI
+                mBmi,
+                mCircleGraphView
+        );
+    }
 
     //    ====================================================================
 //     END        MainView

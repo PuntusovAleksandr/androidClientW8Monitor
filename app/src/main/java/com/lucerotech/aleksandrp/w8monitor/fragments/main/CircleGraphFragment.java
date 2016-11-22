@@ -141,7 +141,7 @@ public class CircleGraphFragment extends Fragment implements
 
         ib_line_chart.setEnabled(false);
         ib_line_chart.setAlpha(0.5f);
-        setShowValues(mViewPager.getCurrentItem());
+//        setShowValues(mViewPager.getCurrentItem());
 
         setDefaultUI();
 

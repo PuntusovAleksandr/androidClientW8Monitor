@@ -459,11 +459,18 @@ public class RealmObj {
 
     public ParamsBody getLastBodyParam(String mUserName, long mTime) {
         return realm.where(ParamsBody.class)
-                .equalTo("email", mUserName)
-                .equalTo("date_time", mUserName)
+                .equalTo("userName_id", mUserName)
+                .equalTo("date_time", mTime)
                 .findFirst();
     }
 
+
+    public void getLastBodyParamsByServer(MainView mMainView) {
+        mMainView.getAllMeasurementsFromServer(
+                realm.where(ParamsBody.class)
+                        .equalTo("userName_id", SettingsApp.getInstance().getUserName())
+                        .findAllSorted("date_time", Sort.DESCENDING));
+    }
 
 //    ===============================================================
 //    END GET
@@ -731,9 +738,18 @@ public class RealmObj {
             return;
         }
         RealmResults<AlarmModel> alarmFromDb = getAlarmFromDb(mLogin);
-        alarmFromDb.deleteAllFromRealm();
+
         if (alarmFromDb.size() > 0) {
-            alarmFromDb.deleteAllFromRealm();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    RealmResults<AlarmModel> alarmModels = realm.where(AlarmModel.class)
+                            .equalTo("email", SettingsApp.getInstance().getUserName())
+                            .findAll();
+                    alarmModels.deleteAllFromRealm();
+                }
+            });
+
         }
         for (int i = 0; i < mAlarms.size(); i++) {
             String alarmText = mAlarms.get(i);
@@ -1066,6 +1082,7 @@ public class RealmObj {
 // TODO: 19.11.2016 Сделать проверку  и обновить в бд
         mGraphView.makeAllUpdateUi();
     }
+
 
 //    ===============================================================
 //    END update
