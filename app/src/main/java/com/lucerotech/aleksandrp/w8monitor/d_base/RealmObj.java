@@ -488,7 +488,7 @@ public class RealmObj {
         mMainView.getAllMeasurementsFromServer(
                 realm.where(ParamsBody.class)
                         .equalTo("userName_id", SettingsApp.getInstance().getUserName())
-                        .findAllSorted("date_time", Sort.DESCENDING));
+                        .findAllSorted("date_time", Sort.ASCENDING));
     }
 
 //    ===============================================================
