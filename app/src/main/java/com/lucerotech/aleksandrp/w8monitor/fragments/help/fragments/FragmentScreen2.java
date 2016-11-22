@@ -34,7 +34,6 @@ public class FragmentScreen2 extends FragmentScreenBase {
     }
 
 
-
     //    =====================================
 //            onClick
     //    =====================================

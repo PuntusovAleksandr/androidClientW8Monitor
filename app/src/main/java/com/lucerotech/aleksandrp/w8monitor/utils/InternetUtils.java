@@ -15,11 +15,12 @@ public class InternetUtils {
 
     /**
      * Function check internet connection
+     *
      * @return true if connection available,else if not.
      */
-    public static boolean checkInternetConnection(){
+    public static boolean checkInternetConnection() {
         Context context = App.getContext();
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable();
     }

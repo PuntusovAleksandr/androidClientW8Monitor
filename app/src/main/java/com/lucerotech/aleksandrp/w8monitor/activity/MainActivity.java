@@ -489,6 +489,33 @@ public class MainActivity extends AppCompatActivity implements MainView,
     }
 
 
+//    ===================================================
+//            for TEST
+//    ===================================================
+
+    public void testAddData() {
+
+        int random = (int) (Math.random() * 10);
+        long time = new Date().getTime() / 1000;
+        mPresenter.addParamsBody(
+                random * 10,
+                random * 7,
+                random * 7,
+                random * 10,
+                random * 8,
+                random * 5,
+                random * 2000,
+                random * 1,
+                random * 8,
+                time,
+                mCircleGraphView,
+                false
+        );
+    }
+
+//    ===================================================
+
+
     private float getWater(float mWeightRec, int mHeight, int mSex) {
         float answer = 0;
         if (mSex == 1) {        // мужик

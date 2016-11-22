@@ -132,7 +132,7 @@ public interface ServiceApi {
     @POST("profiles/{id_profile}/measurements/mass")
     Call<ObjectMeasurement> measurements_mass(
             @Path("id_profile") int id_profile,
-            @FieldMap Map<String, Object>  mParamsBodies);
+            @FieldMap Map<String, Object> mParamsBodies);
 
     /**
      * change password

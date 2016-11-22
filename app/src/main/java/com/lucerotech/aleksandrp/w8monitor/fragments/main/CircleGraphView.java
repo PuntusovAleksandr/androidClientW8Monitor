@@ -7,7 +7,7 @@ import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
  */
 
 public interface CircleGraphView {
-    
+
     void hideTextEnableBLE();
 
     void showTextConnectionBLE();

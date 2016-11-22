@@ -4,7 +4,7 @@ package com.lucerotech.aleksandrp.w8monitor.api.event;
  * Created by AleksandrP on 17.11.2016.
  */
 
-public class UpdateUiEvent <T> {
+public class UpdateUiEvent<T> {
 
     public static final int LOGIN = 1;
     public static final int LOGIN_SOCIAL = 2;

@@ -743,7 +743,9 @@ public class ServiceGenerator {
 //            Toast.makeText(App.getContext(), text, Toast.LENGTH_SHORT).show();
         event.setData(text);
 
-        logger("Call ::: " + mCall.toString());
+        if (mCall != null) {
+            logger("Call ::: " + mCall.toString());
+        }
 
         mCallBackServiceGenerator.requestFailed(event);
     }

@@ -9,11 +9,12 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 import java.lang.reflect.Field;
+
 /**
  * Created by AleksandrP on 03.11.2016.
  */
 
-public class ViewPagerCustomDuration  extends ViewPager implements GestureDetector.OnGestureListener {
+public class ViewPagerCustomDuration extends ViewPager implements GestureDetector.OnGestureListener {
 
     private GestureDetector mGestureDetector;
     private FlingRunnable mFlingRunnable = new FlingRunnable();
@@ -58,7 +59,6 @@ public class ViewPagerCustomDuration  extends ViewPager implements GestureDetect
     }
 
 
-
     // We have to intercept this touch event else fakeDrag functions won't work as it will
 // be in a real drag when we want to initialise the fake drag.
     @Override
@@ -76,7 +76,7 @@ public class ViewPagerCustomDuration  extends ViewPager implements GestureDetect
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velX, float velY) {
-        mFlingRunnable.startUsingVelocity((int)velX);
+        mFlingRunnable.startUsingVelocity((int) velX);
         return false;
     }
 
@@ -95,11 +95,10 @@ public class ViewPagerCustomDuration  extends ViewPager implements GestureDetect
             if (this.getCurrentItem() > 0) {
                 this.setCurrentItem(this.getCurrentItem() - 1, false);
             }
-        }
-        else if (scrollX > rightBound) {
+        } else if (scrollX > rightBound) {
             scrollX = rightBound;
             // Now we know that we've hit the bound, flip the page
-            if (this.getCurrentItem() < (this.getAdapter().getCount() - 1) ) {
+            if (this.getCurrentItem() < (this.getAdapter().getCount() - 1)) {
                 this.setCurrentItem(this.getCurrentItem() + 1, false);
             }
         }
@@ -107,8 +106,7 @@ public class ViewPagerCustomDuration  extends ViewPager implements GestureDetect
         // Do the fake dragging
         if (mScrolling) {
             this.fakeDragBy(distX);
-        }
-        else {
+        } else {
             this.beginFakeDrag();
             this.fakeDragBy(distX);
             mScrolling = true;
@@ -164,8 +162,7 @@ public class ViewPagerCustomDuration  extends ViewPager implements GestureDetect
             if (animationNotFinished) {
                 mLastFlingX = x;
                 post(this);
-            }
-            else {
+            } else {
                 endFling();
             }
 

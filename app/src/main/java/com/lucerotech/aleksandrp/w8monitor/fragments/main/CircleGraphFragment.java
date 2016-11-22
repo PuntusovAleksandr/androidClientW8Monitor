@@ -198,7 +198,7 @@ public class CircleGraphFragment extends Fragment implements
     public void showParams(float[] mMassParams, long mTime, boolean mSync) {
         MainActivity activity = (MainActivity) getActivity();
         if (mSync) {
-            if (checkInternetConnection()) {
+            if (checkInternetConnection() && activity != null) {
                 activity.setSyncMeasurements();
             }
             return;
@@ -581,6 +581,16 @@ public class CircleGraphFragment extends Fragment implements
     @OnClick(R.id.tv_turn_on_bluetooth)
     public void clickRefreshConnection() {
 //        supportEnable = mBluetoothHandler.checkSupport();
+    }
+
+
+    //    ===================================================
+//            for TEST
+//    ===================================================
+    @OnClick(R.id.tv_result_mass)
+    public void clicktv_result_mass() {
+//        MainActivity activity = (MainActivity) getActivity();
+//        activity.testAddData();
     }
 
 

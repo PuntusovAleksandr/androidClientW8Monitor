@@ -443,7 +443,7 @@ public class RealmObj {
             Profile profile = profiles.get(i);
             if (profile.is_current() &&
                     profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
-                id= profile.getId();
+                id = profile.getId();
             }
         }
 

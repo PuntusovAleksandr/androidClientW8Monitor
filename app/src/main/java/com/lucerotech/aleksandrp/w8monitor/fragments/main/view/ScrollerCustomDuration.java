@@ -9,7 +9,7 @@ import android.widget.Scroller;
  * Created by AleksandrP on 03.11.2016.
  */
 
-public class ScrollerCustomDuration  extends Scroller {
+public class ScrollerCustomDuration extends Scroller {
 
     private double mScrollFactor = 1;
 
