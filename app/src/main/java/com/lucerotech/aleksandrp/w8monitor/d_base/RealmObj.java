@@ -654,11 +654,23 @@ public class RealmObj {
 
     public void addParamsBody(final float mWeightBody, final float mBody, final float mFat,
                               final float mMuscul, final float mWaterBody, final float mFatVis,
-                              final float mEmr, final float mAgeBody, final float bmi,
-                              final CircleGraphView mCircleGraphView) {
+                              final float mEmr, final float mAgeBody, final float bmi, final long time,
+                              final CircleGraphView mCircleGraphView, final boolean sync) {
         final String userName = SettingsApp.getInstance().getUserName();
-        final long time = new Date().getTime();
 
+
+        int id_profile = 0;
+        UserLibr userByMail = getUserByMail(SettingsApp.getInstance().getUserName());
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.is_current() &&
+                    profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
+                id_profile = profile.getId();
+            }
+        }
+
+        final int finalId_profile = id_profile;
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -674,9 +686,11 @@ public class RealmObj {
                 paramsBody.setEmr(mEmr);
                 paramsBody.setBodyAge(mAgeBody);
                 paramsBody.setBmi(bmi);
+                paramsBody.setProfile_id(finalId_profile);
+                paramsBody.setSynced(sync);
                 paramsBody.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
 
-                bgRealm.copyToRealm(paramsBody);
+                bgRealm.copyToRealmOrUpdate(paramsBody);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -691,7 +705,7 @@ public class RealmObj {
                 mMassParams[6] = mEmr;
                 mMassParams[7] = mAgeBody;
                 mMassParams[8] = bmi;
-                mCircleGraphView.showParams(mMassParams, time);
+                mCircleGraphView.showParams(mMassParams, time, sync);
                 saveAllLogs("addParamsBody onSuccess");
             }
         }, new Realm.Transaction.OnError() {

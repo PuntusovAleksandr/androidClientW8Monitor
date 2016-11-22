@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.ALL_MEASUREMENTS;
+import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MEASUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MEASUREMENTS_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
@@ -52,9 +53,22 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     @Override
     public void addParamsBody(float mWeightBody, float mBody, float mFat, float mMuscul,
                               float mWaterBody, float mFatVis, float mEmr, float mAgeBody, float bmi,
-                              CircleGraphView mCircleGraphView) {
+                              long mTime, CircleGraphView mCircleGraphView, boolean mSync) {
+//        if (checkInternetConnection()) {
+//            mMainView.semdMeasurementToServer(mTime);
+//        } else {
+        addParamBody(mWeightBody, mBody, mFat, mMuscul,
+                mWaterBody, mFatVis, mEmr, mAgeBody, bmi,
+                mTime, mCircleGraphView, mSync);
+//        }
+    }
+
+    @Override
+    public void addParamBody(float mWeightBody, float mBody, float mFat, float mMuscul,
+                             float mWaterBody, float mFatVis, float mEmr, float mAgeBody, float bmi,
+                             long mTime, CircleGraphView mCircleGraphView, boolean mSync) {
         RealmObj.getInstance().addParamsBody(mWeightBody, mBody, mFat, mMuscul,
-                mWaterBody, mFatVis, mEmr, mAgeBody, bmi, mCircleGraphView);
+                mWaterBody, mFatVis, mEmr, mAgeBody, bmi, mTime, mCircleGraphView, mSync);
     }
 
     @Override
@@ -114,6 +128,8 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
                 if (data != null && data.size() > 0) {
                     updateParamsBody(data);
                 }
+            } else if (event.getId() == MEASUREMENTS) {
+                addParamBodies((Measurement) event.getData());
             }
         } else logger("Error read server " + (String) event.getData());
         System.out.println(event.getData().toString());
@@ -123,18 +139,23 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
 
         for (int i = 0; i < mData.size(); i++) {
             Measurement measurement = mData.get(i);
-            mMainView.addParamBody(
-                    measurement.getFloat_weight(),
-                    measurement.getFat(),
-                    measurement.getBone_mass(),
-                    measurement.getMuscle_mass(),
-                    measurement.getFat_level(),
-                    measurement.getBody_water(),
-                    measurement.getCalories(),
-                    0,
-                    measurement.getBmi(),
-                    measurement.getProfile_id()
-            );
+            addParamBodies(measurement);
         }
+    }
+
+    private void addParamBodies(Measurement mMeasurement) {
+        mMainView.addParamBody(
+                mMeasurement.getFloat_weight(),
+                mMeasurement.getFat(),
+                mMeasurement.getBone_mass(),
+                mMeasurement.getMuscle_mass(),
+                mMeasurement.getFat_level(),
+                mMeasurement.getBody_water(),
+                mMeasurement.getCalories(),
+                0,
+                mMeasurement.getBmi(),
+                mMeasurement.getProfile_id(),
+                mMeasurement.getCreated_at()
+        );
     }
 }

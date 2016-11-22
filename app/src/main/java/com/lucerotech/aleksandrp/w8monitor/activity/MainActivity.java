@@ -45,10 +45,12 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.ALL_MEASUREMENTS_TIME;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIMESTAMP;
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIME_CREATE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.KEI_CONNECTION;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
@@ -487,11 +489,24 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 id = profile.getId();
             }
         }
-        addParamBody(
-                weightRec, zhifangRate, gugeRate,
-                jirouRate, neizanglevel, waterRate,
-                hot, physicalAge, bmi, id);
 
+        final long time = new Date().getTime();
+        // save in DB
+        mPresenter.addParamsBody(
+                weightRec < 0 ? -weightRec : weightRec,
+                gugeRate < 0 ? -gugeRate : gugeRate,
+                zhifangRate < 0 ? -zhifangRate : zhifangRate,
+                jirouRate < 0 ? -jirouRate : jirouRate,
+                waterRate < 0 ? -waterRate : waterRate,
+                neizanglevel < 0 ? -neizanglevel : neizanglevel,
+                hot < 0 ? -hot : hot,
+                physicalAge < 0 ? 0 : physicalAge,
+//                BMI
+                bmi,
+                time,
+                mCircleGraphView,
+                false
+        );
 
     }
 
@@ -674,23 +689,21 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     public void addParamBody(float weight, float fat, float gugeBody,
                              float muscle, int level_fat, float waterRate,
-                             int emr, int mPhysicalAge, float mBmi, int profileId) {
+                             int emr, int mPhysicalAge, float mBmi, int profileId, long mCreated_at) {
 
+        mPresenter.addParamBody(weight, gugeBody, fat, muscle, waterRate, level_fat,
+                emr, mPhysicalAge, mBmi, mCreated_at, mCircleGraphView, true);
 
-        // save in DB
-        mPresenter.addParamsBody(
-                weight < 0 ? -weight : weight,
-                gugeBody < 0 ? -gugeBody : gugeBody,
-                fat < 0 ? -fat : fat,
-                muscle < 0 ? -muscle : muscle,
-                waterRate < 0 ? -waterRate : waterRate,
-                level_fat < 0 ? -level_fat : level_fat,
-                emr < 0 ? -emr : emr,
-                mPhysicalAge < 0 ? 0 : mPhysicalAge,
-//                BMI
-                mBmi,
-                mCircleGraphView
-        );
+    }
+
+    @Override
+    public void semdMeasurementToServer(long mTime) {
+        if (checkInternetConnection()) {
+            Intent serviceIntent = new Intent(this, ApiService.class);
+            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS);
+            serviceIntent.putExtra(EXTRA_TIME_CREATE, mTime);
+            startService(serviceIntent);
+        }
     }
 
     //    ====================================================================

@@ -20,7 +20,11 @@ public interface MainActivityPresenter {
 
     void addParamsBody(float mWeightBody, float mBody, float mFat, float mMuscul,
                        float mWaterBody, float mFatVis, float mEmr, float mAgeBody, float bmi,
-                       CircleGraphView mCircleGraphView);
+                       long mTime, CircleGraphView mCircleGraphView, boolean mSync);
+
+    void addParamBody(float mWeightBody, float mBody, float mFat, float mMuscul,
+                       float mWaterBody, float mFatVis, float mEmr, float mAgeBody, float bmi,
+                       long mTime, CircleGraphView mCircleGraphView, boolean mSync);
 
     void getDataForCircle(int mI, CircleGraphView mCircleGraphView);
 

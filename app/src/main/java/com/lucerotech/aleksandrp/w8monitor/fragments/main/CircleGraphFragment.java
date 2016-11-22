@@ -22,7 +22,6 @@ import com.lucerotech.aleksandrp.w8monitor.activity.AlarmActivity;
 import com.lucerotech.aleksandrp.w8monitor.activity.MainActivity;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.adapter.CirclePagerAdapterMain;
-import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.view.CircleBackground;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.view.ViewPagerCustomDuration;
@@ -33,12 +32,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRoboLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.GetSizeWindow.getSizeWindow;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
-import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIME_CREATE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MAX_VALUE_PICKER;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BMI;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_BONE_MASS;
@@ -48,7 +45,6 @@ import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_FA
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_MUSCLE_MASS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_WATER;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.PICKER_WEIGHT;
-import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.TranslateToMetric.translateToMetricFloat;
 
 /**
@@ -199,13 +195,15 @@ public class CircleGraphFragment extends Fragment implements
     }
 
     @Override
-    public void showParams(float[] mMassParams, long mTime) {
+    public void showParams(float[] mMassParams, long mTime, boolean mSync) {
+        if (mSync) {
+            return;
+        }
+
         setShowValues(mViewPager.getCurrentItem());
         if (checkInternetConnection()) {
-            Intent serviceIntent = new Intent(getActivity(), ApiService.class);
-            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS);
-            serviceIntent.putExtra(EXTRA_TIME_CREATE, mTime);
-            getActivity().startService(serviceIntent);
+            MainActivity activity = (MainActivity) getActivity();
+            activity.semdMeasurementToServer(mTime);
         }
     }
 

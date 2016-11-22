@@ -32,5 +32,7 @@ public interface MainView {
 
     void addParamBody(float weight, float fat, float gugeBody,
                       float muscle, int level_fat, float waterRate,
-                      int emr, int mPhysicalAge, float mBmi,  int profileId);
+                      int emr, int mPhysicalAge, float mBmi, int profileId, long mCreated_at);
+
+    void semdMeasurementToServer(long mTime);
 }

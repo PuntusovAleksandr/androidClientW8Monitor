@@ -1,6 +1,7 @@
 package com.lucerotech.aleksandrp.w8monitor.d_base.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by AleksandrP on 15.10.2016.
@@ -29,6 +30,7 @@ public class ParamsBody extends RealmObject {
     // расчетное Тело Возраст:
     private float countBodyAge;
     // time data in millsec
+    @PrimaryKey
     private long date_time;
 
     public int profileBLE;

@@ -14,7 +14,7 @@ public interface CircleGraphView {
 
     void setDefaultUI();
 
-    void showParams(float[] mMassParams, long mTime);
+    void showParams(float[] mMassParams, long mTime, boolean mSync);
 
     void showMessageError();
 
