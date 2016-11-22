@@ -17,5 +17,6 @@ public interface ApiConstants {
     public static final int ALARM_UPDATE = 9;
     public static final int USER_SUNS = 10;
     public static final int ALL_MESSUREMENTS = 11;
+    public static final int ALL_MESSUREMENTS_TIME = 12;
 
 }

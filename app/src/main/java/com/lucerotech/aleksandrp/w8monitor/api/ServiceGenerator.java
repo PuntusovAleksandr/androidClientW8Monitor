@@ -368,13 +368,56 @@ public class ServiceGenerator {
     /**
      * for get all Measurements
      */
-    public void getAlldMeasurementsfromServer() {
+    public void getAlldMeasurementsFromServer() {
 
         int id_profile = getIdProfileNow();
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<ArrayList<Measurement>> call = downloadService.genAllMeasurements(
                 id_profile
+        );
+        call.enqueue(new Callback<ArrayList<Measurement>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Measurement>> call, Response<ArrayList<Measurement>> response) {
+                ArrayList<Measurement> body = response.body();
+                if (body == null) {
+                    //404 or the response cannot be converted to User.
+                    String textError = "Error data";
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = getTextMessage(responseBody);
+                    }
+                    showMessage(call, textError, ApiConstants.ALL_MESSUREMENTS);
+                } else {
+                    //200
+                    event = new NetworkResponseEvent();
+                    event.setData(body);
+                    event.setId(ApiConstants.ALL_MESSUREMENTS);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
+                showMessageFailure(call, t, ApiConstants.ALL_MESSUREMENTS);
+            }
+        });
+    }
+
+
+    /**
+     * for get all Measurements
+     */
+    public void getAlldMeasurementsFromServerTime(String timestamp) {
+
+        int id_profile = getIdProfileNow();
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        Call<ArrayList<Measurement>> call = downloadService.genAllMeasurementsTimestamp(
+                id_profile,
+                timestamp
         );
         call.enqueue(new Callback<ArrayList<Measurement>>() {
             @Override

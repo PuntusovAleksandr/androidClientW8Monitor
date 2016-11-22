@@ -15,6 +15,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by AleksandrP on 16.11.2016.
@@ -113,9 +114,14 @@ public interface ServiceApi {
             @Field("created_at") String created_at);
 
 
- @GET("profiles/{id_profile}/measurements")
+    @GET("profiles/{id_profile}/measurements")
     Call<ArrayList<Measurement>> genAllMeasurements(
             @Path("id_profile") int id_profile);
+
+    @GET("profiles/{id_profile}/measurements")
+    Call<ArrayList<Measurement>> genAllMeasurementsTimestamp(
+            @Path("id_profile") int id_profile,
+            @Query("timestamp") String timestamp);
 
 
     /**

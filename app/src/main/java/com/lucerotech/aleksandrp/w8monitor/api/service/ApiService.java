@@ -11,6 +11,7 @@ import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIMESTAMP;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIME_CREATE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.SERVICE_MAIL;
@@ -73,7 +74,11 @@ public class ApiService extends Service implements
 //                userInteractor.measurements_mass();
                 break;
             case ApiConstants.ALL_MESSUREMENTS:
-                userInteractor.getAlldMeasurementsfromServer();
+                userInteractor.getAlldMeasurementsFromServer();
+                break;
+           case ApiConstants.ALL_MESSUREMENTS_TIME:
+               String timestamp = intent.getStringExtra(EXTRA_TIMESTAMP);
+               userInteractor.getAlldMeasurementsFromServerTime(timestamp);
                 break;
             case ApiConstants.CHANGE_PASS:
                 String oldPass = intent.getStringExtra(SERVICE_PASSWORD_OLS);
@@ -124,6 +129,7 @@ public class ApiService extends Service implements
                 updateUiEvent.setData(event.getData());
                 break;
             case ApiConstants.ALL_MESSUREMENTS:
+            case ApiConstants.ALL_MESSUREMENTS_TIME:
                 updateUiEvent.setId(UpdateUiEvent.ALL_MESSUREMENTS);
                 updateUiEvent.setData(event.getData());
                 break;

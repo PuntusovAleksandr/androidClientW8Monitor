@@ -94,5 +94,6 @@ public class STATICS_PARAMS {
 
     // extra
     public static final String EXTRA_TIME_CREATE = "EXTRA_TIME_CREATE ";
+    public static final String EXTRA_TIMESTAMP = "EXTRA_TIMESTAMP ";
 
 }
