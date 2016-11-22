@@ -18,6 +18,7 @@ public class UpdateUiEvent <T> {
     public static final int USER_SUNS = 10;
     public static final int MEASUREMENTS_SUNS = 11;
     public static final int ALL_MEASUREMENTS = 12;
+    public static final int MEASUREMENTS_MASS_UPDATE = 13;
 
     private int id;
 

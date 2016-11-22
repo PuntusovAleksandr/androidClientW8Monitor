@@ -457,6 +457,11 @@ public class ServiceGenerator {
                 RealmObj.getInstance().getAllNoSyncParamBodies(idProfiles);
 
         if (paramBodies == null || paramBodies.size() <= 1) {
+            NetworkResponseEvent event = new NetworkResponseEvent();
+            event.setData("ok");
+            event.setId(ApiConstants.MEASUREMENTS_MASS_UPDATE);
+            event.setSucess(true);
+            mCallBackServiceGenerator.requestCallBack(event);
             return;
         }
 

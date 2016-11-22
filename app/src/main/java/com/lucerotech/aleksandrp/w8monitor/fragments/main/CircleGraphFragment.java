@@ -390,6 +390,12 @@ public class CircleGraphFragment extends Fragment implements
 
         mButton.setDataInChart(0, 0, 0, mViewPager.getCurrentItem() + 1);
     }
+
+    @Override
+    public void updateUi() {
+        setShowValues(mViewPager.getCurrentItem());
+    }
+
     //    ===========================================
 //      END      from CircleGraphView
 //    ===========================================

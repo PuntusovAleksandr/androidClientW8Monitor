@@ -107,9 +107,13 @@ public class MainActivity extends AppCompatActivity implements MainView,
     protected void onStart() {
         super.onStart();
 
-
         if (checkInternetConnection()) {
-            mPresenter.sendProfileData();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mPresenter.sendProfileData();
+                }
+            }, 500);
         }
 
         if (isThemeForStarDark != SettingsApp.getInstance().isThemeDark()) {
@@ -674,6 +678,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
             serviceIntent.putExtra(EXTRA_TIME_CREATE, mTime);
             startService(serviceIntent);
         }
+    }
+
+    @Override
+    public void updateUi() {
+        mCircleGraphView.updateUi();
     }
 
     //    ====================================================================

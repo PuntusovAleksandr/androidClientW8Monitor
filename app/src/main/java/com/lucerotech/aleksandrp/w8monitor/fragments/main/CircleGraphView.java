@@ -21,4 +21,6 @@ public interface CircleGraphView {
     void showDataCircle(int mI, ParamsBody mLast, ParamsBody mPreLast, float[] mMassParams);
 
     void deleteValuesInTextShows();
+
+    void updateUi();
 }

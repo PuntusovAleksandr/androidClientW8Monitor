@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.ALL_MEASUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MEASUREMENTS;
+import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MEASUREMENTS_MASS_UPDATE;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.MEASUREMENTS_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
@@ -120,6 +121,8 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
                 mMainView.makeUpdateUserSync((UserApi) (event.getData()));
             } else if (event.getId() == MEASUREMENTS) {
                 addParamBodies((Measurement) event.getData());
+            } else if (event.getId() == MEASUREMENTS_MASS_UPDATE) {
+                mMainView.updateUi();
             }
         } else logger("Error read server " + (String) event.getData());
         System.out.println(event.getData().toString());

@@ -76,9 +76,9 @@ public class ApiService extends Service implements
             case ApiConstants.ALL_MEASUREMENTS:
                 userInteractor.getAlldMeasurementsFromServer();
                 break;
-           case ApiConstants.ALL_MEASUREMENTS_TIME:
-               String timestamp = intent.getStringExtra(EXTRA_TIMESTAMP);
-               userInteractor.getAlldMeasurementsFromServerTime(timestamp);
+            case ApiConstants.ALL_MEASUREMENTS_TIME:
+                String timestamp = intent.getStringExtra(EXTRA_TIMESTAMP);
+                userInteractor.getAlldMeasurementsFromServerTime(timestamp);
                 break;
             case ApiConstants.CHANGE_PASS:
                 String oldPass = intent.getStringExtra(SERVICE_PASSWORD_OLS);
@@ -151,6 +151,10 @@ public class ApiService extends Service implements
                 break;
             case ApiConstants.USER_SUNS:
                 updateUiEvent.setId(UpdateUiEvent.USER_SUNS);
+                updateUiEvent.setData(event.getData());
+                break;
+            case ApiConstants.MEASUREMENTS_MASS_UPDATE:
+                updateUiEvent.setId(UpdateUiEvent.MEASUREMENTS_MASS_UPDATE);
                 updateUiEvent.setData(event.getData());
                 break;
         }

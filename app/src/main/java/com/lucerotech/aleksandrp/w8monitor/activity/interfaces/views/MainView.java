@@ -30,4 +30,6 @@ public interface MainView {
                       int emr, int mPhysicalAge, float mBmi, int profileId, long mCreated_at);
 
     void semdMeasurementToServer(long mTime);
+
+    void updateUi();
 }

@@ -18,5 +18,6 @@ public interface ApiConstants {
     public static final int USER_SUNS = 10;
     public static final int ALL_MEASUREMENTS = 11;
     public static final int ALL_MEASUREMENTS_TIME = 12;
+    public static final int MEASUREMENTS_MASS_UPDATE = 13;
 
 }
