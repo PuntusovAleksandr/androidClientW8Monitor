@@ -108,12 +108,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         super.onStart();
 
         if (checkInternetConnection()) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mPresenter.sendProfileData();
-                }
-            }, 500);
+            mPresenter.sendProfileData();
         }
 
         if (isThemeForStarDark != SettingsApp.getInstance().isThemeDark()) {

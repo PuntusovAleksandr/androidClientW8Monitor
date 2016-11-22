@@ -56,9 +56,8 @@ public class RegisterFacebook {
 
     public void register() {
         LoginManager mInstance = LoginManager.getInstance();
-        mInstance
-                .logInWithReadPermissions(mActivity,
-                        Arrays.asList("public_profile", "user_friends", "email", "user_birthday"));
+        mInstance.logInWithReadPermissions(mActivity,
+                Arrays.asList("public_profile", "user_friends", "email", "user_birthday"));
         mInstance
                 .registerCallback(mCallbackManager,
                         new FacebookCallback<LoginResult>() {

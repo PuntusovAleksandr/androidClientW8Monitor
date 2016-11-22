@@ -198,7 +198,9 @@ public class CircleGraphFragment extends Fragment implements
     public void showParams(float[] mMassParams, long mTime, boolean mSync) {
         MainActivity activity = (MainActivity) getActivity();
         if (mSync) {
-            activity.setSyncMeasurements();
+            if (checkInternetConnection()) {
+                activity.setSyncMeasurements();
+            }
             return;
         }
 
