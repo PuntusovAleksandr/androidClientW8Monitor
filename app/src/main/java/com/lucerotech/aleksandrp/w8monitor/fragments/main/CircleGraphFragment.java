@@ -36,6 +36,7 @@ import butterknife.OnClick;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.FontsTextView.getFontRoboLight;
 import static com.lucerotech.aleksandrp.w8monitor.utils.GetSizeWindow.getSizeWindow;
+import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.EXTRA_TIME_CREATE;
 import static com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS.MAX_VALUE_PICKER;
@@ -200,10 +201,12 @@ public class CircleGraphFragment extends Fragment implements
     @Override
     public void showParams(float[] mMassParams, long mTime) {
         setShowValues(mViewPager.getCurrentItem());
-        Intent serviceIntent = new Intent(getActivity(), ApiService.class);
-        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS);
-        serviceIntent.putExtra(EXTRA_TIME_CREATE, mTime);
-        getActivity().startService(serviceIntent);
+        if (checkInternetConnection()) {
+            Intent serviceIntent = new Intent(getActivity(), ApiService.class);
+            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS);
+            serviceIntent.putExtra(EXTRA_TIME_CREATE, mTime);
+            getActivity().startService(serviceIntent);
+        }
     }
 
     @Override
