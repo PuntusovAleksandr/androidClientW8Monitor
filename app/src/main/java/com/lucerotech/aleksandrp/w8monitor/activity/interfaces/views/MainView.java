@@ -31,5 +31,5 @@ public interface MainView {
 
     void semdMeasurementToServer(long mTime);
 
-    void updateUi();
+    void updateUi(ParamsBody mData);
 }

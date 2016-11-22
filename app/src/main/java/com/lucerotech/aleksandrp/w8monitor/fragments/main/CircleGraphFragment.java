@@ -110,6 +110,9 @@ public class CircleGraphFragment extends Fragment implements
 
     private MainActivity activity;
 
+    // for update mass data from server update
+    private boolean isUpdate = true;
+
     public CircleGraphFragment() {
     }
 
@@ -393,9 +396,19 @@ public class CircleGraphFragment extends Fragment implements
         mButton.setDataInChart(0, 0, 0, mViewPager.getCurrentItem() + 1);
     }
 
+
     @Override
-    public void updateUi() {
-        setShowValues(mViewPager.getCurrentItem());
+    public void updateUi(ParamsBody mData) {
+        if (isUpdate) {
+            isUpdate = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setShowValues(mViewPager.getCurrentItem());
+                    isUpdate = true;
+                }
+            }, 500);
+        }
     }
 
     //    ===========================================

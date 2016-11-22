@@ -22,5 +22,5 @@ public interface CircleGraphView {
 
     void deleteValuesInTextShows();
 
-    void updateUi();
+    void updateUi(ParamsBody mData);
 }

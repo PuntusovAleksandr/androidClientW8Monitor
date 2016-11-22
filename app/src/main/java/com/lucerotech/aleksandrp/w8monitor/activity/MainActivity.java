@@ -703,8 +703,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
     }
 
     @Override
-    public void updateUi() {
-        mCircleGraphView.updateUi();
+    public void updateUi(ParamsBody mData) {
+        mCircleGraphView.updateUi(mData);
     }
 
     //    ====================================================================

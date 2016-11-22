@@ -491,6 +491,26 @@ public class RealmObj {
                         .findAllSorted("date_time", Sort.ASCENDING));
     }
 
+    public ParamsBody getLastParamsBody() {
+
+        int id = 0;
+        UserLibr userByMail = getUserByMail(SettingsApp.getInstance().getUserName());
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.is_current() &&
+                    profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
+                id = profile.getId();
+            }
+        }
+
+        RealmResults<ParamsBody> allSorted = realm.where(ParamsBody.class)
+                .equalTo("userName_id", SettingsApp.getInstance().getUserName())
+                .equalTo("profile_id", id)
+                .findAllSorted("date_time", Sort.DESCENDING);
+        return allSorted.get(0);
+    }
+
 //    ===============================================================
 //    END GET
 //    ===============================================================

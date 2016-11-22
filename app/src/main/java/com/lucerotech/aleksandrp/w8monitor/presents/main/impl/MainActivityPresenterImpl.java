@@ -8,6 +8,7 @@ import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
 import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
+import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
 
@@ -118,11 +119,17 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
                     updateParamsBody(data);
                 }
             } else if (event.getId() == USER_SUNS) {
-                mMainView.makeUpdateUserSync((UserApi) (event.getData()));
+                UserApi data = (UserApi) (event.getData());
+                if (data != null)
+                    mMainView.makeUpdateUserSync(data);
             } else if (event.getId() == MEASUREMENTS) {
-                addParamBodies((Measurement) event.getData());
+                Measurement data = (Measurement) event.getData();
+                if (data != null)
+                    addParamBodies(data);
             } else if (event.getId() == MEASUREMENTS_MASS_UPDATE) {
-                mMainView.updateUi();
+                ParamsBody data = (ParamsBody) event.getData();
+                if (data != null)
+                    mMainView.updateUi(data);
             }
         } else logger("Error read server " + (String) event.getData());
         System.out.println(event.getData().toString());
