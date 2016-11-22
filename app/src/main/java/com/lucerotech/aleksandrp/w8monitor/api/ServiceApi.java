@@ -4,9 +4,7 @@ import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ObjectMeasurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -116,7 +114,7 @@ public interface ServiceApi {
 
 
     @GET("profiles/{id_profile}/measurements")
-    Call<ArrayList<Measurement>> genAllMeasurements(
+    Call<ObjectMeasurement> genAllMeasurements(
             @Path("id_profile") int id_profile);
 
     @GET("profiles/{id_profile}/measurements")
@@ -131,9 +129,10 @@ public interface ServiceApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("measurements/mass")
-    Call<ArrayList<Measurement>> measurements_mass(
-            @Field("data") ParamsBody[] mParamsBodies);
+    @POST("profiles/{id_profile}/measurements/mass")
+    Call<ObjectMeasurement> measurements_mass(
+            @Path("id_profile") int id_profile,
+            @FieldMap Map<String, Object>  mParamsBodies);
 
     /**
      * change password

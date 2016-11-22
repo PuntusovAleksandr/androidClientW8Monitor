@@ -10,7 +10,6 @@ import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.LoginView;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.RegisterView;
 import com.lucerotech.aleksandrp.w8monitor.api.event.UpdateUiEvent;
-import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.ProfileApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApiData;
@@ -24,7 +23,6 @@ import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphView;
 import com.lucerotech.aleksandrp.w8monitor.utils.STATICS_PARAMS;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -437,10 +435,22 @@ public class RealmObj {
                                     long timeStart,
                                     int mPickerBottomValue,
                                     LinerGraphView mLinerGraphView) {
+
+        int id = 0;
+        UserLibr userByMail = getUserByMail(SettingsApp.getInstance().getUserName());
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.is_current() &&
+                    profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
+                id= profile.getId();
+            }
+        }
+
         mLinerGraphView.getDataForLineChart(
                 realm.where(ParamsBody.class)
                         .equalTo("userName_id", SettingsApp.getInstance().getUserName())
-                        .equalTo("profileBLE", SettingsApp.getInstance().getProfileBLE())
+                        .equalTo("profile_id", id)
                         .between("date_time", timeStart, timeNow)
                         .findAllSorted("date_time", Sort.ASCENDING),
                 mPickerBottomValue);
@@ -462,6 +472,15 @@ public class RealmObj {
                 .equalTo("userName_id", mUserName)
                 .equalTo("date_time", mTime)
                 .findFirst();
+    }
+
+
+    public RealmResults<ParamsBody> getAllNoSyncParamBodies(int mIdProfileNow) {
+
+        return realm.where(ParamsBody.class)
+                .equalTo("profile_id", mIdProfileNow)
+                .equalTo("synced", false)
+                .findAll();
     }
 
 
@@ -657,7 +676,6 @@ public class RealmObj {
                               final float mEmr, final float mAgeBody, final float bmi, final long time,
                               final CircleGraphView mCircleGraphView, final boolean sync) {
         final String userName = SettingsApp.getInstance().getUserName();
-
 
         int id_profile = 0;
         UserLibr userByMail = getUserByMail(SettingsApp.getInstance().getUserName());
@@ -1090,13 +1108,6 @@ public class RealmObj {
         });
 
     }
-
-    public void updateMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData) {
-        UserLibr userByMail = getUserByMail(SettingsApp.getInstance().getUserName());
-// TODO: 19.11.2016 Сделать проверку  и обновить в бд
-        mGraphView.makeAllUpdateUi();
-    }
-
 
 //    ===============================================================
 //    END update

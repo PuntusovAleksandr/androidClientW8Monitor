@@ -17,14 +17,10 @@ import android.widget.Toast;
 import com.lucerotech.aleksandrp.w8monitor.R;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.presentts.MainActivityPresenter;
 import com.lucerotech.aleksandrp.w8monitor.activity.interfaces.views.MainView;
-import com.lucerotech.aleksandrp.w8monitor.api.model.Measurement;
 import com.lucerotech.aleksandrp.w8monitor.api.model.UserApi;
 import com.lucerotech.aleksandrp.w8monitor.api.service.ApiService;
 import com.lucerotech.aleksandrp.w8monitor.ble.BluetoothHandler;
-import com.lucerotech.aleksandrp.w8monitor.d_base.RealmObj;
 import com.lucerotech.aleksandrp.w8monitor.d_base.model.ParamsBody;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.Profile;
-import com.lucerotech.aleksandrp.w8monitor.d_base.model.UserLibr;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphFragment;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.CircleGraphView;
 import com.lucerotech.aleksandrp.w8monitor.fragments.main.LinerGraphFragment;
@@ -36,16 +32,15 @@ import com.lucerotech.aleksandrp.w8monitor.utils.SetThemeDark;
 import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.ALL_MEASUREMENTS_TIME;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS;
+import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.MEASUREMENTS_MASS;
 import static com.lucerotech.aleksandrp.w8monitor.api.constant.ApiConstants.USER_SUNS;
 import static com.lucerotech.aleksandrp.w8monitor.utils.InternetUtils.checkInternetConnection;
 import static com.lucerotech.aleksandrp.w8monitor.utils.LoggerApp.logger;
@@ -85,13 +80,9 @@ public class MainActivity extends AppCompatActivity implements MainView,
         SetThemeDark.getInstance().setTheme(this);
         SetLocaleApp.setLocale();
         super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        serviceIntent = new Intent(this, ApiService.class);
-//        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, LOGIN);
-//        startService(serviceIntent);
 
         mPresenter = new MainActivityPresenterImpl(this, this);
         mFragmentManager = getSupportFragmentManager();
@@ -478,19 +469,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
 //            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
 //        }
 
-
-        int id = 0;
-        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
-        RealmList<Profile> profiles = userByMail.getProfiles();
-        for (int i = 0; i < profiles.size(); i++) {
-            Profile profile = profiles.get(i);
-            if (profile.is_current() &&
-                    profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
-                id = profile.getId();
-            }
-        }
-
-        final long time = new Date().getTime();
+        long time = new Date().getTime() / 1000;
         // save in DB
         mPresenter.addParamsBody(
                 weightRec < 0 ? -weightRec : weightRec,
@@ -653,16 +632,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
     }
 
     @Override
-    public void makeUpdateMessurementsSync(ArrayList<Measurement> mData) {
-        mPresenter.makeMessurementsDb(this, mData);
-    }
-
-    @Override
     public void makeRequestUpdateMeasurement() {
-//        Intent serviceIntent = new Intent(this, ApiService.class);
-//        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS_MASS);
-//        startService(serviceIntent);
-
         getAllMeasurements();
     }
 
@@ -729,6 +699,12 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
     public void initListenerCircleFragment(CircleGraphView mCircleGraphView) {
         this.mCircleGraphView = mCircleGraphView;
+    }
+
+    public void setSyncMeasurements() {
+        Intent serviceIntent = new Intent(this, ApiService.class);
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, MEASUREMENTS_MASS);
+        startService(serviceIntent);
     }
 
     public class Receive {

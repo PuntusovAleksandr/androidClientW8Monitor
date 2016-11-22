@@ -172,7 +172,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
     }
 
     private void getDataFromDb() {
-        long timeNow = new Date().getTime();
+        long timeNow = new Date().getTime() / 1000;
         long timeStart = timeNow;
 
 
@@ -230,7 +230,6 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         }
 
 
-
     };
 
     // formatter value in axis X
@@ -260,7 +259,6 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
             }
             return textReturn;
         }
-
 
 
     };
@@ -676,7 +674,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
             }
 
 //            float iFloat = i;
-            long date_time = body.getDate_time();
+            long date_time = body.getDate_time() * 1000;
 
 //            Date date = new Date(date_time);
 //            String formatDate = sdfs.format(date);

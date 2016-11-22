@@ -54,9 +54,6 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     public void addParamsBody(float mWeightBody, float mBody, float mFat, float mMuscul,
                               float mWaterBody, float mFatVis, float mEmr, float mAgeBody, float bmi,
                               long mTime, CircleGraphView mCircleGraphView, boolean mSync) {
-//        if (checkInternetConnection()) {
-//            mMainView.semdMeasurementToServer(mTime);
-//        } else {
         addParamBody(mWeightBody, mBody, mFat, mMuscul,
                 mWaterBody, mFatVis, mEmr, mAgeBody, bmi,
                 mTime, mCircleGraphView, mSync);
@@ -107,11 +104,6 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     }
 
     @Override
-    public void makeMessurementsDb(MainView mGraphView, ArrayList<Measurement> mData) {
-        RealmObj.getInstance().updateMessurementsDb(mGraphView, mData);
-    }
-
-    @Override
     public void getAllMeasurements(MainView mMainView) {
         RealmObj.getInstance().getLastBodyParamsByServer(mMainView);
     }
@@ -119,15 +111,13 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     @Subscribe
     public void onEvent(UpdateUiEvent event) {
         if (event.isSucess()) {
-            if (event.getId() == MEASUREMENTS_SUNS) {
-                mMainView.makeUpdateMessurementsSync((ArrayList<Measurement>) (event.getData()));
-            } else if (event.getId() == USER_SUNS) {
-                mMainView.makeUpdateUserSync((UserApi) (event.getData()));
-            } else if (event.getId() == ALL_MEASUREMENTS) {
+            if (event.getId() == MEASUREMENTS_SUNS || event.getId() == ALL_MEASUREMENTS) {
                 ArrayList<Measurement> data = (ArrayList<Measurement>) event.getData();
                 if (data != null && data.size() > 0) {
                     updateParamsBody(data);
                 }
+            } else if (event.getId() == USER_SUNS) {
+                mMainView.makeUpdateUserSync((UserApi) (event.getData()));
             } else if (event.getId() == MEASUREMENTS) {
                 addParamBodies((Measurement) event.getData());
             }

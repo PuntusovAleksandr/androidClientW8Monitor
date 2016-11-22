@@ -196,13 +196,14 @@ public class CircleGraphFragment extends Fragment implements
 
     @Override
     public void showParams(float[] mMassParams, long mTime, boolean mSync) {
+        MainActivity activity = (MainActivity) getActivity();
         if (mSync) {
+            activity.setSyncMeasurements();
             return;
         }
 
         setShowValues(mViewPager.getCurrentItem());
         if (checkInternetConnection()) {
-            MainActivity activity = (MainActivity) getActivity();
             activity.semdMeasurementToServer(mTime);
         }
     }

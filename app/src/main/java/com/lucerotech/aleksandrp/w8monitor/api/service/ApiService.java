@@ -71,7 +71,7 @@ public class ApiService extends Service implements
                 userInteractor.sendMeasurementsToServer(time);
                 break;
             case ApiConstants.MEASUREMENTS_MASS:
-//                userInteractor.measurements_mass();
+                userInteractor.measurements_mass();
                 break;
             case ApiConstants.ALL_MEASUREMENTS:
                 userInteractor.getAlldMeasurementsFromServer();

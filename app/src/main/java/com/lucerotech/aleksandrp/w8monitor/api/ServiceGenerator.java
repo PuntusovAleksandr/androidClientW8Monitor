@@ -20,7 +20,6 @@ import com.lucerotech.aleksandrp.w8monitor.utils.SettingsApp;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -333,7 +332,7 @@ public class ServiceGenerator {
                 Float.toString(lastBodyParam.getVisceralFat()),
                 Float.toString(lastBodyParam.getMuscle()),
                 Float.toString(lastBodyParam.getWeight()),
-                Float.toString(mTime)
+                Long.toString(mTime)
         );
         call.enqueue(new Callback<Measurement>() {
             @Override
@@ -374,13 +373,13 @@ public class ServiceGenerator {
         int id_profile = getIdProfileNow();
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
-        Call<ArrayList<Measurement>> call = downloadService.genAllMeasurements(
+        Call<ObjectMeasurement> call = downloadService.genAllMeasurements(
                 id_profile
         );
-        call.enqueue(new Callback<ArrayList<Measurement>>() {
+        call.enqueue(new Callback<ObjectMeasurement>() {
             @Override
-            public void onResponse(Call<ArrayList<Measurement>> call, Response<ArrayList<Measurement>> response) {
-                ArrayList<Measurement> body = response.body();
+            public void onResponse(Call<ObjectMeasurement> call, Response<ObjectMeasurement> response) {
+                ObjectMeasurement body = response.body();
                 if (body == null) {
                     //404 or the response cannot be converted to User.
                     String textError = "Error data";
@@ -393,7 +392,7 @@ public class ServiceGenerator {
                 } else {
                     //200
                     event = new NetworkResponseEvent();
-                    event.setData(body);
+                    event.setData(body.getMeasurements());
                     event.setId(ApiConstants.ALL_MEASUREMENTS);
                     event.setSucess(true);
                     mCallBackServiceGenerator.requestCallBack(event);
@@ -401,7 +400,7 @@ public class ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
+            public void onFailure(Call<ObjectMeasurement> call, Throwable t) {
                 showMessageFailure(call, t, ApiConstants.ALL_MEASUREMENTS);
             }
         });
@@ -453,15 +452,40 @@ public class ServiceGenerator {
 
     public void measurements_mass() {
 
+        int idProfiles = getIdProfileNow();
+        RealmResults<ParamsBody> paramBodies =
+                RealmObj.getInstance().getAllNoSyncParamBodies(idProfiles);
+
+        if (paramBodies == null || paramBodies.size() <= 1) {
+            return;
+        }
+
+        String data = "data[";
+        Map<String, Object> productMap = new LinkedHashMap<>();
+        for (int j = 0; j < paramBodies.size(); j++) {
+            ParamsBody paramsBody = paramBodies.get(j);
+            productMap.put(data + Integer.toString(j) + "][bmi]", paramsBody.getBmi());
+            productMap.put(data + Integer.toString(j) + "][body_water]", paramsBody.getWater());
+            productMap.put(data + Integer.toString(j) + "][bone_mass]", paramsBody.getBody());
+            productMap.put(data + Integer.toString(j) + "][calories]", paramsBody.getEmr());
+            productMap.put(data + Integer.toString(j) + "][fat]", paramsBody.getFat());
+            productMap.put(data + Integer.toString(j) + "][fat_level]", paramsBody.getVisceralFat());
+            productMap.put(data + Integer.toString(j) + "][muscle_mass]", paramsBody.getMuscle());
+            productMap.put(data + Integer.toString(j) + "][float_weight]", paramsBody.getWeight());
+            productMap.put(data + Integer.toString(j) + "][created_at]", paramsBody.getDate_time() / 1000);
+        }
+
         ParamsBody[] paramsBodies = getParamsBodies();
         if (paramsBodies.length > 0) {
 
             ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
-            Call<ArrayList<Measurement>> call = downloadService.measurements_mass(paramsBodies);
-            call.enqueue(new Callback<ArrayList<Measurement>>() {
+            Call<ObjectMeasurement> call = downloadService.measurements_mass(
+                    idProfiles,
+                    productMap);
+            call.enqueue(new Callback<ObjectMeasurement>() {
                 @Override
-                public void onResponse(Call<ArrayList<Measurement>> call, Response<ArrayList<Measurement>> response) {
-                    ArrayList<Measurement> body = response.body();
+                public void onResponse(Call<ObjectMeasurement> call, Response<ObjectMeasurement> response) {
+                    ObjectMeasurement body = response.body();
                     if (body == null) {
                         //404 or the response cannot be converted to User.
                         String textError = "Error data";
@@ -474,7 +498,7 @@ public class ServiceGenerator {
                     } else {
                         //200
                         event = new NetworkResponseEvent();
-                        event.setData(body);
+                        event.setData(body.getMeasurements());
                         event.setId(ApiConstants.MEASUREMENTS_MASS);
                         event.setSucess(true);
                         mCallBackServiceGenerator.requestCallBack(event);
@@ -482,7 +506,7 @@ public class ServiceGenerator {
                 }
 
                 @Override
-                public void onFailure(Call<ArrayList<Measurement>> call, Throwable t) {
+                public void onFailure(Call<ObjectMeasurement> call, Throwable t) {
                     showMessageFailure(call, t, ApiConstants.MEASUREMENTS_MASS);
                 }
             });
@@ -767,9 +791,11 @@ public class ServiceGenerator {
     }
 
     private ParamsBody getLastBodyParam(long mTime) {
-        UserLibr userByMail = RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
+        UserLibr userByMail =
+                RealmObj.getInstance().getUserByMail(SettingsApp.getInstance().getUserName());
         authToken = userByMail.getToken();
-        ParamsBody bodyParam = RealmObj.getInstance().getLastBodyParam(SettingsApp.getInstance().getUserName(), mTime);
+        ParamsBody bodyParam =
+                RealmObj.getInstance().getLastBodyParam(SettingsApp.getInstance().getUserName(), mTime);
         return bodyParam;
 
     }
