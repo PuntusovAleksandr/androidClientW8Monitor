@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
@@ -43,6 +44,8 @@ public class App extends Application implements Application.ActivityLifecycleCal
                 .putContentName("Answers setup process super easy!")
                 .putContentType("Technical documentation")
                 .putContentId("article-350"));
+
+        Log.i(TAG, "onCreate " + getClass().getName());
     }
 
     public static Context getContext() {
@@ -51,36 +54,40 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     @Override
     public void onActivityCreated(Activity mActivity, Bundle mBundle) {
-
+        Log.i(TAG, "onActivityCreated " + mActivity.getClass().getName());
     }
 
     @Override
     public void onActivityStarted(Activity mActivity) {
-
+        Log.i(TAG, "onActivityStarted " + mActivity.getClass().getName());
     }
 
     @Override
     public void onActivityResumed(Activity mActivity) {
-
+        Log.i(TAG, "onActivityResumed " + mActivity.getClass().getName());
     }
 
     @Override
     public void onActivityPaused(Activity mActivity) {
-
+        Log.i(TAG, "onActivityPaused " + mActivity.getClass().getName());
     }
 
     @Override
     public void onActivityStopped(Activity mActivity) {
-
+        Log.i(TAG, "onActivityStopped " + mActivity.getClass().getName());
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity mActivity, Bundle mBundle) {
-
+        Log.i(TAG, "onActivitySaveInstanceState " + mActivity.getClass().getName());
     }
 
     @Override
     public void onActivityDestroyed(Activity mActivity) {
-
+        Log.i(TAG, "onActivityDestroyed " + mActivity.getClass().getName());
     }
+//  ==============================================================================
+
+
+
 }

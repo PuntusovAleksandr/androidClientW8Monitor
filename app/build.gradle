@@ -85,8 +85,11 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+//    compile 'com.google.android.gms:play-services-appindexing:9.8.0'
 
 //    https://github.com/greenrobot/EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
+
+//    GOOGLE FIT      https://developers.google.com/fit/android/get-started?hl=ru
+    compile 'com.google.android.gms:play-services-fitness:9.8.0'
 }

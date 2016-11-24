@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.lucertech.w8monitor.android.R;
 import com.lucertech.w8monitor.android.api.event.UpdateUiEvent;
 import com.lucertech.w8monitor.android.api.service.ApiService;
@@ -83,11 +81,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
 
     private Intent serviceIntent;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient mClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,17 +108,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
 
         serviceIntent = new Intent(this, ApiService.class);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
 
     @Override
     protected void onStart() {
-        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient.connect();
+        super.onStart();
         BluetoothHandler bluetoothHandler = new BluetoothHandler(this, this);
         bluetoothHandler.checkPermission(this);
 
