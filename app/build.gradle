@@ -8,7 +8,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
     defaultConfig {
-        applicationId "com.lucerotech.aleksandrp.w8monitor"
+        applicationId "com.lucertech.w8monitor.android"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
