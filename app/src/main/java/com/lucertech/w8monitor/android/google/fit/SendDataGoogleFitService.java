@@ -47,8 +47,8 @@ public class SendDataGoogleFitService {
         cal.setTime(now);
         long endTime = cal.getTimeInMillis();
         cal.add(Calendar.YEAR, -1);
-
         long startTime = cal.getTimeInMillis();
+
         dataSource = new DataSource.Builder()
                 .setAppPackageName(mContext)
                 .setDataType(DataType.TYPE_WEIGHT)
@@ -79,7 +79,7 @@ public class SendDataGoogleFitService {
                 @Override
                 protected void onPostExecute(Object mO) {
                     super.onPostExecute(mO);
-                     mListener.needMakeUpdateData();
+                    mListener.needMakeUpdateData();
                 }
             }.execute();
         } else {
@@ -135,6 +135,215 @@ public class SendDataGoogleFitService {
                 mListener.needMakeUpdateData();
             }
         }.execute();
+    }
+
+
+    public void sendCalories() {
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+
+        dataSource = new DataSource.Builder()
+                .setAppPackageName(mContext)
+                .setDataType(DataType.TYPE_CALORIES_EXPENDED)
+                .setName("CALORIES_EXPENDED w8m")
+                .setType(DataSource.TYPE_RAW)
+                .build();
+        final DataSet dataSetWeight = DataSet.create(dataSource);
+        if (mDataUserForGoogleFit.size() > 1) {
+            for (int i = 0; i < mDataUserForGoogleFit.size(); i++) {
+                if (i == 0) continue;
+
+                ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
+                ParamsBody preParamsBody = mDataUserForGoogleFit.get(i - 1);
+                final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
+                final float calories = (paramsBody.getEmr() - preParamsBody.getEmr() * 1f);
+
+                DataPoint point = dataSetWeight
+                        .createDataPoint()
+                        .setTimeInterval(endTimeData, endTime, TimeUnit.MILLISECONDS);
+                point.getValue(Field.FIELD_CALORIES).setFloat(calories);
+                try {
+                    dataSetWeight.add(point);
+                } catch (IllegalArgumentException mE) {
+                    mE.printStackTrace();
+                    continue;
+                }
+            }
+            if (dataSetWeight.getDataPoints().size() > 0) {
+                new AsyncTask<Object, Object, Object>() {
+                    @Override
+                    protected Object doInBackground(Object... mObjects) {
+                        Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Object mO) {
+                        super.onPostExecute(mO);
+                        mListener.needMakeUpdateData();
+                    }
+                }.execute();
+            }
+        } else {
+            // need delete all data w8m
+            final DataDeleteRequest request = new DataDeleteRequest.Builder()
+                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                    .addDataType(DataType.TYPE_CALORIES_EXPENDED)
+                    .build();
+
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... mObjects) {
+                    Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object mO) {
+                    super.onPostExecute(mO);
+                    mListener.needMakeUpdateData();
+                }
+            }.execute();
+        }
+    }
+
+    public void sendWater() {
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+
+        dataSource = new DataSource.Builder()
+                .setAppPackageName(mContext)
+                .setDataType(DataType.TYPE_HYDRATION)
+                .setName("CALORIES_HYDRATION w8m")
+                .setType(DataSource.TYPE_RAW)
+                .build();
+        final DataSet dataSetWeight = DataSet.create(dataSource);
+        if (mDataUserForGoogleFit.size() > 1) {
+            for (int i = 0; i < mDataUserForGoogleFit.size(); i++) {
+                if (i == 0) continue;
+
+                ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
+                ParamsBody preParamsBody = mDataUserForGoogleFit.get(i - 1);
+                final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
+                final float calories = paramsBody.getWater() - preParamsBody.getWater();
+
+                DataPoint point = dataSetWeight
+                        .createDataPoint()
+                        .setTimeInterval(endTimeData, endTime, TimeUnit.MILLISECONDS);
+                point.getValue(Field.FIELD_VOLUME).setFloat(calories);
+                dataSetWeight.add(point);
+            }
+            if (dataSetWeight.getDataPoints().size() > 0) {
+                new AsyncTask<Object, Object, Object>() {
+                    @Override
+                    protected Object doInBackground(Object... mObjects) {
+                        Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Object mO) {
+                        super.onPostExecute(mO);
+                        mListener.needMakeUpdateData();
+                    }
+                }.execute();
+            }
+        } else {
+            // need delete all data w8m
+            final DataDeleteRequest request = new DataDeleteRequest.Builder()
+                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                    .addDataType(DataType.TYPE_CALORIES_EXPENDED)
+                    .build();
+
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... mObjects) {
+                    Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object mO) {
+                    super.onPostExecute(mO);
+                    mListener.needMakeUpdateData();
+                }
+            }.execute();
+        }
+    }
+
+    public void sendFat() {
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+
+        dataSource = new DataSource.Builder()
+                .setAppPackageName(mContext)
+                .setDataType(DataType.TYPE_BODY_FAT_PERCENTAGE)
+                .setName("CALORIES_HYDRATION w8m")
+                .setType(DataSource.TYPE_RAW)
+                .build();
+        final DataSet dataSetWeight = DataSet.create(dataSource);
+        if (mDataUserForGoogleFit.size() > 0) {
+            for (int i = 0; i < mDataUserForGoogleFit.size(); i++) {
+                if (i == 0) continue;
+
+                ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
+                final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
+                final float calories = paramsBody.getFat();
+
+                DataPoint point = dataSetWeight
+                        .createDataPoint()
+                        .setTimeInterval(endTimeData, endTime, TimeUnit.MILLISECONDS);
+                point.setFloatValues(calories);
+                dataSetWeight.add(point);
+            }
+            if (dataSetWeight.getDataPoints().size() > 0) {
+                new AsyncTask<Object, Object, Object>() {
+                    @Override
+                    protected Object doInBackground(Object... mObjects) {
+                        Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Object mO) {
+                        super.onPostExecute(mO);
+                        mListener.needMakeUpdateData();
+                    }
+                }.execute();
+            }
+        } else {
+            // need delete all data w8m
+            final DataDeleteRequest request = new DataDeleteRequest.Builder()
+                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                    .addDataType(DataType.TYPE_BODY_FAT_PERCENTAGE)
+                    .build();
+
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... mObjects) {
+                    Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object mO) {
+                    super.onPostExecute(mO);
+                    mListener.needMakeUpdateData();
+                }
+            }.execute();
+        }
     }
 
 

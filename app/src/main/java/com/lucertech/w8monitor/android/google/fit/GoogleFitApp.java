@@ -355,6 +355,9 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 
         service.sendWeight();
         service.sendHeight(profile.getHeight());
+        service.sendCalories();
+        service.sendWater();
+        service.sendFat();
     }
 
     private RealmResults<ParamsBody> getUserData(int mIdProfile) {
