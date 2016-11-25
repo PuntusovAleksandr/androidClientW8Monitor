@@ -24,6 +24,7 @@ import com.lucertech.w8monitor.android.d_base.model.ParamsBody;
 import com.lucertech.w8monitor.android.fragments.main.CircleGraphFragment;
 import com.lucertech.w8monitor.android.fragments.main.CircleGraphView;
 import com.lucertech.w8monitor.android.fragments.main.LinerGraphFragment;
+import com.lucertech.w8monitor.android.google.fit.GoogleFitApp;
 import com.lucertech.w8monitor.android.presents.main.impl.MainActivityPresenterImpl;
 import com.lucertech.w8monitor.android.utils.STATICS_PARAMS;
 import com.lucertech.w8monitor.android.utils.SetLocaleApp;
@@ -50,12 +51,15 @@ import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.EXTRA_TIMESTA
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.EXTRA_TIME_CREATE;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.KEI_CONNECTION;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
+import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_OAUTH;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucertech.w8monitor.android.utils.ShowMesages.showMessageToast;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class MainActivity extends AppCompatActivity implements MainView,
         BluetoothHandler.onResultScanDevice {
+
+    public static final String TAG_GOOGLE_FIT = "GOOGLE_FIT";
 
     private MainActivityPresenter mPresenter;
     private FragmentManager mFragmentManager;
@@ -76,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Bind(R.id.rl_main_register)
     RelativeLayout rl_main_register;
 
+    private GoogleFitApp mFitApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
         setUi();
 
+        mFitApp = new GoogleFitApp(this);
     }
 
     private void getAllMeasurements() {
@@ -108,6 +114,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     protected void onStart() {
         super.onStart();
+
+        // This ensures that if the user denies the permissions then uses Settings to re-enable
+        // them, the app will start working.
+        mFitApp.buildFitnessClient();
+
 
         if (checkInternetConnection()) {
             mPresenter.sendProfileData();
@@ -138,6 +149,14 @@ public class MainActivity extends AppCompatActivity implements MainView,
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // This ensures that if the user denies the permissions then uses Settings to re-enable
+        // them, the app will start working.
+        mFitApp.connect();
+    }
 
     public void disconnectBLE(boolean isScan) {
 //        if (isConnected) {
@@ -161,6 +180,9 @@ public class MainActivity extends AppCompatActivity implements MainView,
             }
             removeFirstConnection();
         }
+        if (requestCode == REQUEST_OAUTH) {
+            mFitApp.requestOauth(requestCode);
+        }
     }
 
     private void removeFirstConnection() {
@@ -175,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     protected void onDestroy() {
         bluetoothHandler.disConnect();
+        mFitApp.onDestroy();
         super.onDestroy();
     }
 
@@ -656,7 +679,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     public void makeUpdateUserSync(UserApi mEvent) {
         mPresenter.makeUpdateUserDb(this, mEvent);
-
+        mFitApp.sendDataFromDB();
     }
 
     @Override
@@ -745,37 +768,12 @@ public class MainActivity extends AppCompatActivity implements MainView,
         public String content;
         public Date date;
     }
+
+
+//    ===========================================================
+//            GOOGLE FIT
+//    ===========================================================
+
+
+
 }
-//unsigned int tempShuiFen0 = (unsigned char)bytes[12];
-//        unsigned int tempShuiFen1 = (unsigned char)bytes[13];
-//        int tempShuiFen = (tempShuiFen0 « 8) | tempShuiFen1;
-//        NSNumber *shuiFen = [NSNumber numberWithInt:tempShuiFen];
-//        NSLog(@"BODY WATER: %@",shuiFen);
-//
-//        unsigned int tempReLiang0 = (unsigned char)bytes[14];
-//        unsigned int tempReLiang1 = (unsigned char)bytes[15];
-//        int tempReLiang = (tempReLiang0 « 8) | tempReLiang1;
-//        NSNumber *reLiang = [NSNumber numberWithInt:tempReLiang];
-//        NSLog(@"CALORIES: %@",reLiang);
-//
-//        NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-//        [dic setObject:device   forKey:@"device"];
-//        [dic setObject:level    forKey:@"level"];
-//        [dic setObject:userTypt forKey:@"userTypt"];
-//        [dic setObject:sex      forKey:@"sex"];
-//        [dic setObject:age      forKey:@"age"];
-//        [dic setObject:height   forKey:@"height"];
-//        [dic setObject:weigt    forKey:@"weight"];
-//        [dic setObject:fat      forKey:@"fat"];
-//        [dic setObject:goGe     forKey:@"bone"];
-//        [dic setObject:jiRou    forKey:@"muscleMass"];
-//        [dic setObject:neiZang  forKey:@"visceralFat"];
-//        [dic setObject:shuiFen  forKey:@"bodyWater"];
-//        [dic setObject:reLiang  forKey:@"BMR"];
-//
-//        if(data.length==17){
-//        [dic setObject:@(bytes[16])  forKey:@"HealthAge"];
-//        }
-//        else{
-//        [dic setObject:@(0)  forKey:@"HealthAge"];
-//        }

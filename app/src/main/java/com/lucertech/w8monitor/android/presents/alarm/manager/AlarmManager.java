@@ -41,7 +41,7 @@ public class AlarmManager extends BroadcastReceiver implements RealmObj.AlarmLis
     @Override
     public void onReceive(Context context, Intent intent) {
         PowerManager pm = (PowerManager) context.getSystemService(POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG_GOOGLE_FIT");
         //Осуществляем блокировку
         wl.acquire();
 

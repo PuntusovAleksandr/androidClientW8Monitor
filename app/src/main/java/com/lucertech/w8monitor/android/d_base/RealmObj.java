@@ -512,6 +512,16 @@ public class RealmObj {
         return allSorted.get(0);
     }
 
+
+    public RealmResults<ParamsBody> getDataUserForGoogleFit(int mIdProfile) {
+        RealmResults<ParamsBody> allSorted = realm.where(ParamsBody.class)
+                .equalTo("userName_id", SettingsApp.getInstance().getUserName())
+                .equalTo("profile_id", mIdProfile)
+                .findAllSorted("date_time", Sort.DESCENDING);
+        return allSorted;
+    }
+
+
 //    ===============================================================
 //    END GET
 //    ===============================================================

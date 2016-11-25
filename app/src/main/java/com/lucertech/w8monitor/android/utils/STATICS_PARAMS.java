@@ -38,6 +38,9 @@ public class STATICS_PARAMS {
 
     // for request ble
     public static final int REQUEST_ENABLE_BT = 101;
+  // for request google_fit
+    public static final int REQUEST_OAUTH = 344;
+    public static final int REQUEST_CUST = 345;
     // time check ble and show message
     public static final int TIME_CHECK_BLE = 3000;
 
