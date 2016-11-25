@@ -11,22 +11,20 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResolvingResultCallbacks;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.fitness.ConfigApi;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.HistoryApi;
 import com.google.android.gms.fitness.data.Bucket;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
-import com.google.android.gms.fitness.request.DataTypeCreateRequest;
 import com.google.android.gms.fitness.result.DataReadResult;
-import com.google.android.gms.fitness.result.DataTypeResult;
 import com.lucertech.w8monitor.android.activity.MainActivity;
 import com.lucertech.w8monitor.android.d_base.RealmObj;
 import com.lucertech.w8monitor.android.d_base.model.ParamsBody;
@@ -146,64 +144,46 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     // [END auth_build_googleapiclient_beginning]
 
     private void setConfigParams() {
-        // build a request to create a new data type
-        DataTypeCreateRequest request = new DataTypeCreateRequest.Builder()
-                .setName("Aleksandr_P")
-                .addField("Aleksandr_P_Field", Field.FORMAT_INT32)
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+
+
+        DataSource dataSource = new DataSource.Builder()
+                .setAppPackageName(mActivity)
+                .setDataType(DataType.TYPE_HEIGHT)
+                .setType(DataSource.TYPE_RAW)
                 .build();
 
-        // invoke the CONFIG API with (Google API client object and create data type request)
-        // instantiating ConfigApi due to the following error:
-        // non-static method createCustomDataType cannot be referenced from a static context
+        DataSet heightDataSet = new DataSet(dataSource);
+        DataPoint dataPoint = heightDataSet
+                .createDataPoint()
+                .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
+        final Profile profile = getProfile();
 
-        ConfigApi configApi = new ConfigApi() {
-            @Override
-            public PendingResult<DataTypeResult> createCustomDataType(
-                    GoogleApiClient googleApiClient,
-                    DataTypeCreateRequest dataTypeCreateRequest) {
-                return null;
-            }
+        dataPoint.getValue(Field.FIELD_HEIGHT).getFormat();
+        dataPoint = dataPoint.setFloatValues(profile.getHeight() / 100f);
 
-            @Override
-            public PendingResult<DataTypeResult> readDataType(
-                    GoogleApiClient googleApiClient,
-                    String s) {
-                return null;
-            }
+        heightDataSet.add(dataPoint);
+        Fitness.HistoryApi.insertData(mClient, heightDataSet).
+                setResultCallback(
+                        new ResolvingResultCallbacks<Status>(mActivity, 0) {
+                            @Override
+                            public void onSuccess(Status status) {
+                                if (status.isSuccess()) {
+                                    Log.i(TAG_GOOGLE_FIT, "MAKE SET HEIGHT = " + profile.getHeight() / 100f);
+                                }
+                            }
 
-            @Override
-            public PendingResult<Status> disableFit(GoogleApiClient googleApiClient) {
-                return null;
-            }
-        };
+                            @Override
+                            public void onUnresolvableFailure(Status status) {
 
-
-        PendingResult<DataTypeResult> pendingResult =
-                configApi.createCustomDataType(mClient, request);
-        /**
-         * ConfigApi.createCustomDataType was getting the following error:
-         * non-static method 'createCustomDataType
-         * (com.google.android.gms.common.api.GoolgeApiClient,
-         * com.google.android.gms.fitness.request.DataTypeCreateRequest)
-         * cannot be referenced from a static context
-         */
-        if (pendingResult != null) {
-            // 3. Check the result asynchronously
-            // (The result may not be immediately available)
-            pendingResult.setResultCallback(
-                    new ResultCallback<DataTypeResult>() {
-                        @Override
-                        public void onResult(DataTypeResult dataTypeResult) {
-
-                            if (dataTypeResult.getStatus().isSuccess()) {
-                                DataType customType = dataTypeResult.getDataType();
-                                // Use this custon data type to insert data in your app
-                                describeDataType(customType);
                             }
                         }
-                    }
-            );
-        }
+                );
     }
 
 
@@ -354,7 +334,6 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                 new SendDataGoogleFitService(mContext, mClient, dataUserForGoogleFit, this);
 
         service.sendWeight();
-        service.sendHeight(profile.getHeight());
         service.sendCalories();
         service.sendWater();
         service.sendFat();
@@ -381,11 +360,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     }
 
 
-
-
-
-
-//    ===============================================
+    //    ===============================================
 //            from UpdateData
 //    ===============================================
     @Override

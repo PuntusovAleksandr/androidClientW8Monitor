@@ -105,39 +105,6 @@ public class SendDataGoogleFitService {
         }
     }
 
-    public void sendHeight(int mHeight) {
-        dataSource = new DataSource.Builder()
-                .setAppPackageName(mContext)
-                .setDataType(DataType.TYPE_HEIGHT)
-                .setName("TYPE_HEIGHT w8m")
-                .setType(DataSource.TYPE_RAW)
-                .build();
-
-        final float weightSet = mHeight / 100f;
-        final DataSet dataSetWeight = DataSet.create(dataSource);
-
-        DataPoint point = dataSetWeight
-                .createDataPoint()
-                .setTimeInterval(1, 1, TimeUnit.MILLISECONDS);
-        point.getValue(Field.FIELD_HEIGHT).setFloat(weightSet);
-        dataSetWeight.add(point);
-
-        new AsyncTask<Object, Object, Object>() {
-            @Override
-            protected Object doInBackground(Object... mObjects) {
-                Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object mO) {
-                super.onPostExecute(mO);
-                mListener.needMakeUpdateData();
-            }
-        }.execute();
-    }
-
-
     public void sendCalories() {
         Calendar cal = Calendar.getInstance();
         Date now = new Date();
@@ -300,7 +267,7 @@ public class SendDataGoogleFitService {
 
                 ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
                 final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
-                final float calories = paramsBody.getFat();
+                final float calories = paramsBody.getFat() * 1f;
 
                 DataPoint point = dataSetWeight
                         .createDataPoint()
