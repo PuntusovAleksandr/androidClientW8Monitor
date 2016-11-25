@@ -97,8 +97,12 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                 public void onConnected(Bundle bundle) {
                                     Log.i(TAG_GOOGLE_FIT, "Connected!!!");
                                     // Now you can make calls to the Fitness APIs.
+
+                                    // TODO: 25.11.2016 ТУТ НУЖНО СДЕЛАТЬ ОБНУЛЕНИЕ ДАННЫХ
+
                                     setConfigParams();
                                     findFitnessDataSources();
+                                    sendDataFromDB();
                                 }
 
                                 @Override

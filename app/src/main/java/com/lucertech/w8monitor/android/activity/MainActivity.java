@@ -679,7 +679,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     public void makeUpdateUserSync(UserApi mEvent) {
         mPresenter.makeUpdateUserDb(this, mEvent);
-        mFitApp.sendDataFromDB();
     }
 
     @Override
