@@ -64,7 +64,7 @@ public class SendDataGoogleFitService {
 
             DataPoint point = dataSetWeight
                     .createDataPoint()
-                    .setTimeInterval(endTimeData, new Date().getTime(), TimeUnit.MILLISECONDS);
+                    .setTimeInterval(1, endTimeData, TimeUnit.MILLISECONDS);
             point.getValue(Field.FIELD_WEIGHT).setFloat(weightSet);
             dataSetWeight.add(point);
         }
@@ -127,11 +127,12 @@ public class SendDataGoogleFitService {
                 ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
                 ParamsBody preParamsBody = mDataUserForGoogleFit.get(i - 1);
                 final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
+                final long strTimeData = preParamsBody.getDate_time() * 1000 - 1;
                 final float calories = (paramsBody.getEmr() - preParamsBody.getEmr() * 1f);
 
                 DataPoint point = dataSetWeight
                         .createDataPoint()
-                        .setTimeInterval(endTimeData, endTime, TimeUnit.MILLISECONDS);
+                        .setTimeInterval(strTimeData, endTimeData, TimeUnit.MILLISECONDS);
                 point.getValue(Field.FIELD_CALORIES).setFloat(calories);
                 try {
                     dataSetWeight.add(point);
@@ -271,7 +272,7 @@ public class SendDataGoogleFitService {
 
                 DataPoint point = dataSetWeight
                         .createDataPoint()
-                        .setTimeInterval(endTimeData, endTime, TimeUnit.MILLISECONDS);
+                        .setTimeInterval(1, endTimeData, TimeUnit.MILLISECONDS);
                 point.setFloatValues(calories);
                 dataSetWeight.add(point);
             }
