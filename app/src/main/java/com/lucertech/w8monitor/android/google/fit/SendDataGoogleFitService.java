@@ -57,6 +57,7 @@ public class SendDataGoogleFitService {
         for (int i = 0; i < mDataUserForGoogleFit.size(); i++) {
             ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
             final long endTimeData = paramsBody.getDate_time() * 1000;
+
             Calendar cal = Calendar.getInstance();
             Date now = new Date(endTimeData);
             cal.setTime(now);
@@ -64,8 +65,8 @@ public class SendDataGoogleFitService {
             final long endTime = cal.getTimeInMillis();
             cal.add(Calendar.MINUTE, -50);
             final long startTime = cal.getTimeInMillis();
-            final float weightSet = paramsBody.getWeight();
 
+            final float weightSet = paramsBody.getWeight();
             final DataSet dataSetWeight = DataSet.create(dataSource);
             DataPoint point = dataSetWeight
                     .createDataPoint()
@@ -124,6 +125,7 @@ public class SendDataGoogleFitService {
                 now = new Date(preParamsBody.getDate_time());
                 cal.setTime(now);
                 final long startTime = cal.getTimeInMillis();
+
                 final DataSet dataSetWeight = DataSet.create(dataSource);
                 DataPoint point = dataSetWeight
                         .createDataPoint()
@@ -172,8 +174,8 @@ public class SendDataGoogleFitService {
 
                 ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
                 ParamsBody preParamsBody = mDataUserForGoogleFit.get(i - 1);
-                final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
-                final float calories = paramsBody.getWater() - preParamsBody.getWater();
+                final long endTimeData = paramsBody.getDate_time() * 1000;
+                final float water = paramsBody.getWater() - preParamsBody.getWater();
 
                 Calendar cal = Calendar.getInstance();
                 Date now = new Date(endTimeData);
@@ -189,7 +191,7 @@ public class SendDataGoogleFitService {
                 DataPoint point = dataSetWeight
                         .createDataPoint()
                         .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
-                point.getValue(Field.FIELD_VOLUME).setFloat(calories);
+                point.getValue(Field.FIELD_VOLUME).setFloat(water);
                 dataSetWeight.add(point);
                 new AsyncTask<Object, Object, Object>() {
                     @Override
@@ -216,33 +218,49 @@ public class SendDataGoogleFitService {
      * Send fat to google fit
      */
     public void sendFat() {
-
         dataSource = new DataSource.Builder()
                 .setAppPackageName(mContext)
                 .setDataType(DataType.TYPE_BODY_FAT_PERCENTAGE)
-                .setName("CALORIES_HYDRATION w8m")
+                .setName("FAT_PERCENTAGE w8m")
                 .setType(DataSource.TYPE_RAW)
                 .build();
-        final DataSet dataSetWeight = DataSet.create(dataSource);
         if (mDataUserForGoogleFit.size() > 0) {
             for (int i = 0; i < mDataUserForGoogleFit.size(); i++) {
                 if (i == 0) continue;
 
                 ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
-                final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
-                final float calories = paramsBody.getFat() * 1f;
+                ParamsBody preParamsBody = mDataUserForGoogleFit.get(i - 1);
+                final long endTimeData = paramsBody.getDate_time() * 1000 ;
+                final float fat = paramsBody.getFat() * 1f;
 
+                Calendar cal = Calendar.getInstance();
+                Date now = new Date(endTimeData);
+                cal.setTime(now);
+                cal.add(Calendar.MINUTE, 0);
+                final long endTime = cal.getTimeInMillis();
+                now = new Date(preParamsBody.getDate_time());
+                cal.setTime(now);
+                final long startTime = cal.getTimeInMillis();
+
+                final DataSet dataSetWeight = DataSet.create(dataSource);
                 DataPoint point = dataSetWeight
                         .createDataPoint()
-                        .setTimeInterval(1, endTimeData, TimeUnit.MILLISECONDS);
-                point.setFloatValues(calories);
-                dataSetWeight.add(point);
-            }
-            if (dataSetWeight.getDataPoints().size() > 0) {
+                        .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
+                point.setFloatValues(fat);
+                try {
+                    dataSetWeight.add(point);
+                } catch (IllegalArgumentException mE) {
+                    mE.printStackTrace();
+                    continue;
+                }
                 new AsyncTask<Object, Object, Object>() {
                     @Override
                     protected Object doInBackground(Object... mObjects) {
-                        Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
+                        DataUpdateRequest request = new DataUpdateRequest.Builder()
+                                .setDataSet(dataSetWeight)
+                                .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                                .build();
+                        Fitness.HistoryApi.updateData(mClient, request).await(1, TimeUnit.MINUTES);
                         return null;
                     }
 
@@ -253,9 +271,6 @@ public class SendDataGoogleFitService {
                     }
                 }.execute();
             }
-        } else {
-
-            deleteAllFat();
         }
     }
     //    ================================================
