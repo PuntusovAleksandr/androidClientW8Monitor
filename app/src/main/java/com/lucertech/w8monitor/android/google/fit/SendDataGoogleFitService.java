@@ -356,7 +356,7 @@ public class SendDataGoogleFitService {
         // need delete all data w8m
         final DataDeleteRequest request = new DataDeleteRequest.Builder()
                 .setTimeInterval(mStartTime, mEndTime, TimeUnit.MILLISECONDS)
-                .addDataType(DataType.TYPE_CALORIES_EXPENDED)
+                .addDataType(DataType.TYPE_HYDRATION)
                 .build();
 
         new AsyncTask<Object, Object, Object>() {
