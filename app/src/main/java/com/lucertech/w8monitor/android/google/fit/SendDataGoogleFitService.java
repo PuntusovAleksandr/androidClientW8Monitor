@@ -10,6 +10,7 @@ import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataDeleteRequest;
+import com.google.android.gms.fitness.request.DataUpdateRequest;
 import com.lucertech.w8monitor.android.d_base.model.ParamsBody;
 
 import java.util.Calendar;
@@ -42,57 +43,44 @@ public class SendDataGoogleFitService {
     }
 
     public void sendWeight() {
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.YEAR, -1);
-        long startTime = cal.getTimeInMillis();
-
         dataSource = new DataSource.Builder()
                 .setAppPackageName(mContext)
                 .setDataType(DataType.TYPE_WEIGHT)
                 .setName("WEIGHT w8m")
                 .setType(DataSource.TYPE_RAW)
                 .build();
-        final DataSet dataSetWeight = DataSet.create(dataSource);
 
         for (int i = 0; i < mDataUserForGoogleFit.size(); i++) {
             ParamsBody paramsBody = mDataUserForGoogleFit.get(i);
-            final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
+            final long endTimeData = paramsBody.getDate_time() * 1000;
+            Calendar cal = Calendar.getInstance();
+            Date now = new Date(endTimeData);
+            cal.setTime(now);
+            cal.add(Calendar.MINUTE, 0);
+            final long endTime = cal.getTimeInMillis();
+            cal.add(Calendar.MINUTE, -50);
+            final long startTime = cal.getTimeInMillis();
             final float weightSet = paramsBody.getWeight();
 
+            final DataSet dataSetWeight = DataSet.create(dataSource);
             DataPoint point = dataSetWeight
                     .createDataPoint()
-                    .setTimeInterval(1, endTimeData, TimeUnit.MILLISECONDS);
+                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
             point.getValue(Field.FIELD_WEIGHT).setFloat(weightSet);
             dataSetWeight.add(point);
-        }
-        if (dataSetWeight.getDataPoints().size() > 0) {
-            new AsyncTask<Object, Object, Object>() {
-                @Override
-                protected Object doInBackground(Object... mObjects) {
-                    Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Object mO) {
-                    super.onPostExecute(mO);
-                    mListener.needMakeUpdateData();
-                }
-            }.execute();
-        } else {
-            // need delete all data w8m
-            final DataDeleteRequest request = new DataDeleteRequest.Builder()
-                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
-                    .addDataType(DataType.TYPE_WEIGHT)
-                    .build();
 
             new AsyncTask<Object, Object, Object>() {
                 @Override
                 protected Object doInBackground(Object... mObjects) {
-                    Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+
+                    DataUpdateRequest request = new DataUpdateRequest.Builder()
+                            .setDataSet(dataSetWeight)
+                            .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                            .build();
+
+//                    Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
+                    Fitness.HistoryApi.updateData(mClient, request).await(1, TimeUnit.MINUTES);
+
                     return null;
                 }
 
@@ -105,14 +93,39 @@ public class SendDataGoogleFitService {
         }
     }
 
-    public void sendCalories() {
+    /**
+     * delete all weight user
+     */
+    public void deleteWeight() {
         Calendar cal = Calendar.getInstance();
         Date now = new Date();
         cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
+        long mEndTime = cal.getTimeInMillis();
         cal.add(Calendar.YEAR, -1);
-        long startTime = cal.getTimeInMillis();
+        long mStartTime = cal.getTimeInMillis();
 
+        // need delete all data w8m
+        final DataDeleteRequest request = new DataDeleteRequest.Builder()
+                .setTimeInterval(mStartTime, mEndTime, TimeUnit.MILLISECONDS)
+                .addDataType(DataType.TYPE_WEIGHT)
+                .build();
+
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Object doInBackground(Object... mObjects) {
+                Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object mO) {
+                super.onPostExecute(mO);
+                mListener.needMakeUpdateData();
+            }
+        }.execute();
+    }
+
+    public void sendCalories() {
         dataSource = new DataSource.Builder()
                 .setAppPackageName(mContext)
                 .setDataType(DataType.TYPE_CALORIES_EXPENDED)
@@ -157,26 +170,41 @@ public class SendDataGoogleFitService {
                 }.execute();
             }
         } else {
-            // need delete all data w8m
-            final DataDeleteRequest request = new DataDeleteRequest.Builder()
-                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
-                    .addDataType(DataType.TYPE_CALORIES_EXPENDED)
-                    .build();
+            deleteAllCalories();
 
-            new AsyncTask<Object, Object, Object>() {
-                @Override
-                protected Object doInBackground(Object... mObjects) {
-                    Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Object mO) {
-                    super.onPostExecute(mO);
-                    mListener.needMakeUpdateData();
-                }
-            }.execute();
         }
+    }
+
+    /**
+     * delete all calories from google fit
+     */
+    public void deleteAllCalories() {
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long mEndTime = cal.getTimeInMillis();
+        cal.add(Calendar.YEAR, -1);
+        long mStartTime = cal.getTimeInMillis();
+
+        // need delete all data w8m
+        final DataDeleteRequest request = new DataDeleteRequest.Builder()
+                .setTimeInterval(mStartTime, mEndTime, TimeUnit.MILLISECONDS)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED)
+                .build();
+
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Object doInBackground(Object... mObjects) {
+                Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object mO) {
+                super.onPostExecute(mO);
+                mListener.needMakeUpdateData();
+            }
+        }.execute();
     }
 
     public void sendWater() {
@@ -225,35 +253,45 @@ public class SendDataGoogleFitService {
                 }.execute();
             }
         } else {
-            // need delete all data w8m
-            final DataDeleteRequest request = new DataDeleteRequest.Builder()
-                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
-                    .addDataType(DataType.TYPE_CALORIES_EXPENDED)
-                    .build();
+            deleteAllWater();
 
-            new AsyncTask<Object, Object, Object>() {
-                @Override
-                protected Object doInBackground(Object... mObjects) {
-                    Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
-                    return null;
-                }
 
-                @Override
-                protected void onPostExecute(Object mO) {
-                    super.onPostExecute(mO);
-                    mListener.needMakeUpdateData();
-                }
-            }.execute();
         }
     }
 
-    public void sendFat() {
+    /**
+     * delete all params water from google fit
+     */
+    public void deleteAllWater() {
         Calendar cal = Calendar.getInstance();
         Date now = new Date();
         cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
+        long mEndTime = cal.getTimeInMillis();
         cal.add(Calendar.YEAR, -1);
-        long startTime = cal.getTimeInMillis();
+        long mStartTime = cal.getTimeInMillis();
+
+        // need delete all data w8m
+        final DataDeleteRequest request = new DataDeleteRequest.Builder()
+                .setTimeInterval(mStartTime, mEndTime, TimeUnit.MILLISECONDS)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED)
+                .build();
+
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Object doInBackground(Object... mObjects) {
+                Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object mO) {
+                super.onPostExecute(mO);
+                mListener.needMakeUpdateData();
+            }
+        }.execute();
+    }
+
+    public void sendFat() {
 
         dataSource = new DataSource.Builder()
                 .setAppPackageName(mContext)
@@ -292,26 +330,40 @@ public class SendDataGoogleFitService {
                 }.execute();
             }
         } else {
-            // need delete all data w8m
-            final DataDeleteRequest request = new DataDeleteRequest.Builder()
-                    .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
-                    .addDataType(DataType.TYPE_BODY_FAT_PERCENTAGE)
-                    .build();
 
-            new AsyncTask<Object, Object, Object>() {
-                @Override
-                protected Object doInBackground(Object... mObjects) {
-                    Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Object mO) {
-                    super.onPostExecute(mO);
-                    mListener.needMakeUpdateData();
-                }
-            }.execute();
+            deleteAllFat();
         }
+    }
+
+    /**
+     * delete all params fats from google fit
+     */
+    public void deleteAllFat() {
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+        // need delete all data w8m
+        final DataDeleteRequest request = new DataDeleteRequest.Builder()
+                .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                .addDataType(DataType.TYPE_BODY_FAT_PERCENTAGE)
+                .build();
+
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Object doInBackground(Object... mObjects) {
+                Fitness.HistoryApi.deleteData(mClient, request).await(1, TimeUnit.MINUTES);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object mO) {
+                super.onPostExecute(mO);
+                mListener.needMakeUpdateData();
+            }
+        }.execute();
     }
 
 

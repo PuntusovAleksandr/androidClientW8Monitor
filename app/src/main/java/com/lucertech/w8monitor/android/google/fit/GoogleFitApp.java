@@ -54,6 +54,8 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     private Context mContext;
     private MainActivity mActivity;
 
+    private SendDataGoogleFitService service;
+
     private GoogleApiClient mClient;
     private boolean authInProgress;
 
@@ -98,7 +100,8 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                     Log.i(TAG_GOOGLE_FIT, "Connected!!!");
                                     // Now you can make calls to the Fitness APIs.
 
-                                    // TODO: 25.11.2016 ТУТ НУЖНО СДЕЛАТЬ ОБНУЛЕНИЕ ДАННЫХ
+                                    // delete all data from googleFit
+                                    deleteAllParams();
 
                                     setConfigParams();
                                     findFitnessDataSources();
@@ -329,12 +332,27 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 
 
     /**
+     * delete data from google fit from db
+     */
+    public void deleteAllParams() {
+        Profile profile = getProfile();
+        RealmResults<ParamsBody> dataUserForGoogleFit = getUserData(profile.getId());
+        service =
+                new SendDataGoogleFitService(mContext, mClient, dataUserForGoogleFit, this);
+
+        service.deleteWeight();
+        service.deleteAllCalories();
+        service.deleteAllWater();
+        service.deleteAllFat();
+    }
+
+    /**
      * send data to google fit from db
      */
     public void sendDataFromDB() {
         Profile profile = getProfile();
         RealmResults<ParamsBody> dataUserForGoogleFit = getUserData(profile.getId());
-        SendDataGoogleFitService service =
+        service =
                 new SendDataGoogleFitService(mContext, mClient, dataUserForGoogleFit, this);
 
         service.sendWeight();
