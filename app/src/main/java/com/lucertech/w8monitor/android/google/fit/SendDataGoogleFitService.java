@@ -160,20 +160,12 @@ public class SendDataGoogleFitService {
      * SEND water to google fit
      */
     public void sendWater() {
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.YEAR, -1);
-        long startTime = cal.getTimeInMillis();
-
         dataSource = new DataSource.Builder()
                 .setAppPackageName(mContext)
                 .setDataType(DataType.TYPE_HYDRATION)
                 .setName("CALORIES_HYDRATION w8m")
                 .setType(DataSource.TYPE_RAW)
                 .build();
-        final DataSet dataSetWeight = DataSet.create(dataSource);
         if (mDataUserForGoogleFit.size() > 1) {
             for (int i = 0; i < mDataUserForGoogleFit.size(); i++) {
                 if (i == 0) continue;
@@ -183,17 +175,30 @@ public class SendDataGoogleFitService {
                 final long endTimeData = paramsBody.getDate_time() * 1000 - 1;
                 final float calories = paramsBody.getWater() - preParamsBody.getWater();
 
+                Calendar cal = Calendar.getInstance();
+                Date now = new Date(endTimeData);
+                cal.setTime(now);
+                cal.add(Calendar.MINUTE, 0);
+                final long endTime = cal.getTimeInMillis();
+                now = new Date(preParamsBody.getDate_time());
+                cal.setTime(now);
+                final long startTime = cal.getTimeInMillis();
+
+                final DataSet dataSetWeight = DataSet.create(dataSource);
+
                 DataPoint point = dataSetWeight
                         .createDataPoint()
-                        .setTimeInterval(endTimeData, endTime, TimeUnit.MILLISECONDS);
+                        .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
                 point.getValue(Field.FIELD_VOLUME).setFloat(calories);
                 dataSetWeight.add(point);
-            }
-            if (dataSetWeight.getDataPoints().size() > 0) {
                 new AsyncTask<Object, Object, Object>() {
                     @Override
                     protected Object doInBackground(Object... mObjects) {
-                        Fitness.HistoryApi.insertData(mClient, dataSetWeight).await(1, TimeUnit.MINUTES);
+                        DataUpdateRequest request = new DataUpdateRequest.Builder()
+                                .setDataSet(dataSetWeight)
+                                .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                                .build();
+                        Fitness.HistoryApi.updateData(mClient, request).await(1, TimeUnit.MINUTES);
                         return null;
                     }
 
@@ -204,10 +209,6 @@ public class SendDataGoogleFitService {
                     }
                 }.execute();
             }
-        } else {
-            deleteAllWater();
-
-
         }
     }
 
