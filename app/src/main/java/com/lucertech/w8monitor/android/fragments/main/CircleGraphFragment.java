@@ -224,6 +224,9 @@ public class CircleGraphFragment extends Fragment implements
         if (mMassParams[0] > 0) {
             ib_line_chart.setEnabled(true);
             ib_line_chart.setAlpha(1.0f);
+        } else {
+            ib_line_chart.setEnabled(false);
+            ib_line_chart.setAlpha(0.5f);
         }
         String[] stringArray = getResources().getStringArray(R.array.select_weight_params);
         try {
