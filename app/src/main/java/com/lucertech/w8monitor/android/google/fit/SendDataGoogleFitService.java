@@ -72,7 +72,12 @@ public class SendDataGoogleFitService {
                     .createDataPoint()
                     .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
             point.getValue(Field.FIELD_WEIGHT).setFloat(weightSet);
-            dataSetWeight.add(point);
+            try {
+                dataSetWeight.add(point);
+            } catch (IllegalArgumentException mE) {
+                mE.printStackTrace();
+                continue;
+            }
 
             new AsyncTask<Object, Object, Object>() {
                 @Override
@@ -192,7 +197,12 @@ public class SendDataGoogleFitService {
                         .createDataPoint()
                         .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
                 point.getValue(Field.FIELD_VOLUME).setFloat(water);
-                dataSetWeight.add(point);
+                try {
+                    dataSetWeight.add(point);
+                } catch (IllegalArgumentException mE) {
+                    mE.printStackTrace();
+                    continue;
+                }
                 new AsyncTask<Object, Object, Object>() {
                     @Override
                     protected Object doInBackground(Object... mObjects) {
