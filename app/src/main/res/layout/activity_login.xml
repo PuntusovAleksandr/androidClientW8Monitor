@@ -156,7 +156,7 @@
         <RelativeLayout
             android:id="@+id/ll_keep_me"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_25"
             android:layout_marginTop="@dimen/_8">
 
             <TextView
@@ -171,8 +171,8 @@
 
             <ImageView
                 android:id="@+id/iv_forgot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_25"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/_8"

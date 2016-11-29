@@ -2,6 +2,7 @@ package com.lucertech.w8monitor.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
@@ -404,7 +405,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                         this,
                         mEvent);
             } else if (mEvent.getId() == UpdateUiEvent.RESET_PASSWORD) {
-                Toast.makeText(this, R.string.check_email, Toast.LENGTH_SHORT).show();
+                Snackbar.make(et_login,  R.string.check_email, Snackbar.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(this, ((String) mEvent.getData()), Toast.LENGTH_SHORT).show();
