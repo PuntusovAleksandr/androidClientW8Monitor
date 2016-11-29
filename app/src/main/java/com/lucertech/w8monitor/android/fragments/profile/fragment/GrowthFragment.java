@@ -218,7 +218,12 @@ public class GrowthFragment extends Fragment implements
                     float inchs = finalHeight / INCH_IN_CM;
 
                     int foot = (int) (inchs / 12);
-                    int inch = (int) (inchs - (foot * 12));
+                    int fints = foot * 12;
+                    float result = inchs - fints;
+                    int inch = (int) result;
+                    if ((result - (float) inch) >= 5) {
+                        ++inch;
+                    }
                     npHeightFoot.setValue(foot);              // foot
                     npHeightInch.setValue(inch);     // inch
                 }
