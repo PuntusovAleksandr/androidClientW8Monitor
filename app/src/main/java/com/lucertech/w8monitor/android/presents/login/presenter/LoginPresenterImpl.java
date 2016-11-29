@@ -135,6 +135,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Subscribe
     public void onEvent(UpdateUiEvent event) {
         mLoginView.updateLogin(event);
-        System.out.println(event.getData().toString());
+        if (event != null && event.getData() != null)
+            System.out.println(event.getData().toString());
     }
 }

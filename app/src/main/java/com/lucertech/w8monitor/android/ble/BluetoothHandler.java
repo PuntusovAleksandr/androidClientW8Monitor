@@ -570,10 +570,12 @@ public class BluetoothHandler {
                         device.device.toString());
 
                 try {
-                    if (device.device.getName().toLowerCase().contains("scale")) {
-                        if (mConnected) {
-                            disConnect();
-                        }
+//                    if (device.device.getName().toLowerCase().contains("scale")) {
+                    if (device.device.getName().equalsIgnoreCase("Electronic Scale")) {
+//                        if (mConnected) {
+//                            Log.i(LOG, "mConnected - " + mConnected);
+//                            disConnect();
+//                        }
                         connect(device.device.getAddress(), (MainActivity) mActivity);
                         scanLeDevice(false);
                     }

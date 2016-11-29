@@ -608,6 +608,7 @@ public class RealmObj {
         if (userLibr != null) {
             realm.beginTransaction();
             userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin());
+            userLibr.setTheme(SettingsApp.getInstance().isThemeDark() ? 1 : 0);
             realm.copyToRealmOrUpdate(userLibr);
             realm.commitTransaction();
             return userLibr;
