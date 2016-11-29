@@ -1,4 +1,4 @@
-package  com.lucertech.w8monitor.android.d_base;
+package com.lucertech.w8monitor.android.d_base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -622,7 +622,7 @@ public class RealmObj {
             userLibr.setUpdated_at(data);            // default
             userLibr.setIs_imperial(!SettingsApp.getInstance().getMetric());            // default
             userLibr.setKeep_login(SettingsApp.getInstance().getAutoLogin());            // default
-            userLibr.setTheme(SettingsApp.getInstance().isThemeDark() ? 0 : 1);            // default
+            userLibr.setTheme(SettingsApp.getInstance().isThemeDark() ? 1 : 0);            // default
             userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());            // default
             userLibr.setLanguage(SettingsApp.getInstance().getLanguages());
             userLibr.setFullProfile(false);

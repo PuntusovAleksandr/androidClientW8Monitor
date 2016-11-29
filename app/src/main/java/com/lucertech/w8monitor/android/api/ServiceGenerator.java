@@ -281,7 +281,7 @@ public class ServiceGenerator {
                 mProfileApi.getId(),
                 mProfileApi.getActivity_type(),
                 mProfileApi.getHeight(),
-                true,
+                mProfileApi.is_current() ? 1 : 0,
                 mProfileApi.getAge(),
                 mProfileApi.getGender()
         );

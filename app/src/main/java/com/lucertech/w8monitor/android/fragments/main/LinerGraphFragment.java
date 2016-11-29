@@ -621,9 +621,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         }
 
         for (int i = 0; i < mAllSorted.size(); i++) {
-            if (i % 2 == 0) {
-                continue;
-            }
+
             ParamsBody body = mAllSorted.get(i);
             switch (mPickerBottomValue) {
                 case PICKER_WATER:

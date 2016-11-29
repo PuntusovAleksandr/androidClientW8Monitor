@@ -80,7 +80,7 @@ public interface ServiceApi {
             @Path("profile") int profile,
             @Field("activity_type") int activity_type,
             @Field("height") int height,
-            @Field("is_current") boolean is_current,
+            @Field("is_current") int is_current,
             @Field("age") int age,
             @Field(("gender")) int gender);
 

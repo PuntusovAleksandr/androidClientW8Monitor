@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
     private boolean isShowLineFragment = false;
     private boolean isThemeForStarDark;
+    private boolean isMakeSendData = true;
 
     private boolean supportExist = false;
 
@@ -472,6 +473,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         bmi = Float.parseFloat(formatbmi);
 
         String answerFromBLE = "ПОЛУЧЕННЫЕ ___ " +
+                "Time = " + new Date().getTime() +
                 "\nТип устройства " + typeRec +
                 "\ngroup " + group +
                 "\nlevelRec " + levelRec +
@@ -493,23 +495,36 @@ public class MainActivity extends AppCompatActivity implements MainView,
 //            Toast.makeText(this, answerFromBLE, Toast.LENGTH_LONG).show();
 //        }
 
-        long time = new Date().getTime() / 1000;
-        // save in DB
-        mPresenter.addParamsBody(
-                weightRec < 0 ? -weightRec : weightRec,
-                gugeRate < 0 ? -gugeRate : gugeRate,
-                zhifangRate < 0 ? -zhifangRate : zhifangRate,
-                jirouRate < 0 ? -jirouRate : jirouRate,
-                waterRate < 0 ? -waterRate : waterRate,
-                neizanglevel < 0 ? -neizanglevel : neizanglevel,
-                hot < 0 ? -hot : hot,
-                physicalAge < 0 ? 0 : physicalAge,
+        if (isMakeSendData) {
+            System.out.println("SEND Data 1 " + isMakeSendData);
+            isMakeSendData = false;
+            System.out.println("SEND Data 2 " + isMakeSendData);
+            long time = new Date().getTime() / 1000;
+            // save in DB
+            mPresenter.addParamsBody(
+                    weightRec < 0 ? -weightRec : weightRec,
+                    gugeRate < 0 ? -gugeRate : gugeRate,
+                    zhifangRate < 0 ? -zhifangRate : zhifangRate,
+                    jirouRate < 0 ? -jirouRate : jirouRate,
+                    waterRate < 0 ? -waterRate : waterRate,
+                    neizanglevel < 0 ? -neizanglevel : neizanglevel,
+                    hot < 0 ? -hot : hot,
+                    physicalAge < 0 ? 0 : physicalAge,
 //                BMI
-                bmi,
-                time,
-                mCircleGraphView,
-                false
-        );
+                    bmi,
+                    time,
+                    mCircleGraphView,
+                    false
+            );
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("SEND Data 3 " + isMakeSendData);
+                    isMakeSendData = true;
+                    System.out.println("SEND Data 4 " + isMakeSendData);
+                }
+            }, 2000);
+        }
 
     }
 
@@ -772,7 +787,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
 //    ===========================================================
 //            GOOGLE FIT
 //    ===========================================================
-
 
 
 }
