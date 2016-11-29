@@ -33,7 +33,9 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 import static com.lucertech.w8monitor.android.api.constant.ApiConstants.LOGIN;
+import static com.lucertech.w8monitor.android.api.constant.ApiConstants.RESET_PASSWORD;
 import static com.lucertech.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
+import static com.lucertech.w8monitor.android.utils.InternetUtils.checkInternetConnection;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASS;
@@ -160,10 +162,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.iv_forgot)
     public void showForgot() {
-        if (et_login.getText().toString().isEmpty()) {
-            Toast.makeText(this, R.string.fill_email, Toast.LENGTH_SHORT).show();
+        if (checkInternetConnection()) {
+            String mMail = et_login.getText().toString();
+            if (mMail.isEmpty()) {
+                Toast.makeText(this, R.string.fill_email, Toast.LENGTH_SHORT).show();
+            } else {
+                serviceIntent.putExtra(SERVICE_MAIL, mMail);
+                serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, RESET_PASSWORD);
+                startService(serviceIntent);
+            }
         } else {
-            presenter.goToChangePassword(et_login.getText().toString(), this);
+            Toast.makeText(this, R.string.check_internet, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -394,6 +403,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                         SettingsApp.getInstance().getUserPassword(),
                         this,
                         mEvent);
+            } else if (mEvent.getId() == UpdateUiEvent.RESET_PASSWORD) {
+                Toast.makeText(this, R.string.check_email, Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, ((String) mEvent.getData()), Toast.LENGTH_SHORT).show();

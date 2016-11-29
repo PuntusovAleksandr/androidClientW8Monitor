@@ -724,6 +724,39 @@ public class ServiceGenerator {
         });
     }
 
+    public void resetPassword(String mMail) {
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        Call<Object> call = downloadService.resetPassword(mMail);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Object body = response.body();
+                if (body == null) {
+                    //404 or the response cannot be converted to User.
+                    String textError = "Error data";
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = getTextMessage(responseBody);
+                    }
+                    showMessage(call, textError, ApiConstants.RESET_PASSWORD);
+                } else {
+                    //200
+                    event = new NetworkResponseEvent();
+                    event.setId(ApiConstants.RESET_PASSWORD);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                showMessageFailure(call, t, ApiConstants.RESET_PASSWORD);
+            }
+        });
+    }
+
 //============================
 
     private void showMessageFailure(Call mCall, Throwable t, int mAppiConstant) {

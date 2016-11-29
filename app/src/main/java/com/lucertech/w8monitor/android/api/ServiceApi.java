@@ -193,5 +193,7 @@ public interface ServiceApi {
     Call<UserApi> updateAlarms(
             @FieldMap Map<String, Object> mAlarms);
 
-
+    @FormUrlEncoded
+    @POST("password/reset")
+    Call<Object> resetPassword(@Field("email") String email);
 }

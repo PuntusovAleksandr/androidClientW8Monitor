@@ -19,5 +19,6 @@ public interface ApiConstants {
     public static final int ALL_MEASUREMENTS = 11;
     public static final int ALL_MEASUREMENTS_TIME = 12;
     public static final int MEASUREMENTS_MASS_UPDATE = 13;
+    public static final int RESET_PASSWORD = 14;
 
 }

@@ -140,6 +140,7 @@
     <string name="check_internet">Check internet connection</string>
     <string name="error_server">Error server</string>
     <string name="please_check_internet_connection">Please check internet connection</string>
+    <string name="check_email">Please check your email for password reset link</string>
 
     <!--<string-array name="select_weight_params">-->
     <!--<item>Body Water</item>-->

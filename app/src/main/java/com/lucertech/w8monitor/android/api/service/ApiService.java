@@ -1,4 +1,4 @@
-package  com.lucertech.w8monitor.android.api.service;
+package com.lucertech.w8monitor.android.api.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -95,6 +95,9 @@ public class ApiService extends Service implements
             case ApiConstants.ALARM_UPDATE:
                 userInteractor.updateAlarm();
                 break;
+            case ApiConstants.RESET_PASSWORD:
+                userInteractor.resetPassword(mail);
+                break;
         }
         return START_NOT_STICKY;
     }
@@ -156,6 +159,9 @@ public class ApiService extends Service implements
             case ApiConstants.MEASUREMENTS_MASS_UPDATE:
                 updateUiEvent.setId(UpdateUiEvent.MEASUREMENTS_MASS_UPDATE);
                 updateUiEvent.setData(event.getData());
+                break;
+            case ApiConstants.RESET_PASSWORD:
+                updateUiEvent.setId(UpdateUiEvent.RESET_PASSWORD);
                 break;
         }
 
