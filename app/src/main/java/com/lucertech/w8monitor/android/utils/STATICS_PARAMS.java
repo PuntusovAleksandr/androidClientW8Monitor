@@ -99,7 +99,6 @@ public class STATICS_PARAMS {
     public static final String EXTRA_TIME_CREATE = "EXTRA_TIME_CREATE ";
     public static final String EXTRA_TIMESTAMP = "EXTRA_TIMESTAMP ";
 
-
     // settings activity result
     public static final int SETTINGS_ACTIVITY_RESULT = 321;
 }
