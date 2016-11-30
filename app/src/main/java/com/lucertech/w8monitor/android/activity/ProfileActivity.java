@@ -242,6 +242,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        setResult(RESULT_OK);
         finish();
     }
 

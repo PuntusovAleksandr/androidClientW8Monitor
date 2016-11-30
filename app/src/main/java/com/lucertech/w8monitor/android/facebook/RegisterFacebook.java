@@ -56,7 +56,7 @@ public class RegisterFacebook {
     }
 
     public void register() {
-        LoginManager mInstance = LoginManager.getInstance();
+        final LoginManager mInstance = LoginManager.getInstance();
         mInstance.logInWithReadPermissions(mActivity,
                 Arrays.asList("public_profile", "user_friends", "email", "user_birthday"));
         mInstance
@@ -85,6 +85,7 @@ public class RegisterFacebook {
 //                                                                    mId + "/picture?type=large"
                                                     );
                                                 } catch (JSONException mE) {
+                                                    Toast.makeText(mContext, "JSONException " + mE.getMessage(), Toast.LENGTH_SHORT).show();
                                                     mE.printStackTrace();
                                                 }
                                                 if (mUser != null) {
@@ -101,6 +102,9 @@ public class RegisterFacebook {
                             @Override
                             public void onCancel() {
                                 // App code
+                                mInstance.logOut();
+                                mInstance.logInWithReadPermissions(mActivity,
+                                        Arrays.asList("public_profile", "user_friends", "email", "user_birthday"));
                             }
 
                             @Override

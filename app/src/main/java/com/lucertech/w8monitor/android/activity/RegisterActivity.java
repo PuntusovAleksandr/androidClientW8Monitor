@@ -370,7 +370,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
             SettingsApp.getInstance().setProfileBLE(mRegKey.getProfileBLE());
             SettingsApp.getInstance().setMetric(!mRegKey.getIs_imperial());
             SettingsApp.getInstance().setSettingsStatus(false);
-            presenter.goToProfile();
+            if (mRegKey.isFullProfile()) {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            } else
+                presenter.goToProfile();
 
         } else {
             Snackbar.make(
@@ -383,6 +390,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         if (mEvent.isSucess()) {
             if (mEvent.getId() == REGISTER ||
                     mEvent.getId() == LOGIN_SOCIAL) {
+
+                if (mEvent.getId() == UpdateUiEvent.LOGIN_SOCIAL) {
+                    et_email_register.setText(SettingsApp.getInstance().getUserName());
+                    et_password_register.setText(SettingsApp.getInstance().getUserPassword());
+                }
 
                 presenter.checkUserInDb(
                         et_email_register.getText().toString(),

@@ -53,6 +53,7 @@ import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.KEI_CONNECTIO
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_OAUTH;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SETTINGS_ACTIVITY_RESULT;
 import static com.lucertech.w8monitor.android.utils.ShowMesages.showMessageToast;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -183,6 +184,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
         }
         if (requestCode == REQUEST_OAUTH) {
             mFitApp.requestOauth(requestCode);
+        }
+        if (requestCode == SETTINGS_ACTIVITY_RESULT) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
         }
     }
 
@@ -675,7 +681,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, MARKER_MAIN);
         intent.putExtra(KEI_CONNECTION, supportExist);
-        startActivity(intent);
+        startActivityForResult(intent, SETTINGS_ACTIVITY_RESULT);
     }
 
     @Override
