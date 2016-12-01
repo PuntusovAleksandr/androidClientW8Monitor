@@ -45,8 +45,8 @@ public class SplashActivity extends AppCompatActivity implements
 
 
         if (!SettingsApp.getInstance().isIconInHome()) {
-            addIconToHomeScreen();
-            SettingsApp.getInstance().setIconInHome(true);
+//            addIconToHomeScreen();
+//            SettingsApp.getInstance().setIconInHome(true);
         }
 
         if (!bluetoothHandler.checkSupport()) {
