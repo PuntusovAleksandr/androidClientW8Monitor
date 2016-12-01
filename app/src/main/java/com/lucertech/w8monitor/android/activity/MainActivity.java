@@ -50,6 +50,7 @@ import static com.lucertech.w8monitor.android.utils.LoggerApp.logger;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.EXTRA_TIMESTAMP;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.EXTRA_TIME_CREATE;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.KEI_CONNECTION;
+import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ACTION_LOCATION_SOURCE_SETTINGS;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_OAUTH;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
@@ -188,6 +189,11 @@ public class MainActivity extends AppCompatActivity implements MainView,
         if (requestCode == SETTINGS_ACTIVITY_RESULT) {
             if (resultCode == RESULT_OK) {
                 finish();
+            }
+        }
+        if (requestCode == REQUEST_ACTION_LOCATION_SOURCE_SETTINGS) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(this, R.string.for_work_ble, Toast.LENGTH_SHORT).show();
             }
         }
     }

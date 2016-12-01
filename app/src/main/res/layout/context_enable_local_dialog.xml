@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:background="?attr/color_bacground_diallog_app"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_16"
+        android:layout_marginTop="@dimen/_16"
+        android:gravity="center"
+        android:text="@string/you_must_enable_location"
+        android:textColor="?attr/color_text_title_app"
+        android:textSize="20dp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_8"
+        android:layout_below="@+id/tv_title_dialog"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_scroll"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_8"
+        android:layout_marginTop="@dimen/_24dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_8"
+            android:layout_marginRight="@dimen/_4"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/cancel_"
+            android:textColor="?attr/color_text_title_app"/>
+
+
+        <Button
+            android:id="@+id/bt_settings"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_4"
+            android:layout_marginRight="@dimen/_8"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/settings"
+            android:textColor="?attr/color_text_title_app"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -37,6 +37,7 @@ import static com.lucertech.w8monitor.android.api.constant.ApiConstants.LOGIN;
 import static com.lucertech.w8monitor.android.api.constant.ApiConstants.RESET_PASSWORD;
 import static com.lucertech.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
 import static com.lucertech.w8monitor.android.utils.InternetUtils.checkInternetConnection;
+import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ACTION_LOCATION_SOURCE_SETTINGS;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.lucertech.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASS;
@@ -140,6 +141,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                 String name = data.getStringExtra("name");
                 et_login.setText(name);
                 et_login.setSelection(name.length());
+            }
+        }
+        if (requestCode == REQUEST_ACTION_LOCATION_SOURCE_SETTINGS) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(this, R.string.for_work_ble, Toast.LENGTH_SHORT).show();
             }
         }
 

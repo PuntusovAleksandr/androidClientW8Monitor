@@ -32,4 +32,5 @@
     <dimen name="_35dp">35dp</dimen>
     <dimen name="_12sp">12sp</dimen>
     <dimen name="_11sp">11sp</dimen>
+    <dimen name="_24dp">14dp</dimen>
 </resources>

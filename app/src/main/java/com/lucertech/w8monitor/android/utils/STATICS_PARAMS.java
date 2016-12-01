@@ -101,4 +101,8 @@ public class STATICS_PARAMS {
 
     // settings activity result
     public static final int SETTINGS_ACTIVITY_RESULT = 321;
+
+    // settings activity result
+    public static final int REQUEST_ACTION_LOCATION_SOURCE_SETTINGS = 323;
+
 }
