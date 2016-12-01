@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:background="?attr/background_app">
 
-    <com.lucertech.w8monitor.android.fragments.main.view.ViewPagerCustomDuration
+    <com.w8.w8monitor.android.fragments.main.view.ViewPagerCustomDuration
         android:id="@+id/walk_through_view_pager_main"
         android:layout_width="match_parent"
         android:clickable="false"

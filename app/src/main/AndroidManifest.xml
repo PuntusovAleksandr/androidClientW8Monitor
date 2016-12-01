@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.lucertech.w8monitor.android">
+          package="com.w8.w8monitor.android">
     <!--com.lucertech.w8monitor.android-->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -19,7 +19,7 @@
         android:required="true"/>
 
     <application
-        android:name="com.lucertech.w8monitor.android.App"
+        android:name=".App"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"

@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
-        <com.lucertech.w8monitor.android.fragments.main.view.CircleBackground
+        <com.w8.w8monitor.android.fragments.main.view.CircleBackground
             android:id="@+id/bt_go_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
