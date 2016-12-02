@@ -280,8 +280,21 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 
         msg += "]";
         Log.i(TAG_GOOGLE_FIT, msg);
-    }
 
+        if (dp.getDataType().getName().toLowerCase().contains("weight")) {
+            msg = "===========================\n"
+                    + "\ttype: " + dp.getDataType().getName() + "\n"
+                    + ",\t range: [" + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " - " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + "]\n"
+                    + ",\t fields: [";
+            for (Field field : dp.getDataType().getFields()) {
+                msg += field.getName() + " value = " + dp.getValue(field) + " ";
+            }
+
+            msg += "]\n===========================";
+
+            Log.i(TAG_GOOGLE_FIT, msg);
+        }
+    }
 
     private void describeDataType(DataType mCustomType) {
 
