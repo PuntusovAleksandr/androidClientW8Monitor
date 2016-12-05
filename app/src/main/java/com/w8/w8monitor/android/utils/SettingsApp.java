@@ -127,7 +127,7 @@ public class SettingsApp {
      * @param ip
      */
     public void setAutoLogin(boolean ip) {
-        ip = true;      // TODO: 05.12.2016  Убрать кнопку KEEP ME LOGGED IN, считать что она всегда включена https://3.basecamp.com/3110661/buckets/1532583/todos/310563548#__recording_310604978
+//        ip = true;      // TODO: 05.12.2016  Убрать кнопку KEEP ME LOGGED IN, считать что она всегда включена https://3.basecamp.com/3110661/buckets/1532583/todos/310563548#__recording_310604978
         Log.d(TAG, "setAutoLogin");
         editor.putBoolean(KEY_AUTO_LOGIN, ip).commit();
     }

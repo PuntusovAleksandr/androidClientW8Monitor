@@ -193,15 +193,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.ll_keep_me)
     public void setAutoSave() {
-        // TODO: 05.12.2016  Убрать кнопку KEEP ME LOGGED IN, считать что она всегда включена https://3.basecamp.com/3110661/buckets/1532583/todos/310563548#__recording_310604978
-//        if (autoLogin) {
-//            autoLogin = false;
-//            showIKeep(autoLogin);
-//        } else {
-//            autoLogin = true;
-//            showIKeep(autoLogin);
-//        }
-//        SettingsApp.getInstance().setAutoLogin(autoLogin);
+        if (autoLogin) {
+            autoLogin = false;
+            showIKeep(autoLogin);
+        } else {
+            autoLogin = true;
+            showIKeep(autoLogin);
+        }
+        SettingsApp.getInstance().setAutoLogin(autoLogin);
     }
 
 
