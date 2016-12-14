@@ -14,6 +14,8 @@ public interface LoginView {
 
     void hideWrong(boolean mLogin);
 
+    void showDeleteImagesResetPass(boolean deleteLoginPassword)
+            ;
     void showDeleteImages(boolean deleteLogin, boolean deletePassword);
 
     void finishActivity();

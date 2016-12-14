@@ -55,6 +55,16 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
+    public void showDeleteLoginResetPassword() {
+        mLoginView.showDeleteImagesResetPass(true);
+    }
+
+    @Override
+    public void hideAllDeleteResetPassword() {
+        mLoginView.showDeleteImagesResetPass(false);
+    }
+
+    @Override
     public void showDeleteLogin() {
         mLoginView.showDeleteImages(true, false);
     }

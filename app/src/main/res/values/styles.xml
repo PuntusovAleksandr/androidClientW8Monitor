@@ -59,10 +59,11 @@
         <item name="icon_female_nonactive_app">@drawable/icon_female_nonactive_dark</item>
         <item name="icon_forgot_app">@drawable/icon_forgot_dark</item>
         <item name="icon_login_app">@drawable/icon_login_dark</item>
+        <item name="icon_reset_password">@drawable/icon_email_small_dark</item>
         <item name="icon_male_active_app">@drawable/icon_male_active_dark</item>
         <item name="icon_male_nonactive_app">@drawable/icon_male_nonactive_dark</item>
         <item name="icon_password_app">@drawable/icon_password_dark</item>
-        <item name="icon_reset_app">@drawable/icon_reset_dark</item>
+        <item name="icon_reset_app">@drawable/icon_delete_dark</item>
         <item name="logo_app">@drawable/logo_dark</item>
         <item name="logo_title_app">@drawable/big_logo_dark</item>
         <item name="profile_active_app">@drawable/profile_active_dark</item>
@@ -190,10 +191,11 @@
         <item name="icon_female_nonactive_app">@drawable/icon_female_nonactive_light</item>
         <item name="icon_forgot_app">@drawable/icon_forgot_light</item>
         <item name="icon_login_app">@drawable/icon_login_light</item>
+        <item name="icon_reset_password">@drawable/icon_email_small_light</item>
         <item name="icon_male_active_app">@drawable/icon_male_active_light</item>
         <item name="icon_male_nonactive_app">@drawable/icon_male_nonactive_light</item>
         <item name="icon_password_app">@drawable/icon_password_light</item>
-        <item name="icon_reset_app">@drawable/icon_reset_light</item>
+        <item name="icon_reset_app">@drawable/icon_delete_light</item>
         <item name="logo_app">@drawable/logo_light</item>
         <item name="logo_title_app">@drawable/big_logo_light</item>
         <item name="profile_active_app">@drawable/profile_active_light</item>
@@ -282,6 +284,7 @@
     <attr name="icon_female_nonactive_app" format="reference"/>
     <attr name="icon_forgot_app" format="reference"/>
     <attr name="icon_login_app" format="reference"/>
+    <attr name="icon_reset_password" format="reference"/>
     <attr name="icon_male_active_app" format="reference"/>
     <attr name="icon_male_nonactive_app" format="reference"/>
     <attr name="icon_password_app" format="reference"/>

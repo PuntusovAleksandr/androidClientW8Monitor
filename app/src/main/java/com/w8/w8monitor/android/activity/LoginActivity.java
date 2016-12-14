@@ -59,20 +59,30 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @Bind(R.id.et_login)
     EditText et_login;
+    @Bind(R.id.et_login_reset_password)
+    EditText et_login_reset_password;
     @Bind(R.id.et_password)
     EditText et_password;
 
+    @Bind(R.id.iv_delete_login_reset_password)
+    ImageView iv_delete_login_reset_password;
     @Bind(R.id.iv_delete_login)
     ImageView iv_delete_login;
     @Bind(R.id.iv_delete_password)
     ImageView iv_delete_password;
     @Bind(R.id.iv_toolbar_back_press)
     ImageView iv_toolbar_back_press;
+    @Bind(R.id.iv_toolbar_back_press_double)
+    ImageView iv_toolbar_back_press_double;
 
+    @Bind(R.id.iv_send_link)
+    RelativeLayout iv_send_link;
     @Bind(R.id.iv_login_me)
     RelativeLayout iv_keep_me;
     @Bind(R.id.iv_forgot)
     RelativeLayout iv_forgot;
+    @Bind(R.id.activity_reset_password)
+    RelativeLayout activity_reset_password;
     @Bind(R.id.activity_login_main)
     RelativeLayout activity_login;
     @Bind(R.id.rl_general)
@@ -111,6 +121,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
         presenter = new LoginPresenterImpl(LoginActivity.this, this);
 
+        setTouchLoginResetPassword();
         setTouchLogin();
         setTouchPassword();
 
@@ -159,6 +170,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void onBackPressed() {
         if (activity_login.getVisibility() == View.VISIBLE) {
             defaultVisibleLayout();
+        } else if (activity_reset_password.getVisibility() == View.VISIBLE) {
+            showLoginLayout();
         } else {
             super.onBackPressed();
         }
@@ -174,6 +187,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         et_login.setText("");
     }
 
+    @OnClick(R.id.iv_delete_login_reset_password)
+    public void deleteLoginTextResetPassword() {
+        et_login_reset_password.setText("");
+    }
+
     @OnClick(R.id.iv_delete_password)
     public void deletePasswordText() {
         et_password.setText("");
@@ -181,8 +199,21 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.iv_forgot)
     public void showForgot() {
+        showForgotLayout();
+    }
+
+    @OnClick(R.id.iv_login_me)
+    public void autoLogin() {
+        presenter.checkPassword(
+                et_password.getText().toString(),
+                et_login.getText().toString(),
+                true);
+    }
+
+    @OnClick(R.id.iv_send_link)
+    public void resetPassword() {
         if (checkInternetConnection()) {
-            String mMail = et_login.getText().toString();
+            String mMail = et_login_reset_password.getText().toString();
             if (mMail.isEmpty()) {
                 Toast.makeText(this, R.string.fill_email, Toast.LENGTH_SHORT).show();
             } else {
@@ -193,14 +224,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         } else {
             Toast.makeText(this, R.string.check_internet, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @OnClick(R.id.iv_login_me)
-    public void autoLogin() {
-        presenter.checkPassword(
-                et_password.getText().toString(),
-                et_login.getText().toString(),
-                true);
     }
 
 
@@ -235,6 +258,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         onBackPressed();
     }
 
+    @OnClick(R.id.iv_toolbar_back_press_double)
+    public void pressBackDouble() {
+        onBackPressed();
+    }
+
 //    ==========================================================
 //   END  on Clicks
 //    ==========================================================
@@ -262,7 +290,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                 String passwordText = et_password.getText().toString();
                 String emailText = et_login.getText().toString();
                 presenter.checkPassword(passwordText, emailText, false);
-                presenter.showDeletePassword();
+                if (mCharSequence.toString().length() > 0)
+                    presenter.showDeletePassword();
             }
 
             @Override
@@ -294,7 +323,39 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                 String passwordText = et_password.getText().toString();
                 String emailText = et_login.getText().toString();
                 presenter.checkPassword(passwordText, emailText, false);
-                presenter.showDeleteLogin();
+                if (mCharSequence.toString().length() > 0)
+                    presenter.showDeleteLogin();
+            }
+
+            @Override
+            public void afterTextChanged(Editable mEditable) {
+
+            }
+        });
+    }
+
+
+    private void setTouchLoginResetPassword() {
+        et_login_reset_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View mView, boolean mB) {
+                if (mB) {
+                    presenter.showDeleteLoginResetPassword();
+                } else {
+                    presenter.hideAllDeleteResetPassword();
+                }
+            }
+        });
+        et_login_reset_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
+                if (mCharSequence.toString().length() > 0)
+                    presenter.showDeleteLoginResetPassword();
             }
 
             @Override
@@ -335,6 +396,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
                         et_password.getText().toString(),
                         this, null);
             }
+        }
+    }
+
+    @Override
+    public void showDeleteImagesResetPass(boolean deleteLoginPassword) {
+        if (deleteLoginPassword) {
+            iv_delete_login_reset_password.setVisibility(View.VISIBLE);
+        } else {
+            iv_delete_login_reset_password.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -467,8 +537,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     private void defaultVisibleLayout() {
         imm.hideSoftInputFromWindow(et_login.getWindowToken(), 0);
 
-        activity_login.setVisibility(View.GONE);
-        rl_general.setVisibility(View.VISIBLE);
+        activity_reset_password.setVisibility(View.GONE);       // hide activity reset password
+        activity_login.setVisibility(View.GONE);                 // hide activity login
+        rl_general.setVisibility(View.VISIBLE);                  // show activity start
     }
 
     private void showLoginLayout() {
@@ -476,8 +547,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         et_login.setFocusableInTouchMode(true);
         et_login.requestFocus();
         et_login.setFocusable(true);
-        activity_login.setVisibility(View.VISIBLE);
-        rl_general.setVisibility(View.GONE);
+        activity_login.setVisibility(View.VISIBLE);      // show activity login
+        rl_general.setVisibility(View.GONE);         // hide activity start
+        activity_reset_password.setVisibility(View.GONE);        // hide activity reset password
+        iv_keep_me.setClickable(true);
+    }
+
+    private void showForgotLayout() {
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+        et_login_reset_password.setFocusableInTouchMode(true);
+        et_login_reset_password.requestFocus();
+        et_login_reset_password.setFocusable(true);
+        activity_reset_password.setVisibility(View.VISIBLE);             // show activity login
+        activity_login.setVisibility(View.GONE);             // hide activity reset password
+        rl_general.setVisibility(View.GONE);             // hide activity start
         iv_keep_me.setClickable(true);
     }
 

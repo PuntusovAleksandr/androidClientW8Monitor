@@ -18,6 +18,10 @@ public interface LoginPresenter {
 
     void showDeletePassword();
 
+    void showDeleteLoginResetPassword();
+
+    void hideAllDeleteResetPassword();
+
     void showDeleteLogin();
 
     void hideAllDelete();
