@@ -9,6 +9,12 @@
     <color name="colorWrongEmail">#9b208e</color>
     <color name="colorWrongEmail_light">#9b208e</color>
 
+    <color name="color_text_register">#b673f4</color>
+
+    <color name="color_reg_fb">#3a5997</color>
+
+    <color name="color_line">#51767676</color>
+
     <color name="colorHint">#47537f</color>
     <color name="colorHint_light">#b9b9ba</color>
 

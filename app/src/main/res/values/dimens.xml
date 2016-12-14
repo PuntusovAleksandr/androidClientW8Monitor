@@ -33,4 +33,7 @@
     <dimen name="_12sp">12sp</dimen>
     <dimen name="_11sp">11sp</dimen>
     <dimen name="_24dp">14dp</dimen>
+    <dimen name="_48dp">48dp</dimen>
+    <dimen name="_36dp">36dp</dimen>
+    <dimen name="_6dp">6dp</dimen>
 </resources>

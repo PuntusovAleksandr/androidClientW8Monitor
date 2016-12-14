@@ -42,7 +42,11 @@
         <item name="b_reset_app">@drawable/b_reset_dark</item>
         <item name="b_scale_app">@drawable/b_scale_dark</item>
         <item name="b_signup_app">@drawable/b_signup_dark</item>
+        <item name="b_sigin_small">@drawable/b_next_small_dark</item>
+        <item name="image_bg_signin">@drawable/image_bg_signin_dark</item>
+        <item name="start_b_signup">@drawable/start_b_signup_dark</item>
         <item name="b_skip_app">@drawable/b_skip_dark</item>
+        <item name="start_b_login__app">@drawable/start_b_login_dark</item>
         <item name="bubble_app">@drawable/bubble_dark</item>
         <item name="clock_app">@drawable/clock_dark</item>
         <item name="divider_imper_app">@drawable/divider_imper_dark</item>
@@ -60,6 +64,7 @@
         <item name="icon_password_app">@drawable/icon_password_dark</item>
         <item name="icon_reset_app">@drawable/icon_reset_dark</item>
         <item name="logo_app">@drawable/logo_dark</item>
+        <item name="logo_title_app">@drawable/big_logo_dark</item>
         <item name="profile_active_app">@drawable/profile_active_dark</item>
         <item name="profile_nonactive_app">@drawable/profile_nonactive_dark</item>
         <item name="scale_active_app">@drawable/scale_active_dark</item>
@@ -79,6 +84,8 @@
 
 
         <item name="color_keep">@color/color_light_text</item>
+        <item name="color_sign_in">@color/color_text_register</item>
+        <item name="color_fb">@android:color/white</item>
         <item name="color_dark_register_app">@color/color_dark_register</item>
         <item name="color_light_grey_app">@color/color_light_grey</item>
         <item name="colorHint_app">@color/colorHint</item>
@@ -166,7 +173,11 @@
         <item name="b_reset_app">@drawable/b_reset_light</item>
         <item name="b_scale_app">@drawable/b_scale_light</item>
         <item name="b_signup_app">@drawable/b_signup_light</item>
+        <item name="b_sigin_small">@drawable/b_next_small_light</item>
+        <item name="image_bg_signin">@drawable/image_bg_signin_light</item>
+        <item name="start_b_signup">@drawable/start_b_signup_light</item>
         <item name="b_skip_app">@drawable/b_skip_light</item>
+        <item name="start_b_login__app">@drawable/start_b_login_light</item>
         <item name="bubble_app">@drawable/bubble_light</item>
         <item name="clock_app">@drawable/clock_light</item>
         <item name="divider_imper_app">@drawable/divider_imper_light</item>
@@ -184,6 +195,7 @@
         <item name="icon_password_app">@drawable/icon_password_light</item>
         <item name="icon_reset_app">@drawable/icon_reset_light</item>
         <item name="logo_app">@drawable/logo_light</item>
+        <item name="logo_title_app">@drawable/big_logo_light</item>
         <item name="profile_active_app">@drawable/profile_active_light</item>
         <item name="profile_nonactive_app">@drawable/profile_nonactive_light</item>
         <item name="scale_active_app">@drawable/scale_active_light</item>
@@ -203,6 +215,8 @@
 
 
         <item name="color_keep">@color/color_light_text_light</item>
+        <item name="color_sign_in">@color/color_light_text_light</item>
+        <item name="color_fb">@color/color_reg_fb</item>
         <item name="color_dark_register_app">@color/color_light_register</item>
         <item name="color_light_grey_app">@color/color_light_grey</item>
         <item name="colorHint_app">@color/colorHint_light</item>
@@ -251,7 +265,11 @@
     <attr name="b_reset_app" format="reference"/>
     <attr name="b_scale_app" format="reference"/>
     <attr name="b_signup_app" format="reference"/>
+    <attr name="b_sigin_small" format="reference"/>
+    <attr name="image_bg_signin" format="reference"/>
+    <attr name="start_b_signup" format="reference"/>
     <attr name="b_skip_app" format="reference"/>
+    <attr name="start_b_login__app" format="reference"/>
     <attr name="bubble_app" format="reference"/>
     <attr name="clock_app" format="reference"/>
     <attr name="divider_imper_app" format="reference"/>
@@ -269,6 +287,7 @@
     <attr name="icon_password_app" format="reference"/>
     <attr name="icon_reset_app" format="reference"/>
     <attr name="logo_app" format="reference"/>
+    <attr name="logo_title_app" format="reference"/>
     <attr name="profile_active_app" format="reference"/>
     <attr name="profile_nonactive_app" format="reference"/>
     <attr name="scale_active_app" format="reference"/>
@@ -289,6 +308,8 @@
 
 
     <attr name="color_keep" format="reference"/>
+    <attr name="color_sign_in" format="reference"/>
+    <attr name="color_fb" format="reference"/>
     <attr name="color_dark_register_app" format="reference"/>
     <attr name="color_light_grey_app" format="reference"/>
     <attr name="colorHint_app" format="reference"/>
