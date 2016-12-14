@@ -45,7 +45,8 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
 
         <!-- //  NETA_DATA -->
         <meta-data
@@ -56,7 +57,8 @@
             android:name=".activity.ProfileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
             android:parentActivityName=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".activity.ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard"

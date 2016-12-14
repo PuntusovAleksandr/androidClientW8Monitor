@@ -1,5 +1,6 @@
 package com.w8.w8monitor.android.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,9 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
 import com.crashlytics.android.Crashlytics;
+import com.viewpagerindicator.CirclePageIndicator;
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
@@ -28,7 +31,6 @@ import com.w8.w8monitor.android.presents.profile.presenter.ProfilePresenterImpl;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
 import com.w8.w8monitor.android.utils.SetThemeDark;
 import com.w8.w8monitor.android.utils.SettingsApp;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -88,6 +90,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(ll_footer_bar.getWindowToken(), 0);
 
         INNER_MARKER = getIntent().getIntExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, 1);
         isConnected = getIntent().getBooleanExtra(KEI_CONNECTION, false);

@@ -59,19 +59,19 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     ImageView iv_delete_password_register;
     @Bind(R.id.iv_delete_repeat_password_register)
     ImageView iv_delete_repeat_password_register;
-    @Bind(R.id.iv_register_ok)
-    ImageView iv_register_ok;
-    @Bind(R.id.iv_logo_register)
-    ImageView iv_logo_register;
 
     @Bind(R.id.rl_progress_register)
     RelativeLayout rl_progress_register;
+    @Bind(R.id.iv_register_ok)
+    RelativeLayout iv_register_ok;
 
     public static final int REG_REG = 2;
 
     private RegisterFacebook mRegisterFacebook;
 
     private Intent serviceIntent;
+
+    private InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +99,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Override
     protected void onStart() {
         super.onStart();
+        et_email_register.requestFocus();
         et_email_register.setFocusable(true);
-        InputMethodManager imm = (InputMethodManager)
+        imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
 
@@ -116,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Override
     protected void onStop() {
         super.onStop();
-        InputMethodManager imm = (InputMethodManager)
+        imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et_email_register.getWindowToken(), 0);
 
@@ -133,13 +134,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                 presenter.onActivityResultFB(requestCode, resultCode, data, mRegisterFacebook);
             }
         }
-
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onBackPressed() {
+        imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(et_email_register.getWindowToken(), 0);
         presenter.getBackLoginActivity();
     }
 
@@ -150,12 +152,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBack() {
         onBackPressed();
-    }
-
-    @OnClick(R.id.ib_facebook_register)
-    public void clickRegisterFacebook() {
-        mRegisterFacebook = new RegisterFacebook(RegisterActivity.this, REG_REG);
-        mRegisterFacebook.register();
     }
 
     @OnClick(R.id.iv_register_ok)
@@ -352,7 +348,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                 resource = R.drawable.b_confirm_nonactive_light;
             }
         }
-        iv_register_ok.setImageResource(resource);
+//        iv_register_ok.setImageResource(resource);
     }
 
 

@@ -158,6 +158,8 @@
     <string name="log_in_upr">LOG IN</string>
     <string name="reset_password">Reset password</string>
     <string name="send_reset_link">SEND RESET LINK</string>
+    <string name="registration">Registration</string>
+    <string name="register_upr">REGISTER</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

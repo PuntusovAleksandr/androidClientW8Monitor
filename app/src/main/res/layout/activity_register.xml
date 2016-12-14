@@ -13,8 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/iv_register_ok"
-        android:layout_below="@+id/iv_logo_login"
         android:layout_centerInParent="true"
         android:layout_marginLeft="?attr/actionBarSize"
         android:layout_marginRight="?attr/actionBarSize"
@@ -43,7 +41,7 @@
 
                 <EditText
                     android:id="@+id/et_email_register"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/_4"
@@ -105,7 +103,7 @@
 
                 <EditText
                     android:id="@+id/et_password_register"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/_4"
@@ -166,7 +164,7 @@
 
                 <EditText
                     android:id="@+id/et_repeat_password"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/_4"
@@ -206,53 +204,69 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_register_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/rl_bottom_login"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/_25"
-        android:layout_marginTop="@dimen/_25"
-        android:clickable="false"
-        android:src="?attr/b_confirm_nonactive_app"/>
-
-
     <LinearLayout
-        android:id="@+id/rl_bottom_login"
+        android:id="@+id/ll_bt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="@dimen/_36"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+        android:layout_marginBottom="@dimen/_35dp"
+        android:layout_marginTop="@dimen/_8"
+        android:orientation="horizontal">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1"
+            android:layout_weight="5"/>
 
-        <ImageView
-            android:id="@+id/ib_facebook_register"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/iv_register_ok"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_16"
             android:layout_marginTop="@dimen/_16"
-            android:layout_weight="1"
-            android:src="?attr/b_facebook_app"/>
+            android:layout_weight="2.5"
+            android:background="?attr/image_bg_signin"
+            android:paddingBottom="@dimen/_8"
+            android:paddingLeft="@dimen/_1"
+            android:paddingRight="@dimen/_1"
+            android:paddingTop="@dimen/_8">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/_6dp"
+                android:layout_marginRight="@dimen/_24dp"
+                android:src="?attr/b_sigin_small"/>
+
+            <TextView
+                android:id="@+id/log_in_upr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/register_upr"
+                android:textColor="?attr/color_keep"
+                android:textSize="@dimen/_18sp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1"
+            android:layout_weight="5"/>
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_logo_register"
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:id="@+id/tv_title_login"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_36"
-        android:src="?attr/logo_app"/>
+        android:layout_marginBottom="@dimen/_16"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:gravity="center"
+        android:text="@string/registration"
+        android:textColor="?attr/color_keep"
+        android:textSize="@dimen/_20sp"/>
 
     <RelativeLayout
         android:id="@+id/rl_progress_register"
