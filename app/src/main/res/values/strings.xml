@@ -160,6 +160,8 @@
     <string name="send_reset_link">SEND RESET LINK</string>
     <string name="registration">Registration</string>
     <string name="register_upr">REGISTER</string>
+    <string name="email_new">Email</string>
+    <string name="password_new">Password</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

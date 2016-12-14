@@ -50,16 +50,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     EditText et_email_register;
     @Bind(R.id.et_password_register)
     EditText et_password_register;
-    @Bind(R.id.et_repeat_password)
-    EditText et_repeat_password;
 
     @Bind(R.id.iv_delete_email)
     ImageView iv_delete_email;
     @Bind(R.id.iv_delete_password_register)
     ImageView iv_delete_password_register;
-    @Bind(R.id.iv_delete_repeat_password_register)
-    ImageView iv_delete_repeat_password_register;
-
     @Bind(R.id.rl_progress_register)
     RelativeLayout rl_progress_register;
     @Bind(R.id.iv_register_ok)
@@ -85,11 +80,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
         et_email_register.setTypeface(getFontRobotoLight());
         et_password_register.setTypeface(getFontRobotoLight());
-        et_repeat_password.setTypeface(getFontRobotoLight());
 
         setTouchLogin();
         setTouchPassword();
-        setTouchRepeatPassword();
 
         serviceIntent = new Intent(this, ApiService.class);
 
@@ -157,9 +150,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @OnClick(R.id.iv_register_ok)
     public void clickRegisterOk() {
         String passwordText = et_password_register.getText().toString();
-        String repeatPasswordText = et_repeat_password.getText().toString();
         String emailText = et_email_register.getText().toString();
-        presenter.checkPassword(passwordText, emailText, repeatPasswordText, this);
+        presenter.checkPassword(passwordText, emailText, passwordText, this);
     }
 
     @OnClick(R.id.iv_delete_email)
@@ -172,45 +164,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         et_password_register.setText("");
     }
 
-    @OnClick(R.id.iv_delete_repeat_password_register)
-    public void clickDeleteReraetePass() {
-        et_repeat_password.setText("");
-    }
-
 //    ==========================================================
 //   END  on Clicks
 //    ==========================================================
-
-
-    private void setTouchRepeatPassword() {
-        et_repeat_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View mView, boolean mB) {
-                if (mB) {
-                    presenter.showDeleteRepeatPassword();
-                } else {
-                    presenter.hideAllDelete();
-                }
-            }
-        });
-
-        et_repeat_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence mCharSequence, int mI, int mI1, int mI2) {
-                checkDataRegister();
-            }
-
-            @Override
-            public void afterTextChanged(Editable mEditable) {
-
-            }
-        });
-    }
 
     private void setTouchPassword() {
         et_password_register.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -278,8 +234,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     private void checkDataRegister() {
         String emailText = et_email_register.getText().toString();
         String passwordText = et_password_register.getText().toString();
-        String repearPasswordText = et_repeat_password.getText().toString();
-        presenter.checkShowButton(passwordText, emailText, repearPasswordText, this);
+        presenter.checkShowButton(passwordText, emailText, passwordText, this);
     }
 
 
@@ -291,19 +246,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         if (email) {
             iv_delete_email.setVisibility(View.VISIBLE);
             iv_delete_password_register.setVisibility(View.INVISIBLE);
-            iv_delete_repeat_password_register.setVisibility(View.INVISIBLE);
         } else if (pass) {
             iv_delete_email.setVisibility(View.INVISIBLE);
             iv_delete_password_register.setVisibility(View.VISIBLE);
-            iv_delete_repeat_password_register.setVisibility(View.INVISIBLE);
         } else if (repeatPass) {
             iv_delete_email.setVisibility(View.INVISIBLE);
             iv_delete_password_register.setVisibility(View.INVISIBLE);
-            iv_delete_repeat_password_register.setVisibility(View.VISIBLE);
         } else {
             iv_delete_email.setVisibility(View.INVISIBLE);
             iv_delete_password_register.setVisibility(View.INVISIBLE);
-            iv_delete_repeat_password_register.setVisibility(View.INVISIBLE);
         }
     }
 
