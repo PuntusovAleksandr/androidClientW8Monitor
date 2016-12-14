@@ -1,5 +1,6 @@
 package com.w8.w8monitor.android.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -88,6 +90,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public static final int REG_LOGIN = 1;
     public static final int REQUEST_REGISTER = 11;
 
+    private InputMethodManager imm;
+
     private Intent serviceIntent;
 
     @Override
@@ -112,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
         serviceIntent = new Intent(this, ApiService.class);
 
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -153,12 +158,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     public void onBackPressed() {
         if (activity_login.getVisibility() == View.VISIBLE) {
-            activity_login.setVisibility(View.GONE);
-            rl_general.setVisibility(View.VISIBLE);
+            defaultVisibleLayout();
         } else {
             super.onBackPressed();
         }
     }
+
 
 //    ==========================================================
 //    on Clicks
@@ -221,9 +226,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.ll_log_in)
     public void loginBt() {
-        activity_login.setVisibility(View.VISIBLE);
-        rl_general.setVisibility(View.GONE);
-
+        showLoginLayout();
         tv_wrong_email.setVisibility(View.INVISIBLE);
     }
 
@@ -457,4 +460,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     private void hideProgress() {
         rl_login_register.setVisibility(View.GONE);
     }
+
+
+//    =================================================
+
+    private void defaultVisibleLayout() {
+        imm.hideSoftInputFromWindow(et_login.getWindowToken(), 0);
+
+        activity_login.setVisibility(View.GONE);
+        rl_general.setVisibility(View.VISIBLE);
+    }
+
+    private void showLoginLayout() {
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+        et_login.requestFocus();
+        et_login.setFocusable(true);
+        activity_login.setVisibility(View.VISIBLE);
+        rl_general.setVisibility(View.GONE);
+    }
+
 }
