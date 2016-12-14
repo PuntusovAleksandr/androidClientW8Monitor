@@ -473,10 +473,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     private void showLoginLayout() {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_FORCED);
+        et_login.setFocusableInTouchMode(true);
         et_login.requestFocus();
         et_login.setFocusable(true);
         activity_login.setVisibility(View.VISIBLE);
         rl_general.setVisibility(View.GONE);
+        iv_keep_me.setClickable(true);
     }
 
 }
