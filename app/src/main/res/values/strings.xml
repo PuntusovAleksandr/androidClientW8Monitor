@@ -148,26 +148,30 @@
     <string name="settings">Settings</string>
     <string name="cancel_">Cancel</string>
 
-    <!--<string-array name="select_weight_params">-->
-    <!--<item>Body Water</item>-->
-    <!--<item>Calories</item>-->
-    <!--<item>Weight</item>-->
-    <!--<item>Visceral Fat</item>-->
-    <!--<item>Muscle mass</item>-->
-    <!--<item>Bone mass</item>-->
-    <!--<item>Body Fat</item>-->
-
     <!--</string-array>-->
     <string-array name="select_weight_params">
-        <item>BODY WATER</item>
-        <item>CALORIES</item>
         <item>WEIGHT</item>
         <item>BMI</item>
+        <item>BODY FAT</item>
         <item>VISCERAL FAT</item>
         <item>MUSCLE MASS</item>
+        <item>BODY WATER</item>
+        <item>CALORIES</item>
         <item>BONE MASS</item>
-        <item>BODY FAT</item>
     </string-array>
+
+    <!--old list-->
+ <!--&lt;!&ndash;</string-array>&ndash;&gt;-->
+    <!--<string-array name="select_weight_params">-->
+        <!--<item>BODY WATER</item>-->
+        <!--<item>CALORIES</item>-->
+        <!--<item>WEIGHT</item>-->
+        <!--<item>BMI</item>-->
+        <!--<item>VISCERAL FAT</item>-->
+        <!--<item>MUSCLE MASS</item>-->
+        <!--<item>BONE MASS</item>-->
+        <!--<item>BODY FAT</item>-->
+    <!--</string-array>-->
 
     <string-array name="select_weight_params_context">
         <item>Body Water is the total amount of fluid in the body expressed as a percentage of total weight.</item>

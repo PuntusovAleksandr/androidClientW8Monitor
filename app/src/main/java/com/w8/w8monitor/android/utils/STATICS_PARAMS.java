@@ -49,15 +49,27 @@ public class STATICS_PARAMS {
     public static final int MIN_VALUE_PICKER = 1;
 
 
+
     // for check params value number picker weight
-    public static final int PICKER_WATER = 1;
-    public static final int PICKER_CALORIES = 2;
-    public static final int PICKER_WEIGHT = 3;
-    public static final int PICKER_BMI = 4;
-    public static final int PICKER_FAT_LEVEL = 5;
-    public static final int PICKER_MUSCLE_MASS = 6;
-    public static final int PICKER_BONE_MASS = 7;
-    public static final int PICKER_FAT = 8;
+    public static final int PICKER_WEIGHT = 1;
+    public static final int PICKER_BMI = 2;
+    public static final int PICKER_FAT = 3;
+    public static final int PICKER_FAT_LEVEL = 4;
+    public static final int PICKER_MUSCLE_MASS = 5;
+    public static final int PICKER_WATER = 6;
+    public static final int PICKER_CALORIES = 7;
+    public static final int PICKER_BONE_MASS = 8;
+
+////old list
+//    // for check params value number picker weight
+//    public static final int PICKER_WATER = 1;
+//    public static final int PICKER_CALORIES = 2;
+//    public static final int PICKER_WEIGHT = 3;
+//    public static final int PICKER_BMI = 4;
+//    public static final int PICKER_FAT_LEVEL = 5;
+//    public static final int PICKER_MUSCLE_MASS = 6;
+//    public static final int PICKER_BONE_MASS = 7;
+//    public static final int PICKER_FAT = 8;
 
     // for check params value number picker time
     public static final int PICKER_DAY = 1;

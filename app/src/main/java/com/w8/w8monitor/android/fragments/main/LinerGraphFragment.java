@@ -522,10 +522,10 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
     public void setValuePicker(boolean left) {
         int oldValue = mViewPager.getCurrentItem();
         if (left) {
-            if (oldValue + 1 > PICKER_WATER) {
+            if (oldValue + 1 > PICKER_WEIGHT) {
                 mViewPager.setCurrentItem(oldValue - 1);
             }
-        } else if (oldValue + 1 < PICKER_FAT) {
+        } else if (oldValue + 1 < PICKER_BONE_MASS) {
             mViewPager.setCurrentItem(oldValue + 1);
         } else return;
 
@@ -789,10 +789,10 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
     public void setValuePickerTOP(boolean left) {
         int oldValue = mViewPagerTop.getCurrentItem();
         if (left) {
-            if (oldValue + 1 > PICKER_WATER) {
+            if (oldValue + 1 > PICKER_DAY) {
                 mViewPagerTop.setCurrentItem(oldValue - 1);
             }
-        } else if (oldValue + 1 < PICKER_FAT_LEVEL) {
+        } else if (oldValue < PICKER_YEAR) {
             mViewPagerTop.setCurrentItem(oldValue + 1);
         } else return;
 
@@ -815,7 +815,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE &&
                         Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 
-                    if (value < PICKER_FAT) {
+                    if (value < PICKER_BONE_MASS) {
                         mViewPager.setCurrentItem(value);
                     } else {
                         return false;
@@ -824,7 +824,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                 } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE &&
                         Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 
-                    if (value > PICKER_WATER) {
+                    if (value > PICKER_WEIGHT) {
                         mViewPager.setCurrentItem(value - 2);
                     }
 //                    Toast.makeText(getActivity(), "Right right", Toast.LENGTH_SHORT).show();
@@ -854,7 +854,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE &&
                         Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 
-                    if (value < PICKER_FAT_LEVEL) {
+                    if (value < PICKER_YEAR) {
                         mViewPagerTop.setCurrentItem(value);
                     } else {
                         return false;
@@ -863,7 +863,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                 } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE &&
                         Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 
-                    if (value > PICKER_WATER) {
+                    if (value > PICKER_DAY) {
                         mViewPagerTop.setCurrentItem(value - 2);
                     }
 //                    Toast.makeText(getActivity(), "Right right", Toast.LENGTH_SHORT).show();
