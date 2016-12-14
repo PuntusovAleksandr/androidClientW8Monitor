@@ -94,6 +94,8 @@
 
     <string name="description_screen8"><![CDATA[
     W8 Weight scale adopts advanced BIA (Bioelectrical Impedance Analysis) technology. BIA measures body hydration and body fat percentage by sending a safe, low-level electrical signal through the body. This signal is analyzed by a W8 Weight application to determine the weight, body water, body fat, bone weight, visceral fat, basal metabolic rate. It is more precise than traditional calculations.
+    <p><b>BMI</b>
+    <br>Body mass index: A key index for relating weight to height. Abbreviated BMI. BMI is a person\'s weight in kilograms (kg) divided by his or her height in meters squared. The National Institutes of Health (NIH) now defines normal weight, overweight, and obesity according to BMI rather than the traditional height/weight charts. Overweight is a BMI of 27.3 or more for women and 27.8 or more for men. Obesity is a BMI of 30 or more for either sex (about 30 pounds overweight). A very muscular person might have a high BMI without health risks.</p>
     <p><b>Body Fat Percentage</b>
     <br>The body fat percentage (BFP) is the total mass of fat divided by total body mass; body fat includes essential body fat and storage body fat. Essential body fat is necessary to maintain life and reproductive functions.</p>
     <p><b>Body Water</b>
@@ -161,16 +163,16 @@
     </string-array>
 
     <!--old list-->
- <!--&lt;!&ndash;</string-array>&ndash;&gt;-->
+    <!--&lt;!&ndash;</string-array>&ndash;&gt;-->
     <!--<string-array name="select_weight_params">-->
-        <!--<item>BODY WATER</item>-->
-        <!--<item>CALORIES</item>-->
-        <!--<item>WEIGHT</item>-->
-        <!--<item>BMI</item>-->
-        <!--<item>VISCERAL FAT</item>-->
-        <!--<item>MUSCLE MASS</item>-->
-        <!--<item>BONE MASS</item>-->
-        <!--<item>BODY FAT</item>-->
+    <!--<item>BODY WATER</item>-->
+    <!--<item>CALORIES</item>-->
+    <!--<item>WEIGHT</item>-->
+    <!--<item>BMI</item>-->
+    <!--<item>VISCERAL FAT</item>-->
+    <!--<item>MUSCLE MASS</item>-->
+    <!--<item>BONE MASS</item>-->
+    <!--<item>BODY FAT</item>-->
     <!--</string-array>-->
 
     <string-array name="select_weight_params_context">
