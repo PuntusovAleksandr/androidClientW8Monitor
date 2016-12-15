@@ -130,6 +130,7 @@ public class ServiceGenerator {
                     SettingsApp.getInstance().setMetric(!user.is_imperial());
                     SettingsApp.getInstance().setLanguages(user.getLanguage());
                     SettingsApp.getInstance().setThemeDark(user.getTheme() == 1 ? true : false);
+                    SettingsApp.getInstance().setUserServer(true);
 
                     List<ProfileApi> profileApis = user.getProfileApis();
                     for (int i = 0; i < profileApis.size(); i++) {
@@ -204,6 +205,7 @@ public class ServiceGenerator {
                     }
                     SettingsApp.getInstance().setUserName(mMail);
                     SettingsApp.getInstance().setUserPassword(idSocialNetwork);
+                    SettingsApp.getInstance().setUserServer(true);
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.LOGIN_SOCIAL);

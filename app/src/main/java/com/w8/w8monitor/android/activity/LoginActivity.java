@@ -204,6 +204,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.iv_login_me)
     public void autoLogin() {
+        SettingsApp.getInstance().setUserServer(false);
         presenter.checkPassword(
                 et_password.getText().toString(),
                 et_login.getText().toString(),

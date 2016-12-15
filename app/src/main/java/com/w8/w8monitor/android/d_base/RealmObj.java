@@ -115,9 +115,13 @@ public class RealmObj {
                                      UpdateUiEvent mEvent) {
         UserLibr userByMail = getUserByMail(mLogin);
 
+        boolean userServer = SettingsApp.getInstance().isUserServer();
+        boolean fullProfile = userByMail == null ? userServer : userByMail.isFullProfile();
+
         final UserApi userApi = (UserApi) mEvent.getData();
         final UserApiData userApiData = userApi.getUser();
         final List<ProfileApi> profileApis = userApiData.getProfileApis();
+
 
         final UserLibr userLibr = new UserLibr();
         userLibr.setEmail(userApiData.getEmail());
@@ -131,7 +135,7 @@ public class RealmObj {
         userLibr.setTheme(userApiData.getTheme());
         userLibr.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
         userLibr.setLanguage(userApiData.getLanguage());
-        userLibr.setFullProfile(userByMail == null ? false : userByMail.isFullProfile());
+        userLibr.setFullProfile(fullProfile);
 
         RealmList<Profile> profiles = userLibr.getProfiles();
         if (profiles != null) {

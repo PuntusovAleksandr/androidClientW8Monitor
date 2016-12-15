@@ -62,6 +62,7 @@ public class SettingsApp {
     private static final String KEY_METRIC = "KEY_METRIC";
     private static final String KEY_PROFILE_BLE_ID = "KEY_PROFILE_BLE_ID";
     private static final String KEY_ICON_IN_HOME = "KEY_ICON_IN_HOME";
+    private static final String KEY_USER_SERVER = "KEY_USER_SERVER";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
@@ -291,5 +292,25 @@ public class SettingsApp {
     public boolean isIconInHome() {
         Log.d(TAG, "getProfileBLE");
         return sPref.getBoolean(KEY_ICON_IN_HOME, DEF_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * for added icon in main hom window device
+     *
+     * @param mS
+     */
+    public void setUserServer(boolean mS) {
+        Log.d(TAG, "setIconInHome " + mS);
+        editor.putBoolean(KEY_USER_SERVER, mS).commit();
+    }
+
+    /**
+     * for added icon in main hom window device
+     *
+     * @return
+     */
+    public boolean isUserServer() {
+        Log.d(TAG, "getProfileBLE");
+        return sPref.getBoolean(KEY_USER_SERVER, DEF_EMPTY_BOOLEAN);
     }
 }
