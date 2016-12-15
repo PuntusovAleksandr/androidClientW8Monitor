@@ -29,10 +29,10 @@
     <string name="connection_successful">Connection successful</string>
     <string name="device_not_support">Your device not support BLE!</string>
     <string name="yuo_did_not_enable_ble">You not enable BLE</string>
-    <string name="set_gender">Set gender</string>
+    <string name="set_gender">Set Gender</string>
     <string name="user_profile_scale">Select user profile to share scale with someone else</string>
-    <string name="set_height">Set height</string>
-    <string name="set_ago">Set age</string>
+    <string name="set_height">Set Height</string>
+    <string name="set_ago">Set Age</string>
     <string name="update">Update</string>
     <string name="select_device">Select device</string>
     <string name="do_you_want_delete_this_signal">Do you want delete this signal</string>
@@ -129,7 +129,7 @@
     <!--// CircleFragment-->
     <string name="please_stay_still">PLEASE STAY STILL ON THE SCALE</string>
     <string name="please_stale_firm_surface">PLACE WEIGHT SCALE ON A FIRM SURFACE</string>
-    <string name="change_password">Change password</string>
+    <string name="change_password">Change Password</string>
 
     <!--// Settings Fragment-->
     <string name="ordinary_amauter_pro">Ordinary / Amauter / Pro Activity Level</string>
