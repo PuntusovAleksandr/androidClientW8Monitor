@@ -85,19 +85,17 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_4"
                         android:layout_marginRight="@dimen/_4"
-                        android:layout_toLeftOf="@+id/iv_delete_login"
                         android:layout_toRightOf="@+id/iv_icon_user"
                         android:background="@android:color/transparent"
                         android:gravity="center"
                         android:hint="@string/email_new"
                         android:inputType="textEmailAddress"
-                        android:paddingLeft="@dimen/_36"
                         android:textColor="?attr/color_text_title_app"
                         android:textColorHint="?attr/colorHint_app"/>
 
                     <ImageView
                         android:id="@+id/iv_delete_login"
-                        android:layout_width="@dimen/_36"
+                        android:layout_width="@dimen/_0"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
@@ -147,19 +145,17 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_4"
                         android:layout_marginRight="@dimen/_4"
-                        android:layout_toLeftOf="@+id/iv_delete_password"
                         android:layout_toRightOf="@+id/iv_icon_password"
                         android:background="@android:color/transparent"
                         android:gravity="center"
                         android:hint="@string/password_new"
                         android:inputType="textPassword"
-                        android:paddingLeft="@dimen/_36"
                         android:textColor="?attr/color_text_title_app"
                         android:textColorHint="?attr/colorHint_app"/>
 
                     <ImageView
                         android:id="@+id/iv_delete_password"
-                        android:layout_width="@dimen/_36"
+                        android:layout_width="@dimen/_0"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
