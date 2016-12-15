@@ -47,6 +47,7 @@ import io.realm.RealmList;
 
 import static com.w8.w8monitor.android.utils.LoggerApp.logger;
 import static com.w8.w8monitor.android.utils.LoggerApp.saveAllLogs;
+import static com.w8.w8monitor.android.utils.PlaySound.playHeartBit;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TIME_CHECK_BLE;
 
@@ -493,10 +494,9 @@ public class BluetoothHandler {
                 try {
 //                    if (device.device.getName().toLowerCase().contains("scale")) {
                     if (device.device.getName().equalsIgnoreCase("Electronic Scale")) {
-//                        if (mConnected) {
-//                            Log.i(LOG, "mConnected - " + mConnected);
-//                            disConnect();
-//                        }
+                        // play sound heart bit
+                        playHeartBit();
+
                         connect(device.device.getAddress(), (MainActivity) mActivity);
                         scanLeDevice(false);
                     }

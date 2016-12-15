@@ -189,6 +189,7 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
         Integer hour = time_picker.getCurrentHour();
         if (hour > 12) {
             isAmPicker = false;
+            hour = hour - 12;
         }
         String hourString = String.valueOf(hour);
         if (hour < 10) {
@@ -218,7 +219,7 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
     public void setAlarmItem(RealmResults<AlarmModel> mAlarmItems) {
         this.countAlarms = mAlarmItems.size();
         this.mAlarmItems = mAlarmItems;
-        if (countAlarms < 1) {
+        if (countAlarms > 0) {
             tv_swipe.setText(R.string.swipe_up_to_remove_alarm);
         } else {
             tv_swipe.setText(R.string.set_notification);
@@ -351,15 +352,15 @@ public class AlarmActivity extends AppCompatActivity implements AlarmView,
             TextView textView = (TextView) mItem_.findViewById(R.id.tv_text_time);
             TextView am = (TextView) mItem_.findViewById(R.id.tv_am);
             String timeText = textView.getText().toString();
-            if (am.getAlpha() < 0.7f) {
-                String[] split = timeText.split(":");
-                int i = Integer.parseInt(split[0]) + 12;
-                StringBuilder builder = new StringBuilder();
-                builder.append(i)
-                        .append(":")
-                        .append(split[1]);
-                timeText = builder.toString();
-            }
+//            if (am.getAlpha() < 0.7f) {
+//                String[] split = timeText.split(":");
+//                int i = Integer.parseInt(split[0]) + 12;
+//                StringBuilder builder = new StringBuilder();
+//                builder.append(i)
+//                        .append(":")
+//                        .append(split[1]);
+//                timeText = builder.toString();
+//            }
 
             mPresenter.deleteAlarmFromDb(timeText, this);
         }
