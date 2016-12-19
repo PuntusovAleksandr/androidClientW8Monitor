@@ -206,7 +206,7 @@ public class RealmObj {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     state = profiles.get(i).getGender();
                     if (state == 0) {
-                        state = 1;
+                        state = -1;
                     }
                 }
             }
@@ -228,7 +228,7 @@ public class RealmObj {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     body = profiles.get(i).getActivity_type();
                     if (body == 0) {
-                        body = 2;
+                        body = -1;
                     }
                 }
             }
@@ -263,7 +263,7 @@ public class RealmObj {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     date = profiles.get(i).getAge() + "";
                     if (date.equals("0")) {
-                        date = "25";
+                        date = "30";
                     }
                 }
             }
@@ -285,7 +285,7 @@ public class RealmObj {
                 if (profiles.get(i).getNumber() == profileBLE) {
                     height = profiles.get(i).getHeight() + "";
                     if (height.equals("0")) {
-                        height = "170";
+                        height = "0";
                     }
                 }
             }
@@ -638,10 +638,10 @@ public class RealmObj {
                 Profile profile = new Profile();
                 profile.setId(i);
                 profile.setUser_id(userLibr.getId_server());
-                profile.setActivity_type(2);
-                profile.setHeight(170);
-                profile.setGender(1);
-                profile.setAge(25);
+                profile.setActivity_type(0);
+                profile.setHeight(0);
+                profile.setGender(0);
+                profile.setAge(30);
                 profile.setCreated_at(data);
                 profile.setUpdated_at(data);
                 profile.setNumber(i + 1);
@@ -969,6 +969,48 @@ public class RealmObj {
         mListener.isHeight(mHeight);
     }
 
+
+    public void saveTargetWeight(final String mDate, TargetWeightListener mListener) {
+        final String userName = SettingsApp.getInstance().getUserName();
+        final long time = new Date().getTime() / 1000;
+
+        int id_profile = 0;
+        UserLibr userByMail = getUserByMail(SettingsApp.getInstance().getUserName());
+        RealmList<Profile> profiles = userByMail.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            Profile profile = profiles.get(i);
+            if (profile.is_current() &&
+                    profile.getNumber() == SettingsApp.getInstance().getProfileBLE()) {
+                id_profile = profile.getId();
+            }
+        }
+
+        final int finalId_profile = id_profile;
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                ParamsBody paramsBody = new ParamsBody();
+                paramsBody.setUserName_id(userName);
+                paramsBody.setDate_time(time);
+                paramsBody.setWeight(Float.parseFloat(mDate));
+                paramsBody.setBody(0);
+                paramsBody.setFat(0);
+                paramsBody.setMuscle(0);
+                paramsBody.setWater(0);
+                paramsBody.setVisceralFat(0);
+                paramsBody.setEmr(0);
+                paramsBody.setBodyAge(0);
+                paramsBody.setBmi(0);
+                paramsBody.setProfile_id(finalId_profile);
+                paramsBody.setSynced(false);
+                paramsBody.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
+
+                bgRealm.copyToRealmOrUpdate(paramsBody);
+            }
+        });
+        mListener.isTargetWeight(mDate);
+    }
+
     public void deleteAlarmFromDn(final String mTimeText, final AlarmView mAlarmView) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -1165,6 +1207,10 @@ public class RealmObj {
 
     public interface HeightListener {
         void isHeight(String height);
+    }
+
+    public interface TargetWeightListener {
+        void isTargetWeight(String height);
     }
 
     public interface ProfileFirstStartBLeListener {

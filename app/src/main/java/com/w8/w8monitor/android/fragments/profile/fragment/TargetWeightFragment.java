@@ -1,6 +1,5 @@
 package com.w8.w8monitor.android.fragments.profile.fragment;
 
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shawnlin.numberpicker.NumberPicker;
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ProfileActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
@@ -17,20 +17,23 @@ import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.d_base.RealmObj;
 import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
-import com.shawnlin.numberpicker.NumberPicker;
+import com.w8.w8monitor.android.utils.SettingsApp;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
+import static com.w8.w8monitor.android.fragments.profile.fragment.StateFragment.MAN;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Created by AleksandrP on 19.12.2016.
  */
-public class BirthdayFragment extends Fragment implements RealmObj.BirthDayListener {
+
+public class TargetWeightFragment extends Fragment implements
+        RealmObj.TargetWeightListener {
+
 
     private ProfileActivity mActivity;
 
@@ -45,12 +48,6 @@ public class BirthdayFragment extends Fragment implements RealmObj.BirthDayListe
     @Bind(R.id.iv_toolbar_next_press)
     ImageView iv_toolbar_next_press;
 
-//    @Bind(R.id.np_day)
-//    public NumberPicker npDay;
-//    @Bind(R.id.np_month)
-//    public NumberPicker npMonth;
-//    @Bind(R.id.np_year)
-//    public NumberPicker npYear;
 
     @Bind(R.id.years_pld)
     public NumberPicker years_pld;
@@ -59,13 +56,14 @@ public class BirthdayFragment extends Fragment implements RealmObj.BirthDayListe
     @Bind(R.id.tv_title_fragment)
     TextView tv_title_fragment;
 
+    private boolean metric;
     private RegisterUser mRegisterUser;
 
-    public BirthdayFragment() {
+    public TargetWeightFragment() {
     }
 
     @SuppressLint("ValidFragment")
-    public BirthdayFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom, boolean mFromSettings, RegisterUser mRegisterUser) {
+    public TargetWeightFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom, boolean mFromSettings, RegisterUser mRegisterUser) {
         this.mProfileView = mProfileView;
         this.mPresenter = mPresenter;
         this.markerFrom = markerFrom;
@@ -81,10 +79,12 @@ public class BirthdayFragment extends Fragment implements RealmObj.BirthDayListe
         ButterKnife.bind(this, view);
         mActivity = (ProfileActivity) getActivity();
 
+        metric = SettingsApp.getInstance().getMetric();
 
-        setDate();
+        setDefoultViews();
+        setDataPicker();
 
-        tv_title_fragment.setText(R.string.set_ago);
+        tv_title_fragment.setText(R.string.target_weight);
         tv_title_fragment.setTypeface(getFontRobotoLight());
 
         // hide button back
@@ -94,19 +94,56 @@ public class BirthdayFragment extends Fragment implements RealmObj.BirthDayListe
         return view;
     }
 
-    private void setDate() {
-        mPresenter.setDateBirthDay(this);
+
+    private void setDataPicker() {
+        int weightUser = 0;
+        try {
+            weightUser = mRegisterUser.getTargetWeight();
+            if (weightUser == 0) {
+                weightUser = Integer.parseInt(null);
+            }
+            if (metric)
+                weightUser = (int) (weightUser * 0.453592f);
+        } catch (Exception mE) {
+            mE.printStackTrace();
+
+
+//        if () // TODO: 19.12.2016  UFLJ СОЗДАТЬ ПОЛУЧЕНИЕ ОТ ЮЗЕРА С ФБ
+            if (metric) {
+                if (mRegisterUser.getGender() == MAN) {
+                    weightUser = 82;
+                } else {
+                    weightUser = 54;
+                }
+            } else {
+                if (mRegisterUser.getGender() == MAN) {
+                    weightUser = 180;
+                } else {
+                    weightUser = 120;
+                }
+            }
+        }
+        years_pld.setValue(weightUser);
+    }
+
+    private void setDefoultViews() {
+        if (metric) {
+            years_pld.setMaxValue(250);
+        } else {
+            years_pld.setMaxValue(400);
+        }
     }
 
 
     @Override
     public void onStop() {
-        mRegisterUser.setAge(years_pld.getValue());
-        mPresenter.saveDateBirthDay(
-                String.valueOf(years_pld.getValue()),
-//                npDay.getValue() + "/" +
-//                        npMonth.getValue() + "/" +
-//                        npYear.getValue(),
+        int weight = years_pld.getValue();
+        if (metric) {
+            weight = (int) (years_pld.getValue() / 0.453592f);
+        }
+        mRegisterUser.setTargetWeight(weight);
+        mPresenter.saveTargetWeight(
+                String.valueOf(weight),
                 this);
         super.onStop();
     }
@@ -116,7 +153,7 @@ public class BirthdayFragment extends Fragment implements RealmObj.BirthDayListe
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, false, mRegisterUser);
+            mActivity.setEnterProfileDataFragment(FragmentMapker.GOOGLE_FIT, false, mRegisterUser);
     }
 
 
@@ -125,30 +162,14 @@ public class BirthdayFragment extends Fragment implements RealmObj.BirthDayListe
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.TYPE_BODY, false, mRegisterUser);
+            mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, false, mRegisterUser);
     }
 
-
-    //    =============================================
-//             answer from BirthDayListener
-//    =============================================
+    //=============================================
+//        from TargetWeightListener
+//=============================================
     @Override
-    public void isBirthDay(String date) {
-//        int day = 1, month = 1, year = 2000;
-//        if (!date.isEmpty()) {
-//            String[] strings = date.split("/");
-//            day = Integer.parseInt(strings[0]);
-//            month = Integer.parseInt(strings[1]);
-//            year = Integer.parseInt(strings[2]);
-//        }
-//        npDay.setValue(day);
-//        npMonth.setValue(month);
-//        npYear.setValue(year);
+    public void isTargetWeight(String date) {
         years_pld.setValue(Integer.parseInt(date));
-
     }
-
-//    =============================================
-//     END        answer from BirthDayListener
-//    =============================================
 }

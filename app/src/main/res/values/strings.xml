@@ -162,6 +162,7 @@
     <string name="register_upr">REGISTER</string>
     <string name="email_new">Email</string>
     <string name="password_new">Password</string>
+    <string name="target_weight">Target Weight</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

@@ -18,15 +18,18 @@ import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.adapter.CirclePagerAdapter;
+import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.fragments.profile.fragment.BLEFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.BLEFragmentView;
 import com.w8.w8monitor.android.fragments.profile.fragment.BirthdayFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.BodyFragment;
+import com.w8.w8monitor.android.fragments.profile.fragment.GoogleFitFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.GrowthFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.SettingsFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.SettingsFragmentView;
 import com.w8.w8monitor.android.fragments.profile.fragment.StateFragment;
+import com.w8.w8monitor.android.fragments.profile.fragment.TargetWeightFragment;
 import com.w8.w8monitor.android.presents.profile.presenter.ProfilePresenterImpl;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
 import com.w8.w8monitor.android.utils.SetThemeDark;
@@ -41,9 +44,13 @@ import static com.w8.w8monitor.android.fragments.FragmentMapker.BODY_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.CONNECT_BLE;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.CONNECT_BLE_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.DATA_BIRTHDAY;
+import static com.w8.w8monitor.android.fragments.FragmentMapker.GOOGLE_FIT;
+import static com.w8.w8monitor.android.fragments.FragmentMapker.GOOGLE_FIT_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.GROWTH_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.SELECT_STATE;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.STATE_FRAGMENT;
+import static com.w8.w8monitor.android.fragments.FragmentMapker.TARGET_WEIGHT;
+import static com.w8.w8monitor.android.fragments.FragmentMapker.TARGET_WEIGHT_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.TYPE_BODY;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.USER_GROWTH;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.COUNT_PAGES_PROFILE_DEFOULT;
@@ -59,6 +66,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     private BirthdayFragment mBirthdayFragment;
     private GrowthFragment mGrowthFragment;
     private BLEFragment mBLEFragment;
+    private TargetWeightFragment mTargetWeightFragment;
+    private GoogleFitFragment mGoogleFitFragment;
 
     private FragmentManager mFragmentManager;
 
@@ -72,6 +81,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     public static final int MARKER_MAIN = 3;
 
     private boolean isConnected = false;
+
+    private RegisterUser mRegisterUser;
 
     @Bind(R.id.walk_through_view_pager)
     ViewPager mViewPager;
@@ -90,6 +101,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+
+        mRegisterUser = new RegisterUser();
 
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -142,7 +155,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         switch (INNER_MARKER) {
             case MARKER_LOGIN:
             case MARKER_REGISTER:
-                setEnterProfileDataFragment(SELECT_STATE, false);
+                setEnterProfileDataFragment(SELECT_STATE, false, mRegisterUser);
                 break;
 
             case MARKER_MAIN:
@@ -169,7 +182,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         }
     }
 
-    public void setEnterProfileDataFragment(int mLastSettingsFragment, boolean mFromSettings) {
+    public void setEnterProfileDataFragment(int mLastSettingsFragment, boolean mFromSettings,
+                                            RegisterUser mRegisterUser) {
         String tagFragment = "";
         Fragment fragment = null;
         ll_footer_bar.setVisibility(View.VISIBLE);
@@ -179,7 +193,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 mStateFragment = (StateFragment) getSupportFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mStateFragment == null) {
-                    mStateFragment = new StateFragment(this, mPresenter, INNER_MARKER, mFromSettings);
+                    mStateFragment = new StateFragment(
+                            this, mPresenter, INNER_MARKER, mFromSettings, mRegisterUser);
                 }
                 fragment = mStateFragment;
                 circlePageIndicator.setViewPager(mViewPager, SELECT_STATE - 1);
@@ -190,7 +205,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 mBodyFragment = (BodyFragment) getSupportFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mBodyFragment == null) {
-                    mBodyFragment = new BodyFragment(this, mPresenter, INNER_MARKER, mFromSettings);
+                    mBodyFragment = new BodyFragment(
+                            this, mPresenter, INNER_MARKER, mFromSettings, mRegisterUser);
                 }
                 fragment = mBodyFragment;
                 circlePageIndicator.setViewPager(mViewPager, TYPE_BODY - 1);
@@ -201,7 +217,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 mBirthdayFragment = (BirthdayFragment) getSupportFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mBirthdayFragment == null) {
-                    mBirthdayFragment = new BirthdayFragment(this, mPresenter, INNER_MARKER, mFromSettings);
+                    mBirthdayFragment = new BirthdayFragment(
+                            this, mPresenter, INNER_MARKER, mFromSettings, mRegisterUser);
                 }
                 fragment = mBirthdayFragment;
                 circlePageIndicator.setViewPager(mViewPager, DATA_BIRTHDAY - 1);
@@ -212,7 +229,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 mGrowthFragment = (GrowthFragment) getSupportFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mGrowthFragment == null) {
-                    mGrowthFragment = new GrowthFragment(this, mPresenter, INNER_MARKER, mFromSettings);
+                    mGrowthFragment = new GrowthFragment(
+                            this, mPresenter, INNER_MARKER, mFromSettings, mRegisterUser);
                 }
                 fragment = mGrowthFragment;
                 circlePageIndicator.setViewPager(mViewPager, USER_GROWTH - 1);
@@ -227,6 +245,30 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 }
                 fragment = mBLEFragment;
                 circlePageIndicator.setViewPager(mViewPager, CONNECT_BLE - 1);
+                break;
+
+
+            case TARGET_WEIGHT:
+                tagFragment = TARGET_WEIGHT_FRAGMENT;
+                mTargetWeightFragment = (TargetWeightFragment) getSupportFragmentManager()
+                        .findFragmentByTag(tagFragment);
+                if (mTargetWeightFragment == null) {
+                    mTargetWeightFragment = new TargetWeightFragment(
+                            this, mPresenter, INNER_MARKER, mFromSettings, mRegisterUser);
+                }
+                fragment = mTargetWeightFragment;
+                circlePageIndicator.setViewPager(mViewPager, TARGET_WEIGHT - 2);
+                break;
+
+            case GOOGLE_FIT:
+                tagFragment = GOOGLE_FIT_FRAGMENT;
+                mGoogleFitFragment = (GoogleFitFragment) getSupportFragmentManager()
+                        .findFragmentByTag(tagFragment);
+                if (mGoogleFitFragment == null) {
+                    mGoogleFitFragment = new GoogleFitFragment(this, mPresenter, INNER_MARKER, mFromSettings);
+                }
+                fragment = mGoogleFitFragment;
+                circlePageIndicator.setViewPager(mViewPager, GOOGLE_FIT - 2);
                 break;
 
         }

@@ -78,6 +78,11 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     }
 
     @Override
+    public void saveTargetWeight(String mDate, RealmObj.TargetWeightListener mListener) {
+        RealmObj.getInstance().saveTargetWeight(mDate, mListener);
+    }
+
+    @Override
     public void setHeight(RealmObj.HeightListener mListener) {
         RealmObj.getInstance().getHeight(mListener);
     }

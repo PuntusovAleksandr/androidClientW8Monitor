@@ -1,6 +1,7 @@
 package com.w8.w8monitor.android.fragments.profile.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,8 +20,8 @@ import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.api.event.UpdateUiEvent;
 import com.w8.w8monitor.android.api.service.ApiService;
 import com.w8.w8monitor.android.d_base.RealmObj;
+import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
-import com.w8.w8monitor.android.utils.STATICS_PARAMS;
 import com.w8.w8monitor.android.utils.SettingsApp;
 import com.shawnlin.numberpicker.NumberPicker;
 
@@ -32,10 +33,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
-import static com.w8.w8monitor.android.api.constant.ApiConstants.PROFILE;
+import static com.w8.w8monitor.android.fragments.profile.fragment.StateFragment.MAN;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
-import static com.w8.w8monitor.android.utils.InternetUtils.checkInternetConnection;
-import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 
 
 /**
@@ -75,17 +74,20 @@ public class GrowthFragment extends Fragment implements
     private float FOOT_IN_CM = 30.48f;
     private float INCH_IN_CM = 2.54f;
 
+    private RegisterUser mRegisterUser;
 
     private Intent serviceIntent;
 
     public GrowthFragment() {
     }
 
-    public GrowthFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom, boolean mFromSettings) {
+    @SuppressLint("ValidFragment")
+    public GrowthFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom, boolean mFromSettings, RegisterUser mRegisterUser) {
         this.mProfileView = mProfileView;
         this.mPresenter = mPresenter;
         this.markerFrom = markerFrom;
         this.mFromSettings = mFromSettings;
+        this.mRegisterUser = mRegisterUser == null ? new RegisterUser() : mRegisterUser;
     }
 
     @Override
@@ -149,11 +151,13 @@ public class GrowthFragment extends Fragment implements
     private void saveData() {
         String height = "";
         if (SettingsApp.getInstance().getMetric()) {
+            mRegisterUser.setHeight(npHeightMetric.getValue());
             height = String.valueOf(npHeightMetric.getValue());
         } else {
             float value = (float) npHeightFoot.getValue() * FOOT_IN_CM +
                     (float) npHeightInch.getValue() * INCH_IN_CM;
             height = String.valueOf(value);
+            mRegisterUser.setHeight((int) value);
         }
         mPresenter.saveHeight(height, this);
     }
@@ -173,13 +177,19 @@ public class GrowthFragment extends Fragment implements
 
     @OnClick(R.id.iv_toolbar_next_press)
     public void clickNextFragment() {
-        if (checkInternetConnection() &&
-                !SettingsApp.getInstance().getUserName().equalsIgnoreCase(STATICS_PARAMS.TEST_USER)) {
-            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, PROFILE);
-            getActivity().startService(serviceIntent);
+        if (mFromSettings) {
+            mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else {
-            goToNext();
+            mActivity.setEnterProfileDataFragment(FragmentMapker.TARGET_WEIGHT, false, mRegisterUser);
         }
+
+//        if (checkInternetConnection() &&
+//                !SettingsApp.getInstance().getUserName().equalsIgnoreCase(STATICS_PARAMS.TEST_USER)) {
+//            serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, PROFILE);
+//            getActivity().startService(serviceIntent);
+//        } else {
+//            goToNext();
+//        }
     }
 
     private void goToNext() {
@@ -194,7 +204,7 @@ public class GrowthFragment extends Fragment implements
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, false);
+            mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, false, mRegisterUser);
     }
 
 
@@ -205,6 +215,15 @@ public class GrowthFragment extends Fragment implements
     @Override
     public void isHeight(String mHeight) {
         float height = 170;
+        if (mHeight.equalsIgnoreCase("0")) {
+            mHeight = "162";
+            height = 162;
+            if (mRegisterUser.getGender() == MAN) {
+                mHeight = "178";
+                height = 178;
+            }
+        }
+
         if (!mHeight.isEmpty()) {
             height = Float.parseFloat(mHeight);
         }

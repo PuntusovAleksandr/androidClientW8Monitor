@@ -1,6 +1,7 @@
 package com.w8.w8monitor.android.fragments.profile.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -91,6 +92,7 @@ public class SettingsFragment extends Fragment implements
     public SettingsFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public SettingsFragment(ProfileActivity mActivity, ProfileView mProfileView, ProfilePresenter mPresenter,
                             int markerFrom, int mFromMain) {
         this.mProfileView = mProfileView;
@@ -191,7 +193,7 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_heigh_dark)
     public void clickHigh() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, true);
+        mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, true, null);
     }
 
     @OnClick(R.id.iv_b_bodytype_2_dark)
@@ -237,7 +239,7 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_dob_dark)
     public void clickDOB() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, true);
+        mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, true, null);
     }
 
     @OnClick(R.id.iv_b_metric2_dark)
@@ -309,7 +311,7 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_scale_dark)
     public void clickBScale() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.CONNECT_BLE, true);
+        mActivity.setEnterProfileDataFragment(FragmentMapker.CONNECT_BLE, true, null);
     }
 
     @OnClick(R.id.iv_b_help_dark)

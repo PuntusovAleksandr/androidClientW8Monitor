@@ -1,5 +1,6 @@
 package com.w8.w8monitor.android.fragments.profile.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ProfileActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.d_base.RealmObj;
+import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.utils.SettingsApp;
 import com.w8.w8monitor.android.utils.ShowImages;
@@ -55,15 +58,19 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
     @Bind(R.id.tv_title_fragment)
     TextView tv_title_fragment;
 
+    private RegisterUser mRegisterUser;
+
     public BodyFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public BodyFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom,
-                        boolean mFromSettings) {
+                        boolean mFromSettings, RegisterUser mRegisterUser) {
         this.mProfileView = mProfileView;
         this.mPresenter = mPresenter;
         this.markerFrom = markerFrom;
         this.mFromSettings = mFromSettings;
+        this.mRegisterUser = mRegisterUser == null ? new RegisterUser() : mRegisterUser;
     }
 
     @Override
@@ -88,11 +95,15 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
 
     @OnClick(R.id.iv_toolbar_next_press)
     public void clickNextFragment() {
-        saveLastBody();
-        if (mFromSettings) {
-            mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
-        } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, false);
+        if (body != -1) {
+            saveLastBody();
+            if (mFromSettings) {
+                mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
+            } else
+                mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, false, mRegisterUser);
+        } else {
+            Toast.makeText(mActivity, "Please, select Activity Level", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -102,7 +113,7 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.SELECT_STATE, false);
+            mActivity.setEnterProfileDataFragment(FragmentMapker.SELECT_STATE, false, mRegisterUser);
     }
 
     @OnClick(R.id.iv_type1)
@@ -123,6 +134,7 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
 
 
     private void setBody(int mBodyType) {
+        mRegisterUser.setActivityLevel(mBodyType);
         mPresenter.setBody(mBodyType, this);
     }
 
@@ -180,10 +192,9 @@ public class BodyFragment extends Fragment implements RealmObj.BodyListener {
 //    ==========================================================
 
     private void saveLastBody() {
-        if (body == -1) {
-            body = 2;
+        if (body != -1) {
+            setBody(body);
         }
-        setBody(body);
     }
 
     private void showPicture(int mResIcon1, int mResIcon2, int mResIcon3) {

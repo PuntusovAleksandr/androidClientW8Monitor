@@ -29,6 +29,8 @@ public interface ProfilePresenter {
 
     void saveDateBirthDay(String mDate, RealmObj.BirthDayListener mListener);
 
+    void saveTargetWeight(String mDate, RealmObj.TargetWeightListener mListener);
+
     void setHeight(RealmObj.HeightListener mListener);
 
     void saveHeight(String mHeight, RealmObj.HeightListener mListener);

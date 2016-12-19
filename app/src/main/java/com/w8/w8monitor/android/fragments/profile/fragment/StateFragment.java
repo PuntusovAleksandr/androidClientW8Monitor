@@ -1,6 +1,7 @@
 package com.w8.w8monitor.android.fragments.profile.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ProfileActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.d_base.RealmObj;
+import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.utils.SettingsApp;
 import com.w8.w8monitor.android.utils.ShowImages;
@@ -56,15 +59,20 @@ public class StateFragment extends Fragment implements RealmObj.StateListener {
     @Bind(R.id.tv_title_fragment)
     TextView tv_title_fragment;
 
+
+    private RegisterUser mRegisterUser;
+
     public StateFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public StateFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom,
-                         boolean mFromSettings) {
+                         boolean mFromSettings, RegisterUser mRegisterUser) {
         this.mProfileView = mProfileView;
         this.mPresenter = mPresenter;
         this.markerFrom = markerFrom;
         this.mFromSettings = mFromSettings;
+        this.mRegisterUser = mRegisterUser == null ? new RegisterUser() : mRegisterUser;
     }
 
     @Override
@@ -74,7 +82,6 @@ public class StateFragment extends Fragment implements RealmObj.StateListener {
         View view = inflater.inflate(R.layout.fragment_state, container, false);
         ButterKnife.bind(this, view);
         mActivity = (ProfileActivity) getActivity();
-
         mPresenter.getStateUser(this);
 
         tv_title_fragment.setText(R.string.set_gender);
@@ -89,6 +96,7 @@ public class StateFragment extends Fragment implements RealmObj.StateListener {
 
 
     private void saveDbMan(int mB) {
+        mRegisterUser.setGender(mB);
         mPresenter.saveStateUser(mB, this);
     }
 
@@ -104,11 +112,15 @@ public class StateFragment extends Fragment implements RealmObj.StateListener {
 
     @OnClick(R.id.iv_toolbar_next_press)
     public void clickNextFragment() {
-        saveDbMan(state);
-        if (mFromSettings) {
-            mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
-        } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.TYPE_BODY, false);
+        if (state != -1) {
+            saveDbMan(state);
+            if (mFromSettings) {
+                mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
+            } else
+                mActivity.setEnterProfileDataFragment(FragmentMapker.TYPE_BODY, false, mRegisterUser);
+        } else {
+            Toast.makeText(mActivity, "Please, select Gender", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

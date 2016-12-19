@@ -1,6 +1,7 @@
 package com.w8.w8monitor.android.fragments.profile.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -76,6 +77,7 @@ public class BLEFragment extends Fragment implements
     public BLEFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public BLEFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom, boolean mFromSettings) {
         this.mProfileView = mProfileView;
         this.mPresenter = mPresenter;
@@ -171,7 +173,7 @@ public class BLEFragment extends Fragment implements
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, false);
+            mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, false, null);
     }
 
     @OnClick(R.id.profile_ble1)
