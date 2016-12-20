@@ -126,8 +126,10 @@ public class TargetWeightFragment extends Fragment {
 
     private void setDefoultViews() {
         if (metric) {
-            years_pld.setMaxValue(250);
+            years_pld.setMinValue(5);
+            years_pld.setMaxValue(180);
         } else {
+            years_pld.setMinValue(11);
             years_pld.setMaxValue(400);
         }
     }
