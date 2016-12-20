@@ -78,8 +78,8 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     }
 
     @Override
-    public void saveTargetWeight(String mDate, RealmObj.TargetWeightListener mListener) {
-        RealmObj.getInstance().saveTargetWeight(mDate, mListener);
+    public void saveWeight(String mDate, RealmObj.ProfileFirstStartGoogleFit mListener) {
+        RealmObj.getInstance().saveWeight(mDate, mListener);
     }
 
     @Override
@@ -99,6 +99,11 @@ public class ProfilePresenterImpl implements ProfilePresenter {
 
     @Override
     public void setFullSettings(RealmObj.ProfileFirstStartBLeListener mBLeListener) {
+        RealmObj.getInstance().setFullFirsStartSettings(mBLeListener);
+    }
+
+    @Override
+    public void setFullSettings(RealmObj.ProfileFirstStartGoogleFit mBLeListener) {
         RealmObj.getInstance().setFullFirsStartSettings(mBLeListener);
     }
 

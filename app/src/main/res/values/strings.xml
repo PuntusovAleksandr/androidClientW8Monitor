@@ -163,6 +163,9 @@
     <string name="email_new">Email</string>
     <string name="password_new">Password</string>
     <string name="target_weight">Target Weight</string>
+    <string name="text_google_fit">Do you want to import your weight data from Google Fit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

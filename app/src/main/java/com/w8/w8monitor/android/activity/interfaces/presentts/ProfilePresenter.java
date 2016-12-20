@@ -29,7 +29,7 @@ public interface ProfilePresenter {
 
     void saveDateBirthDay(String mDate, RealmObj.BirthDayListener mListener);
 
-    void saveTargetWeight(String mDate, RealmObj.TargetWeightListener mListener);
+    void saveWeight(String mDate, RealmObj.ProfileFirstStartGoogleFit mGoogleFitFragment);
 
     void setHeight(RealmObj.HeightListener mListener);
 
@@ -38,6 +38,8 @@ public interface ProfilePresenter {
     void setFullSettings(RealmObj.ProfileBLeListener mBLeListener);
 
     void setFullSettings(RealmObj.ProfileFirstStartBLeListener mBLeListener);
+
+    void setFullSettings(RealmObj.ProfileFirstStartGoogleFit mBLeListener);
 
     void getUserForSettings(RealmObj.GetUserForSettings mGetUserForSettings);
 

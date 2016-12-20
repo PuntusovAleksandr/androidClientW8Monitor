@@ -63,6 +63,9 @@ public class SettingsApp {
     private static final String KEY_PROFILE_BLE_ID = "KEY_PROFILE_BLE_ID";
     private static final String KEY_ICON_IN_HOME = "KEY_ICON_IN_HOME";
     private static final String KEY_USER_SERVER = "KEY_USER_SERVER";
+    private static final String KEY_SHOW_WEIGHT_GOOGLE_FIT = "KEY_SHOW_WEIGHT_GOOGLE_FIT";
+    private static final String KEY_SAVE_WEIGHT = "KEY_SAVE_WEIGHT";
+    private static final String KEY_TARGET_WEIGHT = "KEY_TARGET_WEIGHT";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
@@ -312,5 +315,65 @@ public class SettingsApp {
     public boolean isUserServer() {
         Log.d(TAG, "getProfileBLE");
         return sPref.getBoolean(KEY_USER_SERVER, DEF_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * for show and synchronization weight from google fit
+     *
+     * @param mS
+     */
+    public void setShowWeight(boolean mS) {
+        Log.d(TAG, "setShowWeight " + mS);
+        editor.putBoolean(KEY_SHOW_WEIGHT_GOOGLE_FIT, mS).commit();
+    }
+
+    /**
+     * for show and synchronization weight from google fit
+     *
+     * @return
+     */
+    public boolean isShowWeight() {
+        Log.d(TAG, "isShowWeight");
+        return sPref.getBoolean(KEY_SHOW_WEIGHT_GOOGLE_FIT, DEF_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * for save weight from google fit
+     *
+     * @param mS
+     */
+    public void saveWeight(String mS) {
+        Log.d(TAG, "saveWeight " + mS);
+        editor.putString(KEY_SAVE_WEIGHT, mS).commit();
+    }
+
+    /**
+     * for get weight from google fit
+     *
+     * @return
+     */
+    public String getWeight() {
+        Log.d(TAG, "getWeight");
+        return sPref.getString(KEY_SAVE_WEIGHT, DEF_EMPTY_STRING);
+    }
+
+    /**
+     * for save target weight from google fit
+     *
+     * @param mS
+     */
+    public void saveTargetWeight(int mS) {
+        Log.d(TAG, "saveTargetWeight " + mS);
+        editor.putInt(KEY_TARGET_WEIGHT, mS).commit();
+    }
+
+    /**
+     * for get getTargetWeight from google fit
+     *
+     * @return
+     */
+    public int getTargetWeight() {
+        Log.d(TAG, "getTargetWeight");
+        return sPref.getInt(KEY_TARGET_WEIGHT, DEF_INT_EMPTY);
     }
 }

@@ -969,8 +969,7 @@ public class RealmObj {
         mListener.isHeight(mHeight);
     }
 
-
-    public void saveTargetWeight(final String mDate, TargetWeightListener mListener) {
+    public void saveWeight(final String mDate, ProfileFirstStartGoogleFit mListener) {
         final String userName = SettingsApp.getInstance().getUserName();
         final long time = new Date().getTime() / 1000;
 
@@ -1059,7 +1058,32 @@ public class RealmObj {
         });
     }
 
-    public void setFullFirsStartSettings(final ProfileFirstStartBLeListener mBLeListener) {
+    public void setFullFirsStartSettings(final ProfileFirstStartGoogleFit mBLeListener) {
+        final String userName = SettingsApp.getInstance().getUserName();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                UserLibr userLibr = realm.where(UserLibr.class)
+                        .equalTo("email", userName)
+                        .findFirst();
+                userLibr.setFullProfile(true);
+                realm.copyToRealmOrUpdate(userLibr);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                mBLeListener.isOkFullSettings(true);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                saveAllLogs("ERROR in db setFullSettings =" + error.getMessage());
+                mBLeListener.isOkFullSettings(false);
+            }
+        });
+    }
+
+ public void setFullFirsStartSettings(final ProfileFirstStartBLeListener mBLeListener) {
         final String userName = SettingsApp.getInstance().getUserName();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -1209,13 +1233,15 @@ public class RealmObj {
         void isHeight(String height);
     }
 
-    public interface TargetWeightListener {
-        void isTargetWeight(String height);
-    }
-
     public interface ProfileFirstStartBLeListener {
         void isOkFullSettings(boolean mIsOkFullSettings);
 
+    }
+
+    public interface ProfileFirstStartGoogleFit {
+        void isOkFullSettings(boolean mIsOkFullSettings);
+
+        void isTargetWeight(String height);
     }
 
     public interface ProfileBLeListener {

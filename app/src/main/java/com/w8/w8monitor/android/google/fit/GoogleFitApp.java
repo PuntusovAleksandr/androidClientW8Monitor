@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,9 +24,11 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.data.Value;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResult;
 import com.w8.w8monitor.android.activity.MainActivity;
+import com.w8.w8monitor.android.activity.ProfileActivity;
 import com.w8.w8monitor.android.d_base.RealmObj;
 import com.w8.w8monitor.android.d_base.model.ParamsBody;
 import com.w8.w8monitor.android.d_base.model.Profile;
@@ -52,7 +55,7 @@ import static com.w8.w8monitor.android.utils.STATICS_PARAMS.REQUEST_OAUTH;
 public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 
     private Context mContext;
-    private MainActivity mActivity;
+    private Activity mActivity;
 
     private SendDataGoogleFitService service;
 
@@ -62,9 +65,14 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     private long endTime, startTime;
 
 
-    public GoogleFitApp(Context mContext) {
+    public GoogleFitApp(MainActivity mContext) {
         this.mContext = mContext;
-        this.mActivity = (MainActivity) mContext;
+        this.mActivity =  mContext;
+    }
+
+    public GoogleFitApp(ProfileActivity mContext) {
+        this.mContext = mContext;
+        this.mActivity =  mContext;
     }
 
 
@@ -123,7 +131,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                 }
                             }
                     )
-                    .enableAutoManage(mActivity, 0, new GoogleApiClient.OnConnectionFailedListener() {
+                    .enableAutoManage((FragmentActivity) mContext, 0, new GoogleApiClient.OnConnectionFailedListener() {
                         @Override
                         public void onConnectionFailed(ConnectionResult result) {
                             Log.i(TAG_GOOGLE_FIT, "Google Play services connection failed. Cause: " +
@@ -261,12 +269,63 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
             }
         };
 
+//create call back for  weight
+        ResultCallback<DataReadResult> resultWeightCallback = new ResultCallback<DataReadResult>() {
+            @Override
+            public void onResult(@NonNull DataReadResult dataReadResult) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd");
+                if (dataReadResult.getBuckets().size() > 0) {
+                    Log.i(TAG_GOOGLE_FIT, "DataSet.size(): "
+                            + dataReadResult.getBuckets().size());
+                    for (Bucket bucket : dataReadResult.getBuckets()) {
+                        List<DataSet> dataSets = bucket.getDataSets();
+                        for (DataSet dataSet : dataSets) {
+                            Log.i(TAG_GOOGLE_FIT, "dataSet.dataType: " + dataSet.getDataType().getName());
+
+                            for (DataPoint dp : dataSet.getDataPoints()) {
+                                describeDataPoint(dp, dateFormat);
+                            }
+                        }
+                    }
+                } else if (dataReadResult.getDataSets().size() > 0) {
+                    Log.i(TAG_GOOGLE_FIT, "dataSet.size(): " + dataReadResult.getDataSets().size());
+                    for (DataSet dataSet : dataReadResult.getDataSets()) {
+                        Log.i(TAG_GOOGLE_FIT, "dataType: " + dataSet.getDataType().getName());
+
+                        for (DataPoint dp : dataSet.getDataPoints()) {
+                            describeDataPoint(dp, dateFormat);
+                        }
+                    }
+                }
+            }
+        };
+
 //set call back
-        Fitness.HistoryApi.readData(mClient, readHeightRequest).setResultCallback(resultCallback);
+        Fitness.HistoryApi.readData(mClient, readHeightRequest).setResultCallback(resultWeightCallback);
         Fitness.HistoryApi.readData(mClient, readRequest).setResultCallback(resultCallback);
 
         // [END find_data_sources]
     }
+//
+//    public void describeDataPointWeight(DataPoint dp, DateFormat dateFormat) {
+//        String msg = "__Weight___" ;
+//        Log.i(TAG_GOOGLE_FIT, msg);
+//
+//        if (dp.getDataType().getName().toLowerCase().contains("weight")) {
+//            msg = "============Weight===============\n"
+//                    + "\ttype: " + dp.getDataType().getName() + "\n"
+//                    + ",\t range: [" + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " - " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + "]\n"
+//                    + ",\t fields: [";
+//            for (Field field : dp.getDataType().getFields()) {
+//                msg += field.getName() + " value = " + dp.getValue(field) + " ";
+//            }
+//
+//            msg += "\n==========Weight=================";
+//
+//            Log.i(TAG_GOOGLE_FIT, msg);
+//        }
+//    }
+//
 
     public void describeDataPoint(DataPoint dp, DateFormat dateFormat) {
         String msg = "dataPoint__" + "\n"
@@ -287,7 +346,13 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                     + ",\t range: [" + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)) + " - " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)) + "]\n"
                     + ",\t fields: [";
             for (Field field : dp.getDataType().getFields()) {
-                msg += field.getName() + " value = " + dp.getValue(field) + " ";
+                Value value = dp.getValue(field);
+                msg += field.getName() + " value = " + value + " ";
+                if (!value.toString().toLowerCase().contains("max") &&
+                        !value.toString().toLowerCase().contains("min")) {
+                    System.out.println("ПОБЕДА ВЕС = " + value );
+                    SettingsApp.getInstance().saveWeight(value.toString());
+                }
             }
 
             msg += "]\n===========================";
@@ -295,22 +360,6 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
             Log.i(TAG_GOOGLE_FIT, msg);
         }
     }
-
-    private void describeDataType(DataType mCustomType) {
-
-        String msg = "dataPoint__" + "\n"
-                + "type: " + mCustomType.getName() + "\n"
-                + ", fields: [";
-
-        for (Field field : mCustomType.getFields()) {
-            msg += field.getName() + " = " + field.toString() + " ";
-        }
-
-        msg += "]";
-        Log.i(TAG_GOOGLE_FIT, msg);
-
-    }
-
 
     public void onDestroy() {
         if (mClient.isConnected()) {

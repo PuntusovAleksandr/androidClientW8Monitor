@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_google_fit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_margin="@dimen/_35"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin"
+    card_view:cardBackgroundColor="?attr/color_text_result_app">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_google_fit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="@string/text_google_fit"
+            android:textColor="?attr/color_light_text_description"
+            android:textSize="@dimen/_16sp"/>
+
+        <View
+            android:id="@+id/view_center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1"
+            android:layout_below="@+id/tv_google_fit_text"
+            android:layout_marginBottom="@dimen/_0"
+            android:layout_marginTop="@dimen/_16"
+            android:background="@color/color_light_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_below="@+id/view_center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_yes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_8"
+                android:layout_marginRight="@dimen/_4"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/yes"
+                android:textColor="?attr/color_light_text_description"
+                android:textSize="@dimen/_16sp"/>
+
+            <View
+                android:layout_width="@dimen/_1"
+                android:layout_height="match_parent"
+                android:background="@color/color_light_grey"/>
+
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_4"
+                android:layout_marginRight="@dimen/_8"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/no"
+                android:textColor="?attr/color_light_text_description"
+                android:textSize="@dimen/_16sp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
