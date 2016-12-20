@@ -10,7 +10,7 @@ public class STATICS_PARAMS {
     public static final String TEST_USER = "test@test.test";
 
     // FOR SET COUNT PAGES IN VIEW PAGER IN PROFILE
-    public static final int COUNT_PAGES_PROFILE_DEFOULT = 4;
+    public static final int COUNT_PAGES_PROFILE_DEFOULT = 6;
     public static final int COUNT_PAGES_PROFILE_FROM_MAIN = 5;
 
     //    for validation

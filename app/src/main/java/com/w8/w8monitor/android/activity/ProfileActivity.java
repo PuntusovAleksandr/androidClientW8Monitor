@@ -260,7 +260,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                             this, mPresenter, INNER_MARKER, mFromSettings, mRegisterUser);
                 }
                 fragment = mTargetWeightFragment;
-                circlePageIndicator.setViewPager(mViewPager, TARGET_WEIGHT - 2);
+                circlePageIndicator.setViewPager(mViewPager, TARGET_WEIGHT - 3);
                 break;
 
             case GOOGLE_FIT:
@@ -271,7 +271,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                     mGoogleFitFragment = new GoogleFitFragment(this, mPresenter, INNER_MARKER, mFromSettings);
                 }
                 fragment = mGoogleFitFragment;
-                circlePageIndicator.setViewPager(mViewPager, GOOGLE_FIT - 2);
+                circlePageIndicator.setViewPager(mViewPager, GOOGLE_FIT - 3);
                 break;
 
         }
