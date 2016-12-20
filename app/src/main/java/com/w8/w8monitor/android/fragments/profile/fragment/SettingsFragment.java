@@ -253,18 +253,21 @@ public class SettingsFragment extends Fragment implements
     public void ll_personalClick() {
         hideAllLL();
         setVisibleLL(ll_help_personal);
+        setSelectionIcons(iv_personal, R.drawable.b_personal_active_light, R.drawable.b_personal_active_dark);
     }
 
     @OnClick(R.id.ll_account)
     public void ll_accountpClick() {
         hideAllLL();
         setVisibleLL(ll_help_account);
+        setSelectionIcons(iv_account, R.drawable.b_account_active_light, R.drawable.b_account_active_dark);
     }
 
     @OnClick(R.id.ll_help)
     public void ll_helpClick() {
         hideAllLL();
         setVisibleLL(ll_help_settings);
+        setSelectionIcons(iv_help, R.drawable.b_help_active_light, R.drawable.b_help_active_dark);
     }
 
     @OnClick(R.id.iv_toolbar_back_press)
@@ -424,6 +427,36 @@ public class SettingsFragment extends Fragment implements
         ll_help_personal.setVisibility(View.GONE);
         ll_help_account.setVisibility(View.GONE);
         ll_help_settings.setVisibility(View.GONE);
+
+        setDefaultIcons();
+    }
+
+    private void setDefaultIcons() {
+        boolean themeDark = SettingsApp.getInstance().isThemeDark();
+        int resPerson = 0, resAccount = 0, resSettings = 0;
+        if (themeDark) {
+            resPerson = R.drawable.b_personal_nonactive_dark;
+            resAccount = R.drawable.b_account_nonactive_dark;
+            resSettings = R.drawable.b_help_nonactive_dark;
+        } else {
+            resPerson = R.drawable.b_personal_nonactive_light;
+            resAccount = R.drawable.b_account_nonactive_light;
+            resSettings = R.drawable.b_help_nonactive_light;
+        }
+
+        iv_personal.setImageResource(resPerson);
+        iv_account.setImageResource(resAccount);
+        iv_help.setImageResource(resSettings);
+    }
+
+
+    private void setSelectionIcons(ImageView mView, int resDark, int resLight) {
+        boolean themeDark = SettingsApp.getInstance().isThemeDark();
+        if (!themeDark) {
+            mView.setImageResource(resDark);
+        } else {
+            mView.setImageResource(resLight);
+        }
     }
 
 
