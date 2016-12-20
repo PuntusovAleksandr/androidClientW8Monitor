@@ -50,6 +50,7 @@
         android:visibility="invisible"/>
 
     <LinearLayout
+        android:id="@+id/ll_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_title_fragment"
@@ -152,8 +153,10 @@
             android:id="@+id/view_center_settings"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1"
-            android:layout_marginTop="@dimen/_8"
-            android:background="?attr/color_light_grey_app"
+            android:layout_marginBottom="@dimen/_16"
+            android:layout_marginRight="@dimen/_16"
+            android:layout_marginLeft="@dimen/_16"
+            android:background="?attr/colorHint_app"
             android:visibility="gone"/>
 
         <LinearLayout
@@ -163,7 +166,7 @@
             android:layout_weight="1"
             android:minHeight="?attr/actionBarSize"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"

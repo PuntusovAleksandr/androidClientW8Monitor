@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -109,6 +110,9 @@ public class SettingsFragment extends Fragment implements
     @Bind(R.id.ll_help_settings)
     LinearLayout ll_help_settings;
 
+    @Bind(R.id.ll_top)
+    LinearLayout ll_top;
+
     // this it click
     @Bind(R.id.ll_personal)
     LinearLayout ll_personal;
@@ -145,6 +149,7 @@ public class SettingsFragment extends Fragment implements
     @Bind(R.id.view_center_settings)
     View view_center_settings;
 
+    private boolean isVisible;
 
     public SettingsFragment() {
     }
@@ -183,6 +188,7 @@ public class SettingsFragment extends Fragment implements
 
         mPresenter.getUserForSettings(this);
 
+        isVisible = false;
         return view;
     }
 
@@ -403,13 +409,21 @@ public class SettingsFragment extends Fragment implements
 
     private void setVisibleLL(LinearLayout ll) {
         ll.setVisibility(View.VISIBLE);
-        view_center_settings.setVisibility(View.VISIBLE);
+
+        if (!isVisible) {
+            isVisible = true;
+
+            view_center_settings.setVisibility(View.VISIBLE);
+            ll_top.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_up));
+            ll.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_up));
+
+        }
     }
 
     private void hideAllLL() {
-        ll_help_personal.setVisibility(View.INVISIBLE);
-        ll_help_account.setVisibility(View.INVISIBLE);
-        ll_help_settings.setVisibility(View.INVISIBLE);
+        ll_help_personal.setVisibility(View.GONE);
+        ll_help_account.setVisibility(View.GONE);
+        ll_help_settings.setVisibility(View.GONE);
     }
 
 
