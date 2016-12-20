@@ -9,8 +9,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ProfileActivity;
@@ -19,6 +21,7 @@ import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.api.constant.ApiConstants;
 import com.w8.w8monitor.android.api.service.ApiService;
 import com.w8.w8monitor.android.d_base.RealmObj;
+import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.google.fit.GoogleFitApp;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
@@ -53,13 +56,24 @@ public class GoogleFitFragment extends Fragment implements
     private String weight;
 
     private Intent serviceIntent;
+    private RegisterUser mRegisterUser;
 
-    private boolean metric;
+    private boolean temaDark;
+    private int yes = -1;
 
     @Bind(R.id.tv_yes)
     TextView tv_yes;
     @Bind(R.id.tv_no)
     TextView tv_no;
+
+    @Bind(R.id.iv_yes)
+    ImageView iv_yes;
+    @Bind(R.id.iv_no)
+    ImageView iv_no;
+    @Bind(R.id.iv_toolbar_back_press)
+    ImageView iv_toolbar_back_press;
+    @Bind(R.id.iv_toolbar_next_press)
+    ImageView iv_toolbar_next_press;
 
     @Bind(R.id.rl_card_view)
     RelativeLayout rl_card_view;
@@ -70,12 +84,13 @@ public class GoogleFitFragment extends Fragment implements
     }
 
     @SuppressLint("ValidFragment")
-    public GoogleFitFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom, boolean mFromSettings) {
+    public GoogleFitFragment(ProfileView mProfileView, ProfilePresenter mPresenter, int markerFrom, boolean mFromSettings, RegisterUser mRegisterUser) {
         this.mProfileView = mProfileView;
         this.mPresenter = mPresenter;
         this.markerFrom = markerFrom;
         this.mFromSettings = mFromSettings;
-        metric = SettingsApp.getInstance().getMetric();
+        this.mRegisterUser = mRegisterUser;
+        temaDark = SettingsApp.getInstance().isThemeDark();
     }
 
     @Override
@@ -91,8 +106,6 @@ public class GoogleFitFragment extends Fragment implements
         mFitApp = new GoogleFitApp(mActivity);
 
         mActivity.setListenerGoogleFit(this);
-
-        showHideProgress(1);
 
         return view;
     }
@@ -110,24 +123,56 @@ public class GoogleFitFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-
-        // This ensures that if the user denies the permissions then uses Settings to re-enable
-        // them, the app will start working.
-        mFitApp.buildFitnessClient();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        // This ensures that if the user denies the permissions then uses Settings to re-enable
-        // them, the app will start working.
-        mFitApp.connect();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @OnClick(R.id.iv_toolbar_next_press)
+    public void clickNextFragment() {
+        if (yes < 0) {
+            Toast.makeText(mActivity, R.string.take_your_pick, Toast.LENGTH_SHORT).show();
+        } else {
+            if (mFromSettings) {
+                mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
+            } else {
+                hideBackAndNext();
+                showHideProgress(2);
+                // This ensures that if the user denies the permissions then uses Settings to re-enable
+                // them, the app will start working.
+                mFitApp.buildFitnessClient();
+                // This ensures that if the user denies the permissions then uses Settings to re-enable
+                // them, the app will start working.
+                mFitApp.connect();
+            }
+        }
+    }
+
+    @OnClick(R.id.iv_toolbar_back_press)
+    public void clickBackFragment() {
+        if (mFromSettings) {
+            mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
+        } else
+            mActivity.setEnterProfileDataFragment(FragmentMapker.TARGET_WEIGHT, false, mRegisterUser);
+    }
+
+    @OnClick(R.id.iv_yes)
+    public void clickIvYes() {
+        yes = 1;
+        setIcon(iv_yes);
+    }
+
+    @OnClick(R.id.iv_no)
+    public void clickIvNo() {
+        yes = 0;
+        setIcon(iv_no);
     }
 
     @OnClick(R.id.tv_no)
@@ -157,6 +202,36 @@ public class GoogleFitFragment extends Fragment implements
         } else {
             goToMainActivity();
         }
+    }
+
+
+    private void hideBackAndNext() {
+        iv_toolbar_back_press.setVisibility(View.INVISIBLE);
+        iv_toolbar_next_press.setVisibility(View.INVISIBLE);
+    }
+
+    private void setIcon(ImageView mView) {
+        int resYes = 0;
+        int resNo = 0;
+        if (yes == 1) {
+            if (!temaDark) {
+                resYes = R.drawable.b_health_yes_active_light;
+                resNo = R.drawable.b_health_no_nonactive_light;
+            } else {
+                resYes = R.drawable.b_health_yes_active_dark;
+                resNo = R.drawable.b_health_no_nonactive_dark;
+            }
+        } else {
+            if (!temaDark) {
+                resYes = R.drawable.b_health_yes_nonactive_light;
+                resNo = R.drawable.b_health_no_active_light;
+            } else {
+                resYes = R.drawable.b_health_yes_nonactive_dark;
+                resNo = R.drawable.b_health_no_active_dark;
+            }
+        }
+        iv_no.setImageResource(resNo);
+        iv_yes.setImageResource(resYes);
     }
 
     private void goToMainActivity() {

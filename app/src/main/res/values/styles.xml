@@ -82,6 +82,16 @@
         <item name="circle_result_app">@drawable/circle_result_dark</item>
         <item name="b_line_chart_app">@drawable/b_chart_dark</item>
         <item name="ic_marker_liner_chart">@drawable/bubble_dark</item>
+        <item name="b_personal_nonactive">@drawable/b_personal_nonactive_dark</item>
+        <item name="b_account_nonactive">@drawable/b_account_nonactive_dark</item>
+        <item name="b_help_nonactive">@drawable/b_help_nonactive_dark</item>
+        <item name="b_chat">@drawable/b_chat_dark</item>
+        <item name="b_instruction">@drawable/b_instruction_dark</item>
+        <item name="b_web">@drawable/b_web_dark</item>
+        <item name="b_targetweight">@drawable/b_targetweight_dark</item>
+        <item name="b_health_no_nonactive">@drawable/b_health_no_nonactive_dark</item>
+        <item name="b_health_on">@drawable/b_health_on_dark</item>
+        <item name="b_health_yes_nonactive">@drawable/b_health_yes_nonactive_dark</item>
 
 
         <item name="color_keep">@color/color_light_text</item>
@@ -214,6 +224,16 @@
         <item name="circle_result_app">@drawable/circle_result_light</item>
         <item name="b_line_chart_app">@drawable/b_chart_light</item>
         <item name="ic_marker_liner_chart">@drawable/bubble_light</item>
+        <item name="b_personal_nonactive">@drawable/b_personal_nonactive_light</item>
+        <item name="b_account_nonactive">@drawable/b_account_nonactive_light</item>
+        <item name="b_help_nonactive">@drawable/b_help_nonactive_light</item>
+        <item name="b_chat">@drawable/b_chat_light</item>
+        <item name="b_instruction">@drawable/b_instruction_light</item>
+        <item name="b_web">@drawable/b_web_light</item>
+        <item name="b_targetweight">@drawable/b_targetweight_light</item>
+        <item name="b_health_no_nonactive">@drawable/b_health_no_nonactive_light</item>
+        <item name="b_health_on">@drawable/b_health_on_light</item>
+        <item name="b_health_yes_nonactive">@drawable/b_health_yes_nonactive_light</item>
 
 
         <item name="color_keep">@color/color_light_text_light</item>
@@ -308,6 +328,16 @@
     <attr name="circle_result_app" format="reference"/>
     <attr name="b_line_chart_app" format="reference"/>
     <attr name="ic_marker_liner_chart" format="reference"/>
+    <attr name="b_personal_nonactive" format="reference"/>
+    <attr name="b_account_nonactive" format="reference"/>
+    <attr name="b_help_nonactive" format="reference"/>
+    <attr name="b_chat" format="reference"/>
+    <attr name="b_instruction" format="reference"/>
+    <attr name="b_web" format="reference"/>
+    <attr name="b_targetweight" format="reference"/>
+    <attr name="b_health_no_nonactive" format="reference"/>
+    <attr name="b_health_on" format="reference"/>
+    <attr name="b_health_yes_nonactive" format="reference"/>
 
 
     <attr name="color_keep" format="reference"/>

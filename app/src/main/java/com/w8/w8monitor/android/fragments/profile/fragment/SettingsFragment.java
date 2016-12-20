@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.w8.w8monitor.android.R;
@@ -78,16 +79,72 @@ public class SettingsFragment extends Fragment implements
     ImageView iv_b_metric2_dark;
     @Bind(R.id.iv_b_reset_dark)
     ImageView iv_b_reset_dark;
-    @Bind(R.id.iv_b_language_en_dark)
-    ImageView iv_b_language_en_dark;
     @Bind(R.id.iv_b_scale_dark)
     ImageView iv_b_scale_dark;
     @Bind(R.id.iv_b_help_dark)
     ImageView iv_b_help_dark;
     @Bind(R.id.iv_b_mode2_dark)
     ImageView iv_b_mode2_dark;
+    @Bind(R.id.iv_register)
+    ImageView iv_register;
+    @Bind(R.id.iv_google_fit)
+    ImageView iv_google_fit;
     @Bind(R.id.iv_b_logout_dark)
     ImageView iv_b_logout_dark;
+    @Bind(R.id.iv_target_weight)
+    ImageView iv_target_weight;
+
+    @Bind(R.id.iv_personal)
+    ImageView iv_personal;
+    @Bind(R.id.iv_account)
+    ImageView iv_account;
+    @Bind(R.id.iv_help)
+    ImageView iv_help;
+
+    // this it hide
+    @Bind(R.id.ll_help_personal)
+    LinearLayout ll_help_personal;
+    @Bind(R.id.ll_help_account)
+    LinearLayout ll_help_account;
+    @Bind(R.id.ll_help_settings)
+    LinearLayout ll_help_settings;
+
+    // this it click
+    @Bind(R.id.ll_personal)
+    LinearLayout ll_personal;
+    @Bind(R.id.ll_account)
+    LinearLayout ll_account;
+    @Bind(R.id.ll_help)
+    LinearLayout ll_help;
+    @Bind(R.id.ll_iv_b_heigh_dark)
+    LinearLayout ll_iv_b_heigh_dark;
+    @Bind(R.id.ll_iv_b_dob_dark)
+    LinearLayout ll_iv_b_dob_dark;
+    @Bind(R.id.ll_iv_b_male_dark)
+    LinearLayout ll_iv_b_male_dark;
+    @Bind(R.id.ll_iv_b_bodytype_2_dark)
+    LinearLayout ll_iv_b_bodytype_2_dark;
+    @Bind(R.id.ll_iv_b_metric2_dark)
+    LinearLayout ll_iv_b_metric2_dark;
+    @Bind(R.id.ll_iv_target_weight)
+    LinearLayout ll_iv_target_weight;
+    @Bind(R.id.ll_iv_google_fit)
+    LinearLayout ll_iv_google_fit;
+    @Bind(R.id.ll_iv_b_scale_dark)
+    LinearLayout ll_iv_b_scale_dark;
+    @Bind(R.id.ll_iv_b_mode2_dark)
+    LinearLayout ll_iv_b_mode2_dark;
+    @Bind(R.id.ll_iv_b_reset_dark)
+    LinearLayout ll_iv_b_reset_dark;
+    @Bind(R.id.ll_iv_register)
+    LinearLayout ll_iv_register;
+    @Bind(R.id.ll_iv_b_logout_dark)
+    LinearLayout ll_iv_b_logout_dark;
+
+
+    @Bind(R.id.view_center_settings)
+    View view_center_settings;
+
 
     public SettingsFragment() {
     }
@@ -185,6 +242,24 @@ public class SettingsFragment extends Fragment implements
 //==========================================================================
 //        OnClick
 //==========================================================================
+
+    @OnClick(R.id.ll_personal)
+    public void ll_personalClick() {
+        hideAllLL();
+        setVisibleLL(ll_help_personal);
+    }
+
+    @OnClick(R.id.ll_account)
+    public void ll_accountpClick() {
+        hideAllLL();
+        setVisibleLL(ll_help_account);
+    }
+
+    @OnClick(R.id.ll_help)
+    public void ll_helpClick() {
+        hideAllLL();
+        setVisibleLL(ll_help_settings);
+    }
 
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBackFragment() {
@@ -291,24 +366,6 @@ public class SettingsFragment extends Fragment implements
         getActivity().startActivity(intent);
     }
 
-    @OnClick(R.id.iv_b_language_en_dark)
-    public void clicLanguage() {
-//        no do https://3.basecamp.com/3110661/buckets/1532583/todos/275800708
-//        String languages = SettingsApp.getInstance().getLanguages();
-//        if (languages.equalsIgnoreCase(Locale.ENGLISH.getLanguage())) {
-//            languages = "ru";
-//            setIconLanDefault(false);
-//        } else {
-//            languages = Locale.ENGLISH.getLanguage();
-//            setIconLanDefault(true);
-//        }
-//        SettingsApp.getInstance().setLanguages(languages);
-//        SetLocaleApp.setLocale();
-//        getActivity().finish();
-//        startActivity(getActivity().getIntent());
-    }
-
-
     @OnClick(R.id.iv_b_scale_dark)
     public void clickBScale() {
         mActivity.setEnterProfileDataFragment(FragmentMapker.CONNECT_BLE, true, null);
@@ -344,6 +401,17 @@ public class SettingsFragment extends Fragment implements
 
 //============================================================
 
+    private void setVisibleLL(LinearLayout ll) {
+        ll.setVisibility(View.VISIBLE);
+        view_center_settings.setVisibility(View.VISIBLE);
+    }
+
+    private void hideAllLL() {
+        ll_help_personal.setVisibility(View.INVISIBLE);
+        ll_help_account.setVisibility(View.INVISIBLE);
+        ll_help_settings.setVisibility(View.INVISIBLE);
+    }
+
 
     private void setIconMetricDef() {
         boolean isMetic = SettingsApp.getInstance().getMetric();
@@ -364,19 +432,19 @@ public class SettingsFragment extends Fragment implements
 
 
     private void setIconLanDefault(boolean isEnglish) {
-        if (isEnglish) {
-            if (SettingsApp.getInstance().isThemeDark()) {
-                setIcon(iv_b_language_en_dark, R.drawable.b_language_en_dark);
-            } else {
-                setIcon(iv_b_language_en_dark, R.drawable.b_language_en_light);
-            }
-        } else {
-            if (SettingsApp.getInstance().isThemeDark()) {
-                setIcon(iv_b_language_en_dark, R.drawable.b_language_es_dark);
-            } else {
-                setIcon(iv_b_language_en_dark, R.drawable.b_language_es_light);
-            }
-        }
+//        if (isEnglish) {
+//            if (SettingsApp.getInstance().isThemeDark()) {
+//                setIcon(iv_b_language_en_dark, R.drawable.b_language_en_dark);
+//            } else {
+//                setIcon(iv_b_language_en_dark, R.drawable.b_language_en_light);
+//            }
+//        } else {
+//            if (SettingsApp.getInstance().isThemeDark()) {
+//                setIcon(iv_b_language_en_dark, R.drawable.b_language_es_dark);
+//            } else {
+//                setIcon(iv_b_language_en_dark, R.drawable.b_language_es_light);
+//            }
+//        }
     }
 
 

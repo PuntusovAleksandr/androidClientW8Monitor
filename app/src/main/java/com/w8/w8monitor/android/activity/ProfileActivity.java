@@ -270,7 +270,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 mGoogleFitFragment = (GoogleFitFragment) getSupportFragmentManager()
                         .findFragmentByTag(tagFragment);
                 if (mGoogleFitFragment == null) {
-                    mGoogleFitFragment = new GoogleFitFragment(this, mPresenter, INNER_MARKER, mFromSettings);
+                    mGoogleFitFragment = new GoogleFitFragment(
+                            this, mPresenter, INNER_MARKER, mFromSettings, mRegisterUser);
                 }
                 fragment = mGoogleFitFragment;
                 circlePageIndicator.setViewPager(mViewPager, GOOGLE_FIT - 3);
