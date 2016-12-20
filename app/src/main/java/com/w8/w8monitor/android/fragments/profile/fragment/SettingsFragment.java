@@ -40,6 +40,7 @@ import io.realm.RealmList;
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_EXTRA_FROM;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_FROM_SETTINGS;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TEST_USER;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -199,6 +200,12 @@ public class SettingsFragment extends Fragment implements
 
         isVisible = false;
         SELECTED = 0;
+
+        // show register button when login in test account
+        if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
+            ll_iv_register.setVisibility(View.VISIBLE);
+        }
+
         return view;
     }
 
@@ -436,6 +443,13 @@ public class SettingsFragment extends Fragment implements
     @OnClick(R.id.iv_b_logout_dark)
     public void clickLogout() {
         mActivity.logout();
+    }
+
+    @OnClick(R.id.iv_b_logout_dark)
+    public void ll_iv_registerClick() {
+        if (ll_iv_register.getVisibility() == View.VISIBLE) {
+            // TODO: 20.12.2016 Здесь нужно химичить с регистрацией
+        }
     }
 
 

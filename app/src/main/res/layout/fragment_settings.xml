@@ -155,8 +155,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1"
             android:layout_marginBottom="@dimen/_16"
-            android:layout_marginRight="@dimen/_16"
             android:layout_marginLeft="@dimen/_16"
+            android:layout_marginRight="@dimen/_16"
             android:background="?attr/colorHint_app"
             android:visibility="gone"/>
 
@@ -495,7 +495,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:minWidth="?attr/actionBarSize"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_register"
@@ -553,7 +554,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal|top"
             android:minHeight="?attr/actionBarSize"
-            android:orientation="vertical">
+            android:orientation="vertical"
             android:visibility="gone">
 
             <LinearLayout
