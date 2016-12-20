@@ -3,6 +3,7 @@ package com.w8.w8monitor.android.fragments.profile.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -94,6 +95,8 @@ public class SettingsFragment extends Fragment implements
     ImageView iv_b_logout_dark;
     @Bind(R.id.iv_target_weight)
     ImageView iv_target_weight;
+    @Bind(R.id.iv_b_help_web)
+    ImageView iv_b_help_web;
 
     @Bind(R.id.iv_personal)
     ImageView iv_personal;
@@ -295,6 +298,12 @@ public class SettingsFragment extends Fragment implements
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBackFragment() {
         mActivity.onBackPressedFromState();
+    }
+
+    @OnClick(R.id.iv_b_help_web)
+    public void iv_b_help_webClock() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.web_link)));
+        startActivity(browserIntent);
     }
 
     @OnClick(R.id.iv_b_heigh_dark)
