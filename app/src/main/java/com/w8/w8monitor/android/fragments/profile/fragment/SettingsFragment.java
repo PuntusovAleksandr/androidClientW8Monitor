@@ -144,12 +144,18 @@ public class SettingsFragment extends Fragment implements
     LinearLayout ll_iv_register;
     @Bind(R.id.ll_iv_b_logout_dark)
     LinearLayout ll_iv_b_logout_dark;
+    @Bind(R.id.ll_main)
+    LinearLayout ll_main;
 
 
     @Bind(R.id.view_center_settings)
     View view_center_settings;
 
     private boolean isVisible;
+    private int SELECTED = 0;
+    private final int SELECT_PRSONAL = 1;
+    private final int SELECT_ACCOUNT = 2;
+    private final int SELECT_WEB = 3;
 
     public SettingsFragment() {
     }
@@ -189,6 +195,7 @@ public class SettingsFragment extends Fragment implements
         mPresenter.getUserForSettings(this);
 
         isVisible = false;
+        SELECTED = 0;
         return view;
     }
 
@@ -251,21 +258,36 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.ll_personal)
     public void ll_personalClick() {
-        hideAllLL();
+        if (SELECTED == SELECT_PRSONAL) {
+            hideAllLL(true, ll_help_personal);
+            return;
+        }
+        hideAllLL(false, ll_help_personal);
+        SELECTED = SELECT_PRSONAL;
         setVisibleLL(ll_help_personal);
         setSelectionIcons(iv_personal, R.drawable.b_personal_active_light, R.drawable.b_personal_active_dark);
     }
 
     @OnClick(R.id.ll_account)
     public void ll_accountpClick() {
-        hideAllLL();
+        if (SELECTED == SELECT_ACCOUNT) {
+            hideAllLL(true, ll_help_account);
+            return;
+        }
+        hideAllLL(false, ll_help_account);
+        SELECTED = SELECT_ACCOUNT;
         setVisibleLL(ll_help_account);
         setSelectionIcons(iv_account, R.drawable.b_account_active_light, R.drawable.b_account_active_dark);
     }
 
     @OnClick(R.id.ll_help)
     public void ll_helpClick() {
-        hideAllLL();
+        if (SELECTED == SELECT_WEB) {
+            hideAllLL(true, ll_help_settings);
+            return;
+        }
+        hideAllLL(false, ll_help_settings);
+        SELECTED = SELECT_WEB;
         setVisibleLL(ll_help_settings);
         setSelectionIcons(iv_help, R.drawable.b_help_active_light, R.drawable.b_help_active_dark);
     }
@@ -423,11 +445,26 @@ public class SettingsFragment extends Fragment implements
         }
     }
 
-    private void hideAllLL() {
-        ll_help_personal.setVisibility(View.GONE);
-        ll_help_account.setVisibility(View.GONE);
-        ll_help_settings.setVisibility(View.GONE);
+    private void hideAllLL(boolean mAnimation, final LinearLayout ll) {
+        if (mAnimation) {
+            // make time out gone for show animation
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ll.setVisibility(View.GONE);
+                }
+            }, 500);
 
+            SELECTED = 0;
+            ll.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_down));
+            isVisible = false;
+            view_center_settings.setVisibility(View.GONE);
+            ll_top.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_down));
+        } else {
+            ll_help_personal.setVisibility(View.GONE);
+            ll_help_account.setVisibility(View.GONE);
+            ll_help_settings.setVisibility(View.GONE);
+        }
         setDefaultIcons();
     }
 
