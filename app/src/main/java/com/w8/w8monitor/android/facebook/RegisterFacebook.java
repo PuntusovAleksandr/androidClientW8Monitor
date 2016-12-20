@@ -1,4 +1,4 @@
-package  com.w8.w8monitor.android.facebook;
+package com.w8.w8monitor.android.facebook;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,10 +18,13 @@ import com.w8.w8monitor.android.App;
 import com.w8.w8monitor.android.activity.LoginActivity;
 import com.w8.w8monitor.android.activity.RegisterActivity;
 import com.w8.w8monitor.android.api.service.ApiService;
+import com.w8.w8monitor.android.utils.SettingsApp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import static com.w8.w8monitor.android.api.constant.ApiConstants.LOGIN_SOCIAL;
@@ -76,11 +79,24 @@ public class RegisterFacebook {
                                                 // Application code
                                                 try {
                                                     String mId = object.getString("id");
+                                                    String birthday = null;
+                                                    try {
+                                                        birthday = object.getString("birthday");
+                                                    } catch (JSONException mE) {
+                                                        mE.printStackTrace();
+                                                    }
+                                                    String gender = null;
+                                                    try {
+                                                        gender = object.getString("gender");
+                                                    } catch (JSONException mE) {
+                                                        mE.printStackTrace();
+                                                    }
                                                     mUser = new UserFacebook(
                                                             mId,
                                                             object.getString("name"),
-                                                            object.getString("email")
-//                                                            object.getString("birthday"),
+                                                            object.getString("email"),
+                                                            birthday,
+                                                            gender
 //                                                            "https://graph.facebook.com/" +
 //                                                                    mId + "/picture?type=large"
                                                     );
@@ -116,13 +132,33 @@ public class RegisterFacebook {
     }
 
     private void saveInDb(UserFacebook mUser) {
+        saveDateShared(mUser);
+
         Intent serviceIntent = new Intent(App.getContext(), ApiService.class);
         serviceIntent.putExtra(SERVICE_MAIL, mUser.getE_mail());
         serviceIntent.putExtra(SOCIAL_ID, mUser.getId());
         serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, LOGIN_SOCIAL);
         App.getContext().startService(serviceIntent);
+    }
 
-
+    private void saveDateShared(UserFacebook mUser) {
+        int gender = -1;
+        long date = -1;
+        String genderStr = mUser.getGender();
+        if (genderStr != null) {
+            gender = genderStr.toLowerCase().contains("male") ? 1 : 2;
+        }
+        String birth = mUser.getBirth();
+        if (birth != null) {
+            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+            try {
+                date = format.parse(birth).getTime();
+            } catch (ParseException mE) {
+                mE.printStackTrace();
+            }
+        }
+        SettingsApp.getInstance().saveGenderFb(gender);
+        SettingsApp.getInstance().saveBirthdayFb(date);
     }
 
     public void onActivityResultFB(int mRequestCode, int mResultCode, Intent mData, Context mContext) {
@@ -144,23 +180,19 @@ public class RegisterFacebook {
         private String name;
         private String e_mail;
         private String birth;
+        private String gender;
         private String icon;
 
         public UserFacebook() {
         }
 
-        public UserFacebook(String mId, String mName, String mE_mail) {
-            id = mId;
-            name = mName;
-            e_mail = mE_mail;
-        }
 
-        public UserFacebook(String mId, String mName, String mE_mail, String mBirth, String mIcon) {
+        public UserFacebook(String mId, String mName, String mE_mail, String mBirth, String mGender) {
             id = mId;
             name = mName;
             e_mail = mE_mail;
             birth = mBirth;
-            icon = mIcon;
+            gender = mGender;
         }
 
         public String getId() {
@@ -193,6 +225,14 @@ public class RegisterFacebook {
 
         public void setBirth(String mBirth) {
             birth = mBirth;
+        }
+
+        public String getGender() {
+            return gender;
+        }
+
+        public void setGender(String mGender) {
+            gender = mGender;
         }
 
         public String getIcon() {

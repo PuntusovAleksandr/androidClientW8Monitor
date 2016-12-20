@@ -9,7 +9,7 @@ public class RegisterUser {
 
     private int gender;
     private int activityLevel;
-    private int age;
+    private long age;
     private int height;
     private int targetWeight;
 
@@ -32,11 +32,11 @@ public class RegisterUser {
         activityLevel = mActivityLevel;
     }
 
-    public int getAge() {
+    public long getAge() {
         return age;
     }
 
-    public void setAge(int mAge) {
+    public void setAge(long mAge) {
         age = mAge;
     }
 

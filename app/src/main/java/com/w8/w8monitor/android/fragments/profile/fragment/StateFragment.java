@@ -91,7 +91,16 @@ public class StateFragment extends Fragment implements RealmObj.StateListener {
         if (markerFrom == MARKER_MAIN) {
             iv_toolbar_back_press.setVisibility(View.INVISIBLE);
         }
+        setStateFromFB();
         return view;
+    }
+
+    private void setStateFromFB() {
+        int gender = mRegisterUser.getGender();
+        if (gender > 0) {
+            saveDbMan(gender);
+            SettingsApp.getInstance().saveGenderFb(-1);
+        }
     }
 
 

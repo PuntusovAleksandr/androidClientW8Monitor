@@ -103,6 +103,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         ButterKnife.bind(this);
 
         mRegisterUser = new RegisterUser();
+        mRegisterUser.setAge(SettingsApp.getInstance().getBirthdayFb());
+        mRegisterUser.setGender(SettingsApp.getInstance().getGenderFb());
 
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);

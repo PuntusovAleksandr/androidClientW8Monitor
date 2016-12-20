@@ -66,6 +66,8 @@ public class SettingsApp {
     private static final String KEY_SHOW_WEIGHT_GOOGLE_FIT = "KEY_SHOW_WEIGHT_GOOGLE_FIT";
     private static final String KEY_SAVE_WEIGHT = "KEY_SAVE_WEIGHT";
     private static final String KEY_TARGET_WEIGHT = "KEY_TARGET_WEIGHT";
+    private static final String KEY_GENDER_FB = "KEY_GENDER_FB";
+    private static final String KEY_DATE_BIRTHDAY = "KEY_DATE_BIRTHDAY";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
@@ -375,5 +377,41 @@ public class SettingsApp {
     public int getTargetWeight() {
         Log.d(TAG, "getTargetWeight");
         return sPref.getInt(KEY_TARGET_WEIGHT, DEF_INT_EMPTY);
+    }
+
+    /**
+     * save gender from facebook
+     *
+     * @param mGender
+     */
+    public void saveGenderFb(int mGender) {
+        Log.d(TAG, "saveGenderFb " + mGender);
+        editor.putInt(KEY_GENDER_FB, mGender).commit();
+    }
+
+    /**
+     * get gender from facebook
+     */
+    public int getGenderFb() {
+        Log.d(TAG, "getGenderFb");
+        return sPref.getInt(KEY_GENDER_FB, -1);
+    }
+
+    /**
+     * save birthday from facebook
+     *
+     * @param mDate
+     */
+    public void saveBirthdayFb(Long mDate) {
+        Log.d(TAG, "saveBirthdayFb " + mDate);
+        editor.putLong(KEY_DATE_BIRTHDAY, mDate).commit();
+    }
+
+    /**
+     * get birthday from facebook
+     */
+    public long getBirthdayFb() {
+        Log.d(TAG, "getGenderFb");
+        return sPref.getLong(KEY_DATE_BIRTHDAY, -1);
     }
 }
