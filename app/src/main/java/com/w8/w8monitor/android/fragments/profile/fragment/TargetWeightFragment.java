@@ -56,6 +56,7 @@ public class TargetWeightFragment extends Fragment {
 
     private boolean metric;
     private RegisterUser mRegisterUser;
+    public static final float INDEX_METRIC = 0.45f;
 
     public TargetWeightFragment() {
     }
@@ -70,7 +71,7 @@ public class TargetWeightFragment extends Fragment {
         if (mRegisterUser == null) {
             mRegisterUser = new RegisterUser();
             mRegisterUser.setTargetWeight(
-                    (int) (SettingsApp.getInstance().getTargetWeight() / 0.45f));
+                    (int) (SettingsApp.getInstance().getTargetWeight() / INDEX_METRIC));
         }
         this.mRegisterUser = mRegisterUser;
     }

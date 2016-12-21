@@ -1,5 +1,6 @@
 package com.w8.w8monitor.android.fragments.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -26,6 +28,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.viewpagerindicator.CirclePageIndicator;
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.MainActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.MainActivityPresenter;
@@ -33,7 +36,6 @@ import com.w8.w8monitor.android.adapter.CirclePagerAdapterMain;
 import com.w8.w8monitor.android.d_base.model.ParamsBody;
 import com.w8.w8monitor.android.fragments.main.view.ViewPagerCustomDuration;
 import com.w8.w8monitor.android.utils.SettingsApp;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ import static com.w8.w8monitor.android.R.color.color_light_text_light;
 import static com.w8.w8monitor.android.R.color.color_light_text_transparent_light;
 import static com.w8.w8monitor.android.R.color.pageColor_light;
 import static com.w8.w8monitor.android.R.id.rl_view;
+import static com.w8.w8monitor.android.fragments.profile.fragment.TargetWeightFragment.INDEX_METRIC;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRoboLight;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
 import static com.w8.w8monitor.android.utils.GetSizeWindow.getSizeWindow;
@@ -137,6 +140,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
     public LinerGraphFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public LinerGraphFragment(Context mContext, MainActivityPresenter mPresenter, int mValue) {
         this.mContext = mContext;
         this.mPresenter = mPresenter;
@@ -700,9 +704,47 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
             Date date = new Date(date_time);
             String formatDate = sdfs.format(date);
             yVals1.add(formatDate);
+
         }
+
+        if (mPickerBottomValue == PICKER_WEIGHT) {
+            setLimitLine(yVals.get(yVals.size() - 1).getY());
+        }
+
         seetMaxMinValueAxix(yVals);
         setData(yVals, yVals2);
+    }
+
+    // set limit line
+    private void setLimitLine(float mY) {
+        int targetWeight = SettingsApp.getInstance().getTargetWeight();
+        if (!SettingsApp.getInstance().getMetric()) {
+            targetWeight = (int) (targetWeight / INDEX_METRIC);
+        }
+        int resColor = getResColor(mY, targetWeight);
+
+        YAxis y = mChart.getAxisLeft();
+        LimitLine limitLine = new LimitLine(targetWeight, "Target Weight");
+        limitLine.setLineColor(resColor);
+        limitLine.setLineWidth(1f);
+        limitLine.setTextColor(resColor);
+        limitLine.setTextColor(resColor);
+        limitLine.setTextSize(12f);
+        y.addLimitLine(limitLine);
+    }
+
+    private int getResColor(float mV, float targetWeight) {
+        int res = Color.parseColor("#E52D20");
+        if (SettingsApp.getInstance().isThemeDark()) {
+            if (mV < targetWeight) {
+                res = Color.parseColor("#468517");
+            }
+        } else {
+            if (mV < targetWeight) {
+                res = Color.parseColor("#4261DD");
+            }
+        }
+        return res;
     }
 
     // this method set minimal and maximal value in axis
