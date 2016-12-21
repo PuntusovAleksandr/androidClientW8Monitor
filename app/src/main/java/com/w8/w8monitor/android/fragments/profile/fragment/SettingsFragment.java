@@ -23,6 +23,7 @@ import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ChangePasswordActivity;
 import com.w8.w8monitor.android.activity.HelpActivity;
 import com.w8.w8monitor.android.activity.ProfileActivity;
+import com.w8.w8monitor.android.activity.SupportActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.d_base.RealmObj;
@@ -397,7 +398,8 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.ll_support)
     public void ll_supportClock() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.SUPPORT, true, null);
+        Intent intent = new Intent(getActivity(), SupportActivity.class);
+        getActivity().startActivity(intent);
     }
 
     @OnClick(R.id.iv_b_metric2_dark)

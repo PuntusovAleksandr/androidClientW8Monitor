@@ -186,6 +186,7 @@
     <string name="try_later">Please try again later.</string>
     <string name="send">SEND</string>
     <string name="fill_question">Please fill place question</string>
+    <string name="answer_support">Thank you for your question. We’ll send you an answer to the provided email address within a 72 hours.</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

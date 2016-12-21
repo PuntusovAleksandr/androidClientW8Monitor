@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.w8.w8monitor.android">
-    <!--com.lucertech.w8monitor.android-->
+
+    <!-- com.lucertech.w8monitor.android -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -11,8 +12,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-    <!--&lt;!&ndash; for adde icon in home screen &ndash;&gt;-->
-    <!--<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>-->
+    <!-- &lt;!&ndash; for adde icon in home screen &ndash;&gt; -->
+    <!-- <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/> -->
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -95,11 +96,21 @@
             android:name=".api.service.ApiService"
             android:enabled="true"
             android:exported="false">
-        </service><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        </service>
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+
+        <activity
+            android:name=".activity.SupportActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>

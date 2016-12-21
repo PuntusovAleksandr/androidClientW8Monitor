@@ -6,18 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/background_app"
+    android:focusableInTouchMode="true"
     tools:context=".activity.LoginActivity">
 
-    <include layout="@layout/custom_toolbar"/>
+    <include
+        android:id="@+id/ll_top_"
+        layout="@layout/custom_toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="?attr/actionBarSize"
-        android:layout_marginRight="?attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bt"
+        android:layout_below="@+id/tv_title_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/_25"
+        android:layout_marginRight="@dimen/_25"
         android:layout_marginTop="@dimen/_25"
-        android:gravity="center"
+        android:gravity="top"
         android:orientation="vertical">
 
         <LinearLayout
@@ -81,8 +86,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:gravity="top|left"
             android:orientation="vertical">
 
             <EditText
@@ -94,9 +100,9 @@
                 android:layout_marginRight="@dimen/_4"
                 android:layout_toRightOf="@+id/iv_icon_password"
                 android:background="@android:color/transparent"
-                android:gravity="center_vertical|start"
+                android:gravity="top|start"
                 android:hint="Enter your question"
-                android:inputType="text"
+                android:inputType="textAutoComplete|textMultiLine"
                 android:textColor="?attr/color_text_title_app"
                 android:textColorHint="?attr/colorHint_app"
                 android:textSize="@dimen/_14sp"/>
@@ -111,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_35dp"
+        android:layout_marginBottom="@dimen/_25"
         android:layout_marginTop="@dimen/_8"
         android:orientation="horizontal">
 
@@ -163,7 +169,7 @@
         android:textSize="@dimen/_20sp"/>
 
     <RelativeLayout
-        android:id="@+id/rl_progress_register"
+        android:id="@+id/rl_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/background_app"
