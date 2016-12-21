@@ -89,6 +89,17 @@ public class TargetWeightFragment extends Fragment {
         if (markerFrom == MARKER_MAIN) {
             iv_toolbar_next_press.setVisibility(View.INVISIBLE);
         }
+
+        years_pld.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int value) {
+                if (SettingsApp.getInstance().getMetric()) {
+                    return value + " " + getActivity().getResources().getString(R.string.kg);
+                } else {
+                    return value + " " + getActivity().getResources().getString(R.string.lb);
+                }
+            }
+        });
         return view;
     }
 
