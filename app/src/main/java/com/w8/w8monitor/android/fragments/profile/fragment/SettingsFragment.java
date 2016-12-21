@@ -2,6 +2,7 @@ package com.w8.w8monitor.android.fragments.profile.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ChangePasswordActivity;
@@ -26,6 +29,7 @@ import com.w8.w8monitor.android.d_base.RealmObj;
 import com.w8.w8monitor.android.d_base.model.Profile;
 import com.w8.w8monitor.android.d_base.model.UserLibr;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
+import com.w8.w8monitor.android.google.fit.GoogleFitApp;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
 import com.w8.w8monitor.android.utils.SettingsApp;
 import com.w8.w8monitor.android.utils.ShowImages;
@@ -47,7 +51,8 @@ import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TEST_USER;
  */
 public class SettingsFragment extends Fragment implements
         RealmObj.GetUserForSettings,
-        SettingsFragmentView {
+        SettingsFragmentView,
+        ProfileActivity.ListenerGoogleFitSettings {
 
     private ProfileActivity mActivity;
     private ProfileView mProfileView;
@@ -152,14 +157,21 @@ public class SettingsFragment extends Fragment implements
     LinearLayout ll_main;
 
 
+    @Bind(R.id.rl_login_register)
+    RelativeLayout rl_login_register;
+
     @Bind(R.id.view_center_settings)
     View view_center_settings;
 
+    private boolean isAuthorisationGoogleFit;
     private boolean isVisible;
     private int SELECTED = 0;
     private final int SELECT_PRSONAL = 1;
     private final int SELECT_ACCOUNT = 2;
     private final int SELECT_WEB = 3;
+
+    private GoogleFitApp mFitApp;
+    private boolean isBuildFit;
 
     public SettingsFragment() {
     }
@@ -188,9 +200,9 @@ public class SettingsFragment extends Fragment implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
-
-
+        // set listener activity
         mActivity.initListenerSettingsFragment(this);
+        mActivity.setListenerGoogleFit(this);
 
         setDefaultIconLanguages();
         setIconMetricDef();
@@ -206,9 +218,19 @@ public class SettingsFragment extends Fragment implements
             ll_iv_register.setVisibility(View.VISIBLE);
         }
 
+        setIconOnButtonGoogleFit();
+
+        isBuildFit = false;
+
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        if (mFitApp != null)
+            mFitApp.onDestroy();
+        super.onDestroy();
+    }
 
     private void setBodyAndState(int mState, int mTypeBody) {
         boolean dark = SettingsApp.getInstance().isThemeDark();
@@ -452,6 +474,52 @@ public class SettingsFragment extends Fragment implements
         }
     }
 
+    @OnClick(R.id.iv_google_fit)
+    public void iv_google_fitClick() {
+        showHideProgress(2);
+
+        if (mFitApp == null) {
+            mFitApp = new GoogleFitApp(mActivity, 2);
+        }
+
+        if (isAuthorisationGoogleFit) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+//                    try {
+//                        GoogleApiClient client = mFitApp.getClient();
+//                        PendingResult pendingResult = Fitness.ConfigApi.disableFit(client);
+//                        pendingResult.setResultCallback(new ResultCallback<Status>() {
+//                            @Override
+//                            public void onResult(Status status) {
+//                                if (status.isSuccess()) {
+//                                    Log.i("Google Fit", "Google Fit disabled");
+//                                    SettingsApp.getInstance().setAutoLogin(false);
+//                                } else {
+//                                    Log.e("Google Fit ", "Google Fit wasn't disabled " + status);
+//                                    SettingsApp.getInstance().setAutoLogin(true);
+//                                }
+//                                setIconOnButtonGoogleFit();
+//                            }
+//                        });
+//                    } catch (IllegalStateException mE) {
+//                        mE.printStackTrace();
+//                    }
+//                    setIconOnButtonGoogleFit();
+                }
+            }, 1000);
+        } else {
+            if (!isBuildFit)
+                // This ensures that if the user denies the permissions then uses Settings to re-enable
+                // them, the app will start working.
+                mFitApp.buildFitnessClient();
+            isBuildFit = true;
+            // This ensures that if the user denies the permissions then uses Settings to re-enable
+            // them, the app will start working.
+            mFitApp.connect();
+        }
+    }
+
 
 //============================================================
 
@@ -555,6 +623,28 @@ public class SettingsFragment extends Fragment implements
     }
 
 
+    private void setIconOnButtonGoogleFit() {
+        // get status authorisation by google fit
+        isAuthorisationGoogleFit = SettingsApp.getInstance().isAuthGoogleFit();
+        int resIcon = 0;
+        boolean themeDark = SettingsApp.getInstance().isThemeDark();
+        if (!isAuthorisationGoogleFit) {
+            if (themeDark) {
+                resIcon = R.drawable.b_health_on_dark;
+            } else {
+                resIcon = R.drawable.b_health_on_light;
+            }
+        } else {
+            if (themeDark) {
+                resIcon = R.drawable.b_health_off_dark;
+            } else {
+                resIcon = R.drawable.b_health_off_light;
+            }
+        }
+        iv_google_fit.setImageResource(resIcon);
+    }
+
+
     private void setIconLightDefault() {
         if (SettingsApp.getInstance().isThemeDark()) {
             setIcon(iv_b_mode2_dark, R.drawable.b_mode1_dark);
@@ -590,6 +680,18 @@ public class SettingsFragment extends Fragment implements
         setBodyAndState(state, typeBody);
     }
 
+
+    private void showHideProgress(int count) {
+        rl_login_register.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rl_login_register.setVisibility(View.GONE);
+            }
+        }, count * 1000);
+    }
+
+
     //    =================================================
 //            from SettingsFragmentView
 //    =================================================
@@ -601,5 +703,22 @@ public class SettingsFragment extends Fragment implements
 //        } else {
 //            tv_swipe.setVisibility(View.VISIBLE);
 //        }
+    }
+
+    //    =================================================
+//            from ListenerGoogleFitSettings
+//    =================================================
+    @Override
+    public void onResult(int mRequestCode) {
+        if (mRequestCode == Activity.RESULT_OK) {
+            // sa у  шт memory status authorisation by google fit
+            SettingsApp.getInstance().saveAuthGoogleFit(true);
+        } else {
+            // sa у  шт memory status authorisation by google fit
+            SettingsApp.getInstance().saveAuthGoogleFit(false);
+            Toast.makeText(mActivity, R.string.try_later, Toast.LENGTH_SHORT).show();
+        }
+
+        setIconOnButtonGoogleFit();
     }
 }

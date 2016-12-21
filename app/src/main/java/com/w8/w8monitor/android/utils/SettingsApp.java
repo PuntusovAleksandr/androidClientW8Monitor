@@ -68,6 +68,7 @@ public class SettingsApp {
     private static final String KEY_TARGET_WEIGHT = "KEY_TARGET_WEIGHT";
     private static final String KEY_GENDER_FB = "KEY_GENDER_FB";
     private static final String KEY_DATE_BIRTHDAY = "KEY_DATE_BIRTHDAY";
+    private static final String KEY_AUTH_GOOGLE_FIT = "KEY_AUTH_GOOGLE_FIT";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
@@ -413,5 +414,23 @@ public class SettingsApp {
     public long getBirthdayFb() {
         Log.d(TAG, "getGenderFb");
         return sPref.getLong(KEY_DATE_BIRTHDAY, -1);
+    }
+
+    /**
+     * save status authorisation by google fit
+     *
+     * @param mAuth
+     */
+    public void saveAuthGoogleFit(boolean mAuth) {
+        Log.d(TAG, "saveAuthGoogleFit " + mAuth);
+        editor.putBoolean(KEY_AUTH_GOOGLE_FIT, mAuth).commit();
+    }
+
+    /**
+     * check status authorisation by google fit
+     */
+    public boolean isAuthGoogleFit() {
+        Log.d(TAG, "isAuthGoogleFit");
+        return sPref.getBoolean(KEY_AUTH_GOOGLE_FIT, DEF_EMPTY_BOOLEAN);
     }
 }

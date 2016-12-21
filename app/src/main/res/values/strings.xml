@@ -183,6 +183,7 @@
     <string name="integrate_with_google_fit">Integrate \nwith Google Fit?</string>
     <string name="take_your_pick">Please, take your pick!</string>
     <string name="web_link">http://www.w8monitor.com/</string>
+    <string name="try_later">Please try again later.</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

@@ -103,11 +103,17 @@ public class GoogleFitFragment extends Fragment implements
         serviceIntent = new Intent(getActivity(), ApiService.class);
 
         // TODO: 19.12.2016 здесь нужен запрос на интеграцию с гугл фит
-        mFitApp = new GoogleFitApp(mActivity);
+        mFitApp = new GoogleFitApp(mActivity, 3);
 
         mActivity.setListenerGoogleFit(this);
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        mFitApp.onDestroy();
+        super.onDestroy();
     }
 
     private void showHideProgress(int count) {
@@ -145,12 +151,17 @@ public class GoogleFitFragment extends Fragment implements
             } else {
                 hideBackAndNext();
                 showHideProgress(2);
-                // This ensures that if the user denies the permissions then uses Settings to re-enable
-                // them, the app will start working.
-                mFitApp.buildFitnessClient();
-                // This ensures that if the user denies the permissions then uses Settings to re-enable
-                // them, the app will start working.
-                mFitApp.connect();
+                if (yes == 1) {
+                    // This ensures that if the user denies the permissions then uses Settings to re-enable
+                    // them, the app will start working.
+                    mFitApp.buildFitnessClient();
+                    // This ensures that if the user denies the permissions then uses Settings to re-enable
+                    // them, the app will start working.
+                    mFitApp.connect();
+                } else {
+                    saveAuthorisationGoogleFit(false);
+                    goToMainActivity();
+                }
             }
         }
     }
@@ -199,9 +210,17 @@ public class GoogleFitFragment extends Fragment implements
         if (mRequestCode == Activity.RESULT_OK) {
             rl_card_view.setVisibility(View.VISIBLE);
             mFitApp.requestOauth(mRequestCode);
+
+            saveAuthorisationGoogleFit(true);
         } else {
+            Toast.makeText(mActivity, R.string.try_later, Toast.LENGTH_SHORT).show();
             goToMainActivity();
         }
+    }
+
+    private void saveAuthorisationGoogleFit(boolean mB) {
+        // sa у  шт memory status authorisation by google fit
+        SettingsApp.getInstance().saveAuthGoogleFit(mB);
     }
 
 

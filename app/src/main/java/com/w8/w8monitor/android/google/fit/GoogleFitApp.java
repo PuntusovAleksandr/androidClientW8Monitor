@@ -1,7 +1,6 @@
 package com.w8.w8monitor.android.google.fit;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -54,7 +53,6 @@ import static com.w8.w8monitor.android.utils.STATICS_PARAMS.REQUEST_OAUTH;
 
 public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 
-    private Context mContext;
     private Activity mActivity;
 
     private SendDataGoogleFitService service;
@@ -63,16 +61,16 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     private boolean authInProgress;
 
     private long endTime, startTime;
-
+    private int idFit;
 
     public GoogleFitApp(MainActivity mContext) {
-        this.mContext = mContext;
-        this.mActivity =  mContext;
+        this.mActivity = mContext;
+        idFit = 1;
     }
 
-    public GoogleFitApp(ProfileActivity mContext) {
-        this.mContext = mContext;
-        this.mActivity =  mContext;
+    public GoogleFitApp(ProfileActivity mContext, int mIdFit) {
+        this.mActivity = mContext;
+        this.idFit = mIdFit;
     }
 
 
@@ -91,7 +89,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     public void buildFitnessClient() {
         if (mClient == null) {
             makeTime();
-            mClient = new GoogleApiClient.Builder(mContext)
+            mClient = new GoogleApiClient.Builder(mActivity)
                     .addApi(Fitness.HISTORY_API)
                     .addApi(Fitness.CONFIG_API)
                     .addApi(Fitness.SESSIONS_API)
@@ -131,7 +129,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                 }
                             }
                     )
-                    .enableAutoManage((FragmentActivity) mContext, 0, new GoogleApiClient.OnConnectionFailedListener() {
+                    .enableAutoManage((FragmentActivity) mActivity, idFit, new GoogleApiClient.OnConnectionFailedListener() {
                         @Override
                         public void onConnectionFailed(ConnectionResult result) {
                             Log.i(TAG_GOOGLE_FIT, "Google Play services connection failed. Cause: " +
@@ -350,7 +348,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                 msg += field.getName() + " value = " + value + " ";
                 if (!value.toString().toLowerCase().contains("max") &&
                         !value.toString().toLowerCase().contains("min")) {
-                    System.out.println("ПОБЕДА ВЕС = " + value );
+                    System.out.println("ПОБЕДА ВЕС = " + value);
                     SettingsApp.getInstance().saveWeight(value.toString());
                 }
             }
@@ -362,9 +360,15 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     }
 
     public void onDestroy() {
-        if (mClient.isConnected()) {
+        if (mClient !=null) {
+            mClient.stopAutoManage((FragmentActivity) mActivity);
             mClient.disconnect();
+            mClient = null;
         }
+    }
+
+    public GoogleApiClient getClient() {
+        return mClient;
     }
 
     /**
@@ -400,7 +404,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
         Profile profile = getProfile();
         RealmResults<ParamsBody> dataUserForGoogleFit = getUserData(profile.getId());
         service =
-                new SendDataGoogleFitService(mContext, mClient, dataUserForGoogleFit, this);
+                new SendDataGoogleFitService(mActivity, mClient, dataUserForGoogleFit, this);
 
         service.deleteWeight();
         service.deleteAllCalories();
@@ -415,7 +419,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
         Profile profile = getProfile();
         RealmResults<ParamsBody> dataUserForGoogleFit = getUserData(profile.getId());
         service =
-                new SendDataGoogleFitService(mContext, mClient, dataUserForGoogleFit, this);
+                new SendDataGoogleFitService(mActivity, mClient, dataUserForGoogleFit, this);
 
         service.sendWeight();
         service.sendCalories();

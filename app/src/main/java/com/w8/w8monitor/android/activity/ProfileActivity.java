@@ -151,8 +151,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                     mSettingsFragmentView.isConnectedBluetooth(false);
             }
 //        } else if (requestCode == REQUEST_OAUTH && mGoogleFit != null) {
-        } else if (requestCode == 65537 && mGoogleFit != null) {
-            mGoogleFit.onResult(resultCode);
+        } else if (requestCode == 65537) {
+            if (mGoogleFit != null) {
+                mGoogleFit.onResult(resultCode);
+            }
+            if (mFitSettings != null) {
+                mFitSettings.onResult(resultCode);
+            }
         }
     }
 
@@ -337,6 +342,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     }
 
     public interface ListenerGoogleFit {
+        void onResult(int mRequestCode);
+    }
+
+    //    ===================================================
+    private ListenerGoogleFitSettings mFitSettings;
+
+    public void setListenerGoogleFit(ListenerGoogleFitSettings mFitSettings) {
+        this.mFitSettings = mFitSettings;
+    }
+
+    public interface ListenerGoogleFitSettings {
         void onResult(int mRequestCode);
     }
 

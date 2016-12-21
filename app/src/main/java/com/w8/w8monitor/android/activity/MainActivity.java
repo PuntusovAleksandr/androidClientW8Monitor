@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
         mFragmentManager = getSupportFragmentManager();
 
         setUi();
-
-        mFitApp = new GoogleFitApp(this);
+        if (SettingsApp.getInstance().isAuthGoogleFit())
+            mFitApp = new GoogleFitApp(this);
     }
 
     private void getAllMeasurements() {
@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     protected void onStart() {
         super.onStart();
-
-        // This ensures that if the user denies the permissions then uses Settings to re-enable
-        // them, the app will start working.
-        mFitApp.buildFitnessClient();
+        if (mFitApp != null)
+            // This ensures that if the user denies the permissions then uses Settings to re-enable
+            // them, the app will start working.
+            mFitApp.buildFitnessClient();
 
 
         if (checkInternetConnection()) {
@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
     @Override
     protected void onStop() {
+        if (mFitApp != null)
+            mFitApp.onDestroy();
         super.onStop();
         mPresenter.unregisterEvenBus();
     }
@@ -155,10 +157,10 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     protected void onResume() {
         super.onResume();
-
-        // This ensures that if the user denies the permissions then uses Settings to re-enable
-        // them, the app will start working.
-        mFitApp.connect();
+        if (mFitApp != null)
+            // This ensures that if the user denies the permissions then uses Settings to re-enable
+            // them, the app will start working.
+            mFitApp.connect();
     }
 
     public void disconnectBLE(boolean isScan) {
@@ -184,7 +186,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
             removeFirstConnection();
         }
         if (requestCode == REQUEST_OAUTH) {
-            mFitApp.requestOauth(requestCode);
+            if (mFitApp != null)
+                mFitApp.requestOauth(requestCode);
         }
         if (requestCode == SETTINGS_ACTIVITY_RESULT) {
             if (resultCode == RESULT_OK) {
@@ -210,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     protected void onDestroy() {
         bluetoothHandler.disConnect();
-        mFitApp.onDestroy();
         super.onDestroy();
     }
 
