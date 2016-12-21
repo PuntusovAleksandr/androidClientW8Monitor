@@ -48,7 +48,8 @@ import static com.w8.w8monitor.android.utils.LoggerApp.loggerE;
 public class ServiceGenerator {
 
 
-    public static final String API_BASE_URL = "https://w8.rockettaxi.ru/v1/";
+//    public static final String API_BASE_URL = "https://w8.rockettaxi.ru/v1/";     // old
+    public static final String API_BASE_URL = "https://api.w8monitor.com/v1/";
 
 
     private String userName = SettingsApp.getInstance().getUserName();

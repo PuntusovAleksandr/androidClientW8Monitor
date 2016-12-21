@@ -468,7 +468,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:minWidth="?attr/actionBarSize"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_b_reset_dark"

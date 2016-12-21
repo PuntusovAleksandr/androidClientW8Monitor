@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         if (mFitApp != null)
             // This ensures that if the user denies the permissions then uses Settings to re-enable
             // them, the app will start working.
-            mFitApp.buildFitnessClient();
+            mFitApp.buildFitnessClient(false);
 
 
         if (checkInternetConnection()) {

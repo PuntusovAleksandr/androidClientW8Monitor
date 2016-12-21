@@ -991,7 +991,7 @@ public class RealmObj {
                 ParamsBody paramsBody = new ParamsBody();
                 paramsBody.setUserName_id(userName);
                 paramsBody.setDate_time(time);
-                paramsBody.setWeight(Float.parseFloat(mDate));
+                paramsBody.setWeight(Float.parseFloat(mDate.isEmpty() ? "0" : mDate));
                 paramsBody.setBody(0);
                 paramsBody.setFat(0);
                 paramsBody.setMuscle(0);

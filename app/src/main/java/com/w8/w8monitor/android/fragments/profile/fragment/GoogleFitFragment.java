@@ -116,14 +116,14 @@ public class GoogleFitFragment extends Fragment implements
         super.onDestroy();
     }
 
-    private void showHideProgress(int count) {
+    private void showHideProgress(float count) {
         rl_login_register.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 rl_login_register.setVisibility(View.GONE);
             }
-        }, count * 1000);
+        }, (long) (count * 1000));
     }
 
     @Override
@@ -154,7 +154,7 @@ public class GoogleFitFragment extends Fragment implements
                 if (yes == 1) {
                     // This ensures that if the user denies the permissions then uses Settings to re-enable
                     // them, the app will start working.
-                    mFitApp.buildFitnessClient();
+                    mFitApp.buildFitnessClient(false);
                     // This ensures that if the user denies the permissions then uses Settings to re-enable
                     // them, the app will start working.
                     mFitApp.connect();
@@ -206,7 +206,7 @@ public class GoogleFitFragment extends Fragment implements
 //    =============================================
     @Override
     public void onResult(int mRequestCode) {
-        showHideProgress(2);
+        showHideProgress(3.5f);
         if (mRequestCode == Activity.RESULT_OK) {
             rl_card_view.setVisibility(View.VISIBLE);
             mFitApp.requestOauth(mRequestCode);

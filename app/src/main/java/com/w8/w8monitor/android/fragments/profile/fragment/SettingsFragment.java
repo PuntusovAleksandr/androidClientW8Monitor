@@ -52,7 +52,8 @@ import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TEST_USER;
 public class SettingsFragment extends Fragment implements
         RealmObj.GetUserForSettings,
         SettingsFragmentView,
-        ProfileActivity.ListenerGoogleFitSettings {
+        ProfileActivity.ListenerGoogleFitSettings,
+        GoogleFitApp.GisconnectListener {
 
     private ProfileActivity mActivity;
     private ProfileView mProfileView;
@@ -216,6 +217,7 @@ public class SettingsFragment extends Fragment implements
         // show register button when login in test account
         if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
             ll_iv_register.setVisibility(View.VISIBLE);
+            ll_iv_b_reset_dark.setVisibility(View.VISIBLE);
         }
 
         setIconOnButtonGoogleFit();
@@ -477,42 +479,17 @@ public class SettingsFragment extends Fragment implements
     @OnClick(R.id.iv_google_fit)
     public void iv_google_fitClick() {
         showHideProgress(2);
-
         if (mFitApp == null) {
             mFitApp = new GoogleFitApp(mActivity, 2);
         }
-
         if (isAuthorisationGoogleFit) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-//                    try {
-//                        GoogleApiClient client = mFitApp.getClient();
-//                        PendingResult pendingResult = Fitness.ConfigApi.disableFit(client);
-//                        pendingResult.setResultCallback(new ResultCallback<Status>() {
-//                            @Override
-//                            public void onResult(Status status) {
-//                                if (status.isSuccess()) {
-//                                    Log.i("Google Fit", "Google Fit disabled");
-//                                    SettingsApp.getInstance().setAutoLogin(false);
-//                                } else {
-//                                    Log.e("Google Fit ", "Google Fit wasn't disabled " + status);
-//                                    SettingsApp.getInstance().setAutoLogin(true);
-//                                }
-//                                setIconOnButtonGoogleFit();
-//                            }
-//                        });
-//                    } catch (IllegalStateException mE) {
-//                        mE.printStackTrace();
-//                    }
-//                    setIconOnButtonGoogleFit();
-                }
-            }, 1000);
+            mFitApp.disableFit(this);
+            setIconOnButtonGoogleFit();
         } else {
             if (!isBuildFit)
                 // This ensures that if the user denies the permissions then uses Settings to re-enable
                 // them, the app will start working.
-                mFitApp.buildFitnessClient();
+                mFitApp.buildFitnessClient(false);
             isBuildFit = true;
             // This ensures that if the user denies the permissions then uses Settings to re-enable
             // them, the app will start working.
@@ -705,9 +682,6 @@ public class SettingsFragment extends Fragment implements
 //        }
     }
 
-    //    =================================================
-//            from ListenerGoogleFitSettings
-//    =================================================
     @Override
     public void onResult(int mRequestCode) {
         if (mRequestCode == Activity.RESULT_OK) {
@@ -719,6 +693,14 @@ public class SettingsFragment extends Fragment implements
             Toast.makeText(mActivity, R.string.try_later, Toast.LENGTH_SHORT).show();
         }
 
+        setIconOnButtonGoogleFit();
+    }
+
+    //    =================================================
+//            from GisconnectListener mListener
+//    =================================================
+    @Override
+    public void disconnect() {
         setIconOnButtonGoogleFit();
     }
 }

@@ -11,10 +11,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResolvingResultCallbacks;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.fitness.ConfigApi;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.HistoryApi;
 import com.google.android.gms.fitness.data.Bucket;
@@ -86,7 +88,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
      * can address. Examples of this include the user never having signed in before, or having
      * multiple accounts on the device and needing to specify which account to use, etc.
      */
-    public void buildFitnessClient() {
+    public void buildFitnessClient(final boolean ismakeDisconnect) {
         if (mClient == null) {
             makeTime();
             mClient = new GoogleApiClient.Builder(mActivity)
@@ -104,14 +106,19 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                 @Override
                                 public void onConnected(Bundle bundle) {
                                     Log.i(TAG_GOOGLE_FIT, "Connected!!!");
-                                    // Now you can make calls to the Fitness APIs.
 
-                                    // delete all data from googleFit
-                                    deleteAllParams();
+                                    if (ismakeDisconnect) {
+                                        makeDisconnect();
+                                    } else {
+                                        // Now you can make calls to the Fitness APIs.
 
-                                    setConfigParams();
-                                    findFitnessDataSources();
-                                    sendDataFromDB();
+                                        // delete all data from googleFit
+                                        deleteAllParams();
+
+                                        setConfigParams();
+                                        findFitnessDataSources();
+                                        sendDataFromDB();
+                                    }
                                 }
 
                                 @Override
@@ -129,7 +136,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                 }
                             }
                     )
-                    .enableAutoManage((FragmentActivity) mActivity, idFit, new GoogleApiClient.OnConnectionFailedListener() {
+                    .enableAutoManage((FragmentActivity) mActivity, /*idFit*/0, new GoogleApiClient.OnConnectionFailedListener() {
                         @Override
                         public void onConnectionFailed(ConnectionResult result) {
                             Log.i(TAG_GOOGLE_FIT, "Google Play services connection failed. Cause: " +
@@ -346,10 +353,12 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
             for (Field field : dp.getDataType().getFields()) {
                 Value value = dp.getValue(field);
                 msg += field.getName() + " value = " + value + " ";
-                if (!value.toString().toLowerCase().contains("max") &&
-                        !value.toString().toLowerCase().contains("min")) {
+                String weight = value.toString();
+                if (weight.isEmpty()) continue;
+                if (!weight.toLowerCase().contains("max") &&
+                        !weight.toLowerCase().contains("min")) {
                     System.out.println("ПОБЕДА ВЕС = " + value);
-                    SettingsApp.getInstance().saveWeight(value.toString());
+                    SettingsApp.getInstance().saveWeight(weight);
                 }
             }
 
@@ -360,10 +369,41 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
     }
 
     public void onDestroy() {
-        if (mClient !=null) {
+        if (mClient != null) {
             mClient.stopAutoManage((FragmentActivity) mActivity);
             mClient.disconnect();
             mClient = null;
+        }
+    }
+
+    public void disableFit(GisconnectListener mListener) {
+        this.mListener = mListener;
+        if (mClient != null) {
+            makeDisconnect();
+        } else {
+            buildFitnessClient(true);
+        }
+    }
+
+    private void makeDisconnect() {
+        try {
+            ConfigApi configApi = Fitness.ConfigApi;
+            PendingResult pendingResult = configApi.disableFit(mClient);
+            pendingResult.setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(Status status) {
+                    if (status.isSuccess()) {
+                        Log.i("Google Fit", "Google Fit disabled");
+                        SettingsApp.getInstance().setAutoLogin(false);
+                    } else {
+                        Log.e("Google Fit ", "Google Fit wasn't disabled " + status);
+                        SettingsApp.getInstance().setAutoLogin(true);
+                    }
+                    mListener.disconnect();
+                }
+            });
+        } catch (IllegalStateException mE) {
+            mE.printStackTrace();
         }
     }
 
@@ -447,12 +487,16 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
         return null;
     }
 
-
-    //    ===============================================
-//            from UpdateData
-//    ===============================================
     @Override
     public void needMakeUpdateData() {
 
     }
+
+    //    ===============================================
+    private GisconnectListener mListener;
+
+    public interface GisconnectListener {
+        void disconnect();
+    }
+
 }
