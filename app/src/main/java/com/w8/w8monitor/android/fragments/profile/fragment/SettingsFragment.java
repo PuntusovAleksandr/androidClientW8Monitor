@@ -156,6 +156,8 @@ public class SettingsFragment extends Fragment implements
     LinearLayout ll_iv_b_logout_dark;
     @Bind(R.id.ll_main)
     LinearLayout ll_main;
+    @Bind(R.id.ll_support)
+    LinearLayout ll_support;
 
 
     @Bind(R.id.rl_login_register)
@@ -391,6 +393,11 @@ public class SettingsFragment extends Fragment implements
     @OnClick(R.id.ll_iv_target_weight)
     public void ll_iv_target_weightClock() {
         mActivity.setEnterProfileDataFragment(FragmentMapker.TARGET_WEIGHT, true, null);
+    }
+
+    @OnClick(R.id.ll_support)
+    public void ll_supportClock() {
+        mActivity.setEnterProfileDataFragment(FragmentMapker.SUPPORT, true, null);
     }
 
     @OnClick(R.id.iv_b_metric2_dark)

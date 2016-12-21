@@ -19,6 +19,7 @@ import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASS;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASSWORD_NEW;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASSWORD_NEW_CONFIRM;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASSWORD_OLS;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_QUESTIONS;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SOCIAL_ID;
 
 public class ApiService extends Service implements
@@ -98,6 +99,10 @@ public class ApiService extends Service implements
             case ApiConstants.RESET_PASSWORD:
                 userInteractor.resetPassword(mail);
                 break;
+            case ApiConstants.SUPPORT_API:
+                String description = intent.getStringExtra(SERVICE_QUESTIONS);
+                userInteractor.sendQuestion(mail, description);
+                break;
         }
         return START_NOT_STICKY;
     }
@@ -162,6 +167,9 @@ public class ApiService extends Service implements
                 break;
             case ApiConstants.RESET_PASSWORD:
                 updateUiEvent.setId(UpdateUiEvent.RESET_PASSWORD);
+                break;
+            case ApiConstants.SUPPORT_API:
+                updateUiEvent.setId(UpdateUiEvent.RESPONSE_SUPPORT_API);
                 break;
         }
 

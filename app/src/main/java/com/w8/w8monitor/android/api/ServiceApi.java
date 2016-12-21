@@ -1,4 +1,4 @@
-package  com.w8.w8monitor.android.api;
+package com.w8.w8monitor.android.api;
 
 
 import com.w8.w8monitor.android.api.model.Measurement;
@@ -195,5 +195,14 @@ public interface ServiceApi {
 
     @FormUrlEncoded
     @POST("password/reset")
-    Call<Object> resetPassword(@Field("email") String email);
+    Call<Object> resetPassword(
+            @Field("email") String email);
+
+
+    @FormUrlEncoded
+    @POST("support")
+    Call<Object> sendQuestion(
+            @Field("email") String email,
+            @Field("body") String body);
+
 }

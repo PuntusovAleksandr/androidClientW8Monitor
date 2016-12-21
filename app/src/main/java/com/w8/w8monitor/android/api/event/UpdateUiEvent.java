@@ -20,6 +20,7 @@ public class UpdateUiEvent<T> {
     public static final int ALL_MEASUREMENTS = 12;
     public static final int MEASUREMENTS_MASS_UPDATE = 13;
     public static final int RESET_PASSWORD = 14;
+    public static final int RESPONSE_SUPPORT_API = 15;
 
     private int id;
 

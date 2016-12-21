@@ -760,6 +760,39 @@ public class ServiceGenerator {
         });
     }
 
+    public void sendQuestion(String mMail, String mDescription) {
+
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
+        Call<Object> call = downloadService.sendQuestion(mMail, mDescription);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Object body = response.body();
+                if (body == null) {
+                    //404 or the response cannot be converted to User.
+                    String textError = "Error data";
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        loggerE("error loginToServer " + responseBody.toString());
+                        textError = getTextMessage(responseBody);
+                    }
+                    showMessage(call, textError, ApiConstants.SUPPORT_API);
+                } else {
+                    //200
+                    event = new NetworkResponseEvent();
+                    event.setId(ApiConstants.SUPPORT_API);
+                    event.setSucess(true);
+                    mCallBackServiceGenerator.requestCallBack(event);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                showMessageFailure(call, t, ApiConstants.SUPPORT_API);
+            }
+        });
+    }
+
 //============================
 
     private void showMessageFailure(Call mCall, Throwable t, int mAppiConstant) {
@@ -868,6 +901,7 @@ public class ServiceGenerator {
     private ParamsBody[] getParamsBodies() {
         return new ParamsBody[0];
     }
+
 
 
 //============================

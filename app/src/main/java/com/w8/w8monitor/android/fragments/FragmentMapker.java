@@ -14,6 +14,7 @@ public class FragmentMapker {
     public static final int PROFILE_LIBR = 6;
     public static final int TARGET_WEIGHT = 7;
     public static final int GOOGLE_FIT = 8;
+    public static final int SUPPORT = 9;
 
 
     public static final int METRIC_PARAMS = 2;
@@ -33,6 +34,7 @@ public class FragmentMapker {
     public static final String SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT";
     public static final String TARGET_WEIGHT_FRAGMENT = "TARGET_WEIGHT_FRAGMENT";
     public static final String GOOGLE_FIT_FRAGMENT = "GOOGLE_FIT_FRAGMENT";
+    public static final String SSUPPORT_FRAGMENT = "SSUPPORT_FRAGMENT";
 
     public static final String CIRCLE_GRAPH_FRAGMENT = "CIRCLE_GRAPH_FRAGMENT";
     public static final String LINER_GRAPH_FRAGMENT = "LINER_GRAPH_FRAGMENT";

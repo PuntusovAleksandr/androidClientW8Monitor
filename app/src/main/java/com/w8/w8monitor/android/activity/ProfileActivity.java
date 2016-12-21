@@ -18,6 +18,7 @@ import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.adapter.CirclePagerAdapter;
+import com.w8.w8monitor.android.api.service.ApiService;
 import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.fragments.profile.fragment.BLEFragment;
@@ -29,6 +30,7 @@ import com.w8.w8monitor.android.fragments.profile.fragment.GrowthFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.SettingsFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.SettingsFragmentView;
 import com.w8.w8monitor.android.fragments.profile.fragment.StateFragment;
+import com.w8.w8monitor.android.fragments.profile.fragment.SupportFragment;
 import com.w8.w8monitor.android.fragments.profile.fragment.TargetWeightFragment;
 import com.w8.w8monitor.android.presents.profile.presenter.ProfilePresenterImpl;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
@@ -39,6 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
+import static com.w8.w8monitor.android.api.constant.ApiConstants.SUPPORT_API;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.BIRTHDAY_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.BODY_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.CONNECT_BLE;
@@ -48,7 +51,9 @@ import static com.w8.w8monitor.android.fragments.FragmentMapker.GOOGLE_FIT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.GOOGLE_FIT_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.GROWTH_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.SELECT_STATE;
+import static com.w8.w8monitor.android.fragments.FragmentMapker.SSUPPORT_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.STATE_FRAGMENT;
+import static com.w8.w8monitor.android.fragments.FragmentMapker.SUPPORT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.TARGET_WEIGHT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.TARGET_WEIGHT_FRAGMENT;
 import static com.w8.w8monitor.android.fragments.FragmentMapker.TYPE_BODY;
@@ -56,6 +61,9 @@ import static com.w8.w8monitor.android.fragments.FragmentMapker.USER_GROWTH;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.COUNT_PAGES_PROFILE_DEFOULT;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEI_CONNECTION;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_MAIL;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_QUESTIONS;
 import static com.w8.w8monitor.android.utils.ShowMesages.showMessageToast;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileView {
@@ -68,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     private BLEFragment mBLEFragment;
     private TargetWeightFragment mTargetWeightFragment;
     private GoogleFitFragment mGoogleFitFragment;
+    private SupportFragment mSupportFragment;
 
     private FragmentManager mFragmentManager;
 
@@ -83,6 +92,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     private boolean isConnected = false;
 
     private RegisterUser mRegisterUser;
+    private Intent serviceIntent;
 
     @Bind(R.id.walk_through_view_pager)
     ViewPager mViewPager;
@@ -101,6 +111,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+
+        serviceIntent = new Intent(this, ApiService.class);
 
         mRegisterUser = new RegisterUser();
         mRegisterUser.setAge(SettingsApp.getInstance().getBirthdayFb());
@@ -282,6 +294,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 circlePageIndicator.setViewPager(mViewPager, GOOGLE_FIT - 3);
                 break;
 
+            case SUPPORT:
+                tagFragment = SSUPPORT_FRAGMENT;
+                mSupportFragment = (SupportFragment) getSupportFragmentManager()
+                        .findFragmentByTag(tagFragment);
+                if (mSupportFragment == null) {
+                    mSupportFragment = new SupportFragment(mPresenter);
+                }
+                fragment = mSupportFragment;
+                circlePageIndicator.setViewPager(mViewPager, GOOGLE_FIT - 3);
+                break;
+
         }
         setFragment(fragment, tagFragment);
     }
@@ -339,6 +362,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     public void setListenerGoogleFit(ListenerGoogleFit mGoogleFit) {
         this.mGoogleFit = mGoogleFit;
+    }
+
+    public void sendQuestion(String mEmail, String mText) {
+        serviceIntent.putExtra(SERVICE_MAIL, mEmail);
+        serviceIntent.putExtra(SERVICE_QUESTIONS, mText);
+        serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, SUPPORT_API);
+        startService(serviceIntent);
     }
 
     public interface ListenerGoogleFit {
