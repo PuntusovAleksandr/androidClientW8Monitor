@@ -388,6 +388,11 @@ public class SettingsFragment extends Fragment implements
         mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, true, null);
     }
 
+    @OnClick(R.id.ll_iv_target_weight)
+    public void ll_iv_target_weightClock() {
+        mActivity.setEnterProfileDataFragment(FragmentMapker.TARGET_WEIGHT, true, null);
+    }
+
     @OnClick(R.id.iv_b_metric2_dark)
     public void clickMetric() {
 //        no do

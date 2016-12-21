@@ -72,7 +72,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 
     public GoogleFitApp(ProfileActivity mContext, int mIdFit) {
         this.mActivity = mContext;
-        this.idFit = mIdFit;
+        this.idFit = 0;
     }
 
 
@@ -136,7 +136,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                 }
                             }
                     )
-                    .enableAutoManage((FragmentActivity) mActivity, /*idFit*/0, new GoogleApiClient.OnConnectionFailedListener() {
+                    .enableAutoManage((FragmentActivity) mActivity, idFit, new GoogleApiClient.OnConnectionFailedListener() {
                         @Override
                         public void onConnectionFailed(ConnectionResult result) {
                             Log.i(TAG_GOOGLE_FIT, "Google Play services connection failed. Cause: " +

@@ -336,7 +336,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_16"
-                        android:src="?attr/b_web"/>
+                        android:src="?attr/b_targetweight"/>
 
                     <TextView
                         android:layout_width="match_parent"

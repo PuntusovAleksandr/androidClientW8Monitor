@@ -66,7 +66,13 @@ public class TargetWeightFragment extends Fragment {
         this.mPresenter = mPresenter;
         this.markerFrom = markerFrom;
         this.mFromSettings = mFromSettings;
-        this.mRegisterUser = mRegisterUser == null ? new RegisterUser() : mRegisterUser;
+
+        if (mRegisterUser == null) {
+            mRegisterUser = new RegisterUser();
+            mRegisterUser.setTargetWeight(
+                    (int) (SettingsApp.getInstance().getTargetWeight() / 0.45f));
+        }
+        this.mRegisterUser = mRegisterUser;
     }
 
     @Override
