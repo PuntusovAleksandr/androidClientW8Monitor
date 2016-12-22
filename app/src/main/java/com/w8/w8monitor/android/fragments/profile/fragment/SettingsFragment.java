@@ -504,14 +504,20 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_google_fit)
     public void iv_google_fitClick() {
-        showHideProgress(2);
-        if (mFitApp == null) {
-            mFitApp = new GoogleFitApp(mActivity, 2);
-        }
+//        showHideProgress(2);
+//        if (mFitApp == null) {
+//            mFitApp = new GoogleFitApp(mActivity, 2);
+//        }
         if (isAuthorisationGoogleFit) {
-            mFitApp.disableFit(this);
-            setIconOnButtonGoogleFit();
+            return;
+//            mFitApp.disableFit(this);
+//            setIconOnButtonGoogleFit();
         } else {
+            showHideProgress(2);
+            if (mFitApp == null) {
+                mFitApp = new GoogleFitApp(mActivity, 2);
+            }
+
             if (!isBuildFit)
                 // This ensures that if the user denies the permissions then uses Settings to re-enable
                 // them, the app will start working.

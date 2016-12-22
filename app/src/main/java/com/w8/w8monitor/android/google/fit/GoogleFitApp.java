@@ -67,7 +67,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 
     public GoogleFitApp(MainActivity mContext) {
         this.mActivity = mContext;
-        idFit = 1;
+        idFit = 0;
     }
 
     public GoogleFitApp(ProfileActivity mContext, int mIdFit) {
@@ -107,9 +107,9 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                 public void onConnected(Bundle bundle) {
                                     Log.i(TAG_GOOGLE_FIT, "Connected!!!");
 
-                                    if (ismakeDisconnect) {
-                                        makeDisconnect();
-                                    } else {
+//                                    if (ismakeDisconnect) {
+//                                        makeDisconnect();
+//                                    } else {
                                         // Now you can make calls to the Fitness APIs.
 
                                         // delete all data from googleFit
@@ -118,7 +118,7 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
                                         setConfigParams();
                                         findFitnessDataSources();
                                         sendDataFromDB();
-                                    }
+//                                    }
                                 }
 
                                 @Override
