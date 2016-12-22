@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.viewpagerindicator.CirclePageIndicator;
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.AlarmActivity;
 import com.w8.w8monitor.android.activity.MainActivity;
@@ -25,13 +26,18 @@ import com.w8.w8monitor.android.adapter.CirclePagerAdapterMain;
 import com.w8.w8monitor.android.d_base.model.ParamsBody;
 import com.w8.w8monitor.android.fragments.main.view.CircleBackground;
 import com.w8.w8monitor.android.fragments.main.view.ViewPagerCustomDuration;
+import com.w8.w8monitor.android.tutorial.ShowTutorial;
 import com.w8.w8monitor.android.utils.SettingsApp;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.w8.w8monitor.android.R.id.bt_go_line;
+import static com.w8.w8monitor.android.R.id.ib_facebook;
+import static com.w8.w8monitor.android.R.id.ib_login;
+import static com.w8.w8monitor.android.R.id.ib_register;
+import static com.w8.w8monitor.android.R.id.ll_log_in;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRoboLight;
 import static com.w8.w8monitor.android.utils.GetSizeWindow.getSizeWindow;
 import static com.w8.w8monitor.android.utils.InternetUtils.checkInternetConnection;
@@ -60,6 +66,9 @@ public class CircleGraphFragment extends Fragment implements
     private MainActivityPresenter mPresenter;
 
     private CirclePagerAdapterMain mAdapter;
+
+    @Bind(R.id.view_center_tutorial)
+    View view_center_tutorial;
 
     @Bind(R.id.bt_go_line)
     CircleBackground mButton;
@@ -164,6 +173,12 @@ public class CircleGraphFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         setShowValues(mViewPager.getCurrentItem());
+
+        if (SettingsApp.getInstance().isShowMainTutorial()) {
+            ShowTutorial tutorial = new ShowTutorial();
+            tutorial.tutorialForMain((MainActivity) getActivity(),
+                    ib_time, ib_line_chart, ib_settings, view_center_tutorial);
+        }
     }
 
     private void setShowValues(int mValue) {

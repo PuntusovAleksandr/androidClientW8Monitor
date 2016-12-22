@@ -70,6 +70,8 @@ public class SettingsApp {
     private static final String KEY_GENDER_FB = "KEY_GENDER_FB";
     private static final String KEY_DATE_BIRTHDAY = "KEY_DATE_BIRTHDAY";
     private static final String KEY_AUTH_GOOGLE_FIT = "KEY_AUTH_GOOGLE_FIT";
+    private static final String KEY_SHOW_LOGIN_TUTORIAL = "KEY_SHOW_LOGIN_TUTORIAL";
+    private static final String KEY_SHOW_MAIN_TUTORIAL = "KEY_SHOW_MAIN_TUTORIAL";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
@@ -453,5 +455,41 @@ public class SettingsApp {
     public boolean isAuthGoogleFit() {
         Log.d(TAG, "isAuthGoogleFit");
         return sPref.getBoolean(KEY_AUTH_GOOGLE_FIT, DEF_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * set is show tutorial in login activity
+     *
+     * @param mAuth
+     */
+    public void setShowLoginTutorial(boolean mAuth) {
+        Log.d(TAG, "setShowLoginTutorial " + mAuth);
+        editor.putBoolean(KEY_SHOW_LOGIN_TUTORIAL, mAuth).commit();
+    }
+
+    /**
+     * check  is show tutorial in login activity
+     */
+    public boolean isShowLoginTutorial() {
+        Log.d(TAG, "setShowLoginTutorial");
+        return sPref.getBoolean(KEY_SHOW_LOGIN_TUTORIAL, DEF_NOT_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * set is show tutorial in Main activity
+     *
+     * @param mAuth
+     */
+    public void setShowMainTutorial(boolean mAuth) {
+        Log.d(TAG, "setShowMainTutorial " + mAuth);
+        editor.putBoolean(KEY_SHOW_MAIN_TUTORIAL, mAuth).commit();
+    }
+
+    /**
+     * check  is show tutorial in Main activity
+     */
+    public boolean isShowMainTutorial() {
+        Log.d(TAG, "isShowMainTutorial");
+        return sPref.getBoolean(KEY_SHOW_MAIN_TUTORIAL, DEF_NOT_EMPTY_BOOLEAN);
     }
 }

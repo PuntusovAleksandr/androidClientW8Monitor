@@ -187,6 +187,22 @@
     <string name="send">SEND</string>
     <string name="fill_question">Please fill place question</string>
     <string name="answer_support">Thank you for your question. We’ll send you an answer to the provided email address within a 72 hours.</string>
+    <string name="register_tutorial">Register</string>
+    <string name="register_text_tutorial">Register to have ability to save and restore all your measurements history and receive qualified support and recommendations</string>
+    <string name="next_tutorial">NEXT</string>
+    <string name="logint_tutorial">Login</string>
+    <string name="login_txt1_tutorial">Login if you have account with W8 Monitor</string>
+    <string name="login_txt2_tutorial">Login with your Facebook account</string>
+    <string name="register_later_tutorial">Register Later</string>
+    <string name="register_later_text_tutorial">Register later if you don\'t want to get any support and benefits</string>
+    <string name="notification_tutoriaal">Notification</string>
+    <string name="notification_text_tutoriaal">Set notifications to plan your weight</string>
+    <string name="graph_tutorial">Graph</string>
+    <string name="graph_text_tutorial">Get you measurements results in graphs</string>
+    <string name="settings_tutorial">Settings</string>
+    <string name="settings_text_tutorial">Configure your app</string>
+    <string name="wheel_tutorial">Wheel</string>
+    <string name="wheel_text_tutorial">Get measurement results</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

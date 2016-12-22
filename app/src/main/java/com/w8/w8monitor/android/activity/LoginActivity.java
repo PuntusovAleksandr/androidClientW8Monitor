@@ -27,6 +27,7 @@ import com.w8.w8monitor.android.ble.BluetoothHandler;
 import com.w8.w8monitor.android.d_base.model.UserLibr;
 import com.w8.w8monitor.android.facebook.RegisterFacebook;
 import com.w8.w8monitor.android.presents.login.presenter.LoginPresenterImpl;
+import com.w8.w8monitor.android.tutorial.ShowTutorial;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
 import com.w8.w8monitor.android.utils.SetThemeDark;
 import com.w8.w8monitor.android.utils.SettingsApp;
@@ -142,6 +143,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     protected void onStop() {
         presenter.unregisterEvenBus();
         super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SettingsApp.getInstance().isShowLoginTutorial()) {
+            ShowTutorial tutorial = new ShowTutorial();
+            tutorial.tutorialForLogin(this, ib_register, ll_log_in, ib_facebook, ib_login);
+        }
     }
 
     @Override

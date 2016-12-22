@@ -7,6 +7,13 @@
     android:orientation="vertical"
     tools:background="?attr/background_app">
 
+
+    <View
+        android:id="@+id/view_center_tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"/>
+
     <include
         android:id="@+id/l_picker_bottom"
         layout="@layout/view_pager_layout_button"/>
@@ -223,6 +230,7 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
 
 
 </RelativeLayout>

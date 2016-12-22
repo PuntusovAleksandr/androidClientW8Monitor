@@ -95,4 +95,7 @@ dependencies {
 
 //    GOOGLE FIT      https://developers.google.com/fit/android/get-started?hl=ru
     compile 'com.google.android.gms:play-services-fitness:9.8.0'
+
+     // for tutorial
+    compile 'com.github.amlcurran.showcaseview:library:5.4.3'
 }
