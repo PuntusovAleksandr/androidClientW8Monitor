@@ -161,6 +161,8 @@ public class SettingsFragment extends Fragment implements
     LinearLayout ll_main;
     @Bind(R.id.ll_support)
     LinearLayout ll_support;
+    @Bind(R.id.dempfer_view)
+    LinearLayout dempfer_view;
 
 
     @Bind(R.id.rl_login_register)
@@ -223,11 +225,17 @@ public class SettingsFragment extends Fragment implements
         if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
             ll_iv_register.setVisibility(View.VISIBLE);
             ll_iv_b_reset_dark.setVisibility(View.GONE);
+            dempfer_view.setVisibility(View.VISIBLE);
         } else {
             if (SettingsApp.getInstance().isUserLOginFB()) {
                 ll_iv_b_reset_dark.setVisibility(View.GONE);
+            } else {
+                dempfer_view.setVisibility(View.VISIBLE);
+                ll_iv_register.setVisibility(View.GONE);
             }
         }
+
+
 
         setIconOnButtonGoogleFit();
 
