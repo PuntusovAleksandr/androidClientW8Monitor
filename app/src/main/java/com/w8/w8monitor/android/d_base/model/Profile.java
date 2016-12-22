@@ -23,6 +23,10 @@ public class Profile extends RealmObject {
     private int number;
     private boolean is_current;
 
+    private int target_weight;
+    private int measurements_count;
+
+
     public Profile() {
     }
 
@@ -104,5 +108,21 @@ public class Profile extends RealmObject {
 
     public void setIs_current(boolean mIs_current) {
         is_current = mIs_current;
+    }
+
+    public int getTarget_weight() {
+        return target_weight;
+    }
+
+    public void setTarget_weight(int mTarget_weight) {
+        target_weight = mTarget_weight;
+    }
+
+    public int getMeasurements_count() {
+        return measurements_count;
+    }
+
+    public void setMeasurements_count(int mMeasurements_count) {
+        measurements_count = mMeasurements_count;
     }
 }

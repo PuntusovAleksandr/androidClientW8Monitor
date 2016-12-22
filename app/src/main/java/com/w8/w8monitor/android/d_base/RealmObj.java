@@ -157,6 +157,8 @@ public class RealmObj {
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
             profile.setIs_current(profileApi.is_current());
+            profile.setTarget_weight(profileApi.getTarget_weight());
+            profile.setMeasurements_count(profileApi.getMeasurements_count());
 
             userLibr.getProfiles().add(profile);
         }
@@ -575,6 +577,8 @@ public class RealmObj {
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
             profile.setIs_current(profileApi.is_current());
+            profile.setTarget_weight(profileApi.getTarget_weight());
+            profile.setMeasurements_count(profileApi.getMeasurements_count());
 
             userLibr.getProfiles().add(profile);
         }
@@ -1284,6 +1288,8 @@ public class RealmObj {
             profile.setCreated_at(profileApi.getCreated_at());
             profile.setUpdated_at(profileApi.getUpdated_at());
             profile.setNumber(profileApi.getNumber());
+            profile.setTarget_weight(profileApi.getTarget_weight());
+            profile.setMeasurements_count(profileApi.getMeasurements_count());
 
             profiles.add(profile);
         }

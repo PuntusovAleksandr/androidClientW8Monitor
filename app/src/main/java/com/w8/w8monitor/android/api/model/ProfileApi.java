@@ -51,6 +51,14 @@ public class ProfileApi {
     @Expose
     private boolean is_current;
 
+    @SerializedName("target_weight")
+    @Expose
+    private int target_weight;
+
+    @SerializedName("measurements_count")
+    @Expose
+    private int measurements_count;
+
 
     public ProfileApi() {
     }
@@ -133,5 +141,21 @@ public class ProfileApi {
 
     public void setIs_current(boolean mIs_current) {
         is_current = mIs_current;
+    }
+
+    public int getTarget_weight() {
+        return target_weight;
+    }
+
+    public void setTarget_weight(int mTarget_weight) {
+        target_weight = mTarget_weight;
+    }
+
+    public int getMeasurements_count() {
+        return measurements_count;
+    }
+
+    public void setMeasurements_count(int mMeasurements_count) {
+        measurements_count = mMeasurements_count;
     }
 }
