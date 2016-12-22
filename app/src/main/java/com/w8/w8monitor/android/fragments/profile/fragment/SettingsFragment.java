@@ -222,7 +222,11 @@ public class SettingsFragment extends Fragment implements
         // show register button when login in test account
         if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
             ll_iv_register.setVisibility(View.VISIBLE);
-            ll_iv_b_reset_dark.setVisibility(View.VISIBLE);
+            ll_iv_b_reset_dark.setVisibility(View.GONE);
+        } else {
+            if (SettingsApp.getInstance().isUserLOginFB()) {
+                ll_iv_b_reset_dark.setVisibility(View.GONE);
+            }
         }
 
         setIconOnButtonGoogleFit();

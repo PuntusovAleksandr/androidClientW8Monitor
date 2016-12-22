@@ -208,11 +208,14 @@ public class ServiceGenerator {
                     SettingsApp.getInstance().setUserName(mMail);
                     SettingsApp.getInstance().setUserPassword(idSocialNetwork);
                     SettingsApp.getInstance().setUserServer(true);
+                    SettingsApp.getInstance().setUserLOginFB(true);
+
                     event = new NetworkResponseEvent();
                     event.setData(body);
                     event.setId(ApiConstants.LOGIN_SOCIAL);
                     event.setSucess(true);
                     mCallBackServiceGenerator.requestCallBack(event);
+
                 }
             }
 

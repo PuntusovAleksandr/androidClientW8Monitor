@@ -63,6 +63,7 @@ public class SettingsApp {
     private static final String KEY_PROFILE_BLE_ID = "KEY_PROFILE_BLE_ID";
     private static final String KEY_ICON_IN_HOME = "KEY_ICON_IN_HOME";
     private static final String KEY_USER_SERVER = "KEY_USER_SERVER";
+    private static final String KEY_USER_LOGIN_FB = "KEY_USER_LOGIN_FB";
     private static final String KEY_SHOW_WEIGHT_GOOGLE_FIT = "KEY_SHOW_WEIGHT_GOOGLE_FIT";
     private static final String KEY_SAVE_WEIGHT = "KEY_SAVE_WEIGHT";
     private static final String KEY_TARGET_WEIGHT = "KEY_TARGET_WEIGHT";
@@ -318,6 +319,26 @@ public class SettingsApp {
     public boolean isUserServer() {
         Log.d(TAG, "getProfileBLE");
         return sPref.getBoolean(KEY_USER_SERVER, DEF_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * for check if user login FB
+     *
+     * @return
+     */
+    public boolean isUserLOginFB() {
+        Log.d(TAG, "isUserLOginFB");
+        return sPref.getBoolean(KEY_USER_LOGIN_FB, DEF_EMPTY_BOOLEAN);
+    }
+
+    /**
+     * for check if user login FB
+     *
+     * @param mS
+     */
+    public void setUserLOginFB(boolean mS) {
+        Log.d(TAG, "setUserLOginFB " + mS);
+        editor.putBoolean(KEY_USER_LOGIN_FB, mS).commit();
     }
 
     /**
