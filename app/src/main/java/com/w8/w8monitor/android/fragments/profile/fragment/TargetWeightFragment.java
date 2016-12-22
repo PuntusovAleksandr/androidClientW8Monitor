@@ -14,6 +14,7 @@ import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ProfileActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
+import com.w8.w8monitor.android.d_base.RealmObj;
 import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.utils.SettingsApp;
@@ -30,7 +31,8 @@ import static com.w8.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
  * Created by AleksandrP on 19.12.2016.
  */
 
-public class TargetWeightFragment extends Fragment {
+public class TargetWeightFragment extends Fragment
+        implements RealmObj.ProfileFirstStartGoogleFit {
 
 
     private ProfileActivity mActivity;
@@ -171,8 +173,13 @@ public class TargetWeightFragment extends Fragment {
     public void clickNextFragment() {
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
-        } else
-            mActivity.setEnterProfileDataFragment(FragmentMapker.GOOGLE_FIT, false, mRegisterUser);
+        } else {
+            if (SettingsApp.getInstance().isAuthGoogleFit()) {
+                mPresenter.setFullSettings(this);
+            } else {
+                mActivity.setEnterProfileDataFragment(FragmentMapker.GOOGLE_FIT, false, mRegisterUser);
+            }
+        }
     }
 
 
@@ -184,5 +191,17 @@ public class TargetWeightFragment extends Fragment {
             mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, false, mRegisterUser);
     }
 
+//====================================================
+//        from ProfileFirstStartGoogleFit
+//====================================================
+    @Override
+    public void isOkFullSettings(boolean mIsOkFullSettings) {
+        mPresenter.goToMainActivity();
+        mActivity.finish();
+    }
 
+    @Override
+    public void isTargetWeight(String height) {
+
+    }
 }
