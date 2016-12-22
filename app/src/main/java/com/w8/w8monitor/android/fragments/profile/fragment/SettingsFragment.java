@@ -229,6 +229,8 @@ public class SettingsFragment extends Fragment implements
 
         isBuildFit = false;
 
+        tv_swipe.setText(R.string.settings);
+
         return view;
     }
 
@@ -297,7 +299,9 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.ll_personal)
     public void ll_personalClick() {
+        tv_swipe.setText(R.string.personal);
         if (SELECTED == SELECT_PRSONAL) {
+            tv_swipe.setText(R.string.settings);
             hideAllLL(true, ll_help_personal);
             return;
         }
@@ -309,7 +313,9 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.ll_account)
     public void ll_accountpClick() {
+        tv_swipe.setText(R.string.account);
         if (SELECTED == SELECT_ACCOUNT) {
+            tv_swipe.setText(R.string.settings);
             hideAllLL(true, ll_help_account);
             return;
         }
@@ -321,7 +327,9 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.ll_help)
     public void ll_helpClick() {
+        tv_swipe.setText(R.string.help);
         if (SELECTED == SELECT_WEB) {
+            tv_swipe.setText(R.string.settings);
             hideAllLL(true, ll_help_settings);
             return;
         }
@@ -353,6 +361,7 @@ public class SettingsFragment extends Fragment implements
         int res = 1;
         String textButtom = "";
         String textButtom2 = "";
+        String oldText = getString(R.string.personal);
         if (typeBody == 2) {
             res = 3;
             textButtom = getString(R.string.pro);
@@ -368,7 +377,7 @@ public class SettingsFragment extends Fragment implements
         }
         mPresenter.setTypeProfile(res, this);
 
-        showCustomMessages(textButtom, textButtom2);
+        showCustomMessages(textButtom, textButtom2, oldText);
     }
 
     @OnClick(R.id.iv_b_male_dark)
@@ -376,6 +385,7 @@ public class SettingsFragment extends Fragment implements
 //        mActivity.setEnterProfileDataFragment(FragmentMapker.SELECT_STATE, true);
         int res = 0;
         String textButtom = "";
+        String oldText = getString(R.string.personal);
         if (state == 1) {
             res = 0;
             textButtom = getString(R.string.female);
@@ -385,7 +395,7 @@ public class SettingsFragment extends Fragment implements
         }
         mPresenter.setStateUser(res, this);
 
-        showCustomMessages(textButtom, "");
+        showCustomMessages(textButtom, "", oldText);
     }
 
     @OnClick(R.id.iv_b_dob_dark)
@@ -409,6 +419,7 @@ public class SettingsFragment extends Fragment implements
 //        no do
         boolean metric = SettingsApp.getInstance().getMetric();
         String textButtom = "";
+        String oldText = getString(R.string.personal);
         if (metric) {
             metric = false;
             textButtom = getString(R.string.imperial);
@@ -418,11 +429,11 @@ public class SettingsFragment extends Fragment implements
         }
         SettingsApp.getInstance().setMetric(metric);
         setIconMetricDef();
-        showCustomMessages(textButtom, "");
+        showCustomMessages(textButtom, "", oldText);
     }
 
 
-    private void showCustomMessages(String mString, String mTextButtom) {
+    private void showCustomMessages(String mString, String mTextButtom, final String mOldText) {
 
         tv_swipe.setText(mString);
         tv_title_buttom_top_settings.setText(mTextButtom);
@@ -437,9 +448,8 @@ public class SettingsFragment extends Fragment implements
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                tv_swipe.setVisibility(View.INVISIBLE);
                 tv_title_buttom_top_settings.setVisibility(View.INVISIBLE);
-                tv_swipe.setText("");
+                tv_swipe.setText(mOldText);
                 tv_title_buttom_top_settings.setText("");
             }
         }, 2000);
