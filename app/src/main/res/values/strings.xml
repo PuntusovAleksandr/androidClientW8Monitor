@@ -166,8 +166,10 @@
     <string name="text_google_fit">Do you want to import your weight data from Google Fit?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="personal">Personal Settings</string>
-    <string name="account">Account Settings</string>
+    <string name="personal">Personal</string>
+    <string name="personal_settings">Personal Settings</string>
+    <string name="account">Account</string>
+    <string name="account_settings">Account Settings</string>
     <string name="help">Help</string>
     <string name="support">Support</string>
     <string name="instructions">Instructions</string>

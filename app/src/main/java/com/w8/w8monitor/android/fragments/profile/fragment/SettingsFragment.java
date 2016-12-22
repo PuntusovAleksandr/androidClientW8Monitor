@@ -311,7 +311,7 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.ll_personal)
     public void ll_personalClick() {
-        tv_swipe.setText(R.string.personal);
+        tv_swipe.setText(R.string.personal_settings);
         if (SELECTED == SELECT_PRSONAL) {
             tv_swipe.setText(R.string.settings);
             hideAllLL(true, ll_help_personal);
@@ -325,7 +325,7 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.ll_account)
     public void ll_accountpClick() {
-        tv_swipe.setText(R.string.account);
+        tv_swipe.setText(R.string.account_settings);
         if (SELECTED == SELECT_ACCOUNT) {
             tv_swipe.setText(R.string.settings);
             hideAllLL(true, ll_help_account);

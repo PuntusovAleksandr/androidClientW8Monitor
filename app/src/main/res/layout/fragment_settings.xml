@@ -87,6 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/personal"
+                    android:gravity="center"
                     android:textColor="?attr/color_light_text_description"
                     android:textSize="@dimen/_16sp"/>
 
@@ -115,6 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/account"
+                    android:gravity="center"
                     android:textColor="?attr/color_light_text_description"
                     android:textSize="@dimen/_16sp"/>
 
@@ -143,6 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/help"
+                    android:gravity="center"
                     android:textColor="?attr/color_light_text_description"
                     android:textSize="@dimen/_16sp"/>
 
