@@ -121,6 +121,8 @@ public class SettingsFragment extends Fragment implements
     @Bind(R.id.ll_help_settings)
     LinearLayout ll_help_settings;
 
+    @Bind(R.id.view_for_top)
+    View view_for_top;
     @Bind(R.id.ll_top)
     LinearLayout ll_top;
 
@@ -520,10 +522,13 @@ public class SettingsFragment extends Fragment implements
         if (!isVisible) {
             isVisible = true;
 
-            view_center_settings.setVisibility(View.VISIBLE);
-            ll_top.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_up));
-            ll.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_up));
+            view_for_top.setVisibility(View.VISIBLE);
 
+            view_center_settings.setVisibility(View.VISIBLE);
+            view_center_settings.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fadein));
+            ll.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fadein));
+
+            ll_main.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_up));
         }
     }
 
@@ -533,15 +538,20 @@ public class SettingsFragment extends Fragment implements
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ll.setVisibility(View.GONE);
+                    view_for_top.setVisibility(View.GONE);
                 }
-            }, 500);
+            }, 335);
+
+            ll.setVisibility(View.GONE);
+            view_center_settings.setVisibility(View.GONE);
+            ll.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout));
+            view_center_settings.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout));
 
             SELECTED = 0;
-            ll.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_down));
             isVisible = false;
-            view_center_settings.setVisibility(View.GONE);
-            ll_top.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_down));
+
+            ll_main.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_down));
+
         } else {
             ll_help_personal.setVisibility(View.GONE);
             ll_help_account.setVisibility(View.GONE);
