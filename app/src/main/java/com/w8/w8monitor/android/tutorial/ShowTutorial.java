@@ -65,7 +65,7 @@ public class ShowTutorial {
         this.mIb_facebook = mIb_facebook;
         this.mIb_login = mIb_login;
 
-        setParamsText();
+//        setParamsText();
 
 
         mTutorial = new ShowcaseView.Builder(mActivity)
@@ -74,8 +74,8 @@ public class ShowTutorial {
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setContentTitle(mActivity.getString(R.string.notification_tutoriaal))
                 .setContentText(mActivity.getString(R.string.notification_text_tutoriaal))
-                .setContentTitlePaint(textPaintTitle)
-                .setContentTextPaint(textPaint)
+//                .setContentTitlePaint(textPaintTitle)
+//                .setContentTextPaint(textPaint)
                 .setOnClickListener(listenerMain)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
@@ -93,7 +93,7 @@ public class ShowTutorial {
         this.mIb_facebook = mIb_facebook;
         this.mIb_login = mIb_login;
 
-        setParamsText();
+//        setParamsText();
 
 
         mTutorial = new ShowcaseView.Builder(mActivity)
@@ -102,8 +102,8 @@ public class ShowTutorial {
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setContentTitle(mActivity.getString(R.string.register_tutorial))
                 .setContentText(mActivity.getString(R.string.register_text_tutorial))
-                .setContentTitlePaint(textPaintTitle)
-                .setContentTextPaint(textPaint)
+//                .setContentTitlePaint(textPaintTitle)
+//                .setContentTextPaint(textPaint)
                 .setOnClickListener(listenerLogin)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
