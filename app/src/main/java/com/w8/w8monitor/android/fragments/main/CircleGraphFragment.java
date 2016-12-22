@@ -220,6 +220,9 @@ public class CircleGraphFragment extends Fragment implements
 
     @Override
     public void showDataCircle(final int mI_, ParamsBody mLast, ParamsBody mPreLast, float[] mMassParams) {
+        if (this == null || getActivity() == null) {
+            return;
+        }
         final int mI = mI_ + 1;
         if (mMassParams[0] > 0) {
             ib_line_chart.setEnabled(true);

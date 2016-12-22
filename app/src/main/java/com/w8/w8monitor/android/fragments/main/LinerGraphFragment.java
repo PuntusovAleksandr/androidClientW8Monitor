@@ -774,7 +774,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         } else if (minValue < 150) {
             minValue = minValue - 30f;
         } else {
-            minValue = minValue * 0.99f;
+            minValue = minValue * 0.9f;
         }
 
         if (maxValue < 40) {
