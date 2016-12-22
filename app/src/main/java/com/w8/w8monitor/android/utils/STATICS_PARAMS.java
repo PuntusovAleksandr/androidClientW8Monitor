@@ -34,6 +34,8 @@ public class STATICS_PARAMS {
 
     // MARKER FOR INPUT AT PROFILE
     public static final String INNER_MARKER_PROFILE = "INNER_MARKER_PROFILE";
+    // marker intent for register over FB
+    public static final String INNER_MARKER_FB = "INNER_MARKER_FB";
 
 
     // for request ble

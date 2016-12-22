@@ -41,6 +41,7 @@ import static com.w8.w8monitor.android.api.constant.ApiConstants.LOGIN;
 import static com.w8.w8monitor.android.api.constant.ApiConstants.RESET_PASSWORD;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
 import static com.w8.w8monitor.android.utils.InternetUtils.checkInternetConnection;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.INNER_MARKER_FB;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ACTION_LOCATION_SOURCE_SETTINGS;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_MAIL;
@@ -105,6 +106,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     private Intent serviceIntent;
 
+    private boolean isLoginFbFromSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SetThemeDark.getInstance().setTheme(this);
@@ -112,6 +115,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_new_login);
         ButterKnife.bind(this);
+
+        isLoginFbFromSettings = getIntent().getBooleanExtra(INNER_MARKER_FB, false);
 
         et_login.clearFocus();
         et_password.clearFocus();
@@ -152,6 +157,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
             ShowTutorial tutorial = new ShowTutorial();
             tutorial.tutorialForLogin(this, ib_register, ll_log_in, ib_facebook, ib_login);
         }
+        // if marker register fb from settings
+        if (isLoginFbFromSettings) {
+            isLoginFbFromSettings = false;
+            refisterOverFB();
+        }
+    }
+
+    private void refisterOverFB() {
+        showProgress();
+        mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN);
+        mRegisterFacebook.register();
     }
 
     @Override
@@ -241,9 +257,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.ib_facebook)
     public void registerFacebook() {
-        showProgress();
-        mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN);
-        mRegisterFacebook.register();
+        refisterOverFB();
     }
 
     @OnClick(R.id.ib_login)
