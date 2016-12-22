@@ -1,4 +1,4 @@
-package  com.w8.w8monitor.android.api;
+package com.w8.w8monitor.android.api;
 
 import android.widget.Toast;
 
@@ -48,7 +48,7 @@ import static com.w8.w8monitor.android.utils.LoggerApp.loggerE;
 public class ServiceGenerator {
 
 
-//    public static final String API_BASE_URL = "https://w8.rockettaxi.ru/v1/";     // old
+    //    public static final String API_BASE_URL = "https://w8.rockettaxi.ru/v1/";     // old
     public static final String API_BASE_URL = "https://api.w8monitor.com/v1/";
 
 
@@ -138,6 +138,7 @@ public class ServiceGenerator {
                         ProfileApi profileApi = profileApis.get(i);
                         if (profileApi.is_current()) {
                             SettingsApp.getInstance().setProfileBLE(profileApi.getNumber());
+                            SettingsApp.getInstance().saveTargetWeight(profileApi.getTarget_weight());
                         }
                     }
 
@@ -325,7 +326,7 @@ public class ServiceGenerator {
         ParamsBody lastBodyParam = getLastBodyParam(mTime);
         int id_profile = getIdProfileNow();
 
-       ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<Measurement> call = downloadService.measurements(
                 id_profile,
                 Float.toString(lastBodyParam.getBmi()),
@@ -623,8 +624,10 @@ public class ServiceGenerator {
         for (int j = 0; j < userLibr.getProfiles().size(); j++) {
             Profile profile = userLibr.getProfiles().get(j);
             int is_current = 0;
+            int target_weight = 6;
             if (SettingsApp.getInstance().getProfileBLE() == profile.getNumber()) {
                 is_current = 1;
+                target_weight = SettingsApp.getInstance().getTargetWeight() <= 5 ? 6 : SettingsApp.getInstance().getTargetWeight();
             }
             productMap.put(data + Integer.toString(j) + "][id]", profile.getId());
             productMap.put(data + Integer.toString(j) + "][user_id]", profile.getUser_id());
@@ -636,9 +639,10 @@ public class ServiceGenerator {
             productMap.put(data + Integer.toString(j) + "][updated_at]", profile.getUpdated_at());
             productMap.put(data + Integer.toString(j) + "][number]", profile.getNumber());
             productMap.put(data + Integer.toString(j) + "][is_current]", is_current);
+            productMap.put(data + Integer.toString(j) + "][target_weight]", target_weight);
         }
 
-       ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
+        ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, true);
         Call<UserApi> call = downloadService.profileSync(
                 SettingsApp.getInstance().getMetric() ? 0 : 1,
                 SettingsApp.getInstance().getAutoLogin() ? 1 : 0,
@@ -901,7 +905,6 @@ public class ServiceGenerator {
     private ParamsBody[] getParamsBodies() {
         return new ParamsBody[0];
     }
-
 
 
 //============================
