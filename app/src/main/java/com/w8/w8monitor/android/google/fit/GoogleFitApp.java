@@ -110,14 +110,14 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
 //                                    if (ismakeDisconnect) {
 //                                        makeDisconnect();
 //                                    } else {
-                                        // Now you can make calls to the Fitness APIs.
+                                    // Now you can make calls to the Fitness APIs.
 
-                                        // delete all data from googleFit
-                                        deleteAllParams();
+                                    // delete all data from googleFit
+                                    deleteAllParams();
 
-                                        setConfigParams();
-                                        findFitnessDataSources();
-                                        sendDataFromDB();
+                                    setConfigParams();
+                                    findFitnessDataSources();
+                                    sendDataFromDB();
 //                                    }
                                 }
 
@@ -187,23 +187,28 @@ public class GoogleFitApp implements SendDataGoogleFitService.UpdateData {
         dataPoint.getValue(Field.FIELD_HEIGHT).getFormat();
         dataPoint = dataPoint.setFloatValues(profile.getHeight() / 100f);
 
-        heightDataSet.add(dataPoint);
-        Fitness.HistoryApi.insertData(mClient, heightDataSet).
-                setResultCallback(
-                        new ResolvingResultCallbacks<Status>(mActivity, 0) {
-                            @Override
-                            public void onSuccess(Status status) {
-                                if (status.isSuccess()) {
-                                    Log.i(TAG_GOOGLE_FIT, "MAKE SET HEIGHT = " + profile.getHeight() / 100f);
+        try {
+            heightDataSet.add(dataPoint);
+
+            Fitness.HistoryApi.insertData(mClient, heightDataSet).
+                    setResultCallback(
+                            new ResolvingResultCallbacks<Status>(mActivity, 0) {
+                                @Override
+                                public void onSuccess(Status status) {
+                                    if (status.isSuccess()) {
+                                        Log.i(TAG_GOOGLE_FIT, "MAKE SET HEIGHT = " + profile.getHeight() / 100f);
+                                    }
+                                }
+
+                                @Override
+                                public void onUnresolvableFailure(Status status) {
+
                                 }
                             }
-
-                            @Override
-                            public void onUnresolvableFailure(Status status) {
-
-                            }
-                        }
-                );
+                    );
+        } catch (IllegalArgumentException mE) {
+            mE.printStackTrace();
+        }
     }
 
 

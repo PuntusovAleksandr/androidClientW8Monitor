@@ -19,6 +19,9 @@ import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.utils.SettingsApp;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,7 +53,7 @@ public class TargetWeightFragment extends Fragment
 
 
     @Bind(R.id.years_pld)
-    public NumberPicker years_pld;
+    NumberPicker years_pld;
 
 
     @Bind(R.id.tv_title_fragment)
@@ -109,7 +112,24 @@ public class TargetWeightFragment extends Fragment
                 }
             }
         });
+        settFormatPicker();
         return view;
+    }
+
+    private void settFormatPicker() {
+        try {
+            Method method = years_pld.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
+            method.setAccessible(true);
+            method.invoke(years_pld, true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shawnlin.numberpicker.NumberPicker;
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ProfileActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
@@ -23,10 +24,12 @@ import com.w8.w8monitor.android.d_base.RealmObj;
 import com.w8.w8monitor.android.d_base.model.RegisterUser;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.utils.SettingsApp;
-import com.shawnlin.numberpicker.NumberPicker;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -111,8 +114,37 @@ public class GrowthFragment extends Fragment implements
         setDefoultViews();
 
         serviceIntent = new Intent(getActivity(), ApiService.class);
-
+        settFormatPicker();
         return view;
+    }
+
+    private void settFormatPicker() {
+        try {
+            Method method = npHeightFoot.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
+            method.setAccessible(true);
+            method.invoke(npHeightFoot, true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        try {
+            Method method = npHeightInch.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
+            method.setAccessible(true);
+            method.invoke(npHeightInch, true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setDefoultViews() {
