@@ -205,6 +205,10 @@
     <string name="settings_text_tutorial">Configure your app</string>
     <string name="wheel_tutorial">Wheel</string>
     <string name="wheel_text_tutorial">Get measurement results</string>
+    <string name="logout_from_settings">If you logout, you will lose all the data that you entered and all the measurements that you logged from your weight scale. Please, register to save all your data, sync it between devices and view it on the website.</string>
+    <string name="erase_data_and_logout">\'Erase Data and Logout</string>
+    <string name="register_with_email">Register with Email</string>
+    <string name="register_with_facebook">Register with Facebook\'</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

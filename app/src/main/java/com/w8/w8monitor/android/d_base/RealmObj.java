@@ -1014,29 +1014,6 @@ public class RealmObj {
         mListener.isTargetWeight(mDate);
     }
 
-    public void deleteAlarmFromDn(final String mTimeText, final AlarmView mAlarmView) {
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmResults<AlarmModel> result = realm.where(AlarmModel.class)
-                        .equalTo("time", mTimeText)
-                        .equalTo("email", SettingsApp.getInstance().getUserName())
-                        .findAll();
-                result.deleteAllFromRealm();
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                getAlarmFromDb(mAlarmView);
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                saveAllLogs("ERROR in db deleteAlarmFromDn =" + error.getMessage());
-            }
-        });
-    }
-
     public void setFullSettings(final ProfileBLeListener mBLeListener) {
         final String userName = SettingsApp.getInstance().getUserName();
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -1218,6 +1195,62 @@ public class RealmObj {
 //    ===============================================================
 //    END update
 //    ===============================================================
+//    DELETE
+//    ===============================================================
+
+    public void deleteAlarmFromDn(final String mTimeText, final AlarmView mAlarmView) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<AlarmModel> result = realm.where(AlarmModel.class)
+                        .equalTo("time", mTimeText)
+                        .equalTo("email", SettingsApp.getInstance().getUserName())
+                        .findAll();
+                result.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                getAlarmFromDb(mAlarmView);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                saveAllLogs("ERROR in db deleteAlarmFromDn =" + error.getMessage());
+            }
+        });
+    }
+
+
+
+    public void deleteAllDataTestUser(final DeleteDataUserListener mListener) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                String userName = SettingsApp.getInstance().getUserName();
+                RealmResults<UserLibr> result = realm.where(UserLibr.class)
+                        .equalTo("email", userName)
+                        .findAll();
+                result.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                mListener.isDeleteOk(true);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                mListener.isDeleteOk(false);
+                saveAllLogs("ERROR in db deleteAllDataTestUser" + error.getMessage());
+            }
+        });
+    }
+
+
+//    ===============================================================
+//    END DELETE
+//    ===============================================================
 //    LISTENER
 //    ===============================================================
 
@@ -1239,7 +1272,6 @@ public class RealmObj {
 
     public interface ProfileFirstStartBLeListener {
         void isOkFullSettings(boolean mIsOkFullSettings);
-
     }
 
     public interface ProfileFirstStartGoogleFit {
@@ -1252,7 +1284,6 @@ public class RealmObj {
         void isProfileBLE(int prfileBle);
 
         void isOkFullSettings(boolean mIsOkFullSettings);
-
     }
 
     public interface AlarmListener {
@@ -1260,9 +1291,11 @@ public class RealmObj {
     }
 
     public interface GetUserForSettings {
-
         void getUserForSettings(UserLibr mUserLibr);
+    }
 
+    public interface DeleteDataUserListener {
+        void isDeleteOk(boolean isDelete);
     }
 //==============================================================
 

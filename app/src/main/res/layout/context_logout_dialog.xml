@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:background="?attr/color_text_result_app"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/tv_title_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_16"
+        android:layout_marginTop="@dimen/_16"
+        android:gravity="center"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="@string/logout_from_settings"
+        android:textColor="?attr/color_light_text_description"
+        android:textSize="@dimen/_20sp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_8"
+        android:layout_below="@+id/tv_title_dialog"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1"
+        android:layout_below="@+id/rl_scroll"
+        android:layout_marginTop="@dimen/_15dp"
+        android:background="?attr/color_light_grey_app"/>
+
+    <LinearLayout
+        android:id="@+id/ll_bt_s"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_below="@+id/rl_scroll"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_16"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="@dimen/_1"
+            android:layout_height="match_parent"
+            android:background="?attr/color_light_grey_app"/>
+
+        <Button
+            android:id="@+id/bt_register"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_8"
+            android:layout_marginRight="@dimen/_8"
+            android:layout_weight="1"
+            android:background="?attr/color_text_result_app"
+            android:gravity="center"
+            android:text="@string/register"
+            android:textColor="?attr/color_light_text_description"
+            android:textSize="@dimen/_12_sp"/>
+
+        <View
+            android:layout_width="@dimen/_1"
+            android:layout_height="match_parent"
+            android:background="?attr/color_light_grey_app"/>
+
+        <Button
+            android:id="@+id/bt_erase_data"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_8"
+            android:layout_marginRight="@dimen/_8"
+            android:layout_weight="1"
+            android:background="?attr/color_text_result_app"
+            android:gravity="center"
+            android:text="@string/erase_data_and_logout"
+            android:textColor="?attr/color_light_text_description"
+            android:textSize="@dimen/_12_sp"/>
+
+        <View
+            android:layout_width="@dimen/_1"
+            android:layout_height="match_parent"
+            android:background="?attr/color_light_grey_app"/>
+
+        <Button
+            android:id="@+id/bt_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_8"
+            android:layout_marginRight="@dimen/_8"
+            android:layout_weight="1"
+            android:background="?attr/color_text_result_app"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="?attr/color_light_text_description"
+            android:textSize="@dimen/_12_sp"/>
+
+        <View
+            android:layout_width="@dimen/_1"
+            android:layout_height="match_parent"
+            android:background="?attr/color_light_grey_app"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1"
+        android:layout_below="@+id/ll_bt_s"
+        android:background="?attr/color_light_grey_app"/>
+
+</RelativeLayout>

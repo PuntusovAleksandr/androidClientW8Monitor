@@ -29,6 +29,8 @@ import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
 import com.w8.w8monitor.android.d_base.RealmObj;
 import com.w8.w8monitor.android.d_base.model.Profile;
 import com.w8.w8monitor.android.d_base.model.UserLibr;
+import com.w8.w8monitor.android.dialog.DialogLogout;
+import com.w8.w8monitor.android.dialog.DialogRegister;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.google.fit.GoogleFitApp;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
@@ -54,7 +56,8 @@ public class SettingsFragment extends Fragment implements
         RealmObj.GetUserForSettings,
         SettingsFragmentView,
         ProfileActivity.ListenerGoogleFitSettings,
-        GoogleFitApp.GisconnectListener {
+        GoogleFitApp.GisconnectListener,
+        DialogLogout.LogoutListener {
 
     private ProfileActivity mActivity;
     private ProfileView mProfileView;
@@ -234,7 +237,6 @@ public class SettingsFragment extends Fragment implements
                 ll_iv_register.setVisibility(View.GONE);
             }
         }
-
 
 
         setIconOnButtonGoogleFit();
@@ -504,13 +506,10 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_logout_dark)
     public void clickLogout() {
-        mActivity.logout();
-    }
-
-    @OnClick(R.id.iv_b_logout_dark)
-    public void ll_iv_registerClick() {
-        if (ll_iv_register.getVisibility() == View.VISIBLE) {
-            // TODO: 20.12.2016 Здесь нужно химичить с регистрацией
+        if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
+            new DialogLogout(this, mActivity).show();
+        } else {
+            mActivity.logout();
         }
     }
 
@@ -754,5 +753,13 @@ public class SettingsFragment extends Fragment implements
     @Override
     public void disconnect() {
         setIconOnButtonGoogleFit();
+    }
+
+    //    =================================================
+//            from LogoutListener
+//    =================================================
+    @Override
+    public void logoutOk(boolean isOk) {
+        new DialogRegister((ProfileActivity) getActivity()).show();
     }
 }
