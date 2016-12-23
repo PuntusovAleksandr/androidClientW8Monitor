@@ -73,6 +73,7 @@ public class SettingsApp {
     private static final String KEY_AUTH_GOOGLE_FIT = "KEY_AUTH_GOOGLE_FIT";
     private static final String KEY_SHOW_LOGIN_TUTORIAL = "KEY_SHOW_LOGIN_TUTORIAL";
     private static final String KEY_SHOW_MAIN_TUTORIAL = "KEY_SHOW_MAIN_TUTORIAL";
+    private static final String KEY_LOGIN_FROM_LOGOUT = "KEY_LOGIN_FROM_LOGOUT";
 
     // Default values of settings
     private static final String DEF_EMPTY_STRING = "";
@@ -513,5 +514,24 @@ public class SettingsApp {
     public boolean isShowMainTutorial() {
         Log.d(TAG, "isShowMainTutorial");
         return sPref.getBoolean(KEY_SHOW_MAIN_TUTORIAL, DEF_NOT_EMPTY_BOOLEAN);
+    }
+
+
+    /**
+     * set STATUS LOGIN IF LOGOUT
+     *
+     * @param mAuth
+     */
+    public void setLoginFRomLogout(boolean mAuth) {
+        Log.d(TAG, "setLoginFRomLogout " + mAuth);
+        editor.putBoolean(KEY_LOGIN_FROM_LOGOUT, mAuth).commit();
+    }
+
+    /**
+     * check  STATUS LOGIN IF LOGOUT
+     */
+    public boolean getLoginFRomLogout() {
+        Log.d(TAG, "getLoginFRomLogout");
+        return sPref.getBoolean(KEY_LOGIN_FROM_LOGOUT, DEF_EMPTY_BOOLEAN);
     }
 }

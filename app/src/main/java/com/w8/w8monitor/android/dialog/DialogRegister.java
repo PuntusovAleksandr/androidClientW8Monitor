@@ -53,6 +53,7 @@ public class DialogRegister extends AlertDialog implements View.OnClickListener 
                 mActivity.finish();
                 break;
             case R.id.bt_register_fb:
+                SettingsApp.getInstance().setLoginFRomLogout(true);
                 SettingsApp.getInstance().setUserName("");
                 SettingsApp.getInstance().setUserPassword("");
                 intent = new Intent(mActivity, LoginActivity.class);

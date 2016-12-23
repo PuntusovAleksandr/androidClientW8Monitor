@@ -181,6 +181,12 @@ public class CircleGraphFragment extends Fragment implements
         }
     }
 
+
+    public void setShowValues() {
+        setShowValues(mViewPager.getCurrentItem());
+    }
+
+
     private void setShowValues(int mValue) {
         mPresenter.getDataForCircle(mValue, this);
     }
@@ -214,6 +220,8 @@ public class CircleGraphFragment extends Fragment implements
 
     @Override
     public void showParams(float[] mMassParams, long mTime, boolean mSync) {
+
+        setShowValues();
         MainActivity activity = (MainActivity) getActivity();
         if (mSync) {
             if (checkInternetConnection() && activity != null) {

@@ -33,6 +33,7 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 import static com.w8.w8monitor.android.utils.LoggerApp.saveAllLogs;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TEST_USER;
 
 
 /**
@@ -348,7 +349,7 @@ public class RealmObj {
         ParamsBody preLast = new ParamsBody();
         if (allSorted != null && allSorted.size() > 0) {
             last = allSorted.get(0);
-            if (allSorted.size() < 3) {
+            if (allSorted.size() < 2) {
                 preLast.setWeight(0f);
                 preLast.setBody(0f);
                 preLast.setFat(0f);
@@ -361,7 +362,7 @@ public class RealmObj {
                 preLast.setBmi(0f);
                 preLast.setProfileBLE(SettingsApp.getInstance().getProfileBLE());
             } else {
-                preLast = allSorted.get(2);
+                preLast = allSorted.get(1);
             }
             for (int i = 0; i < allSorted.size(); i++) {
                 ParamsBody body = allSorted.get(i);
@@ -490,6 +491,13 @@ public class RealmObj {
                 .findAll();
     }
 
+    public RealmResults<ParamsBody> getAllParamBodies(int mIdProfileNow) {
+
+        return realm.where(ParamsBody.class)
+                .equalTo("profile_id", mIdProfileNow)
+                .findAll();
+    }
+
 
     public void getLastBodyParamsByServer(MainView mMainView) {
         mMainView.getAllMeasurementsFromServer(
@@ -611,7 +619,7 @@ public class RealmObj {
      */
     @NonNull
     private UserLibr getDefoultUser(final String email, String password) {
-        UserLibr userLibr = getUserByMail(STATICS_PARAMS.TEST_USER);
+        UserLibr userLibr = getUserByMail(TEST_USER);
 
         if (userLibr != null) {
             realm.beginTransaction();
@@ -844,6 +852,51 @@ public class RealmObj {
 
     }
 
+    private void saveParamsBody() {
+        final String name = SettingsApp.getInstance().getUserName();
+        final UserLibr user = getUserByMail(name);
+        boolean loginFRomLogout = SettingsApp.getInstance().getLoginFRomLogout();
+        if (loginFRomLogout) {
+            SettingsApp.getInstance().setLoginFRomLogout(false);
+            UserLibr userTest = getUserByMail(TEST_USER);
+            RealmList<Profile> profiles = userTest.getProfiles();
+            for (int i = 0; i < profiles.size(); i++) {
+                Profile profile = profiles.get(i);
+                final RealmResults<ParamsBody> allParamBodies = getAllParamBodies(profile.getId());
+                for (int j = 0; j < allParamBodies.size(); j++) {
+                    final int finalJ = j;
+                    final int finalI = i;
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            final ParamsBody paramsBody = allParamBodies.get(finalJ);
+                            paramsBody.setUserName_id(user.getEmail());
+                            paramsBody.setProfile_id(user.getProfiles().get(finalI).getId());
+                            paramsBody.setSynced(false);
+
+                            realm.copyToRealmOrUpdate(paramsBody);
+                        }
+                    });
+
+                }
+            }
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    RealmResults<UserLibr> result = realm.where(UserLibr.class)
+                            .equalTo("email", TEST_USER)
+                            .findAll();
+                    result.deleteAllFromRealm();
+                }
+            });
+            SettingsApp.getInstance().setFirstStart(false);
+            SettingsApp.getInstance().setSettingsStatus(false);
+            SettingsApp.getInstance().setMetric(false);
+//            SettingsApp.getInstance().setShowLoginTutorial(true);
+//            SettingsApp.getInstance().setShowMainTutorial(true);
+        }
+    }
+
 //    ===============================================================
 //    END PUT
 //    ===============================================================
@@ -1064,7 +1117,7 @@ public class RealmObj {
         });
     }
 
- public void setFullFirsStartSettings(final ProfileFirstStartBLeListener mBLeListener) {
+    public void setFullFirsStartSettings(final ProfileFirstStartBLeListener mBLeListener) {
         final String userName = SettingsApp.getInstance().getUserName();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -1181,6 +1234,7 @@ public class RealmObj {
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
+                saveParamsBody();
                 mGraphView.makeRequestUpdateMeasurement();
             }
         }, new Realm.Transaction.OnError() {
@@ -1220,7 +1274,6 @@ public class RealmObj {
             }
         });
     }
-
 
 
     public void deleteAllDataTestUser(final DeleteDataUserListener mListener) {

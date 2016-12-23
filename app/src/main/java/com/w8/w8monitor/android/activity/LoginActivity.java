@@ -160,11 +160,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         // if marker register fb from settings
         if (isLoginFbFromSettings) {
             isLoginFbFromSettings = false;
-            refisterOverFB();
+            registerOverFB();
         }
     }
 
-    private void refisterOverFB() {
+    private void registerOverFB() {
         showProgress();
         mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN);
         mRegisterFacebook.register();
@@ -258,7 +258,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
 
     @OnClick(R.id.ib_facebook)
     public void registerFacebook() {
-        refisterOverFB();
+        registerOverFB();
     }
 
     @OnClick(R.id.ib_login)
