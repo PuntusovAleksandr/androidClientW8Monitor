@@ -106,6 +106,17 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/dempfer_view2"
+            android:layout_width="@dimen/_25"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:layout_margin="@dimen/_8"
+            android:minWidth="?attr/actionBarSize"
+            android:orientation="vertical"/>
+
+        <LinearLayout
             android:id="@+id/ll_iv_b_reset_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -141,7 +152,7 @@
             android:gravity="center"
             android:minWidth="?attr/actionBarSize"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_register"
@@ -160,26 +171,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/dempfer_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:minWidth="?attr/actionBarSize"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16"
-                android:layout_weight="1"
-                android:src="?attr/b_logout_app"
-                android:visibility="invisible"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_iv_b_logout_dark"
@@ -207,6 +198,17 @@
                 android:textSize="@dimen/_16sp"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dempfer_view1"
+            android:layout_width="@dimen/_25"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:layout_margin="@dimen/_8"
+            android:minWidth="?attr/actionBarSize"
+            android:orientation="vertical"/>
 
     </LinearLayout>
 

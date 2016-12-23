@@ -44,7 +44,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.RealmList;
 
-import static com.w8.w8monitor.android.R.id.tv_logged_witch;
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_EXTRA_FROM;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_FROM_SETTINGS;
@@ -164,8 +163,10 @@ public class SettingsFragment extends Fragment implements
     LinearLayout ll_main;
     @Bind(R.id.ll_support)
     LinearLayout ll_support;
-    @Bind(R.id.dempfer_view)
-    LinearLayout dempfer_view;
+    @Bind(R.id.dempfer_view1)
+    LinearLayout dempfer_view1;
+    @Bind(R.id.dempfer_view2)
+    LinearLayout dempfer_view2;
 
 
     @Bind(R.id.rl_login_register)
@@ -228,15 +229,18 @@ public class SettingsFragment extends Fragment implements
         if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
             ll_iv_register.setVisibility(View.VISIBLE);
             ll_iv_b_reset_dark.setVisibility(View.GONE);
-            dempfer_view.setVisibility(View.VISIBLE);
+            dempfer_view1.setVisibility(View.VISIBLE);
+            dempfer_view2.setVisibility(View.VISIBLE);
         } else {
             if (SettingsApp.getInstance().isUserLOginFB()) {
                 ll_iv_b_reset_dark.setVisibility(View.GONE);
                 ll_iv_register.setVisibility(View.GONE);
-                dempfer_view.setVisibility(View.GONE);
-            } else {
-                dempfer_view.setVisibility(View.VISIBLE);
-                ll_iv_register.setVisibility(View.GONE);
+                dempfer_view1.setVisibility(View.GONE);
+                dempfer_view2.setVisibility(View.GONE);
+//            } else {
+//                dempfer_view2.setVisibility(View.VISIBLE);
+//                dempfer_view1.setVisibility(View.VISIBLE);
+//                ll_iv_register.setVisibility(View.GONE);
             }
         }
 
