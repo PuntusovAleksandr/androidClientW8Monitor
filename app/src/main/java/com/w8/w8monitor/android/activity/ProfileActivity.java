@@ -78,9 +78,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     private CirclePagerAdapter mAdapter;
 
     private int INNER_MARKER;
+    private int INNER_MARKER_SETTINGS;
     public static final int MARKER_LOGIN = 1;
     public static final int MARKER_REGISTER = 2;
     public static final int MARKER_MAIN = 3;
+    public static final int MARKER_SETTINGS = 4;
 
     private boolean isConnected = false;
 
@@ -117,6 +119,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         imm.hideSoftInputFromWindow(ll_footer_bar.getWindowToken(), 0);
 
         INNER_MARKER = getIntent().getIntExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, 1);
+        INNER_MARKER_SETTINGS = getIntent().getIntExtra(STATICS_PARAMS.SETTINGS_INNER_MARKER_PROFILE, 1);
         isConnected = getIntent().getBooleanExtra(KEI_CONNECTION, false);
 
         mPresenter = new ProfilePresenterImpl(this, this);
@@ -127,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         mFragmentManager = getSupportFragmentManager();
 
         int countPages = COUNT_PAGES_PROFILE_DEFOULT;
-        if (INNER_MARKER == MARKER_MAIN) {
+        if (INNER_MARKER == MARKER_MAIN || INNER_MARKER == MARKER_SETTINGS) {
 //            countPages = COUNT_PAGES_PROFILE_FROM_MAIN;
             circlePageIndicator.setVisibility(View.INVISIBLE);
             mViewPager.setVisibility(View.INVISIBLE);
@@ -172,6 +175,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
             case MARKER_LOGIN:
             case MARKER_REGISTER:
                 setEnterProfileDataFragment(SELECT_STATE, false, mRegisterUser);
+                break;
+
+            case MARKER_SETTINGS:
+                setEnterProfileDataFragment(INNER_MARKER_SETTINGS, false, null);
                 break;
 
             case MARKER_MAIN:

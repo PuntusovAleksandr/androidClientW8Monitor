@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
+import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_SETTINGS;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
 
 
@@ -106,7 +107,7 @@ public class BLEFragment extends Fragment implements
         tv_turn_ble.setTypeface(getFontRobotoLight());
 
         // hide button back
-        if (markerFrom == MARKER_MAIN) {
+        if (markerFrom == MARKER_MAIN || markerFrom == MARKER_SETTINGS) {
             iv_toolbar_next_press.setVisibility(View.INVISIBLE);
         }
         return view;
@@ -130,8 +131,11 @@ public class BLEFragment extends Fragment implements
         ll_buttons_profile.setVisibility(View.VISIBLE);
         if (markerFrom == MARKER_MAIN) {
             iv_toolbar_next_press.setVisibility(View.INVISIBLE);
-        } else
+        } else if (markerFrom == MARKER_SETTINGS) {
+            iv_toolbar_next_press.setVisibility(View.INVISIBLE);
+        } else {
             iv_toolbar_next_press.setVisibility(View.VISIBLE);
+        }
         if (SettingsApp.getInstance().isThemeDark()) {
             iv_ble_connect.setImageResource(R.drawable.scale_active_dark);
         } else {
@@ -170,6 +174,10 @@ public class BLEFragment extends Fragment implements
 
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBackFragment() {
+        if (markerFrom == MARKER_SETTINGS) {
+            getActivity().finish();
+            return;
+        }
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else
@@ -269,16 +277,4 @@ public class BLEFragment extends Fragment implements
 //    //    ==================================================================
 ////      START       from RefreshInterface
 ////    ==================================================================
-//    @Override
-//    public void onRefresh() {
-//        listBtDevices.updayteListDev(mBluetoothHandler.getDeviceListAdapter());
-//    }
-//
-//    @Override
-//    public void onClickItem(String mItem) {
-//        mBluetoothHandler.connect(mItem, mActivity);
-//        setConnectUI();
-//    }
-
-
 }

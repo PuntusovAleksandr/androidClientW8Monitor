@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
+import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_SETTINGS;
 import static com.w8.w8monitor.android.fragments.profile.fragment.StateFragment.MAN;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRobotoLight;
 
@@ -108,7 +109,7 @@ public class GrowthFragment extends Fragment implements
         tv_text_cm.setTypeface(getFontRobotoLight());
 
         // hide button back
-        if (markerFrom == MARKER_MAIN) {
+        if (markerFrom == MARKER_MAIN || markerFrom == MARKER_SETTINGS) {
             iv_toolbar_next_press.setVisibility(View.INVISIBLE);
         }
         setDefoultViews();
@@ -233,6 +234,10 @@ public class GrowthFragment extends Fragment implements
 
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBackFragment() {
+        if (markerFrom == MARKER_SETTINGS) {
+            getActivity().finish();
+            return;
+        }
         if (mFromSettings) {
             mActivity.setSettingsFragment(FragmentMapker.SETTINGS_FRAGMENT, 0);
         } else

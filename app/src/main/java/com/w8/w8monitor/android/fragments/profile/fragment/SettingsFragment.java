@@ -359,7 +359,13 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_heigh_dark)
     public void clickHigh() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, true, null);
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, ProfileActivity.MARKER_SETTINGS);
+        intent.putExtra(STATICS_PARAMS.SETTINGS_INNER_MARKER_PROFILE, FragmentMapker.USER_GROWTH);
+        startActivity(intent);
+
+//        mActivity.setEnterProfileDataFragment(FragmentMapker.USER_GROWTH, true, null);
     }
 
     @OnClick(R.id.iv_b_bodytype_2_dark)
@@ -407,12 +413,23 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_dob_dark)
     public void clickDOB() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, true, null);
+
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, ProfileActivity.MARKER_SETTINGS);
+        intent.putExtra(STATICS_PARAMS.SETTINGS_INNER_MARKER_PROFILE, FragmentMapker.DATA_BIRTHDAY);
+        startActivity(intent);
+//        mActivity.setEnterProfileDataFragment(FragmentMapker.DATA_BIRTHDAY, true, null);
     }
 
     @OnClick(R.id.ll_iv_target_weight)
     public void ll_iv_target_weightClock() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.TARGET_WEIGHT, true, null);
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, ProfileActivity.MARKER_SETTINGS);
+        intent.putExtra(STATICS_PARAMS.SETTINGS_INNER_MARKER_PROFILE, FragmentMapker.TARGET_WEIGHT);
+        startActivity(intent);
+//        mActivity.setEnterProfileDataFragment(FragmentMapker.TARGET_WEIGHT, true, null);
     }
 
     @OnClick(R.id.ll_support)
@@ -469,7 +486,12 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_scale_dark)
     public void clickBScale() {
-        mActivity.setEnterProfileDataFragment(FragmentMapker.CONNECT_BLE, true, null);
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(STATICS_PARAMS.INNER_MARKER_PROFILE, ProfileActivity.MARKER_SETTINGS);
+        intent.putExtra(STATICS_PARAMS.SETTINGS_INNER_MARKER_PROFILE, FragmentMapker.CONNECT_BLE);
+        startActivity(intent);
+//        mActivity.setEnterProfileDataFragment(FragmentMapker.CONNECT_BLE, true, null);
     }
 
     @OnClick(R.id.iv_b_help_dark)
