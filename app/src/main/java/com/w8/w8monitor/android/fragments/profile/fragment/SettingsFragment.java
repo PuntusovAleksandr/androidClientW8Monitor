@@ -353,6 +353,11 @@ public class SettingsFragment extends Fragment implements
         setSelectionIcons(iv_help, R.drawable.b_help_active_light, R.drawable.b_help_active_dark);
     }
 
+    @OnClick(R.id.ll_iv_register)
+    public void ll_iv_registerClick() {
+        registerMethod();
+    }
+
     @OnClick(R.id.iv_toolbar_back_press)
     public void clickBackFragment() {
         mActivity.onBackPressedFromState();
@@ -430,7 +435,6 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_metric2_dark)
     public void clickMetric() {
-//        no do
         boolean metric = SettingsApp.getInstance().getMetric();
         String textButtom = "";
         String oldText = getString(R.string.personal);
@@ -445,7 +449,6 @@ public class SettingsFragment extends Fragment implements
         setIconMetricDef();
         showCustomMessages(textButtom, "", oldText);
     }
-
 
     private void showCustomMessages(String mString, String mTextButtom, final String mOldText) {
 
@@ -471,7 +474,6 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_reset_dark)
     public void clickReset() {
-//        no do
         Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
         intent.putExtra(STATICS_PARAMS.MAIL, SettingsApp.getInstance().getUserName());
         getActivity().startActivity(intent);
@@ -484,7 +486,6 @@ public class SettingsFragment extends Fragment implements
 
     @OnClick(R.id.iv_b_help_dark)
     public void clickHelp() {
-//       no do
         Intent intent = new Intent(getActivity(), HelpActivity.class);
         intent.putExtra(KEY_EXTRA_FROM, KEY_FROM_SETTINGS);
         getActivity().startActivity(intent);
@@ -539,7 +540,6 @@ public class SettingsFragment extends Fragment implements
             mFitApp.connect();
         }
     }
-
 
 //============================================================
 
@@ -605,7 +605,6 @@ public class SettingsFragment extends Fragment implements
         iv_help.setImageResource(resSettings);
     }
 
-
     private void setSelectionIcons(ImageView mView, int resDark, int resLight) {
         boolean themeDark = SettingsApp.getInstance().isThemeDark();
         if (!themeDark) {
@@ -614,7 +613,6 @@ public class SettingsFragment extends Fragment implements
             mView.setImageResource(resLight);
         }
     }
-
 
     private void setIconMetricDef() {
         boolean isMetic = SettingsApp.getInstance().getMetric();
@@ -760,6 +758,10 @@ public class SettingsFragment extends Fragment implements
 //    =================================================
     @Override
     public void logoutOk(boolean isOk) {
+        registerMethod();
+    }
+
+    private void registerMethod() {
         new DialogRegister((ProfileActivity) getActivity()).show();
     }
 }
