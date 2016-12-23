@@ -37,8 +37,6 @@ import com.w8.w8monitor.android.utils.STATICS_PARAMS;
 import com.w8.w8monitor.android.utils.SettingsApp;
 import com.w8.w8monitor.android.utils.ShowImages;
 
-import java.util.Locale;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -216,7 +214,6 @@ public class SettingsFragment extends Fragment implements
         mActivity.initListenerSettingsFragment(this);
         mActivity.setListenerGoogleFit(this);
 
-        setDefaultIconLanguages();
         setIconMetricDef();
         setIconLightDefault();
 
@@ -237,10 +234,6 @@ public class SettingsFragment extends Fragment implements
                 ll_iv_register.setVisibility(View.GONE);
                 dempfer_view1.setVisibility(View.GONE);
                 dempfer_view2.setVisibility(View.GONE);
-//            } else {
-//                dempfer_view2.setVisibility(View.VISIBLE);
-//                dempfer_view1.setVisibility(View.VISIBLE);
-//                ll_iv_register.setVisibility(View.GONE);
             }
         }
 
@@ -294,7 +287,6 @@ public class SettingsFragment extends Fragment implements
                     resBody = R.drawable.b_bodytype_3_small_light;
             }
         }
-
         setImages(resState, resBody);
     }
 
@@ -303,15 +295,6 @@ public class SettingsFragment extends Fragment implements
         iv_b_bodytype_2_dark.setImageResource(mResBody);
     }
 
-    private void setDefaultIconLanguages() {
-
-        String languages = SettingsApp.getInstance().getLanguages();
-        if (languages.equalsIgnoreCase(Locale.ENGLISH.getLanguage())) {
-            setIconLanDefault(true);
-        } else {
-            setIconLanDefault(false);
-        }
-    }
 //==========================================================================
 //        OnClick
 //==========================================================================
@@ -637,23 +620,6 @@ public class SettingsFragment extends Fragment implements
     }
 
 
-    private void setIconLanDefault(boolean isEnglish) {
-//        if (isEnglish) {
-//            if (SettingsApp.getInstance().isThemeDark()) {
-//                setIcon(iv_b_language_en_dark, R.drawable.b_language_en_dark);
-//            } else {
-//                setIcon(iv_b_language_en_dark, R.drawable.b_language_en_light);
-//            }
-//        } else {
-//            if (SettingsApp.getInstance().isThemeDark()) {
-//                setIcon(iv_b_language_en_dark, R.drawable.b_language_es_dark);
-//            } else {
-//                setIcon(iv_b_language_en_dark, R.drawable.b_language_es_light);
-//            }
-//        }
-    }
-
-
     private void setIconOnButtonGoogleFit() {
         // get status authorisation by google fit
         isAuthorisationGoogleFit = SettingsApp.getInstance().isAuthGoogleFit();
@@ -729,11 +695,6 @@ public class SettingsFragment extends Fragment implements
     @Override
     public void isConnectedBluetooth(boolean isConnect) {
         // no do
-//        if (isConnect) {
-//            tv_swipe.setVisibility(View.INVISIBLE);
-//        } else {
-//            tv_swipe.setVisibility(View.VISIBLE);
-//        }
     }
 
     @Override
