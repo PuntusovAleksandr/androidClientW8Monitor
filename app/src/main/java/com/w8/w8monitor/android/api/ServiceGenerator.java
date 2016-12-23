@@ -162,14 +162,14 @@ public class ServiceGenerator {
 
     /**
      * login witch social network
-     *
-     * @param mMail
+     *  @param mMail
      * @param idSocialNetwork
+     * @param mSocialName
      */
-    public void loginSocialToServer(final String mMail, final String idSocialNetwork) {
+    public void loginSocialToServer(final String mMail, final String idSocialNetwork, final String mSocialName) {
 
         ServiceApi downloadService = ServiceGenerator.createService(ServiceApi.class, false);
-        Call<UserApi> call = downloadService.loginSocial(mMail, idSocialNetwork);
+        Call<UserApi> call = downloadService.loginSocial(mMail, idSocialNetwork, mSocialName);
         call.enqueue(new Callback<UserApi>() {
             @Override
             public void onResponse(Call<UserApi> call, Response<UserApi> response) {
@@ -209,6 +209,7 @@ public class ServiceGenerator {
                     SettingsApp.getInstance().setUserPassword(idSocialNetwork);
                     SettingsApp.getInstance().setUserServer(true);
                     SettingsApp.getInstance().setUserLOginFB(true);
+                    SettingsApp.getInstance().setUserNameFB(mSocialName);
 
                     event = new NetworkResponseEvent();
                     event.setData(body);

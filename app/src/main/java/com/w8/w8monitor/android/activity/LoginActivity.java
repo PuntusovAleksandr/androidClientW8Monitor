@@ -232,6 +232,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     public void autoLogin() {
         SettingsApp.getInstance().setUserServer(false);
         SettingsApp.getInstance().setUserLOginFB(false);
+        SettingsApp.getInstance().setUserNameFB("");
         presenter.checkPassword(
                 et_password.getText().toString(),
                 et_login.getText().toString(),

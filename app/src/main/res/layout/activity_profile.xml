@@ -42,12 +42,17 @@
 
     </RelativeLayout>
 
-    <!--<com.viewpagerindicator.CirclePageIndicator-->
-    <!--android:id="@+id/circle_pager_indicator"-->
-    <!--style="@style/CustomCirclePageIndicator"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_height="wrap_content"/>-->
 
+    <TextView
+        android:id="@+id/tv_logged_witch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_25"
+        android:gravity="center"
+        android:text="@string/logged_with"
+        android:textColor="?attr/color_light_grey_app"
+        android:textSize="@dimen/_12sp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

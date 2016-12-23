@@ -209,6 +209,7 @@
     <string name="erase_data_and_logout">\'Erase Data and Logout</string>
     <string name="register_with_email">Register with Email</string>
     <string name="register_with_facebook">Register with Facebook\'</string>
+    <string name="logged_with">Logged</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

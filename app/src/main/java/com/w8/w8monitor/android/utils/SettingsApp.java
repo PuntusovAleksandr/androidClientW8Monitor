@@ -55,6 +55,7 @@ public class SettingsApp {
     private static final String KEY_AUTO_LOGIN = "key_auto_login";
     private static final String KEY_SELECT_THEME = "KEY_SELECT_THEME";
     private static final String KEY_USER_NAME = "KEY_USER_NAME";
+    private static final String KEY_USER_NAME_FB = "KEY_USER_NAME_FB";
     private static final String KEY_USER_PASSWORD = "KEY_USER_PASSWORD";
     private static final String KEY_SET_SETTINGS_PROFILE = "KEY_SET_SETTINGS_PROFILE";
     private static final String KEY_LAST_SETTINGS_PROFILE = "KEY_LAST_SETTINGS_PROFILE";
@@ -160,6 +161,27 @@ public class SettingsApp {
     public String getUserName() {
         Log.d(TAG, "getUserName");
         return sPref.getString(KEY_USER_NAME, DEF_EMPTY_STRING);
+    }
+
+
+    /**
+     * set loginName FB user  for auto login
+     *
+     * @param mS
+     */
+    public void setUserNameFB(String mS) {
+        Log.d(TAG, "setUserNameFB " + mS);
+        editor.putString(KEY_USER_NAME_FB, mS).commit();
+    }
+
+    /**
+     * get loginName FB user  for auto login
+     *
+     * @return
+     */
+    public String getUserNameFB() {
+        Log.d(TAG, "getUserNameFB");
+        return sPref.getString(KEY_USER_NAME_FB, DEF_EMPTY_STRING);
     }
 
     /**

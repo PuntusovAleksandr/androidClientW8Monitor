@@ -31,6 +31,7 @@ import static com.w8.w8monitor.android.api.constant.ApiConstants.LOGIN_SOCIAL;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_JOB_ID_TITLE;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_MAIL;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SOCIAL_ID;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SOCIAL_NAME;
 
 
 /**
@@ -137,6 +138,7 @@ public class RegisterFacebook {
         Intent serviceIntent = new Intent(App.getContext(), ApiService.class);
         serviceIntent.putExtra(SERVICE_MAIL, mUser.getE_mail());
         serviceIntent.putExtra(SOCIAL_ID, mUser.getId());
+        serviceIntent.putExtra(SOCIAL_NAME, mUser.getName());
         serviceIntent.putExtra(SERVICE_JOB_ID_TITLE, LOGIN_SOCIAL);
         App.getContext().startService(serviceIntent);
     }

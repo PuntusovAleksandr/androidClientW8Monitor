@@ -44,6 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.RealmList;
 
+import static com.w8.w8monitor.android.R.id.tv_logged_witch;
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_EXTRA_FROM;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_FROM_SETTINGS;
@@ -77,7 +78,6 @@ public class SettingsFragment extends Fragment implements
     TextView tv_swipe;
     @Bind(R.id.tv_title_buttom_top_settings)
     TextView tv_title_buttom_top_settings;
-
     @Bind(R.id.iv_toolbar_back_press)
     ImageView iv_toolbar_back_press;
     @Bind(R.id.iv_b_heigh_dark)
@@ -232,12 +232,13 @@ public class SettingsFragment extends Fragment implements
         } else {
             if (SettingsApp.getInstance().isUserLOginFB()) {
                 ll_iv_b_reset_dark.setVisibility(View.GONE);
+                ll_iv_register.setVisibility(View.GONE);
+                dempfer_view.setVisibility(View.GONE);
             } else {
                 dempfer_view.setVisibility(View.VISIBLE);
                 ll_iv_register.setVisibility(View.GONE);
             }
         }
-
 
         setIconOnButtonGoogleFit();
 

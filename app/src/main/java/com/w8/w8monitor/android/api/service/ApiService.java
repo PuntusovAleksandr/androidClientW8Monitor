@@ -21,6 +21,7 @@ import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASSWORD_NEW
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_PASSWORD_OLS;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SERVICE_QUESTIONS;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SOCIAL_ID;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.SOCIAL_NAME;
 
 public class ApiService extends Service implements
         ServiceGenerator.CallBackServiceGenerator {
@@ -59,7 +60,8 @@ public class ApiService extends Service implements
                 break;
             case ApiConstants.LOGIN_SOCIAL:
                 String socialId = intent.getStringExtra(SOCIAL_ID);
-                userInteractor.loginSocialToServer(mail, socialId);
+                String socialName = intent.getStringExtra(SOCIAL_NAME);
+                userInteractor.loginSocialToServer(mail, socialId, socialName);
                 break;
             case ApiConstants.REGISTER:
                 userInteractor.registerToServer(mail, pass);

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -56,6 +57,7 @@ import static com.w8.w8monitor.android.fragments.FragmentMapker.USER_GROWTH;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.COUNT_PAGES_PROFILE_DEFOULT;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEI_CONNECTION;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.REQUEST_ENABLE_BT;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TEST_USER;
 import static com.w8.w8monitor.android.utils.ShowMesages.showMessageToast;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileView {
@@ -92,6 +94,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     @Bind(R.id.ll_footer_bar)
     RelativeLayout ll_footer_bar;
+
+    @Bind(R.id.tv_logged_witch)
+    TextView tv_logged_witch;
 
 
     @Override
@@ -183,6 +188,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         }
         ll_footer_bar.setVisibility(View.INVISIBLE);
         setFragment(mSettingsFragment, mStringExtra);
+        visibleTextLoginWitch();
         if (from == MARKER_MAIN && isConnected) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -191,6 +197,22 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                 }
             }, 25);
         }
+    }
+
+    private void visibleTextLoginWitch() {
+        tv_logged_witch.setVisibility(View.VISIBLE);
+        String userName = tv_logged_witch.getText().toString() +
+                " with " + SettingsApp.getInstance().getUserName();
+        // show register button when login in test account
+        if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
+            userName = "";
+        } else {
+            if (SettingsApp.getInstance().isUserLOginFB()) {
+                userName = tv_logged_witch.getText().toString() +
+                        " as " + SettingsApp.getInstance().getUserNameFB();
+            }
+        }
+        tv_logged_witch.setText(userName);
     }
 
     public void setEnterProfileDataFragment(int mLastSettingsFragment, boolean mFromSettings,

@@ -48,7 +48,8 @@ public interface ServiceApi {
     @POST("login/social")
     Call<UserApi> loginSocial(
             @Field("email") String email,
-            @Field(("social_user_id")) String social_user_id);
+            @Field(("social_user_id")) String social_user_id,
+            @Field(("name")) String name);
 
 
     /**

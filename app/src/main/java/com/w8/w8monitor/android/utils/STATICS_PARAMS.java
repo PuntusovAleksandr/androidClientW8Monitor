@@ -105,6 +105,7 @@ public class STATICS_PARAMS {
     public static final String SERVICE_QUESTIONS = "SERVICE_QUESTIONS";
     // key for send extra by api
     public static final String SOCIAL_ID = "SOCIAL_ID ";
+    public static final String SOCIAL_NAME= "SOCIAL_NAME ";
     public static final String NEW_PASS = "NEW_PASS ";
     public static final String PROFILE_API = "PROFILE_API ";
     public static final String MESSUREMENTS = "MEASUREMENTS ";
