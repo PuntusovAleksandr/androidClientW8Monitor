@@ -213,6 +213,7 @@
     <string name="reg_dialog">Register</string>
     <string name="swipe_text">Swipe to toggle between 8 different health measurements</string>
     <string name="close">CLOSE</string>
+    <string name="do_you_logout">Do you want logout?</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

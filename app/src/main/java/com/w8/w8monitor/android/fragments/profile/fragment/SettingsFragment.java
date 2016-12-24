@@ -525,7 +525,26 @@ public class SettingsFragment extends Fragment implements
         if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
             showAllertLogout();
         } else {
-            mActivity.logout();
+            String title = getString(R.string.logout);
+            String message = getString(R.string.do_you_logout);
+            String button1String = getString(R.string.ok);
+            String button2String = getString(R.string.cancel_);
+
+            AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+            ad.setTitle(title);  // заголовок
+            ad.setMessage(message); // сообщение
+            ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int arg1) {
+                    mActivity.logout();
+                }
+            });
+            ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int arg1) {
+
+                }
+            });
+            ad.show();
+
         }
     }
 
