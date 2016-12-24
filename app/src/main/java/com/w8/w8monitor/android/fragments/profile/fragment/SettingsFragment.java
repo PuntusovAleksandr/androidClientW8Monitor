@@ -3,12 +3,14 @@ package com.w8.w8monitor.android.fragments.profile.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,9 @@ import android.widget.Toast;
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.ChangePasswordActivity;
 import com.w8.w8monitor.android.activity.HelpActivity;
+import com.w8.w8monitor.android.activity.LoginActivity;
 import com.w8.w8monitor.android.activity.ProfileActivity;
+import com.w8.w8monitor.android.activity.RegisterActivity;
 import com.w8.w8monitor.android.activity.SupportActivity;
 import com.w8.w8monitor.android.activity.interfaces.presentts.ProfilePresenter;
 import com.w8.w8monitor.android.activity.interfaces.views.ProfileView;
@@ -30,7 +34,6 @@ import com.w8.w8monitor.android.d_base.RealmObj;
 import com.w8.w8monitor.android.d_base.model.Profile;
 import com.w8.w8monitor.android.d_base.model.UserLibr;
 import com.w8.w8monitor.android.dialog.DialogLogout;
-import com.w8.w8monitor.android.dialog.DialogRegister;
 import com.w8.w8monitor.android.fragments.FragmentMapker;
 import com.w8.w8monitor.android.google.fit.GoogleFitApp;
 import com.w8.w8monitor.android.utils.STATICS_PARAMS;
@@ -43,6 +46,7 @@ import butterknife.OnClick;
 import io.realm.RealmList;
 
 import static com.w8.w8monitor.android.activity.ProfileActivity.MARKER_MAIN;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.INNER_MARKER_FB;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_EXTRA_FROM;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.KEY_FROM_SETTINGS;
 import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TEST_USER;
@@ -647,7 +651,7 @@ public class SettingsFragment extends Fragment implements
         isAuthorisationGoogleFit = SettingsApp.getInstance().isAuthGoogleFit();
         int resIcon = 0;
         boolean themeDark = SettingsApp.getInstance().isThemeDark();
-        if (!isAuthorisationGoogleFit) {
+        if (isAuthorisationGoogleFit) {
             if (themeDark) {
                 resIcon = R.drawable.b_health_on_dark;
             } else {
@@ -750,6 +754,51 @@ public class SettingsFragment extends Fragment implements
     }
 
     private void registerMethod() {
-        new DialogRegister((ProfileActivity) getActivity()).show();
+//        new DialogRegiste1r((ProfileActivity) getActivity()).show(getFragmentManager(), "DialogRegiste1r");
+//        new DialogRegister((ProfileActivity) getActivity()).show();
+
+        String title = getString(R.string.reg_dialog);
+        String message = getString(R.string.reg_dialog);
+        String button1String = getString(R.string.register_with_email);
+        String button2String = getString(R.string.register_with_facebook);
+
+        AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+        ad.setTitle(title);  // заголовок
+//        ad.setMessage(message); // сообщение
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                SettingsApp.getInstance().setUserName("");
+                SettingsApp.getInstance().setUserPassword("");
+                Intent intent = new Intent(mActivity, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mActivity.startActivity(intent);
+
+                mActivity.finish();
+            }
+        });
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                SettingsApp.getInstance().setLoginFRomLogout(true);
+                SettingsApp.getInstance().setUserName("");
+                SettingsApp.getInstance().setUserPassword("");
+                Intent  intent = new Intent(mActivity, LoginActivity.class);
+                intent.putExtra(INNER_MARKER_FB, true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mActivity.startActivity(intent);
+
+                mActivity.finish();
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+        ad.show();
     }
 }

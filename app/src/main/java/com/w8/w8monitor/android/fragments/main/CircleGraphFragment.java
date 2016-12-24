@@ -396,7 +396,9 @@ public class CircleGraphFragment extends Fragment implements
                     count = count.substring(0, count.length() - 2);
                 }
 
-                if (count.length() > 5) {
+                if (count.length() > 6) {
+                    tv_result_mass.setTextSize(8);
+                } else if (count.length() > 4) {
                     tv_result_mass.setTextSize(10);
                 } else {
                     tv_result_mass.setTextSize(16);
