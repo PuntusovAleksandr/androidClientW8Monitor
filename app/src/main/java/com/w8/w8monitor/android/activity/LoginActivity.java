@@ -134,6 +134,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
         serviceIntent = new Intent(this, ApiService.class);
 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (SettingsApp.getInstance().isShowLoginTutorial()) {
+            ShowTutorial tutorial = new ShowTutorial();
+            tutorial.tutorialForLogin(this, ib_register, ll_log_in, ib_facebook, ib_login);
+        }
     }
 
     @Override
@@ -153,10 +158,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     @Override
     protected void onResume() {
         super.onResume();
-        if (SettingsApp.getInstance().isShowLoginTutorial()) {
-            ShowTutorial tutorial = new ShowTutorial();
-            tutorial.tutorialForLogin(this, ib_register, ll_log_in, ib_facebook, ib_login);
-        }
         // if marker register fb from settings
         if (isLoginFbFromSettings) {
             isLoginFbFromSettings = false;
@@ -165,6 +166,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,
     }
 
     private void registerOverFB() {
+        getIntent().putExtra(INNER_MARKER_FB, false);
         showProgress();
         mRegisterFacebook = new RegisterFacebook(LoginActivity.this, REG_LOGIN);
         mRegisterFacebook.register();
