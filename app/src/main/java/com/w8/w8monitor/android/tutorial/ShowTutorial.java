@@ -17,12 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.amlcurran.showcaseview.ShowcaseDrawer;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.activity.LoginActivity;
 import com.w8.w8monitor.android.activity.MainActivity;
+import com.w8.w8monitor.android.tutorial.view.TutorialView;
+import com.w8.w8monitor.android.tutorial.view.interfacea.ShowcaseDrawer;
+import com.w8.w8monitor.android.tutorial.view.showcaseview.targets.ViewTarget;
 import com.w8.w8monitor.android.utils.SettingsApp;
 
 /**
@@ -31,7 +31,7 @@ import com.w8.w8monitor.android.utils.SettingsApp;
 
 public class ShowTutorial {
 
-    private ShowcaseView mTutorial;
+    private TutorialView mTutorial;
     private Activity mActivity;
     private TextPaint textPaintTitle;
     private TextPaint textPaint;
@@ -71,7 +71,7 @@ public class ShowTutorial {
 //        setParamsText();
 
 
-        mTutorial = new ShowcaseView.Builder(mActivity)
+        mTutorial = new TutorialView.Builder(mActivity)
                 .setTarget(new ViewTarget(mIb_register))
                 .withHoloShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -99,7 +99,7 @@ public class ShowTutorial {
 //        setParamsText();
 
 
-        mTutorial = new ShowcaseView.Builder(mActivity)
+        mTutorial = new TutorialView.Builder(mActivity)
                 .setTarget(new ViewTarget(mIb_register))
                 .setShowcaseDrawer(showcaseDrawerLoginRegister)
                 .setStyle(R.style.CustomShowcaseTheme2)
