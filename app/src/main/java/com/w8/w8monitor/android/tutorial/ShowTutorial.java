@@ -70,9 +70,9 @@ public class ShowTutorial {
 
         mTutorial = new ShowcaseView.Builder(mActivity)
                 .setTarget(new ViewTarget(mIb_register))
-                .withNewStyleShowcase()
+                .withHoloShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
-                .setContentTitle(mActivity.getString(R.string.notification_tutoriaal))
+//                .setContentTitle(mActivity.getString(R.string.notification_tutoriaal))
                 .setContentText(mActivity.getString(R.string.notification_text_tutoriaal))
 //                .setContentTitlePaint(textPaintTitle)
 //                .setContentTextPaint(textPaint)
@@ -100,7 +100,7 @@ public class ShowTutorial {
                 .setTarget(new ViewTarget(mIb_register))
                 .setShowcaseDrawer(showcaseDrawerLoginRegister)
                 .setStyle(R.style.CustomShowcaseTheme2)
-                .setContentTitle(mActivity.getString(R.string.register_tutorial))
+//                .setContentTitle(mActivity.getString(R.string.register_tutorial))
                 .setContentText(mActivity.getString(R.string.register_text_tutorial))
 //                .setContentTitlePaint(textPaintTitle)
 //                .setContentTextPaint(textPaint)
@@ -138,7 +138,7 @@ public class ShowTutorial {
             switch (counterMain) {
                 case 1:
                     mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
-                    mTutorial.setContentTitle(mActivity.getString(R.string.graph_tutorial));
+//                    mTutorial.setContentTitle(mActivity.getString(R.string.graph_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.graph_text_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
 
@@ -157,7 +157,7 @@ public class ShowTutorial {
                     mIb_register = mIb_login;
 
                     mTutorial.setShowcase(new ViewTarget(mIb_login), true);
-                    mTutorial.setContentTitle(mActivity.getString(R.string.wheel_tutorial));
+//                    mTutorial.setContentTitle(mActivity.getString(R.string.wheel_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.wheel_text_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                     break;
@@ -181,7 +181,7 @@ public class ShowTutorial {
             switch (counterLogin) {
                 case 1:
                     mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
-                    mTutorial.setContentTitle(mActivity.getString(R.string.logint_tutorial));
+//                    mTutorial.setContentTitle(mActivity.getString(R.string.logint_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.login_txt1_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
 
@@ -191,7 +191,7 @@ public class ShowTutorial {
                     mIb_register = mIb_facebook;
 
                     mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
-                    mTutorial.setContentTitle(mActivity.getString(R.string.logint_tutorial));
+//                    mTutorial.setContentTitle(mActivity.getString(R.string.logint_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.login_txt2_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                     break;
@@ -200,7 +200,7 @@ public class ShowTutorial {
                     mIb_register = mIb_login;
 
                     mTutorial.setShowcase(new ViewTarget(mIb_login), true);
-                    mTutorial.setContentTitle(mActivity.getString(R.string.register_later_tutorial));
+//                    mTutorial.setContentTitle(mActivity.getString(R.string.register_later_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.register_later_text_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
 
