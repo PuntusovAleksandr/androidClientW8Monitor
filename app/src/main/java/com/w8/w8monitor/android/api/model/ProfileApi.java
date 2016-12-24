@@ -53,7 +53,7 @@ public class ProfileApi {
 
     @SerializedName("target_weight")
     @Expose
-    private int target_weight;
+    private float target_weight;
 
     @SerializedName("measurements_count")
     @Expose
@@ -144,10 +144,10 @@ public class ProfileApi {
     }
 
     public int getTarget_weight() {
-        return target_weight;
+        return (int) target_weight;
     }
 
-    public void setTarget_weight(int mTarget_weight) {
+    public void setTarget_weight(float mTarget_weight) {
         target_weight = mTarget_weight;
     }
 
