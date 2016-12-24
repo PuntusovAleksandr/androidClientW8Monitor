@@ -59,7 +59,8 @@ public class SettingsFragment extends Fragment implements
         SettingsFragmentView,
         ProfileActivity.ListenerGoogleFitSettings,
         GoogleFitApp.GisconnectListener,
-        DialogLogout.LogoutListener {
+        DialogLogout.LogoutListener,
+        RealmObj.DeleteDataUserListener {
 
     private ProfileActivity mActivity;
     private ProfileView mProfileView;
@@ -522,7 +523,7 @@ public class SettingsFragment extends Fragment implements
     @OnClick(R.id.iv_b_logout_dark)
     public void clickLogout() {
         if (SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER)) {
-            new DialogLogout(this, mActivity).show();
+            showAllertLogout();
         } else {
             mActivity.logout();
         }
@@ -754,9 +755,6 @@ public class SettingsFragment extends Fragment implements
     }
 
     private void registerMethod() {
-//        new DialogRegiste1r((ProfileActivity) getActivity()).show(getFragmentManager(), "DialogRegiste1r");
-//        new DialogRegister((ProfileActivity) getActivity()).show();
-
         String title = getString(R.string.reg_dialog);
         String message = getString(R.string.reg_dialog);
         String button1String = getString(R.string.register_with_email);
@@ -783,7 +781,7 @@ public class SettingsFragment extends Fragment implements
                 SettingsApp.getInstance().setLoginFRomLogout(true);
                 SettingsApp.getInstance().setUserName("");
                 SettingsApp.getInstance().setUserPassword("");
-                Intent  intent = new Intent(mActivity, LoginActivity.class);
+                Intent intent = new Intent(mActivity, LoginActivity.class);
                 intent.putExtra(INNER_MARKER_FB, true);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                         Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -801,4 +799,55 @@ public class SettingsFragment extends Fragment implements
         });
         ad.show();
     }
+
+
+    private void showAllertLogout() {
+        String title = getString(R.string.logout);
+        String message = getString(R.string.logout_from_settings);
+        String button1String = getString(R.string.register);
+        String button2String = getString(R.string.erase_data_and_logout);
+
+        AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+        ad.setTitle(title);  // заголовок
+        ad.setMessage(message); // сообщение
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        logoutOk(true);
+                    }
+                }, 500);
+            }
+        });
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                RealmObj.getInstance().deleteAllDataTestUser(SettingsFragment.this);
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+        ad.show();
+    }
+
+    //    ===========================================
+//            from DeleteDataUserListener mListener
+//    ===========================================
+    @Override
+    public void isDeleteOk(boolean isDelete) {
+        if (isDelete) {
+            SettingsApp.getInstance().setFirstStart(false);
+            SettingsApp.getInstance().setSettingsStatus(false);
+            SettingsApp.getInstance().setMetric(false);
+            SettingsApp.getInstance().setShowLoginTutorial(true);
+            SettingsApp.getInstance().setShowMainTutorial(true);
+            mActivity.logout();
+        }
+    }
+
+//    ===================================
 }
