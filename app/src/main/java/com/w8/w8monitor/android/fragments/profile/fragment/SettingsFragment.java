@@ -545,7 +545,18 @@ public class SettingsFragment extends Fragment implements
 
                 }
             });
-            ad.show();
+            AlertDialog alert = ad.create();
+            alert.show();
+            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+            //Set negative button background
+//        nbutton.setBackgroundColor(Color.MAGENTA);
+            //Set negative button text color
+            nbutton.setTextColor(Color.parseColor("#4261DD"));
+            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+            //Set positive button background
+//        pbutton.setBackgroundColor(Color.YELLOW);
+            //Set positive button text color
+            pbutton.setTextColor(Color.parseColor("#4261DD"));
 
         }
     }
