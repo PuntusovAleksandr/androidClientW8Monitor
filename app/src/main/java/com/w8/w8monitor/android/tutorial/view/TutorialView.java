@@ -61,6 +61,7 @@ public class TutorialView extends RelativeLayout
     }
 
     private Button mEndButton;
+    private Button mStartButton;
     private final TextDrawer textDrawer;
     private ShowcaseDrawer showcaseDrawer;
     private final ShowcaseAreaCalculator showcaseAreaCalculator;
@@ -120,6 +121,11 @@ public class TutorialView extends RelativeLayout
         fadeOutMillis = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
         mEndButton = (Button) LayoutInflater.from(context).inflate(R.layout.showcase_button, null);
+        mStartButton = (Button) LayoutInflater.from(context).inflate(R.layout.showcase_button, null);
+
+        mEndButton.setTextSize(18);
+        mStartButton.setTextSize(18);
+
         if (newStyle) {
             showcaseDrawer = new NewShowcaseDrawer(getResources(), context.getTheme());
         } else {
@@ -132,6 +138,17 @@ public class TutorialView extends RelativeLayout
         init();
     }
 
+    public int getButtonEndId() {
+        return mEndButton.getId();
+    }
+
+    public int getButtonStartId() {
+        return mStartButton.getId();
+    }
+
+    public View getButtonStartView() {
+        return mStartButton;
+    }
 
     private void init() {
 
@@ -149,6 +166,19 @@ public class TutorialView extends RelativeLayout
                 mEndButton.setOnClickListener(hideOnClickListener);
             }
             addView(mEndButton);
+        }
+        if (mStartButton.getParent() == null) {
+            int margin = (int) getResources().getDimension(R.dimen.button_margin);
+            RelativeLayout.LayoutParams lps = (LayoutParams) generateDefaultLayoutParams();
+            lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            lps.setMargins(margin, margin, margin, margin);
+            mStartButton.setLayoutParams(lps);
+            mStartButton.setText(android.R.string.ok);
+            if (!hasCustomClickListener) {
+                mStartButton.setOnClickListener(hideOnClickListener);
+            }
+            addView(mStartButton);
         }
 
     }
@@ -261,6 +291,25 @@ public class TutorialView extends RelativeLayout
         hasCustomClickListener = true;
     }
 
+    /**
+     * Override the standard button click event
+     *
+     * @param listener Listener to listen to on click events
+     */
+    public void overrideButtonStartClick(OnClickListener listener) {
+        if (shotStateStore.hasShot()) {
+            return;
+        }
+        if (mStartButton != null) {
+            if (listener != null) {
+                mStartButton.setOnClickListener(listener);
+            } else {
+                mStartButton.setOnClickListener(hideOnClickListener);
+            }
+        }
+        hasCustomClickListener = true;
+    }
+
     public void setOnShowcaseEventListener(OnShowcaseEventListener listener) {
         if (listener != null) {
             mEventListener = listener;
@@ -272,6 +321,12 @@ public class TutorialView extends RelativeLayout
     public void setButtonText(CharSequence text) {
         if (mEndButton != null) {
             mEndButton.setText(text);
+        }
+    }
+
+    public void setButtonStartText(CharSequence text) {
+        if (mStartButton != null) {
+            mStartButton.setText(text);
         }
     }
 
@@ -426,6 +481,19 @@ public class TutorialView extends RelativeLayout
         mEndButton.setVisibility(VISIBLE);
     }
 
+    public void hideButtonStart() {
+        mStartButton.setVisibility(GONE);
+    }
+
+    public void showButtonStart() {
+        mStartButton.setVisibility(VISIBLE);
+    }
+
+    public void setBacgroundButtons(int res) {
+        mEndButton.setBackgroundColor(res);
+        mStartButton.setBackgroundColor(res);
+    }
+
     /**
      * Builder class which allows easier creation of {@link TutorialView}s.
      * It is recommended that you use this Builder class.
@@ -558,6 +626,16 @@ public class TutorialView extends RelativeLayout
         }
 
         /**
+         * Set a listener which will override the button clicks.
+         * <p/>
+         * Note that you will have to manually hide the ShowcaseView
+         */
+        public Builder setOnClickListenerStart(OnClickListener onClickListener) {
+            showcaseView.overrideButtonStartClick(onClickListener);
+            return this;
+        }
+
+        /**
          * Don't make the ShowcaseView block touches on itself. This doesn't
          * block touches in the showcased area.
          * <p/>
@@ -635,12 +713,33 @@ public class TutorialView extends RelativeLayout
          * Replace the end button with the one provided. Note that this resets any OnClickListener provided
          * by {@link #setOnClickListener(OnClickListener)}, so call this method before that one.
          */
+        public Builder replaceStartButton(Button button) {
+            showcaseView.setStartButton(button);
+            return this;
+        }
+
+        /**
+         * Replace the end button with the one provided. Note that this resets any OnClickListener provided
+         * by {@link #setOnClickListener(OnClickListener)}, so call this method before that one.
+         */
         public Builder replaceEndButton(int buttonResourceId) {
             View view = LayoutInflater.from(activity).inflate(buttonResourceId, showcaseView, false);
             if (!(view instanceof Button)) {
                 throw new IllegalArgumentException("Attempted to replace showcase button with a layout which isn't a button");
             }
             return replaceEndButton((Button) view);
+        }
+
+        /**
+         * Replace the end button with the one provided. Note that this resets any OnClickListener provided
+         * by {@link #setOnClickListener(OnClickListener)}, so call this method before that one.
+         */
+        public Builder replaceStartButton(int buttonResourceId) {
+            View view = LayoutInflater.from(activity).inflate(buttonResourceId, showcaseView, false);
+            if (!(view instanceof Button)) {
+                throw new IllegalArgumentException("Attempted to replace showcase button with a layout which isn't a button");
+            }
+            return replaceStartButton((Button) view);
         }
 
         /**
@@ -667,6 +766,16 @@ public class TutorialView extends RelativeLayout
         mEndButton.setOnClickListener(null);
         removeView(mEndButton);
         mEndButton = button;
+        button.setOnClickListener(hideOnClickListener);
+        button.setLayoutParams(copyParams);
+        addView(button);
+    }
+
+    private void setStartButton(Button button) {
+        LayoutParams copyParams = (LayoutParams) mStartButton.getLayoutParams();
+        mStartButton.setOnClickListener(null);
+        removeView(mStartButton);
+        mStartButton = button;
         button.setOnClickListener(hideOnClickListener);
         button.setLayoutParams(copyParams);
         addView(button);
@@ -717,6 +826,17 @@ public class TutorialView extends RelativeLayout
     @Override
     public void setButtonPosition(RelativeLayout.LayoutParams layoutParams) {
         mEndButton.setLayoutParams(layoutParams);
+    }
+
+    /**
+     * Change the position of the ShowcaseView's button from the default bottom-right position.
+     *
+     * @param layoutParams a {@link android.widget.RelativeLayout.LayoutParams} representing
+     *                     the new position of the button
+     */
+    @Override
+    public void setButtonStartPosition(RelativeLayout.LayoutParams layoutParams) {
+        mStartButton.setLayoutParams(layoutParams);
     }
 
     /**
@@ -789,8 +909,12 @@ public class TutorialView extends RelativeLayout
         backgroundColor = styled.getColor(R.styleable.ShowcaseView_sv_backgroundColor, Color.argb(128, 80, 80, 80));
         showcaseColor = styled.getColor(R.styleable.ShowcaseView_sv_showcaseColor, HOLO_BLUE);
         String buttonText = styled.getString(R.styleable.ShowcaseView_sv_buttonText);
+        String buttonStartText = styled.getString(R.styleable.ShowcaseView_sv_buttonText);
         if (TextUtils.isEmpty(buttonText)) {
             buttonText = getResources().getString(android.R.string.ok);
+        }
+        if (TextUtils.isEmpty(buttonStartText)) {
+            buttonStartText = getResources().getString(android.R.string.ok);
         }
         boolean tintButton = styled.getBoolean(R.styleable.ShowcaseView_sv_tintButtonColor, true);
 
@@ -804,7 +928,9 @@ public class TutorialView extends RelativeLayout
         showcaseDrawer.setShowcaseColour(showcaseColor);
         showcaseDrawer.setBackgroundColour(backgroundColor);
         tintButton(showcaseColor, tintButton);
+        tintButtonStart(showcaseColor, tintButton);
         mEndButton.setText(buttonText);
+        mStartButton.setText(buttonStartText);
         textDrawer.setTitleStyling(titleTextAppearance);
         textDrawer.setDetailStyling(detailTextAppearance);
         hasAlteredText = true;
@@ -819,6 +945,14 @@ public class TutorialView extends RelativeLayout
             mEndButton.getBackground().setColorFilter(showcaseColor, PorterDuff.Mode.MULTIPLY);
         } else {
             mEndButton.getBackground().setColorFilter(HOLO_BLUE, PorterDuff.Mode.MULTIPLY);
+        }
+    }
+
+    private void tintButtonStart(int showcaseColor, boolean tintButton) {
+        if (tintButton) {
+            mStartButton.getBackground().setColorFilter(showcaseColor, PorterDuff.Mode.MULTIPLY);
+        } else {
+            mStartButton.getBackground().setColorFilter(HOLO_BLUE, PorterDuff.Mode.MULTIPLY);
         }
     }
 

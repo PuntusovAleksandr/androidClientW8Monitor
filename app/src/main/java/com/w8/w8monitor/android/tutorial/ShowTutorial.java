@@ -67,9 +67,7 @@ public class ShowTutorial {
         this.mIb_facebook = mIb_facebook;
         this.mIb_login = mIb_login;
         this.mCirclePageIndicator = mCirclePageIndicator;
-
-//        setParamsText();
-
+        setParamsText();
 
         mTutorial = new TutorialView.Builder(mActivity)
                 .setTarget(new ViewTarget(mIb_register))
@@ -77,7 +75,7 @@ public class ShowTutorial {
                 .setStyle(R.style.CustomShowcaseTheme2)
 //                .setContentTitle(mActivity.getString(R.string.notification_tutoriaal))
                 .setContentText(mActivity.getString(R.string.notification_text_tutoriaal))
-//                .setContentTitlePaint(textPaintTitle)
+//                .setContentTextPaint(textPaint)
 //                .setContentTextPaint(textPaint)
                 .setOnClickListener(listenerMain)
                 .build();
@@ -95,34 +93,35 @@ public class ShowTutorial {
         this.mLl_log_in = mLl_log_in;
         this.mIb_facebook = mIb_facebook;
         this.mIb_login = mIb_login;
-
-//        setParamsText();
-
+        this.mView = mIb_register;
+        setParamsText();
 
         mTutorial = new TutorialView.Builder(mActivity)
                 .setTarget(new ViewTarget(mIb_register))
                 .setShowcaseDrawer(showcaseDrawerLoginRegister)
                 .setStyle(R.style.CustomShowcaseTheme2)
-//                .setContentTitle(mActivity.getString(R.string.register_tutorial))
                 .setContentText(mActivity.getString(R.string.register_text_tutorial))
-//                .setContentTitlePaint(textPaintTitle)
-//                .setContentTextPaint(textPaint)
                 .setOnClickListener(listenerLogin)
+                .setContentTextPaint(textPaint)
+                .setOnClickListenerStart(listenerLoginStart)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+        mTutorial.setButtonStartText(mActivity.getString(R.string.prev));
+        mTutorial.hideButtonStart();
+        mTutorial.setBacgroundButtons(Color.TRANSPARENT);
     }
 
     private void setParamsText() {
         float textSizeTitle =
                 TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
-                        mActivity.getResources().getDimension(R.dimen._20sp),
+                        mActivity.getResources().getDimension(R.dimen._12sp),
                         mActivity.getResources().getDisplayMetrics());
 
         float textSize =
                 TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
-                        mActivity.getResources().getDimension(R.dimen._8sp),
+                        mActivity.getResources().getDimension(R.dimen._9sp),
                         mActivity.getResources().getDisplayMetrics());
 
         textPaintTitle.setTextSize(textSizeTitle);
@@ -141,17 +140,13 @@ public class ShowTutorial {
             switch (counterMain) {
                 case 1:
                     mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
-//                    mTutorial.setContentTitle(mActivity.getString(R.string.graph_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.graph_text_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-
                     break;
 
                 case 2:
                     mIb_register = mIb_facebook;
-
                     mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
-//                    mTutorial.setContentTitle(mActivity.getString(R.string.settings_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.settings_text_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                     break;
@@ -165,12 +160,9 @@ public class ShowTutorial {
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                     break;
 
-
                 case 4:
                     mIb_register = mCirclePageIndicator;
-
                     mTutorial.setShowcase(new ViewTarget(mCirclePageIndicator), true);
-//                    mTutorial.setContentTitle(mActivity.getString(R.string.wheel_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.swipe_text));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
 
@@ -196,58 +188,96 @@ public class ShowTutorial {
     };
 
 
+    View.OnClickListener listenerLoginStart = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (counterLogin > 1) {
+                counterLogin -= 2;
+            }
+            showNextTutorial();
+        }
+    };
 
     View.OnClickListener listenerLogin = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            RelativeLayout.LayoutParams lps;
-            int margin;
-            switch (counterLogin) {
-                case 1:
-                    mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
-//                    mTutorial.setContentTitle(mActivity.getString(R.string.logint_tutorial));
-                    mTutorial.setContentText(mActivity.getString(R.string.login_txt1_tutorial));
-                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-
-                    break;
-
-                case 2:
-                    mIb_register = mIb_facebook;
-
-                    mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
-//                    mTutorial.setContentTitle(mActivity.getString(R.string.logint_tutorial));
-                    mTutorial.setContentText(mActivity.getString(R.string.login_txt2_tutorial));
-                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-                    break;
-
-                case 3:
-                    mIb_register = mIb_login;
-
-                    mTutorial.setShowcase(new ViewTarget(mIb_login), true);
-//                    mTutorial.setContentTitle(mActivity.getString(R.string.register_later_tutorial));
-                    mTutorial.setContentText(mActivity.getString(R.string.register_later_text_tutorial));
-                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-
-                    lps = new RelativeLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    lps.addRule(RelativeLayout.CENTER_VERTICAL);
-                    lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                    lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 24)).intValue();
-                    lps.setMargins(0, 0, margin, margin * 3);
-                    mTutorial.setButtonPosition(lps);
-                    mTutorial.setButtonText(mActivity.getString(R.string.close));
-                    break;
-
-                case 4:
-                    SettingsApp.getInstance().setShowLoginTutorial(false);
-                    mTutorial.hide();
-                    break;
-            }
-            counterLogin++;
+            showNextTutorial();
         }
     };
+
+    private void showNextTutorial() {
+        RelativeLayout.LayoutParams lps, lpsStart;
+        int margin;
+        switch (counterLogin) {
+            case 0:
+                mTutorial.hideButtonStart();
+                mView = mIb_register;
+                mTutorial.setShowcase(new ViewTarget(mIb_register), true);
+                mTutorial.setContentText(mActivity.getString(R.string.register_text_tutorial));
+                mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+                break;
+            case 1:
+                mView = mLl_log_in;
+                mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
+                mTutorial.setContentText(mActivity.getString(R.string.login_txt1_tutorial));
+                mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+                mTutorial.showButtonStart();
+                break;
+
+            case 2:
+                mView = mIb_facebook;
+                mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
+                mTutorial.setContentText(mActivity.getString(R.string.login_txt2_tutorial));
+                mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+
+                lps = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lps.addRule(RelativeLayout.CENTER_VERTICAL);
+                lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                lpsStart = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lpsStart.addRule(RelativeLayout.CENTER_VERTICAL);
+                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                mTutorial.setButtonPosition(lps);
+                mTutorial.setButtonStartPosition(lpsStart);
+                break;
+
+            case 3:
+                mView = mIb_login;
+                mTutorial.setShowcase(new ViewTarget(mIb_login), true);
+                mTutorial.setContentText(mActivity.getString(R.string.register_later_text_tutorial));
+
+                lps = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lps.addRule(RelativeLayout.CENTER_VERTICAL);
+                lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                lpsStart = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lpsStart.addRule(RelativeLayout.CENTER_VERTICAL);
+                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 24)).intValue();
+                lps.setMargins(0, 0, margin, margin * 3);
+                lpsStart.setMargins(0, 0, margin, margin * 3);
+                mTutorial.setButtonPosition(lps);
+                mTutorial.setButtonStartPosition(lpsStart);
+                mTutorial.setButtonText(mActivity.getString(R.string.close));
+                break;
+
+            case 4:
+                SettingsApp.getInstance().setShowLoginTutorial(false);
+                mTutorial.hide();
+                break;
+        }
+        counterLogin++;
+    }
 
 
     //    ===============================================================
@@ -268,17 +298,17 @@ public class ShowTutorial {
         @Override
         public void drawShowcase(Bitmap buffer, float x, float y, float scaleMultiplier) {
             Canvas bufferCanvas = new Canvas(buffer);
-            radius = (mIb_register.getWidth() / 2);
+            radius = (mView.getWidth() / 2);
             eraserPaint.setColor(0xFFFFFF);
             eraserPaint.setAlpha(0);
             eraserPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
             eraserPaint.setAntiAlias(true);
 //                        bufferCanvas.drawCircle(x, y, radius, eraserPaint);
             RectF rectF = new RectF(
-                    (float) (x - mIb_register.getWidth() / 1.8),
-                    (float) (y - mIb_register.getHeight() / 1.5),
-                    (float) (x + mIb_register.getWidth() / 1.8),
-                    (float) (y + mIb_register.getHeight() / 1.5));
+                    (float) (x - mView.getWidth() / 1.8),
+                    (float) (y - mView.getHeight() / 1.5),
+                    (float) (x + mView.getWidth() / 1.8),
+                    (float) (y + mView.getHeight() / 1.5));
             bufferCanvas.drawRect(rectF, eraserPaint);
         }
 
