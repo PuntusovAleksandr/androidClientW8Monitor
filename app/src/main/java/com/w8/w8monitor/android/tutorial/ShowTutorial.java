@@ -42,6 +42,7 @@ public class ShowTutorial {
     private View mLl_log_in;
     private View mIb_facebook;
     private View mIb_login;
+    private View mCirclePageIndicator;
 
     private int counterLogin = 1;
     private int counterMain = 1;
@@ -54,16 +55,18 @@ public class ShowTutorial {
     }
 
     public void tutorialForMain(MainActivity mActivity,
-                                 final View mIb_register,
+                                final View mIb_register,
                                 View mLl_log_in,
                                 View mIb_facebook,
-                                View mIb_login) {
+                                View mIb_login,
+                                View mCirclePageIndicator) {
         this.mActivity = mActivity;
 
         this.mIb_register = mIb_register;
         this.mLl_log_in = mLl_log_in;
         this.mIb_facebook = mIb_facebook;
         this.mIb_login = mIb_login;
+        this.mCirclePageIndicator = mCirclePageIndicator;
 
 //        setParamsText();
 
@@ -148,7 +151,7 @@ public class ShowTutorial {
                     mIb_register = mIb_facebook;
 
                     mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
-                    mTutorial.setContentTitle(mActivity.getString(R.string.settings_tutorial));
+//                    mTutorial.setContentTitle(mActivity.getString(R.string.settings_tutorial));
                     mTutorial.setContentText(mActivity.getString(R.string.settings_text_tutorial));
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                     break;
@@ -162,7 +165,28 @@ public class ShowTutorial {
                     mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                     break;
 
+
                 case 4:
+                    mIb_register = mCirclePageIndicator;
+
+                    mTutorial.setShowcase(new ViewTarget(mCirclePageIndicator), true);
+//                    mTutorial.setContentTitle(mActivity.getString(R.string.wheel_tutorial));
+                    mTutorial.setContentText(mActivity.getString(R.string.swipe_text));
+                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+
+                    lps = new RelativeLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    lps.addRule(RelativeLayout.CENTER_VERTICAL);
+                    lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 64)).intValue();
+                    lps.setMargins(0, 0, 0, margin * 2);
+                    mTutorial.setButtonPosition(lps);
+                    mTutorial.setButtonText(mActivity.getString(R.string.close));
+                    break;
+
+                case 5:
                     SettingsApp.getInstance().setShowMainTutorial(false);
                     mTutorial.hide();
                     break;
@@ -213,6 +237,7 @@ public class ShowTutorial {
                     margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 24)).intValue();
                     lps.setMargins(0, 0, margin, margin * 3);
                     mTutorial.setButtonPosition(lps);
+                    mTutorial.setButtonText(mActivity.getString(R.string.close));
                     break;
 
                 case 4:

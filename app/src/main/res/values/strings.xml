@@ -211,6 +211,8 @@
     <string name="register_with_facebook">Register with Facebook\'</string>
     <string name="logged_with">Logged</string>
     <string name="reg_dialog">Register</string>
+    <string name="swipe_text">Swipe to toggle between 8 different health measurements</string>
+    <string name="close">CLOSE</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

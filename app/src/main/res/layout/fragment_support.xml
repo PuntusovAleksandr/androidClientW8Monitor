@@ -53,7 +53,7 @@
                     android:layout_marginRight="@dimen/_4"
                     android:layout_toRightOf="@+id/iv_icon_mail"
                     android:background="@android:color/transparent"
-                    android:gravity="center"
+                    android:gravity="center|start"
                     android:hint="@string/email_new"
                     android:inputType="textEmailAddress"
                     android:textColor="?attr/color_text_title_app"

@@ -177,7 +177,7 @@ public class CircleGraphFragment extends Fragment implements
         if (SettingsApp.getInstance().isShowMainTutorial()) {
             ShowTutorial tutorial = new ShowTutorial();
             tutorial.tutorialForMain((MainActivity) getActivity(),
-                    ib_time, ib_line_chart, ib_settings, view_center_tutorial);
+                    ib_time, ib_line_chart, ib_settings, view_center_tutorial, circlePageIndicator);
         }
     }
 
