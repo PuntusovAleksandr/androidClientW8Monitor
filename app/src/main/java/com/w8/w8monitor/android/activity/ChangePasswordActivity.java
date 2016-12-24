@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,8 +52,9 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
     ImageView iv_delete_password_change_new;
     @Bind(R.id.iv_delete_password_change_new_2)
     ImageView iv_delete_password_change_new_2;
+
     @Bind(R.id.iv_change_password)
-    ImageView iv_change_password;
+    LinearLayout iv_change_password;
 
     @Bind(R.id.et_password_old)
     EditText et_password_old;
@@ -118,7 +120,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
                     mEvent.getId() == UpdateUiEvent.LOGIN_SOCIAL) {
                 String passwordTextOld = et_password_old.getText().toString();
                 String passwordText = et_password_new.getText().toString();
-                String repearPasswordText = et_password_new_confirm.getText().toString();
+                String repearPasswordText = passwordText;
                 presenter.changePasswordInDb(
                         mailUser,
                         passwordTextOld,
@@ -155,7 +157,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
         closeKeyboard();
         String passwordTextOld = et_password_old.getText().toString();
         String passwordText = et_password_new.getText().toString();
-        String repearPasswordText = et_password_new_confirm.getText().toString();
+        String repearPasswordText = passwordText;
         presenter.changePassword(mailUser, passwordTextOld, passwordText, repearPasswordText, this);
     }
 
@@ -282,7 +284,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
     private void checkDataRegister() {
         String passwordTextOld = et_password_old.getText().toString();
         String passwordText = et_password_new.getText().toString();
-        String repearPasswordText = et_password_new_confirm.getText().toString();
+        String repearPasswordText = passwordText;
         presenter.checkShowButton(passwordText, passwordTextOld, repearPasswordText, this);
     }
 
@@ -327,7 +329,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
                 resource = R.drawable.b_confirm_nonactive_light;
             }
         }
-        iv_change_password.setImageResource(resource);
+//        iv_change_password.setImageResource(resource);
     }
 
     @Override
@@ -362,7 +364,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
     public void makeRequest() {
         String passwordTextOld = et_password_old.getText().toString();
         String passwordText = et_password_new.getText().toString();
-        String repearPasswordText = et_password_new_confirm.getText().toString();
+        String repearPasswordText = passwordText;
         serviceIntent.putExtra(SERVICE_PASSWORD_OLS, passwordTextOld);
         serviceIntent.putExtra(SERVICE_PASSWORD_NEW, passwordText);
         serviceIntent.putExtra(SERVICE_PASSWORD_NEW_CONFIRM, repearPasswordText);

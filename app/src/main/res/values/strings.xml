@@ -214,6 +214,7 @@
     <string name="swipe_text">Swipe to toggle between 8 different health measurements</string>
     <string name="close">CLOSE</string>
     <string name="do_you_logout">Do you want logout?</string>
+    <string name="change_password_BT">CHANGE PASSWORD</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">
