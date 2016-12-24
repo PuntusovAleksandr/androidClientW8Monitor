@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -816,7 +818,20 @@ public class SettingsFragment extends Fragment implements
 
             }
         });
-        ad.show();
+//        ad.create();
+//        ad.show();
+        AlertDialog alert = ad.create();
+        alert.show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        //Set negative button background
+//        nbutton.setBackgroundColor(Color.MAGENTA);
+        //Set negative button text color
+        nbutton.setTextColor(Color.parseColor("#4261DD"));
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        //Set positive button background
+//        pbutton.setBackgroundColor(Color.YELLOW);
+        //Set positive button text color
+        pbutton.setTextColor(Color.parseColor("#4261DD"));
     }
 
 
@@ -850,7 +865,18 @@ public class SettingsFragment extends Fragment implements
 
             }
         });
-        ad.show();
+        AlertDialog alert = ad.create();
+        alert.show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        //Set negative button background
+//        nbutton.setBackgroundColor(Color.MAGENTA);
+        //Set negative button text color
+        nbutton.setTextColor(Color.parseColor("#4261DD"));
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        //Set positive button background
+//        pbutton.setBackgroundColor(Color.YELLOW);
+        //Set positive button text color
+        pbutton.setTextColor(Color.parseColor("#4261DD"));
     }
 
     //    ===========================================
