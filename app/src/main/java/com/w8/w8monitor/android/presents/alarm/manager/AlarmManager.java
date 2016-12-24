@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -110,17 +111,21 @@ public class AlarmManager extends BroadcastReceiver implements RealmObj.AlarmLis
         for (int i = 0; i < mAll.size(); i++) {
             AlarmModel model = mAll.get(i);
             String time = model.getTime();
+            if (!model.isAm()) {
+                String[] split = time.split(":");
+                int hour = Integer.parseInt(split[0]) + 12;
+                time = hour + ":" + split[1];
+            }
             String anObject = mMsgStr.toString();
             if (time.equals(anObject)) {
                 notification();
-
-//                try {
-//                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//                    Ringtone r = RingtoneManager.getRingtone(App.getContext(), notification);
-//                    r.play();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Ringtone r = RingtoneManager.getRingtone(App.getContext(), notification);
+                    r.play();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
