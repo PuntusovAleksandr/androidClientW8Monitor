@@ -67,6 +67,7 @@ public class ShowTutorial {
 //                .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setOnClickListener(listenerMain)
+                .blockAllTouches()
                 .setOnClickListenerStart(listenerMainStart)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
@@ -103,6 +104,7 @@ public class ShowTutorial {
                 .setShowcaseDrawer(showcaseDrawerLoginRegister)
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setOnClickListener(listenerLogin)
+                .blockAllTouches()
                 .setOnClickListenerStart(listenerLoginStart)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
