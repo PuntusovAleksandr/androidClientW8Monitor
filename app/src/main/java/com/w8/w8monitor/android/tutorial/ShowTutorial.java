@@ -46,6 +46,7 @@ public class ShowTutorial {
 
     private int counterLogin = 1;
     private int counterMain = 1;
+    private int oldMargin = 36;
 
     public ShowTutorial() {
 
@@ -109,6 +110,7 @@ public class ShowTutorial {
         mTutorial.setButtonStartText(mActivity.getString(R.string.prev));
         mTutorial.hideButtonStart();
         mTutorial.setBacgroundButtons(Color.TRANSPARENT);
+        setDefaltParamsLogin();
     }
 
     private void setParamsText() {
@@ -128,7 +130,7 @@ public class ShowTutorial {
         textPaintTitle.setColor(Color.WHITE);
 
         textPaint.setTextSize(textSize);
-        textPaint.setColor(Color.LTGRAY);
+        textPaint.setColor(Color.WHITE);
     }
 
 
@@ -206,7 +208,10 @@ public class ShowTutorial {
     };
 
     private void showNextTutorial() {
-        RelativeLayout.LayoutParams lps, lpsStart;
+        setDefaltParamsLogin();
+        RelativeLayout.LayoutParams lps;
+        RelativeLayout.LayoutParams lpsStart;
+
         int margin;
         switch (counterLogin) {
             case 0:
@@ -229,21 +234,6 @@ public class ShowTutorial {
                 mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
                 mTutorial.setContentText(mActivity.getString(R.string.login_txt2_tutorial));
                 mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-
-                lps = new RelativeLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                lps.addRule(RelativeLayout.CENTER_VERTICAL);
-                lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                lpsStart = new RelativeLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                lpsStart.addRule(RelativeLayout.CENTER_VERTICAL);
-                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                mTutorial.setButtonPosition(lps);
-                mTutorial.setButtonStartPosition(lpsStart);
                 break;
 
             case 3:
@@ -264,11 +254,12 @@ public class ShowTutorial {
                 lpsStart.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 lpsStart.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 24)).intValue();
-                lps.setMargins(0, 0, margin, margin * 3);
-                lpsStart.setMargins(0, 0, margin, margin * 3);
+                lps.setMargins(oldMargin, 0, margin, margin * 3);
+                lpsStart.setMargins(oldMargin, 0, margin, margin * 3);
                 mTutorial.setButtonPosition(lps);
                 mTutorial.setButtonStartPosition(lpsStart);
                 mTutorial.setButtonText(mActivity.getString(R.string.close));
+                mTutorial.removeIconEnd();
                 break;
 
             case 4:
@@ -277,6 +268,28 @@ public class ShowTutorial {
                 break;
         }
         counterLogin++;
+    }
+
+    private void setDefaltParamsLogin() {
+        RelativeLayout.LayoutParams lps, lpsStart;
+        lps = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.CENTER_VERTICAL);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.setMargins(oldMargin, 0, oldMargin, oldMargin);
+
+        lpsStart = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lpsStart.addRule(RelativeLayout.CENTER_VERTICAL);
+        lpsStart.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        lpsStart.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lpsStart.setMargins(oldMargin, 0, oldMargin, oldMargin);
+        mTutorial.setButtonPosition(lps);
+        mTutorial.setButtonStartPosition(lpsStart);
+        mTutorial.setIconEnd();
     }
 
 

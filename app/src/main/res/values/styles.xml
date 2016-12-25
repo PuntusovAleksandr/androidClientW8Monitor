@@ -271,7 +271,7 @@
     </style>
 
     <style name="CustomText2" parent="TextAppearance.ShowcaseView.Detail.Light">
-        <item name="android:textColor">#aaffffff</item>
+        <item name="android:textColor">#ffffff</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:gravity">center_horizontal</item>

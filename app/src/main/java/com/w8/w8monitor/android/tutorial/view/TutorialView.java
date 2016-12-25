@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.text.Layout;
 import android.text.TextPaint;
@@ -125,6 +126,9 @@ public class TutorialView extends RelativeLayout
 
         mEndButton.setTextSize(18);
         mStartButton.setTextSize(18);
+        setIconEnd();
+        Drawable imgStart = getContext().getResources().getDrawable(R.drawable.arrow_back);
+        mStartButton.setCompoundDrawablesWithIntrinsicBounds(imgStart, null, null, null);
 
         if (newStyle) {
             showcaseDrawer = new NewShowcaseDrawer(getResources(), context.getTheme());
@@ -144,6 +148,17 @@ public class TutorialView extends RelativeLayout
 
     public int getButtonStartId() {
         return mStartButton.getId();
+    }
+
+    public void setIconEnd() {
+        Drawable imgEnd = getContext().getResources().getDrawable(R.drawable.arrow_forward);
+        mEndButton.setCompoundDrawablesWithIntrinsicBounds(null, null, imgEnd, null);
+    }
+
+    public void removeIconEnd() {
+        Drawable imgEnd = getContext().getResources().getDrawable(R.drawable.arrow_forward);
+        mEndButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+
     }
 
     public View getButtonStartView() {
