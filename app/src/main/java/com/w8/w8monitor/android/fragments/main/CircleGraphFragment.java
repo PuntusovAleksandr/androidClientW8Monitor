@@ -166,6 +166,12 @@ public class CircleGraphFragment extends Fragment implements
         tv_main_value_height_to_below_right.setTextScaleX(0.7f);
         tv_main_value_height_to_right.setTextScaleX(0.7f);
 
+
+        if (SettingsApp.getInstance().isShowMainTutorial()) {
+            ShowTutorial tutorial = new ShowTutorial();
+            tutorial.tutorialForMain((MainActivity) getActivity(),
+                    ib_time, ib_line_chart, ib_settings, view_center_tutorial, circlePageIndicator);
+        }
         return view;
     }
 
@@ -173,12 +179,6 @@ public class CircleGraphFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         setShowValues(mViewPager.getCurrentItem());
-
-        if (SettingsApp.getInstance().isShowMainTutorial()) {
-            ShowTutorial tutorial = new ShowTutorial();
-            tutorial.tutorialForMain((MainActivity) getActivity(),
-                    ib_time, ib_line_chart, ib_settings, view_center_tutorial, circlePageIndicator);
-        }
     }
 
 
