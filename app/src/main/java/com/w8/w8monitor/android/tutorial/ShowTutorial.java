@@ -9,8 +9,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
-import android.text.TextPaint;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -33,8 +31,6 @@ public class ShowTutorial {
 
     private TutorialView mTutorial;
     private Activity mActivity;
-    private TextPaint textPaintTitle;
-    private TextPaint textPaint;
 
     private View mView;
 
@@ -49,10 +45,6 @@ public class ShowTutorial {
     private int oldMargin = 36;
 
     public ShowTutorial() {
-
-        textPaintTitle = new TextPaint();
-        textPaint = new TextPaint();
-
     }
 
     public void tutorialForMain(MainActivity mActivity,
@@ -68,19 +60,29 @@ public class ShowTutorial {
         this.mIb_facebook = mIb_facebook;
         this.mIb_login = mIb_login;
         this.mCirclePageIndicator = mCirclePageIndicator;
-        setParamsText();
 
         mTutorial = new TutorialView.Builder(mActivity)
                 .setTarget(new ViewTarget(mIb_register))
                 .withHoloShowcase()
+//                .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
-//                .setContentTitle(mActivity.getString(R.string.notification_tutoriaal))
-                .setContentText(mActivity.getString(R.string.notification_text_tutoriaal))
-//                .setContentTextPaint(textPaint)
-//                .setContentTextPaint(textPaint)
                 .setOnClickListener(listenerMain)
+                .setOnClickListenerStart(listenerMainStart)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+        mTutorial.setButtonStartText(mActivity.getString(R.string.prev));
+        mTutorial.hideButtonStart();
+        mTutorial.setBacgroundButtons(Color.TRANSPARENT);
+        mTutorial.setTextDescription(mActivity.getString(R.string.notification_text_tutoriaal));
+        mTutorial.setTextInCenter(true);
+        setDefaultParamsLogin();
+        mTutorial.setOnClickListenerClose(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counterMain = 5;
+                showNextTutorialMain();
+            }
+        });
     }
 
     public void tutorialForLogin(LoginActivity mActivity,
@@ -95,15 +97,12 @@ public class ShowTutorial {
         this.mIb_facebook = mIb_facebook;
         this.mIb_login = mIb_login;
         this.mView = mIb_register;
-        setParamsText();
 
         mTutorial = new TutorialView.Builder(mActivity)
                 .setTarget(new ViewTarget(mIb_register))
                 .setShowcaseDrawer(showcaseDrawerLoginRegister)
                 .setStyle(R.style.CustomShowcaseTheme2)
-//                .setContentText(mActivity.getString(R.string.register_text_tutorial))
                 .setOnClickListener(listenerLogin)
-                .setContentTextPaint(textPaint)
                 .setOnClickListenerStart(listenerLoginStart)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
@@ -111,7 +110,7 @@ public class ShowTutorial {
         mTutorial.hideButtonStart();
         mTutorial.setBacgroundButtons(Color.TRANSPARENT);
         mTutorial.setTextDescription(mActivity.getString(R.string.register_text_tutorial));
-        setDefaltParamsLogin();
+        setDefaultParamsLogin();
         mTutorial.setOnClickListenerClose(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,81 +120,92 @@ public class ShowTutorial {
         });
     }
 
-    private void setParamsText() {
-        float textSizeTitle =
-                TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        mActivity.getResources().getDimension(R.dimen._12sp),
-                        mActivity.getResources().getDisplayMetrics());
-
-        float textSize =
-                TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        mActivity.getResources().getDimension(R.dimen._9sp),
-                        mActivity.getResources().getDisplayMetrics());
-
-        textPaintTitle.setTextSize(textSizeTitle);
-        textPaintTitle.setColor(Color.WHITE);
-
-        textPaint.setTextSize(textSize);
-        textPaint.setColor(Color.WHITE);
-    }
-
+    View.OnClickListener listenerMainStart = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (counterMain > 1) {
+                counterMain -= 2;
+            }
+            showNextTutorialMain();
+        }
+    };
 
     View.OnClickListener listenerMain = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            RelativeLayout.LayoutParams lps;
-            int margin;
-            switch (counterMain) {
-                case 1:
-                    mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
-                    mTutorial.setContentText(mActivity.getString(R.string.graph_text_tutorial));
-                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-                    break;
-
-                case 2:
-                    mIb_register = mIb_facebook;
-                    mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
-                    mTutorial.setContentText(mActivity.getString(R.string.settings_text_tutorial));
-                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-                    break;
-
-                case 3:
-                    mIb_register = mIb_login;
-
-                    mTutorial.setShowcase(new ViewTarget(mIb_login), true);
-//                    mTutorial.setContentTitle(mActivity.getString(R.string.wheel_tutorial));
-                    mTutorial.setContentText(mActivity.getString(R.string.wheel_text_tutorial));
-                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-                    break;
-
-                case 4:
-                    mIb_register = mCirclePageIndicator;
-                    mTutorial.setShowcase(new ViewTarget(mCirclePageIndicator), true);
-                    mTutorial.setContentText(mActivity.getString(R.string.swipe_text));
-                    mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
-
-                    lps = new RelativeLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    lps.addRule(RelativeLayout.CENTER_VERTICAL);
-                    lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                    lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 64)).intValue();
-                    lps.setMargins(0, 0, 0, margin * 2);
-                    mTutorial.setButtonPosition(lps);
-                    mTutorial.setButtonText(mActivity.getString(R.string.close));
-                    break;
-
-                case 5:
-                    SettingsApp.getInstance().setShowMainTutorial(false);
-                    mTutorial.hide();
-                    break;
-            }
-            counterMain++;
+            showNextTutorialMain();
         }
     };
+
+    private void showNextTutorialMain() {
+        setDefaultParamsLogin();
+        mTutorial.setTextInCenter(true);
+        mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+        RelativeLayout.LayoutParams lps;
+        RelativeLayout.LayoutParams lpsStart;
+        int margin;
+        switch (counterMain) {
+            case 0:
+                mView = mIb_register;
+                mTutorial.setShowcase(new ViewTarget(mIb_register), true);
+                mTutorial.setTextDescription(mActivity.getString(R.string.notification_text_tutoriaal));
+                mTutorial.hideButtonStart();
+                break;
+            case 1:
+                mView = mLl_log_in;
+                mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
+                mTutorial.setTextDescription(mActivity.getString(R.string.graph_text_tutorial));
+                mTutorial.showButtonStart();
+                break;
+
+            case 2:
+                mView = mIb_facebook;
+                mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
+                mTutorial.setTextDescription(mActivity.getString(R.string.settings_text_tutorial));
+                break;
+
+            case 3:
+                mView = mIb_login;
+                mTutorial.setTextInCenter(false);
+                mTutorial.setShowcase(new ViewTarget(mIb_login), true);
+                mTutorial.setTextDescription(mActivity.getString(R.string.wheel_text_tutorial));
+                break;
+
+            case 4:
+                mView = mCirclePageIndicator;
+                mTutorial.setShowcase(new ViewTarget(mCirclePageIndicator), true);
+                mTutorial.setTextDescription(mActivity.getString(R.string.swipe_text));
+
+                lps = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lps.addRule(RelativeLayout.CENTER_VERTICAL);
+                lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 64)).intValue();
+                lps.setMargins(oldMargin, 0, oldMargin, margin * 2);
+                mTutorial.setButtonPosition(lps);
+
+                lpsStart = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lpsStart.addRule(RelativeLayout.CENTER_VERTICAL);
+                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                lpsStart.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                margin = ((Number) (mActivity.getResources().getDisplayMetrics().density * 64)).intValue();
+                lpsStart.setMargins(oldMargin, 0, oldMargin, margin * 2);
+                mTutorial.setButtonStartPosition(lpsStart);
+                mTutorial.removeIconEnd();
+                mTutorial.setButtonText(mActivity.getString(R.string.close));
+                break;
+
+            case 5:
+                SettingsApp.getInstance().setShowMainTutorial(false);
+                mTutorial.hide();
+                break;
+        }
+        counterMain++;
+    }
 
 
     View.OnClickListener listenerLoginStart = new View.OnClickListener() {
@@ -216,7 +226,7 @@ public class ShowTutorial {
     };
 
     private void showNextTutorialLogin() {
-        setDefaltParamsLogin();
+        setDefaultParamsLogin();
         RelativeLayout.LayoutParams lps;
         RelativeLayout.LayoutParams lpsStart;
 
@@ -278,7 +288,7 @@ public class ShowTutorial {
         counterLogin++;
     }
 
-    private void setDefaltParamsLogin() {
+    private void setDefaultParamsLogin() {
         RelativeLayout.LayoutParams lps, lpsStart;
         lps = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,

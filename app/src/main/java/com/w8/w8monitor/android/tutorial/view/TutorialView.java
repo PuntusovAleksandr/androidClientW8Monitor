@@ -162,6 +162,19 @@ public class TutorialView extends RelativeLayout
         textDescription.setText(mText);
     }
 
+    public void setTextInCenter(boolean isCenter) {
+        int margin = (int) getResources().getDimension(R.dimen._35dp);
+        RelativeLayout.LayoutParams lps = (LayoutParams) generateDefaultLayoutParams();
+        if (isCenter) {
+            lps.addRule(RelativeLayout.CENTER_IN_PARENT);
+        }else {
+            lps.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            lps.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        }
+        lps.setMargins(margin, margin * 3, margin, margin);
+        textDescription.setLayoutParams(lps);
+    }
+
     public void setIconEnd() {
         Drawable imgEnd = getContext().getResources().getDrawable(R.drawable.arrow_forward);
         mEndButton.setCompoundDrawablesWithIntrinsicBounds(null, null, imgEnd, null);
