@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.w8.w8monitor.android.R;
 import com.w8.w8monitor.android.tutorial.view.anime.AnimatorAnimationFactory;
@@ -65,6 +66,7 @@ public class TutorialView extends RelativeLayout
     private Button mEndButton;
     private Button mStartButton;
     private ImageView close;
+    private TextView textDescription;
     private final TextDrawer textDrawer;
     private ShowcaseDrawer showcaseDrawer;
     private final ShowcaseAreaCalculator showcaseAreaCalculator;
@@ -127,6 +129,9 @@ public class TutorialView extends RelativeLayout
         mStartButton = (Button) LayoutInflater.from(context).inflate(R.layout.showcase_button, null);
         close = (ImageView) LayoutInflater.from(context).inflate(R.layout.showcase_icon, null);
 
+        textDescription = (TextView) LayoutInflater.from(context).inflate(R.layout.showcase_text, null);
+        textDescription.setTextSize(22);
+
         mEndButton.setTextSize(18);
         mStartButton.setTextSize(18);
         setIconEnd();
@@ -151,6 +156,10 @@ public class TutorialView extends RelativeLayout
 
     public int getButtonStartId() {
         return mStartButton.getId();
+    }
+
+    public void setTextDescription(String mText) {
+        textDescription.setText(mText);
     }
 
     public void setIconEnd() {
@@ -209,6 +218,19 @@ public class TutorialView extends RelativeLayout
                 close.setOnClickListener(hideOnClickListener);
             }
             addView(close);
+        }
+
+        if (textDescription.getParent() == null) {
+            int margin = (int) getResources().getDimension(R.dimen._35dp);
+            RelativeLayout.LayoutParams lps = (LayoutParams) generateDefaultLayoutParams();
+            lps.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            lps.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            lps.setMargins(margin, margin * 3, margin, margin);
+            textDescription.setLayoutParams(lps);
+            if (!hasCustomClickListener) {
+                textDescription.setOnClickListener(hideOnClickListener);
+            }
+            addView(textDescription);
         }
 
     }

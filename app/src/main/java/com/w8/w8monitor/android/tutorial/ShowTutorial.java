@@ -101,7 +101,7 @@ public class ShowTutorial {
                 .setTarget(new ViewTarget(mIb_register))
                 .setShowcaseDrawer(showcaseDrawerLoginRegister)
                 .setStyle(R.style.CustomShowcaseTheme2)
-                .setContentText(mActivity.getString(R.string.register_text_tutorial))
+//                .setContentText(mActivity.getString(R.string.register_text_tutorial))
                 .setOnClickListener(listenerLogin)
                 .setContentTextPaint(textPaint)
                 .setOnClickListenerStart(listenerLoginStart)
@@ -110,6 +110,7 @@ public class ShowTutorial {
         mTutorial.setButtonStartText(mActivity.getString(R.string.prev));
         mTutorial.hideButtonStart();
         mTutorial.setBacgroundButtons(Color.TRANSPARENT);
+        mTutorial.setTextDescription(mActivity.getString(R.string.register_text_tutorial));
         setDefaltParamsLogin();
         mTutorial.setOnClickListenerClose(new View.OnClickListener() {
             @Override
@@ -224,14 +225,14 @@ public class ShowTutorial {
             case 0:
                 mTutorial.hideButtonStart();
                 mView = mIb_register;
+                mTutorial.setTextDescription(mActivity.getString(R.string.register_text_tutorial));
                 mTutorial.setShowcase(new ViewTarget(mIb_register), true);
-                mTutorial.setContentText(mActivity.getString(R.string.register_text_tutorial));
                 mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                 break;
             case 1:
                 mView = mLl_log_in;
                 mTutorial.setShowcase(new ViewTarget(mLl_log_in), true);
-                mTutorial.setContentText(mActivity.getString(R.string.login_txt1_tutorial));
+                mTutorial.setTextDescription(mActivity.getString(R.string.login_txt1_tutorial));
                 mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                 mTutorial.showButtonStart();
                 break;
@@ -239,14 +240,14 @@ public class ShowTutorial {
             case 2:
                 mView = mIb_facebook;
                 mTutorial.setShowcase(new ViewTarget(mIb_facebook), true);
-                mTutorial.setContentText(mActivity.getString(R.string.login_txt2_tutorial));
+                mTutorial.setTextDescription(mActivity.getString(R.string.login_txt2_tutorial));
                 mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
                 break;
 
             case 3:
                 mView = mIb_login;
                 mTutorial.setShowcase(new ViewTarget(mIb_login), true);
-                mTutorial.setContentText(mActivity.getString(R.string.register_later_text_tutorial));
+                mTutorial.setTextDescription(mActivity.getString(R.string.register_later_text_tutorial));
 
                 lps = new RelativeLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
