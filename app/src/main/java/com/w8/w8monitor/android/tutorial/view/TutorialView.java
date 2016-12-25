@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.w8.w8monitor.android.R;
@@ -63,6 +64,7 @@ public class TutorialView extends RelativeLayout
 
     private Button mEndButton;
     private Button mStartButton;
+    private ImageView close;
     private final TextDrawer textDrawer;
     private ShowcaseDrawer showcaseDrawer;
     private final ShowcaseAreaCalculator showcaseAreaCalculator;
@@ -123,6 +125,7 @@ public class TutorialView extends RelativeLayout
 
         mEndButton = (Button) LayoutInflater.from(context).inflate(R.layout.showcase_button, null);
         mStartButton = (Button) LayoutInflater.from(context).inflate(R.layout.showcase_button, null);
+        close = (ImageView) LayoutInflater.from(context).inflate(R.layout.showcase_icon, null);
 
         mEndButton.setTextSize(18);
         mStartButton.setTextSize(18);
@@ -194,6 +197,18 @@ public class TutorialView extends RelativeLayout
                 mStartButton.setOnClickListener(hideOnClickListener);
             }
             addView(mStartButton);
+        }
+        if (close.getParent() == null) {
+            int margin = (int) getResources().getDimension(R.dimen._16);
+            RelativeLayout.LayoutParams lps = (LayoutParams) generateDefaultLayoutParams();
+            lps.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            lps.setMargins(margin, margin, margin, margin);
+            close.setLayoutParams(lps);
+            if (!hasCustomClickListener) {
+                close.setOnClickListener(hideOnClickListener);
+            }
+            addView(close);
         }
 
     }
@@ -320,6 +335,26 @@ public class TutorialView extends RelativeLayout
                 mStartButton.setOnClickListener(listener);
             } else {
                 mStartButton.setOnClickListener(hideOnClickListener);
+            }
+        }
+        hasCustomClickListener = true;
+    }
+
+
+    /**
+     * Set a listener which will override the button clicks.
+     * <p/>
+     * Note that you will have to manually hide the ShowcaseView
+     */
+    public void setOnClickListenerClose(OnClickListener onClickListener) {
+        if (shotStateStore.hasShot()) {
+            return;
+        }
+        if (close != null) {
+            if (onClickListener != null) {
+                close.setOnClickListener(onClickListener);
+            } else {
+                close.setOnClickListener(hideOnClickListener);
             }
         }
         hasCustomClickListener = true;
@@ -649,6 +684,7 @@ public class TutorialView extends RelativeLayout
             showcaseView.overrideButtonStartClick(onClickListener);
             return this;
         }
+
 
         /**
          * Don't make the ShowcaseView block touches on itself. This doesn't

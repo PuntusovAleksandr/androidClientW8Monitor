@@ -111,6 +111,13 @@ public class ShowTutorial {
         mTutorial.hideButtonStart();
         mTutorial.setBacgroundButtons(Color.TRANSPARENT);
         setDefaltParamsLogin();
+        mTutorial.setOnClickListenerClose(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counterLogin = 4;
+                showNextTutorialLogin();
+            }
+        });
     }
 
     private void setParamsText() {
@@ -196,18 +203,18 @@ public class ShowTutorial {
             if (counterLogin > 1) {
                 counterLogin -= 2;
             }
-            showNextTutorial();
+            showNextTutorialLogin();
         }
     };
 
     View.OnClickListener listenerLogin = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            showNextTutorial();
+            showNextTutorialLogin();
         }
     };
 
-    private void showNextTutorial() {
+    private void showNextTutorialLogin() {
         setDefaltParamsLogin();
         RelativeLayout.LayoutParams lps;
         RelativeLayout.LayoutParams lpsStart;
