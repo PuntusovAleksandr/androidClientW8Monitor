@@ -899,8 +899,8 @@ public class SettingsFragment extends Fragment implements
             SettingsApp.getInstance().setFirstStart(false);
             SettingsApp.getInstance().setSettingsStatus(false);
             SettingsApp.getInstance().setMetric(false);
-            SettingsApp.getInstance().setShowLoginTutorial(true);
-            SettingsApp.getInstance().setShowMainTutorial(true);
+//            SettingsApp.getInstance().setShowLoginTutorial(true);
+//            SettingsApp.getInstance().setShowMainTutorial(true);
             mActivity.logout();
         }
     }
