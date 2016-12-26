@@ -198,7 +198,7 @@
     <string name="register_later_tutorial">Register Later</string>
     <string name="register_later_text_tutorial">Register later if you don\'t want to get any support and benefits</string>
     <string name="notification_tutoriaal">Notification</string>
-    <string name="notification_text_tutoriaal">Set notifications to plan your weight</string>
+    <string name="notification_text_tutoriaal">Set notifications to schedule your weighing</string>
     <string name="graph_tutorial">Graph</string>
     <string name="graph_text_tutorial">Track your body composition over time graphically</string>
     <string name="settings_tutorial">Settings</string>
