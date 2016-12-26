@@ -220,6 +220,7 @@
     <string name="alarms">Alarms</string>
     <string name="graphs">Graphs</string>
     <string name="settings_bt">Settings</string>
+    <string name="target_weight_text">Target Weight</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

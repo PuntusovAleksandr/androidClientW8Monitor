@@ -723,10 +723,12 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         if (!SettingsApp.getInstance().getMetric()) {
             targetWeight = (int) (targetWeight / INDEX_METRIC);
         }
+
         int resColor = getResColor(mY, targetWeight);
 
         YAxis y = mChart.getAxisLeft();
-        LimitLine limitLine = new LimitLine(targetWeight, "Target Weight");
+        LimitLine limitLine = new LimitLine(targetWeight,
+                getString(R.string.target_weight_text) + " " + targetWeight + " " + nameLabes.toLowerCase());
         limitLine.setLineColor(resColor);
         limitLine.setLineWidth(1f);
         limitLine.setTextColor(resColor);
