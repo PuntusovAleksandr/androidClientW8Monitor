@@ -791,10 +791,19 @@ public class SettingsFragment extends Fragment implements
         String message = getString(R.string.reg_dialog);
         String button1String = getString(R.string.register_with_email);
         String button2String = getString(R.string.register_with_facebook);
+        String buttonCancel = getString(R.string.cancel_);
+
 
         AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
         ad.setTitle(title);  // заголовок
 //        ad.setMessage(message); // сообщение
+
+        ad.setNeutralButton(buttonCancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                dialog.dismiss();
+            }
+        });
+
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 SettingsApp.getInstance().setUserName("");
@@ -808,6 +817,7 @@ public class SettingsFragment extends Fragment implements
                 mActivity.finish();
             }
         });
+
         ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 SettingsApp.getInstance().setLoginFRomLogout(true);
@@ -839,10 +849,11 @@ public class SettingsFragment extends Fragment implements
         //Set negative button text color
         nbutton.setTextColor(Color.parseColor("#4261DD"));
         Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        //Set positive button background
-//        pbutton.setBackgroundColor(Color.YELLOW);
         //Set positive button text color
         pbutton.setTextColor(Color.parseColor("#4261DD"));
+        Button pbuttonEarse = alert.getButton(DialogInterface.BUTTON_NEUTRAL);
+        //Set positive button text color
+        pbuttonEarse.setTextColor(Color.parseColor("#4261DD"));
     }
 
 
@@ -851,10 +862,18 @@ public class SettingsFragment extends Fragment implements
         String message = getString(R.string.logout_from_settings);
         String button1String = getString(R.string.register);
         String button2String = getString(R.string.erase_data_and_logout);
+        String buttonCancel = getString(R.string.cancel_);
 
         AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
         ad.setTitle(title);  // заголовок
         ad.setMessage(message); // сообщение
+
+        ad.setNeutralButton(buttonCancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+               dialog.dismiss();
+            }
+        });
+
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 new Handler().postDelayed(new Runnable() {
@@ -865,11 +884,13 @@ public class SettingsFragment extends Fragment implements
                 }, 500);
             }
         });
+
         ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 RealmObj.getInstance().deleteAllDataTestUser(SettingsFragment.this);
             }
         });
+
         ad.setCancelable(true);
         ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
@@ -884,10 +905,11 @@ public class SettingsFragment extends Fragment implements
         //Set negative button text color
         nbutton.setTextColor(Color.parseColor("#4261DD"));
         Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        //Set positive button background
-//        pbutton.setBackgroundColor(Color.YELLOW);
         //Set positive button text color
         pbutton.setTextColor(Color.parseColor("#4261DD"));
+        Button pbuttonEarse = alert.getButton(DialogInterface.BUTTON_NEUTRAL);
+        //Set positive button text color
+        pbuttonEarse.setTextColor(Color.parseColor("#4261DD"));
     }
 
     //    ===========================================

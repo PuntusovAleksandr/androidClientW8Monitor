@@ -156,6 +156,7 @@ public class CircleGraphFragment extends Fragment implements
 
         activity = (MainActivity) getActivity();
 
+        ll_ib_line_chart.setEnabled(false);
         ib_line_chart.setEnabled(false);
         ib_line_chart.setAlpha(0.5f);
 //        setShowValues(mViewPager.getCurrentItem());
@@ -256,9 +257,11 @@ public class CircleGraphFragment extends Fragment implements
         }
         final int mI = mI_ + 1;
         if (mMassParams[0] > 0) {
+            ll_ib_line_chart.setEnabled(true);
             ib_line_chart.setEnabled(true);
             ib_line_chart.setAlpha(1.0f);
         } else {
+            ll_ib_line_chart.setEnabled(false);
             ib_line_chart.setEnabled(false);
             ib_line_chart.setAlpha(0.5f);
         }

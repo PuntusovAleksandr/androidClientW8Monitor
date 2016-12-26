@@ -707,7 +707,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
 
         }
 
-        if (mPickerBottomValue == PICKER_WEIGHT) {
+        if (mPickerBottomValue == PICKER_WEIGHT && yVals.size() > 0) {
             isShowLimitLine = true;
             setLimitLine(yVals.get(yVals.size() - 1).getY());
         } else {
