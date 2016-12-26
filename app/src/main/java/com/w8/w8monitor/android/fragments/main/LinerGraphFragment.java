@@ -708,13 +708,18 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         }
 
         if (mPickerBottomValue == PICKER_WEIGHT) {
+            isShowLimitLine = true;
             setLimitLine(yVals.get(yVals.size() - 1).getY());
+        } else {
+            isShowLimitLine = false;
+            mChart.getAxisLeft().removeAllLimitLines();
         }
 
         seetMaxMinValueAxix(yVals);
         setData(yVals, yVals2);
     }
 
+    private boolean isShowLimitLine;
     private int targetWeight = SettingsApp.getInstance().getTargetWeight();
 
     // set limit line
@@ -774,11 +779,13 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         }
 
         {
-            if (targetWeight > maxValue) {
-                maxValue = targetWeight;
-            }
-            if (targetWeight < minValue) {
-                minValue = targetWeight;
+            if (isShowLimitLine) {
+                if (targetWeight > maxValue) {
+                    maxValue = targetWeight;
+                }
+                if (targetWeight < minValue) {
+                    minValue = targetWeight;
+                }
             }
         }
 
@@ -802,6 +809,8 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         } else {
             maxValue = maxValue * 1.1f;
         }
+
+        if (minValue < 0) minValue = 0;
 
         mChart.getAxisLeft().setAxisMinimum(minValue);
         mChart.getAxisLeft().setAxisMaximum(maxValue);
