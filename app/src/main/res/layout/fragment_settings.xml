@@ -80,7 +80,10 @@
                     android:id="@+id/iv_personal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_16"
+                    android:layout_marginLeft="@dimen/_16"
+                    android:layout_marginRight="@dimen/_16"
+                    android:layout_marginTop="@dimen/_16"
+                    android:layout_marginBottom="@dimen/_8"
                     android:src="?attr/b_personal_nonactive"/>
 
                 <TextView
@@ -108,7 +111,10 @@
                     android:id="@+id/iv_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_16"
+                    android:layout_marginLeft="@dimen/_16"
+                    android:layout_marginRight="@dimen/_16"
+                    android:layout_marginTop="@dimen/_16"
+                    android:layout_marginBottom="@dimen/_8"
                     android:layout_weight="1"
                     android:src="?attr/b_account_nonactive"/>
 
@@ -137,7 +143,10 @@
                     android:id="@+id/iv_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_16"
+                    android:layout_marginLeft="@dimen/_16"
+                    android:layout_marginRight="@dimen/_16"
+                    android:layout_marginTop="@dimen/_16"
+                    android:layout_marginBottom="@dimen/_8"
                     android:layout_weight="1"
                     android:src="?attr/b_help_nonactive"/>
 

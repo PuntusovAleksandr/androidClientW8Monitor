@@ -26,7 +26,10 @@
                 android:id="@+id/iv_b_heigh_dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16"
+                android:layout_marginLeft="@dimen/_16"
+                android:layout_marginRight="@dimen/_16"
+                android:layout_marginTop="@dimen/_16"
+                android:layout_marginBottom="@dimen/_8"
                 android:src="?attr/b_heigh_app"/>
 
             <TextView
@@ -53,7 +56,10 @@
                 android:id="@+id/iv_b_dob_dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16"
+                android:layout_marginLeft="@dimen/_16"
+                android:layout_marginRight="@dimen/_16"
+                android:layout_marginTop="@dimen/_16"
+                android:layout_marginBottom="@dimen/_8"
                 android:src="?attr/b_dob_app"/>
 
             <TextView
@@ -81,7 +87,10 @@
                 android:id="@+id/iv_b_male_dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16"
+                android:layout_marginLeft="@dimen/_16"
+                android:layout_marginRight="@dimen/_16"
+                android:layout_marginTop="@dimen/_16"
+                android:layout_marginBottom="@dimen/_8"
                 android:src="?attr/b_male_app"/>
 
             <TextView
@@ -116,7 +125,10 @@
                 android:id="@+id/iv_b_bodytype_2_dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16"
+                android:layout_marginLeft="@dimen/_16"
+                android:layout_marginRight="@dimen/_16"
+                android:layout_marginTop="@dimen/_16"
+                android:layout_marginBottom="@dimen/_8"
                 android:src="?attr/b_bodytype_1_app"/>
 
             <TextView
@@ -144,7 +156,10 @@
                 android:id="@+id/iv_b_metric2_dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16"
+                android:layout_marginLeft="@dimen/_16"
+                android:layout_marginRight="@dimen/_16"
+                android:layout_marginTop="@dimen/_16"
+                android:layout_marginBottom="@dimen/_8"
                 android:src="?attr/b_metric_app"/>
 
             <TextView
@@ -172,7 +187,10 @@
                 android:id="@+id/iv_target_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16"
+                android:layout_marginLeft="@dimen/_16"
+                android:layout_marginRight="@dimen/_16"
+                android:layout_marginTop="@dimen/_16"
+                android:layout_marginBottom="@dimen/_8"
                 android:src="?attr/b_targetweight"/>
 
             <TextView
