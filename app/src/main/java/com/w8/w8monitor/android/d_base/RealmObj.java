@@ -1301,9 +1301,7 @@ public class RealmObj {
         });
     }
 
-
-
-    public void deleteAllDataTestUserNext(final DeleteDataUserListener mListener) {
+    private void deleteAllDataTestUserNext(final DeleteDataUserListener mListener) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
