@@ -1281,6 +1281,33 @@ public class RealmObj {
             @Override
             public void execute(Realm realm) {
                 String userName = SettingsApp.getInstance().getUserName();
+                RealmResults<ParamsBody> results = realm.where(ParamsBody.class)
+                        .equalTo("userName_id", userName)
+                        .findAll();
+
+                results.deleteAllFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                deleteAllDataTestUserNext(mListener);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                mListener.isDeleteOk(false);
+                saveAllLogs("ERROR in db deleteAllDataTestUser" + error.getMessage());
+            }
+        });
+    }
+
+
+
+    public void deleteAllDataTestUserNext(final DeleteDataUserListener mListener) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                String userName = SettingsApp.getInstance().getUserName();
                 RealmResults<UserLibr> result = realm.where(UserLibr.class)
                         .equalTo("email", userName)
                         .findAll();
