@@ -200,7 +200,7 @@
     <string name="notification_tutoriaal">Notification</string>
     <string name="notification_text_tutoriaal">Set notifications to plan your weight</string>
     <string name="graph_tutorial">Graph</string>
-    <string name="graph_text_tutorial">Get you measurements results in graphs</string>
+    <string name="graph_text_tutorial">Track your body composition over time graphically</string>
     <string name="settings_tutorial">Settings</string>
     <string name="settings_text_tutorial">Configure your app</string>
     <string name="wheel_tutorial">Wheel</string>
