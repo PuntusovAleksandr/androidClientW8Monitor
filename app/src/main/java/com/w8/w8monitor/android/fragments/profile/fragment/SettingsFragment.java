@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -608,13 +609,6 @@ public class SettingsFragment extends Fragment implements
 
     private void hideAllLL(boolean mAnimation, final LinearLayout ll) {
         if (mAnimation) {
-            // make time out gone for show animation
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    view_for_top.setVisibility(View.GONE);
-                }
-            }, 335);
 
             ll.setVisibility(View.GONE);
             view_center_settings.setVisibility(View.GONE);
@@ -624,7 +618,31 @@ public class SettingsFragment extends Fragment implements
             SELECTED = 0;
             isVisible = false;
 
-            ll_main.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slid_down));
+            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slid_down);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                    // make time out gone for show animation
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            view_for_top.setVisibility(View.GONE);
+                        }
+                    }, 20);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            ll_main.startAnimation(animation);
 
         } else {
             ll_help_personal.setVisibility(View.GONE);
@@ -870,7 +888,7 @@ public class SettingsFragment extends Fragment implements
 
         ad.setNeutralButton(buttonCancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-               dialog.dismiss();
+                dialog.dismiss();
             }
         });
 
