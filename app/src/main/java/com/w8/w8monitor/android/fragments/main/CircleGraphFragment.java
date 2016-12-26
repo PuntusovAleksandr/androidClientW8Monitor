@@ -1,5 +1,6 @@
 package com.w8.w8monitor.android.fragments.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,11 +35,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.w8.w8monitor.android.R.id.bt_go_line;
-import static com.w8.w8monitor.android.R.id.ib_facebook;
-import static com.w8.w8monitor.android.R.id.ib_login;
-import static com.w8.w8monitor.android.R.id.ib_register;
-import static com.w8.w8monitor.android.R.id.ll_log_in;
 import static com.w8.w8monitor.android.utils.FontsTextView.getFontRoboLight;
 import static com.w8.w8monitor.android.utils.GetSizeWindow.getSizeWindow;
 import static com.w8.w8monitor.android.utils.InternetUtils.checkInternetConnection;
@@ -133,6 +129,7 @@ public class CircleGraphFragment extends Fragment implements
     public CircleGraphFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public CircleGraphFragment(Context mContext, MainActivityPresenter mPresenter) {
         this.mContext = mContext;
         this.mPresenter = mPresenter;
@@ -407,6 +404,14 @@ public class CircleGraphFragment extends Fragment implements
                     count = count.substring(0, count.length() - 2);
                 }
 
+                // если одно из значчений равно 0
+                String countParam = finalParamValue;
+                if ((finalValueWeight <= 0 || finalValuePreWeight <= 0) &&
+                        !(finalValueWeight == 0 && finalValuePreWeight == 0)) {
+                    count = "—";
+                    countParam = "";
+                }
+
                 if (count.length() > 6) {
                     tv_result_mass.setTextSize(8);
                 } else if (count.length() > 4) {
@@ -421,7 +426,7 @@ public class CircleGraphFragment extends Fragment implements
 
                 tv_main_value_height_to_right.setText(finalParamValue);
                 tv_main_value_height_to_below_right.setText(finalParamValue);
-                tv_result_param.setText(finalParamValue);
+                tv_result_param.setText(countParam);
 
             }
         });

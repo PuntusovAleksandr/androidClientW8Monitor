@@ -39,6 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.w8.w8monitor.android.utils.LoggerApp.logger;
 import static com.w8.w8monitor.android.utils.LoggerApp.loggerE;
+import static com.w8.w8monitor.android.utils.STATICS_PARAMS.TEST_USER;
 
 
 /**
@@ -162,7 +163,8 @@ public class ServiceGenerator {
 
     /**
      * login witch social network
-     *  @param mMail
+     *
+     * @param mMail
      * @param idSocialNetwork
      * @param mSocialName
      */
@@ -667,7 +669,8 @@ public class ServiceGenerator {
                         loggerE("error loginToServer " + responseBody.toString());
                         textError = getTextMessage(responseBody);
                     }
-                    showMessage(call, textError, ApiConstants.USER_SUNS);
+                    if (!SettingsApp.getInstance().getUserName().equalsIgnoreCase(TEST_USER))
+                        showMessage(call, textError, ApiConstants.USER_SUNS);
                 } else {
                     //200
                     event = new NetworkResponseEvent();
