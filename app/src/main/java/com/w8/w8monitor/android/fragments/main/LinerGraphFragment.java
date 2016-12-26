@@ -715,9 +715,11 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         setData(yVals, yVals2);
     }
 
+    private int targetWeight = SettingsApp.getInstance().getTargetWeight();
+
     // set limit line
     private void setLimitLine(float mY) {
-        int targetWeight = SettingsApp.getInstance().getTargetWeight();
+        targetWeight = SettingsApp.getInstance().getTargetWeight();
         if (!SettingsApp.getInstance().getMetric()) {
             targetWeight = (int) (targetWeight / INDEX_METRIC);
         }
@@ -754,6 +756,7 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
         for (Entry entry : mYVals) {
             float x = entry.getX();
             float y = entry.getY();
+
             if (maxValueX < x) {
                 maxValueX = x;
             }
@@ -767,6 +770,17 @@ public class LinerGraphFragment extends Fragment implements LinerGraphView {
                 maxValue = y;
             }
         }
+
+        {
+            if (targetWeight > maxValue) {
+                maxValue = targetWeight;
+            }
+            if (targetWeight < minValue) {
+                minValue = targetWeight;
+            }
+        }
+
+
         if (minValue < 1) {
             minValue = -2f;
         } else if (minValue < 10) {
