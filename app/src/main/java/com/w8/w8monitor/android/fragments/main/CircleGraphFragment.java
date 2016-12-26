@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +80,13 @@ public class CircleGraphFragment extends Fragment implements
     ImageView ib_line_chart;
     @Bind(R.id.ib_settings)
     ImageView ib_settings;
+
+    @Bind(R.id.ll_ib_time)
+    LinearLayout ll_ib_time;
+    @Bind(R.id.ll_ib_line_chart)
+    LinearLayout ll_ib_line_chart;
+    @Bind(R.id.ll_ib_settings)
+    LinearLayout ll_ib_settings;
 
     @Bind(R.id.tv_turn_on_bluetooth)
     TextView tv_turn_on_bluetooth;
@@ -606,18 +614,18 @@ public class CircleGraphFragment extends Fragment implements
     //    ====================================================================
 //            onClick
 //    ====================================================================
-    @OnClick(R.id.ib_time)
+    @OnClick(R.id.ll_ib_time)
     public void clickTine() {
         Intent intent = new Intent(getActivity(), AlarmActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.ib_settings)
+    @OnClick(R.id.ll_ib_settings)
     public void clickSettings() {
         mPresenter.goToSettingsProfile();
     }
 
-    @OnClick(R.id.ib_line_chart)
+    @OnClick(R.id.ll_ib_line_chart)
     public void clickGo() {
         mPresenter.setLineGraph(mViewPager.getCurrentItem());
     }

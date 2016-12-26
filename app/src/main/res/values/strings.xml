@@ -217,6 +217,9 @@
     <string name="change_password_BT">CHANGE PASSWORD</string>
     <string name="prev">PREV</string>
     <string name="password_bt">Password</string>
+    <string name="alarms">Alarms</string>
+    <string name="graphs">Graphs</string>
+    <string name="settings_bt">Settings</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

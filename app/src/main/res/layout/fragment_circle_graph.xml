@@ -30,30 +30,92 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <ImageView
-            android:id="@+id/ib_time"
+        <LinearLayout
+            android:id="@+id/ll_ib_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="?attr/b_alarm_app"/>
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ib_line_chart"
+            <ImageView
+                android:id="@+id/ib_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="?attr/b_alarm_app"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_8"
+                android:gravity="center"
+                android:text="@string/alarms"
+                android:textColor="?attr/color_light_text_app"
+                android:textSize="@dimen/_14sp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_ib_line_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="?attr/b_line_chart_app"/>
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ib_settings"
+
+            <ImageView
+                android:id="@+id/ib_line_chart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="?attr/b_line_chart_app"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_8"
+                android:gravity="center"
+                android:text="@string/graphs"
+                android:textColor="?attr/color_light_text_app"
+                android:textSize="@dimen/_14sp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_ib_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="?attr/b_profile_app"/>
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/ib_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="?attr/b_profile_app"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_8"
+                android:gravity="center"
+                android:text="@string/settings_bt"
+                android:textColor="?attr/color_light_text_app"
+                android:textSize="@dimen/_14sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -230,7 +292,6 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
 
 
 </RelativeLayout>
