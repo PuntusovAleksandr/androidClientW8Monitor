@@ -216,6 +216,7 @@
     <string name="do_you_logout">Are you sure you want to logout?</string>
     <string name="change_password_BT">CHANGE PASSWORD</string>
     <string name="prev">PREV</string>
+    <string name="password_bt">Password</string>
 
     <!--</string-array>-->
     <string-array name="select_weight_params">

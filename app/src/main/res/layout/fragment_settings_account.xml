@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/google_fit"
                 android:textColor="?attr/color_light_text_description"
-                android:textSize="@dimen/_16sp"/>
+                android:textSize="@dimen/_14sp"/>
 
         </LinearLayout>
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/profiles"
                 android:textColor="?attr/color_light_text_description"
-                android:textSize="@dimen/_16sp"/>
+                android:textSize="@dimen/_14sp"/>
 
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/theme"
                 android:textColor="?attr/color_light_text_description"
-                android:textSize="@dimen/_16sp"/>
+                android:textSize="@dimen/_14sp"/>
 
         </LinearLayout>
 
@@ -136,9 +136,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/password"
+                android:text="@string/password_bt"
                 android:textColor="?attr/color_light_text_description"
-                android:textSize="@dimen/_16sp"/>
+                android:textSize="@dimen/_14sp"/>
 
         </LinearLayout>
 
@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/logout"
                 android:textColor="?attr/color_light_text_description"
-                android:textSize="@dimen/_16sp"/>
+                android:textSize="@dimen/_14sp"/>
 
         </LinearLayout>
 

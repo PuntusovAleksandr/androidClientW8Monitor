@@ -89,7 +89,7 @@
                     android:gravity="center"
                     android:text="@string/personal"
                     android:textColor="?attr/color_light_text_description"
-                    android:textSize="@dimen/_16sp"/>
+                    android:textSize="@dimen/_14sp"/>
 
             </LinearLayout>
 
@@ -118,7 +118,7 @@
                     android:gravity="center"
                     android:text="@string/account"
                     android:textColor="?attr/color_light_text_description"
-                    android:textSize="@dimen/_16sp"/>
+                    android:textSize="@dimen/_14sp"/>
 
             </LinearLayout>
 
@@ -147,7 +147,7 @@
                     android:gravity="center"
                     android:text="@string/help"
                     android:textColor="?attr/color_light_text_description"
-                    android:textSize="@dimen/_16sp"/>
+                    android:textSize="@dimen/_14sp"/>
 
             </LinearLayout>
 
