@@ -131,6 +131,7 @@ public class TutorialView extends RelativeLayout
 
         textDescription = (TextView) LayoutInflater.from(context).inflate(R.layout.showcase_text, null);
         textDescription.setTextSize(22);
+        textDescription.setEnabled(false);
 
         mEndButton.setTextSize(18);
         mStartButton.setTextSize(18);
@@ -167,7 +168,7 @@ public class TutorialView extends RelativeLayout
         RelativeLayout.LayoutParams lps = (LayoutParams) generateDefaultLayoutParams();
         if (isCenter) {
             lps.addRule(RelativeLayout.CENTER_IN_PARENT);
-        }else {
+        } else {
             lps.addRule(RelativeLayout.CENTER_HORIZONTAL);
             lps.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         }
@@ -508,6 +509,9 @@ public class TutorialView extends RelativeLayout
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (blockAllTouches) {
             mEventListener.onShowcaseViewTouchBlocked(motionEvent);
+            if ((MotionEvent.ACTION_UP == motionEvent.getAction())) {
+                mClickTutorial.click(fromLogin);
+            }
             return true;
         }
 
@@ -526,6 +530,18 @@ public class TutorialView extends RelativeLayout
             mEventListener.onShowcaseViewTouchBlocked(motionEvent);
         }
         return blocked;
+    }
+
+    public void setClickListener(final ClickTutorial mClTutorial, final boolean fromLogin) {
+        this.mClickTutorial = mClTutorial;
+        this.fromLogin = fromLogin;
+    }
+
+    private boolean fromLogin;
+    private ClickTutorial mClickTutorial;
+
+    public interface ClickTutorial {
+        void click(boolean mFromLogin);
     }
 
     private static void insertShowcaseView(TutorialView showcaseView, ViewGroup parent, int parentIndex) {

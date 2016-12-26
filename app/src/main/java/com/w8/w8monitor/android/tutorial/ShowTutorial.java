@@ -27,7 +27,7 @@ import com.w8.w8monitor.android.utils.SettingsApp;
  * Created by AleksandrP on 22.12.2016.
  */
 
-public class ShowTutorial {
+public class ShowTutorial implements TutorialView.ClickTutorial {
 
     private TutorialView mTutorial;
     private Activity mActivity;
@@ -71,6 +71,7 @@ public class ShowTutorial {
                 .setOnClickListenerStart(listenerMainStart)
                 .build();
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
+        mTutorial.setClickListener(this, false);
         mTutorial.setButtonStartText(mActivity.getString(R.string.prev));
         mTutorial.hideButtonStart();
         mTutorial.setBacgroundButtons(Color.TRANSPARENT);
@@ -107,6 +108,7 @@ public class ShowTutorial {
                 .blockAllTouches()
                 .setOnClickListenerStart(listenerLoginStart)
                 .build();
+        mTutorial.setClickListener(this, true);
         mTutorial.setButtonText(mActivity.getString(R.string.next_tutorial));
         mTutorial.setButtonStartText(mActivity.getString(R.string.prev));
         mTutorial.hideButtonStart();
@@ -375,4 +377,13 @@ public class ShowTutorial {
             canvas.drawBitmap(bitmapBuffer, 0, 0, basicPaint);
         }
     };
+
+    @Override
+    public void click(boolean mFromLogin) {
+        if (mFromLogin) {
+            showNextTutorialLogin();
+        } else {
+            showNextTutorialMain();
+        }
+    }
 }
