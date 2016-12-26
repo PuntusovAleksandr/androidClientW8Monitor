@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_25"
+        android:layout_marginBottom="@dimen/_4"
         android:gravity="center"
         android:text="@string/logged_with"
         android:textColor="?attr/color_light_grey_app"
