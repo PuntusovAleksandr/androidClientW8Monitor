@@ -2,6 +2,7 @@ package com.w8.w8monitor.android.d_base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.w8.w8monitor.android.App;
 import com.w8.w8monitor.android.activity.interfaces.views.AlarmView;
@@ -831,23 +832,28 @@ public class RealmObj {
             });
 
         }
-        for (int i = 0; i < mAlarms.size(); i++) {
-            String alarmText = mAlarms.get(i);
-            String[] split = alarmText.split("/");
-            boolean isAmPicker = split[2].equalsIgnoreCase("am");
-            StringBuilder builder = new StringBuilder();
-            builder = builder.append(split[0]);
-            builder = builder.append(":");
-            builder = builder.append(split[1]);
-
-            AlarmModel model = new AlarmModel();
-            model.setAm(isAmPicker);
-            model.setTime(builder.toString());
-            model.setEmail(mLogin);
-
-            realm.beginTransaction();
-            realm.copyToRealmOrUpdate(model);
-            realm.commitTransaction();
+        try {
+            for (int i = 0; i < mAlarms.size(); i++) {
+                String alarmText = mAlarms.get(i);
+                String[] split = alarmText.split("/");
+                boolean isAmPicker = split[2].equalsIgnoreCase("am");
+                StringBuilder builder = new StringBuilder();
+                builder = builder.append(split[0]);
+                builder = builder.append(":");
+                builder = builder.append(split[1]);
+    
+                AlarmModel model = new AlarmModel();
+                model.setAm(isAmPicker);
+                model.setTime(builder.toString());
+                model.setEmail(mLogin);
+    
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(model);
+                realm.commitTransaction();
+            }
+        } catch (Exception mE) {
+            mE.printStackTrace();
+            Toast.makeText(context, "Error read alarms from server", Toast.LENGTH_SHORT).show();
         }
 
     }

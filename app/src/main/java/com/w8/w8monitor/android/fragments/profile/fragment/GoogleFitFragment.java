@@ -2,13 +2,17 @@ package com.w8.w8monitor.android.fragments.profile.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -208,15 +212,64 @@ public class GoogleFitFragment extends Fragment implements
     public void onResult(int mRequestCode) {
         showHideProgress(3.5f);
         if (mRequestCode == Activity.RESULT_OK) {
-            rl_card_view.setVisibility(View.VISIBLE);
+            showAlert();
             mFitApp.requestOauth(mRequestCode);
-
             saveAuthorisationGoogleFit(true);
         } else {
             Toast.makeText(mActivity, R.string.try_later, Toast.LENGTH_SHORT).show();
             goToMainActivity();
         }
     }
+
+    private void showAlert() {
+        String title = getString(R.string.integreted);
+        String message = getString(R.string.text_google_fit);
+        String button1String = getString(R.string.yes);
+        String button2String = getString(R.string.no);
+
+        AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+        ad.setTitle(title);  // заголовок
+        ad.setMessage(message); // сообщение
+
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                SettingsApp.getInstance().setShowWeight(true);
+                weight = SettingsApp.getInstance().getWeight();
+                mPresenter.saveWeight(
+                        String.valueOf(weight),
+                        GoogleFitFragment.this);
+            }
+        });
+
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                SettingsApp.getInstance().setShowWeight(false);
+                goToMainActivity();
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+                SettingsApp.getInstance().setShowWeight(false);
+                goToMainActivity();
+            }
+        });
+
+        AlertDialog alert = ad.create();
+        alert.show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        //Set negative button background
+//        nbutton.setBackgroundColor(Color.MAGENTA);
+        //Set negative button text color
+        nbutton.setTextColor(Color.parseColor("#4261DD"));
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        //Set positive button text color
+        pbutton.setTextColor(Color.parseColor("#4261DD"));
+        Button pbuttonEarse = alert.getButton(DialogInterface.BUTTON_NEUTRAL);
+        //Set positive button text color
+        pbuttonEarse.setTextColor(Color.parseColor("#4261DD"));
+    }
+
 
     private void saveAuthorisationGoogleFit(boolean mB) {
         // sa у  шт memory status authorisation by google fit

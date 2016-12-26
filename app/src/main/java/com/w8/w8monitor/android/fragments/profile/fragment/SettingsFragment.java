@@ -634,7 +634,7 @@ public class SettingsFragment extends Fragment implements
                         public void run() {
                             view_for_top.setVisibility(View.GONE);
                         }
-                    }, 20);
+                    }, 10);
                 }
 
                 @Override
